@@ -1,22 +1,51 @@
 const path = require('path');
+const dotenv = require('dotenv');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+
+dotenv.config();
+
+
+const WEBPACK_PORT = process.env.WEBPACK_PORT || 4000;
+
 
 module.exports = {
-  entry: './src/index.ts',
+  entry: {
+    app: [
+      `webpack-dev-server/client?http://localhost:${WEBPACK_PORT}`,
+      'webpack/hot/only-dev-server',
+      './src/app/index.tsx',
+    ],
+  },
+  mode: process.env.APP_ENV,
   devtool: 'inline-source-map',
+  output: {
+    filename: '[name].js',
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: '/',
+  },
+  resolve: {
+    extensions: [ '.tsx', '.ts', '.js', '.jsx' ],
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      filename: 'index.html',
+      template: 'public/index.html',
+    }),
+  ],
   module: {
     rules: [
       {
         test: /\.tsx?$/,
         use: 'ts-loader',
-        exclude: /node_modules/
+        exclude: /node_modules/,
+      },{
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          'css-loader',
+        ],
       },
     ],
-  },
-  resolve: {
-    extensions: [ '.tsx', '.ts', '.js' ],
-  },
-  output: {
-    filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist'),
   },
 };
