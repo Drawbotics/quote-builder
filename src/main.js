@@ -11,6 +11,7 @@ function createWindow() {
   _window = new BrowserWindow({
     width: 1400,
     height: 1000,
+    titleBarStyle: 'hiddenInset',
     webPreferences: {
       webSecurity: false,
     },

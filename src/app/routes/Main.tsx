@@ -4,8 +4,6 @@ import { css } from 'emotion';
 
 const styles = {
   main: css`
-    height: 50px;
-    background: green;
   `,
 }
 
