@@ -10,7 +10,7 @@ const WEBPACK_PORT = process.env.WEBPACK_PORT;
 
 module.exports = Object.assign({}, webpackConfig, {
   mode: 'development',
-  devtool: 'cheap-module-source-map',
+  devtool: 'cheap-eval-source-map',
   plugins: [
     ...webpackConfig.plugins,
     new webpack.HotModuleReplacementPlugin(),
@@ -29,7 +29,7 @@ module.exports.devServer = {
   logLevel: 'silent',
   clientLogLevel: 'none',
   stats: 'errors-only',
-  hot: false,
+  hot: true,
   inline: true,
   overlay: true,
 };

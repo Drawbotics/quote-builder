@@ -18,7 +18,7 @@ module.exports = {
     ],
   },
   mode: process.env.APP_ENV,
-  devtool: 'inline-source-map',
+  devtool: 'source-map',
   output: {
     filename: '[name].js',
     path: path.resolve(__dirname, 'dist'),
