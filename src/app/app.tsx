@@ -23,10 +23,9 @@ class App extends React.Component {
   }
 
   render() {
+    const { theme } = this.state;
     return (
-      <div onClick={this._handleSetTheme}>
-        <Application />
-      </div>
+      <Application toggleTheme={this._handleSetTheme} activeTheme={theme} />
     );
   }
 
