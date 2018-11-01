@@ -33,13 +33,16 @@
     "webpack-dev-server": "^3.1.10"
   },
   "dependencies": {
+    "@types/electron-settings": "^3.1.1",
     "@types/feather-icons": "^4.7.0",
     "@types/react": "^16.4.18",
     "@types/react-dom": "^16.0.9",
     "@types/react-router-dom": "^4.3.1",
+    "electron-settings": "^3.2.0",
     "emotion": "^9.2.12",
     "express": "^4.16.4",
     "feather-icons": "^4.9.0",
+    "fs": "0.0.1-security",
     "normalize.css": "^8.0.0",
     "react": "^16.6.0",
     "react-dom": "^16.6.0",

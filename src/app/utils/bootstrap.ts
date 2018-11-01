@@ -1,11 +1,20 @@
 import * as feather from 'feather-icons';
 
-import { setTheme } from './themes';
+import { setTheme, getTheme } from './themes';
+
+
+function setupTheme() {
+  const theme = getTheme();
+  setTheme(theme);
+}
+
+
+function setupIcons() {
+  feather.replace();
+}
 
 
 export function bootstrap() {
-  // read settings
-  // const theme = getTheme();
-  setTheme('light');
-  feather.replace();
+  setupTheme();
+  setupIcons();
 }

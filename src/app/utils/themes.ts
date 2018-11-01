@@ -1,3 +1,7 @@
+import { ipcRenderer } from 'electron';
+const settings = require('electron').remote.require('electron-settings');
+
+
 export const themes: any = {
   common: {
     '--transition-duration': '0.4s',
@@ -17,7 +21,7 @@ export const themes: any = {
   },
   dark: {
     '--primary': '#2258EA',
-    '--primary-transparent': 'rgba(255, 255, 255, 0.05)', 
+    '--primary-transparent': 'rgba(255, 255, 255, 0.05)',
     '--secondary': '#2B343F',
     '--tertiary': '#222A35',
     '--background-color': '#192028',
@@ -29,13 +33,19 @@ export const themes: any = {
 
 
 export function getTheme() {
-  // read from settings
-  return 'light';
+  const themeFromSettings = settings.get('theme');
+  if (! themeFromSettings) {
+    setTheme('light');
+  }
+  const theme = themeFromSettings || 'light';
+  return theme;
 }
 
 
 export function setTheme(theme: string) {
   const htmlRoot = document.getElementsByTagName('html')[0];
+  ipcRenderer.send('request-theme-update', { theme });
+
   if (theme === 'dark') {
     Object.keys(themes.dark).map((property) => {
       htmlRoot.style.setProperty(property, themes.dark[property]);

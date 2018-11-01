@@ -1,4 +1,5 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
+const settings = require('electron-settings');
 const dotenv = require('dotenv');
 
 dotenv.config();
@@ -9,8 +10,8 @@ let _window;
 
 function createWindow() {
   _window = new BrowserWindow({
-    width: 1400,
-    height: 1000,
+    width: process.env.APP_ENV === 'development' ? 1990 : 1440,
+    height: 900,
     titleBarStyle: 'hiddenInset',
     webPreferences: {
       webSecurity: false,
@@ -48,4 +49,9 @@ app.on('activate', () => {
   if (_window === null) {
     createWindow();
   }
+});
+
+ipcMain.on('request-theme-update', (event, arg) => {
+  const { theme } = arg;
+  settings.set('theme', theme);
 });

@@ -17,6 +17,7 @@ module.exports = {
       './src/app/index.tsx',
     ],
   },
+  target: 'electron-main',
   mode: process.env.APP_ENV,
   devtool: 'source-map',
   output: {
