@@ -2,7 +2,7 @@
   "name": "quote-builder",
   "version": "0.1.0",
   "description": "Desktop app to build price offers at Drawbotics",
-  "main": "src/main.js",
+  "main": "src/index.js",
   "scripts": {
     "clean": "rimraf dist/",
     "webpack-server": "APP_ENV=development webpack-dev-server --config webpack.dev.config.js",
@@ -38,6 +38,7 @@
     "@types/react": "^16.4.18",
     "@types/react-dom": "^16.0.9",
     "@types/react-router-dom": "^4.3.1",
+    "electron-better-ipc": "^0.1.1",
     "electron-settings": "^3.2.0",
     "emotion": "^9.2.12",
     "express": "^4.16.4",
