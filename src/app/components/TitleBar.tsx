@@ -5,8 +5,8 @@ import { css } from 'emotion';
 const styles = {
   titleBar: css`
     height: 40px;
-    background: red;
     -webkit-app-region: drag;
+    background: var(--secondary);
   `,
 };
 

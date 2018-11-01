@@ -13,6 +13,7 @@
   "license": "ISC",
   "devDependencies": {
     "@types/webpack-env": "^1.13.6",
+    "autobind-decorator": "^2.1.0",
     "better-webpack-progress": "^1.1.0",
     "css-loader": "^1.0.0",
     "dotenv": "^6.1.0",
