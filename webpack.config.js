@@ -6,24 +6,17 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 dotenv.config();
 
 
-const WEBPACK_PORT = process.env.WEBPACK_PORT || 4000;
-
-
 module.exports = {
-  entry: {
-    app: [
-      `webpack-dev-server/client?http://localhost:${WEBPACK_PORT}`,
-      'webpack/hot/only-dev-server',
-      './src/app/index.tsx',
-    ],
-  },
-  target: 'electron-main',
+  entry: [
+    './src/app/index.tsx',
+  ],
+  target: 'electron-renderer',
   mode: process.env.APP_ENV,
   devtool: 'source-map',
   output: {
-    filename: '[name].js',
+    filename: 'app.js',
     path: path.resolve(__dirname, 'dist'),
-    publicPath: '/',
+    publicPath: '',
   },
   resolve: {
     extensions: [ '.tsx', '.ts', '.js', '.jsx' ],

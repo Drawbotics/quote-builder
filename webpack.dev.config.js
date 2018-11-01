@@ -5,12 +5,17 @@ const betterWebpackProgress = require('better-webpack-progress');
 const webpackConfig = require('./webpack.config.js');
 
 
-const WEBPACK_PORT = process.env.WEBPACK_PORT;
+const WEBPACK_PORT = process.env.WEBPACK_PORT || 4000;
 
 
 module.exports = Object.assign({}, webpackConfig, {
   mode: 'development',
   devtool: 'cheap-module-eval-source-map',
+  entry: [
+    `webpack-dev-server/client?http://localhost:${WEBPACK_PORT}`,
+    'webpack/hot/only-dev-server',
+    ...webpackConfig.entry,
+  ],
   plugins: [
     ...webpackConfig.plugins,
     new webpack.HotModuleReplacementPlugin(),

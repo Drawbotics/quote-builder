@@ -3,15 +3,15 @@ const { Menu, shell } = require('electron');
 
 const menuTemplate = (app, mainWindow, shell) => [
   {
-    label: 'Ash',
+    label: 'Quote de Porc',
     submenu: [
       {
-        label: 'About Ash',
+        label: 'About Quote de Porc',
         selector: 'orderFrontStandardAboutPanel:',
       },
       { type: 'separator' },
       {
-        label: 'Hide Ash',
+        label: 'Hide Quote de Porc',
         accelerator: 'Command+H',
         selector: 'hide:'
       },
