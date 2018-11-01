@@ -2,6 +2,9 @@ import * as React from 'react';
 import { css, cx } from 'emotion';
 import { Link, withRouter } from 'react-router-dom';
 
+import logo from '../images/qtp-logo.svg';
+import logoAlt from '../images/qtp-logo-alt.svg';
+
 
 const styles = {
   sideBar: css`
@@ -19,12 +22,19 @@ const styles = {
     width: 100px;
   `,
   logoContainer: css`
+    position: relative;
     border-bottom: 1px solid var(--line-color);
     transition: border-bottom var(--transition-duration) ease-in-out;
     height: 100px;
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
+
+    > img {
+      position: absolute;
+      bottom: var(--margin);
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - var(--margin) * 3);
+      transition: opacity var(--transition-duration) ease-in-out;
+    }
   `,
   navigation: css`
     padding: var(--padding) 0;
@@ -132,6 +142,8 @@ const SideBar: React.SFC<{
   return (
     <div className={cx(styles.sideBar, { [styles.closed]: ! open })}>
       <div className={styles.logoContainer}>
+        <img src={logo} style={{ opacity: activeTheme === 'light' ? 1 : 0 }} />
+        <img src={logoAlt} style={{ opacity: activeTheme === 'dark' ? 1 : 0 }} />
       </div>
       <div className={styles.navigation}>
         <NavigationButton label="My quotes" icon="file" to="/quotes" active={pathname === '/quotes'} />

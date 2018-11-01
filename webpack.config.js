@@ -41,6 +41,16 @@ module.exports = {
           'style-loader',
           'css-loader',
         ],
+      }, {
+        test: /\.svg$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: 'images/[name]-[hash].[ext]',
+            },
+          },
+        ],
       },
     ],
   },
