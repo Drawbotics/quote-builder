@@ -3,19 +3,19 @@ import { css } from 'emotion';
 
 
 const styles = {
-  main: css`
+  quotes: css`
   `,
 };
 
-class Main extends React.Component {
+class Quotes extends React.Component {
   render() {
     return (
-      <div className={styles.main}>
-        orange stuff
+      <div className={styles.quotes}>
+        Quotes
       </div>
     );
   }
 }
 
 
-export default Main;
+export default Quotes;

@@ -1,9 +1,11 @@
 import * as React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import { css } from 'emotion';
 
-import Main from './Main';
+import Quotes from './Quotes';
 import Document from './Document';
+import People from './People';
+import Exports from './Exports';
 import TitleBar from '../components/TitleBar';
 import SideBar from '../components/SideBar';
 
@@ -52,12 +54,14 @@ class Application extends React.Component<{
         <div className={styles.sidebarContent}>
           <TitleBar />
           <div className={styles.container}>
-            <Router>
-              <Switch>
-                <Route path="/edit" component={Document} />
-                <Route path="/" component={Main} />
-              </Switch>
-            </Router>
+            <Switch>
+              <Route path="/:id/edit" component={Document} />
+              <Route path="/new" component={Document} />
+              <Route path="/people" component={People} />
+              <Route path="/exports" component={Exports} />
+              <Route path="/quotes" component={Quotes} />
+              <Redirect from="/" to="/quotes" />
+            </Switch>
           </div>
         </div>
       </div>
