@@ -1,11 +1,21 @@
 export const themes: any = {
-  dark: {
-    '--primary': 'red',
-    '--secondary': 'black',
-  },
   light: {
-    '--primary': 'blue',
-    '--secondary': 'white',
+    '--primary': '#2258EA',
+    '--secondary': '#E8F0FD',
+    '--tertiary': '#FFFFFF',
+    '--background-color': '#F8F9F8',
+    '--lines-color': '#F4F3F4',
+    '--grey': '#6C6C6C',
+    '--text-primary': '#000000',
+  },
+  dark: {
+    '--primary': '#2258EA',
+    '--secondary': '#2B343F',
+    '--tertiary': '#222A35',
+    '--background-color': '#192028',
+    '--lines-color': '#2C3440',
+    '--grey': '#6C6C6C',
+    '--text-primary': '#FFFFFF',
   },
 };
 

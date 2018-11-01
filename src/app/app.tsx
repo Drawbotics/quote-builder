@@ -12,7 +12,6 @@ import TitleBar from './components/TitleBar';
 
 bootstrap();
 
-
 injectGlobal`
   html, body {
     height: 100%;
