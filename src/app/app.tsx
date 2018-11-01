@@ -10,7 +10,7 @@ import Application from './routes/Application';
 bootstrap();
 
 injectGlobal`
-  html, body {
+  html, body, #root {
     height: 100%;
     font-family: 'Raleway', sans-serif;
   }

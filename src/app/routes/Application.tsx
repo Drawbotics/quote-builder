@@ -12,6 +12,7 @@ const styles = {
   application: css`
     display: flex;
     align-items: stretch;
+    height: 100%;
   `,
   sidebar: css`
   `,
