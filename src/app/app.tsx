@@ -4,16 +4,17 @@ import 'normalize.css/normalize.css';
 import autobind from 'autobind-decorator';
 import { BrowserRouter as Router } from 'react-router-dom';
 
+
 import { bootstrap } from './utils/bootstrap';
 import { setTheme, getTheme, themes } from './utils/themes';
 import Application from './routes/Application';
 
-bootstrap();
 
 injectGlobal`
   html, body, #root {
     height: 100%;
     font-family: 'Raleway', sans-serif;
+    font-weight: 500;
   }
   :root {
     ${themes.common}
@@ -24,6 +25,10 @@ injectGlobal`
 class App extends React.Component {
   state = {
     theme: getTheme(),
+  }
+
+  componentDidMount() {
+    bootstrap();
   }
 
   render() {
