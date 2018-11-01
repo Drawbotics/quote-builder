@@ -12,8 +12,12 @@
   "author": "Nick <nick@drawbotics.com>",
   "license": "ISC",
   "devDependencies": {
+    "@babel/core": "^7.1.2",
     "@types/webpack-env": "^1.13.6",
     "autobind-decorator": "^2.1.0",
+    "awesome-typescript-loader": "^5.2.1",
+    "babel-loader": "^8.0.4",
+    "babel-plugin-emotion": "^9.2.11",
     "better-webpack-progress": "^1.1.0",
     "css-loader": "^1.0.0",
     "dotenv": "^6.1.0",
