@@ -4,7 +4,7 @@ import 'normalize.css/normalize.css';
 import autobind from 'autobind-decorator';
 
 import { bootstrap } from './utils/bootstrap';
-import { setTheme, getTheme } from './utils/themes';
+import { setTheme, getTheme, themes } from './utils/themes';
 import Application from './routes/Application';
 
 bootstrap();
@@ -13,6 +13,9 @@ injectGlobal`
   html, body, #root {
     height: 100%;
     font-family: 'Raleway', sans-serif;
+  }
+  :root {
+    ${themes.common}
   }
 `;
 

@@ -4,9 +4,11 @@ import { css } from 'emotion';
 
 const styles = {
   titleBar: css`
-    height: 40px;
+    height: 100px;
     -webkit-app-region: drag;
-    background: var(--secondary);
+    background: var(--tertiary);
+    border-bottom: 1px solid var(--line-color);
+    transition: all var(--transition-duration) ease-in-out;
   `,
 };
 
