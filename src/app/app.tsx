@@ -15,6 +15,7 @@ injectGlobal`
     height: 100%;
     font-family: 'Raleway', sans-serif;
     font-weight: 500;
+    font-size: 16px;
   }
   :root {
     ${themes.common}
@@ -35,8 +36,11 @@ class App extends React.Component {
     const { theme } = this.state;
     return (
       <Router>
-        <Route render={({ location }) => (
-          <Application toggleTheme={this._handleSetTheme} activeTheme={theme} location={location} />
+        <Route render={(props) => (
+          <Application
+            toggleTheme={this._handleSetTheme}
+            activeTheme={theme}
+            {...props} />
         )} />
       </Router>
     );

@@ -8,10 +8,13 @@ export const themes: any = {
     '--transition-duration-short': '0.2s',
     '--padding': '20px',
     '--margin': '20px',
+    '--border-radius': '9px',
+    '--white': '#FFFFFF',
   },
   light: {
     '--primary': '#2258EA',
     '--primary-transparent': 'rgba(34, 88, 234, 0.1)',
+    '--primary-semi-transparent': 'rgba(34, 88, 234, 0.4)',
     '--secondary': '#E8F0FD',
     '--tertiary': '#FFFFFF',
     '--background-color': '#F8F9F8',
@@ -22,6 +25,7 @@ export const themes: any = {
   dark: {
     '--primary': '#2258EA',
     '--primary-transparent': 'rgba(255, 255, 255, 0.05)',
+    '--primary-semi-transparent': 'rgba(0, 0, 0, 0.2)',
     '--secondary': '#2B343F',
     '--tertiary': '#222A35',
     '--background-color': '#192028',

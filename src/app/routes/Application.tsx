@@ -36,15 +36,12 @@ class Application extends React.Component<{
   toggleTheme: () => void,
   activeTheme: string,
   location: any,
+  match: any,
 }> {
-
-  state = {
-    sidebarOpen: true,
-  }
-
   render() {
-    const { toggleTheme, activeTheme, location } = this.props;
-    const { sidebarOpen } = this.state;
+    const { toggleTheme, activeTheme, location, match } = this.props;
+    console.log(match, location);
+    const sidebarOpen = true;
     return (
       <div className={styles.application}>
         <div className={styles.sidebar}>
@@ -55,7 +52,7 @@ class Application extends React.Component<{
         </div>
         <div className={styles.sidebarContent}>
           <TitleBar />
-          <div className={styles.container} onClick={() => this.setState({ sidebarOpen: ! sidebarOpen })}>
+          <div className={styles.container}>
             <AnimatedSwitch location={location}>
               <Route path="/:id/edit" component={Document} />
               <Route path="/new" component={Document} />
