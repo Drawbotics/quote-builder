@@ -55,7 +55,7 @@ class Application extends React.Component<{
         </div>
         <div className={styles.sidebarContent}>
           <TitleBar />
-          <div className={styles.container}>
+          <div className={styles.container} onClick={() => this.setState({ sidebarOpen: ! sidebarOpen })}>
             <AnimatedSwitch location={location}>
               <Route path="/:id/edit" component={Document} />
               <Route path="/new" component={Document} />

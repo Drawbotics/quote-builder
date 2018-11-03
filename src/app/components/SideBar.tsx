@@ -12,14 +12,45 @@ const styles = {
     height: 100%;
     background: var(--tertiary);
     border-right: 1px solid var(--line-color);
-    transition: all var(--transition-duration) ease-in-out;
-    transition-property: background, border-right;
+    transition: background var(--transition-duration) ease-in-out,
+      border-right var(--transition-duration) ease-in-out,
+      width calc(var(--transition-duration) / 2) ease-in-out;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
   `,
   closed: css`
-    width: 100px;
+    width: 90px;
+
+    & [data-element="logo"] {
+      > img {
+        opacity: 0 !important;
+        width: 0;
+      }
+    }
+
+    & [data-element="label"] {
+      opacity: 0;
+      pointer-events: none;
+      width: 0;
+    }
+
+    & [data-element="nav-icon"] {
+      margin-right: 0;
+    }
+
+    & [data-element="navigation-button"] {
+      padding: var(--padding);
+      justify-content: center;
+    }
+
+    & [data-element="switcher"] {
+      justify-content: center;
+    }
+
+    & [data-element="sun"], [data-element="moon"] {
+      margin-right: 0;
+    }
   `,
   logoContainer: css`
     position: relative;
@@ -46,6 +77,7 @@ const styles = {
     padding: var(--padding) calc(var(--padding) * 2);
     color: var(--text-primary);
     transition: all var(--transition-duration-short) ease-in-out;
+    white-space: nowrap;
 
     &:hover {
       color: var(--primary);
@@ -83,6 +115,7 @@ const styles = {
     align-items: center;
     color: var(--text-primary);
     transition: all var(--transition-duration-short) ease-in-out;
+    white-space: nowrap;
 
     &:hover {
       cursor: pointer;
@@ -121,9 +154,9 @@ const NavigationButton: React.SFC<{
 }> = ({ icon, label, to, active }) => {
   return (
     <Link to={to} style={{ textDecoration: 'none' }}>
-      <div className={cx(styles.navigationButton, { [styles.active]: active })}>
-        <i className={styles.icon} data-feather={icon} />
-        <span>{label}</span>
+      <div className={cx(styles.navigationButton, { [styles.active]: active })} data-element="navigation-button">
+        <i className={styles.icon} data-feather={icon} data-element="nav-icon" />
+        <span data-element="label">{label}</span>
       </div>
     </Link>
   );
@@ -141,7 +174,7 @@ const SideBar: React.SFC<{
   const { pathname } = location;
   return (
     <div className={cx(styles.sideBar, { [styles.closed]: ! open })}>
-      <div className={styles.logoContainer}>
+      <div className={styles.logoContainer} data-element="logo">
         <img src={logo} style={{ opacity: activeTheme === 'light' ? 1 : 0 }} />
         <img src={logoAlt} style={{ opacity: activeTheme === 'dark' ? 1 : 0 }} />
       </div>
@@ -150,7 +183,7 @@ const SideBar: React.SFC<{
         <NavigationButton label="My exports" icon="download-cloud" to="/exports" active={pathname === '/exports'} />
         <NavigationButton label="People" icon="users" to="/people" active={pathname === '/people'} />
       </div>
-      <div className={styles.themeSwitcher} onClick={toggleTheme}>
+      <div className={styles.themeSwitcher} onClick={toggleTheme} data-element="switcher">
         <div className={cx(styles.themeIcon, {
           [styles.darkActive]: activeTheme === 'dark',
           [styles.lightActive]: activeTheme === 'light',
@@ -158,7 +191,7 @@ const SideBar: React.SFC<{
           <i className={styles.icon} data-feather="sun" data-element="sun" />
           <i className={styles.icon} data-feather="moon" data-element="moon" />
         </div>
-        <span>{activeTheme === 'light' ? 'Light mode' : 'Dark mode'}</span>
+        <span data-element="label">{activeTheme === 'light' ? 'Light mode' : 'Dark mode'}</span>
       </div>
     </div>
   );
