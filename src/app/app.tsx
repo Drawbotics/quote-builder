@@ -2,7 +2,7 @@ import * as React from 'react';
 import { injectGlobal } from 'emotion';
 import 'normalize.css/normalize.css';
 import autobind from 'autobind-decorator';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 
 import { bootstrap } from './utils/bootstrap';
@@ -35,7 +35,9 @@ class App extends React.Component {
     const { theme } = this.state;
     return (
       <Router>
-        <Application toggleTheme={this._handleSetTheme} activeTheme={theme} />
+        <Route render={({ location }) => (
+          <Application toggleTheme={this._handleSetTheme} activeTheme={theme} location={location} />
+        )} />
       </Router>
     );
   }
