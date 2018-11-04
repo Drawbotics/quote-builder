@@ -39,8 +39,8 @@ class Application extends React.Component<{
   match: any,
 }> {
   render() {
-    const { toggleTheme, activeTheme, location, match } = this.props;
-    console.log(match, location);
+    const { toggleTheme, activeTheme, location } = this.props;
+    // console.log(match, location);
     const sidebarOpen = true;
     return (
       <div className={styles.application}>

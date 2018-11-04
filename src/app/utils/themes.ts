@@ -10,9 +10,10 @@ export const themes: any = {
     '--margin': '20px',
     '--border-radius': '9px',
     '--white': '#FFFFFF',
+    '--orange': '#F3820A',
+    '--primary': '#2258EA',
   },
   light: {
-    '--primary': '#2258EA',
     '--primary-transparent': 'rgba(34, 88, 234, 0.1)',
     '--primary-semi-transparent': 'rgba(34, 88, 234, 0.4)',
     '--secondary': '#E8F0FD',
@@ -21,9 +22,11 @@ export const themes: any = {
     '--line-color': '#F4F3F4',
     '--grey': '#6C6C6C',
     '--text-primary': '#000000',
+    '--box-shadow': '0px 5px 25px rgba(0, 0, 0, 0.1)',
+    '--box-shadow-hover': '0px 8px 40px rgba(0, 0, 0, 0.12)',
+    '--box-shadow-active': '0px 5px 15px rgba(0, 0, 0, 0.1)',
   },
   dark: {
-    '--primary': '#2258EA',
     '--primary-transparent': 'rgba(255, 255, 255, 0.05)',
     '--primary-semi-transparent': 'rgba(0, 0, 0, 0.2)',
     '--secondary': '#2B343F',
@@ -32,6 +35,9 @@ export const themes: any = {
     '--line-color': '#2C3440',
     '--grey': '#6C6C6C',
     '--text-primary': '#FFFFFF',
+    '--box-shadow': '0px 5px 25px rgba(0, 0, 0, 0.3)',
+    '--box-shadow-hover': '0px 7px 40px rgba(0, 0, 0, 0.25)',
+    '--box-shadow-active': '0px 5px 25px rgba(0, 0, 0, 0.4)',
   },
 };
 
