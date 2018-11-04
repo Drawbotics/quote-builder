@@ -97,6 +97,11 @@ const styles = {
     transition: all var(--transition-duration) ease-in-out,
       box-shadow var(--transition-duration-short) ease-in-out,
       background var(--transition-duration-short) ease-in-out;
+      
+    > i {
+      height: 20px;
+      width: 20px;
+    }
   `,
   label: css`
     text-align: center;
