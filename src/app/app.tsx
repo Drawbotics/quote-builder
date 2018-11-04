@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { injectGlobal } from 'emotion';
 import 'normalize.css/normalize.css';
 import autobind from 'autobind-decorator';

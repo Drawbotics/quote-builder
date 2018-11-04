@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { Switch } from 'react-router-dom';
 import { css } from 'emotion';

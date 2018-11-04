@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { css, cx } from 'emotion';
 
 
@@ -32,12 +32,18 @@ const styles = {
   title: css`
     color: var(--text-primary);
     transition: color var(--transition-duration) ease-in-out;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   `,
   subtitle: css`
     color: var(--grey);
     font-size: 0.8rem;
     transition: color var(--transition-duration) ease-in-out;
     margin-top: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   `,
   footer: css`
     margin-top: calc(var(--margin) * 1.5);
@@ -74,16 +80,17 @@ const styles = {
     color: var(--grey);
     transition: color var(--transition-duration) ease-in-out;
   `,
-}
+};
 
 
 const QuoteCard: React.SFC<{
   draft: boolean,
 }> = ({ draft }) => {
   const type = draft ? 'Draft' : 'Finished';
+  const colors = ["rgb(236, 180, 36)", "rgb(4, 4, 4)"];
   return (
     <div className={styles.quoteCard}>
-      <div className={styles.cover} />
+      <div className={styles.cover} style={{ background: `linear-gradient(to left top, ${colors[0]}, ${colors[1]})` }} />
       <div className={styles.body}>
         <div className={styles.title}>
           Groupe Lanay

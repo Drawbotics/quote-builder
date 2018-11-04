@@ -51,6 +51,9 @@ module.exports = {
             },
           },
         ],
+      }, {
+        test: require.resolve('node-vibrant/dist/vibrant.js'),
+        use: 'exports-loader?Vibrant',
       },
     ],
   },

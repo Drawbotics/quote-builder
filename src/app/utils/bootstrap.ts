@@ -1,4 +1,4 @@
-import * as feather from 'feather-icons';
+import feather from 'feather-icons';
 
 import { setTheme, getTheme } from './themes';
 
