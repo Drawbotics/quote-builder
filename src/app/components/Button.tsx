@@ -30,7 +30,7 @@ const styles = {
 
 const Button: React.SFC<{
   children: string,
-  onClick?: () => void,
+  onClick?: (e: any) => void,
 }> = ({ children, onClick }) => {
   return (
     <button className={styles.button} onClick={onClick}>
