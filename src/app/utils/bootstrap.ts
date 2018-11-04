@@ -1,5 +1,3 @@
-import feather from 'feather-icons';
-
 import { setTheme, getTheme } from './themes';
 
 
@@ -9,12 +7,6 @@ function setupTheme() {
 }
 
 
-function setupIcons() {
-  feather.replace();
-}
-
-
 export function bootstrap() {
   setupTheme();
-  setupIcons();
 }

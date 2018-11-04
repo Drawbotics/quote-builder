@@ -13,7 +13,7 @@ const styles = {
       z-index: 1;
       transform: rotate3d(1,1,0,20deg);
       transform-origin: 0 100%;
-      transition: all var(--transition-duration-short) var(--transition-duration-short) ease-in-out;
+      transition: all var(--transition-duration-short) var(--transition-duration-short) ease-out;
       transition-property: opacity, transform;
     }
 
@@ -30,7 +30,7 @@ const styles = {
 
     & .fade-exit.fade-exit-active {
       opacity: 0;
-      transform: rotate3d(1,1,0,20deg);
+      transform: rotate3d(1,1,0,15deg);
       transform-origin: 0 100%;
     }
 

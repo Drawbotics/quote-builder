@@ -1,6 +1,7 @@
 import React from 'react';
 import { css, cx } from 'emotion';
 import autobind from 'autobind-decorator';
+import { FileText, File } from 'react-feather';
 
 import Title from '../components/Title';
 import Button from '../components/Button';
@@ -97,11 +98,6 @@ const styles = {
     transition: all var(--transition-duration) ease-in-out,
       box-shadow var(--transition-duration-short) ease-in-out,
       background var(--transition-duration-short) ease-in-out;
-      
-    > i {
-      height: 20px;
-      width: 20px;
-    }
   `,
   label: css`
     text-align: center;
@@ -114,14 +110,14 @@ const styles = {
 
 
 const Selection: React.SFC<{
-  icon: string,
+  icon: React.ReactElement<{}>,
   label: string,
   onClick?: () => void,
 }> = ({ icon, label }) => {
   return (
     <div className={styles.selection}>
       <div className={styles.icon} data-element="icon">
-        <i data-feather={icon} />
+        {icon}
       </div>
       <div className={styles.label}>
         {label}
@@ -159,8 +155,8 @@ class Quotes extends React.Component {
           <div className={styles.actions}>
             <div className={styles.action}>
               <div ref={(selections) => this.selections = selections} className={cx(styles.newSelection, { [styles.open]: newSelectionOpen })}>
-                <Selection label="From template" icon="file-text" />
-                <Selection label="Blank" icon="file" />
+                <Selection label="From template" icon={<FileText />} />
+                <Selection label="Blank" icon={<File />} />
               </div>
               <div ref={(button) => this.button = button}>
                 <Button onClick={() => this.setState({ newSelectionOpen: true })}>

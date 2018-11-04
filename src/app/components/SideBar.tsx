@@ -1,6 +1,7 @@
 import React from 'react';
 import { css, cx } from 'emotion';
 import { Link, withRouter } from 'react-router-dom';
+import { DownloadCloud, Users, File, Sun, Moon } from 'react-feather';
 
 import logo from '../images/qtp-logo.svg';
 import logoAlt from '../images/qtp-logo-alt.svg';
@@ -105,7 +106,6 @@ const styles = {
     }
   `,
   icon: css`
-    height: 20px;
     margin-right: calc(var(--margin) / 2);
   `,
   themeSwitcher: css`
@@ -147,7 +147,7 @@ const styles = {
 
 
 const NavigationButton: React.SFC<{
-  icon: string,
+  icon: React.ReactElement<{}>,
   label: string,
   to: string,
   active: boolean,
@@ -155,7 +155,10 @@ const NavigationButton: React.SFC<{
   return (
     <Link to={to} style={{ textDecoration: 'none' }}>
       <div className={cx(styles.navigationButton, { [styles.active]: active })} data-element="navigation-button">
-        <i className={styles.icon} data-feather={icon} data-element="nav-icon" />
+        {/* <i className={styles.icon} data-feather={icon} data-element="nav-icon" /> */}
+        <div className={styles.icon} data-element="nav-icon">
+          {icon}
+        </div>
         <span data-element="label">{label}</span>
       </div>
     </Link>
@@ -179,17 +182,23 @@ const SideBar: React.SFC<{
         <img src={logoAlt} style={{ opacity: activeTheme === 'dark' ? 1 : 0 }} />
       </div>
       <div className={styles.navigation}>
-        <NavigationButton label="My quotes" icon="file" to="/quotes" active={pathname === '/quotes'} />
-        <NavigationButton label="My exports" icon="download-cloud" to="/exports" active={pathname === '/exports'} />
-        <NavigationButton label="People" icon="users" to="/people" active={pathname === '/people'} />
+        <NavigationButton label="My quotes" icon={<File size={20} />} to="/quotes" active={pathname === '/quotes'} />
+        <NavigationButton label="My exports" icon={<DownloadCloud size={20} />} to="/exports" active={pathname === '/exports'} />
+        <NavigationButton label="People" icon={<Users size={20} />} to="/people" active={pathname === '/people'} />
       </div>
       <div className={styles.themeSwitcher} onClick={toggleTheme} data-element="switcher">
         <div className={cx(styles.themeIcon, {
           [styles.darkActive]: activeTheme === 'dark',
           [styles.lightActive]: activeTheme === 'light',
         })}>
-          <i className={styles.icon} data-feather="sun" data-element="sun" />
-          <i className={styles.icon} data-feather="moon" data-element="moon" />
+          <div className={styles.icon} data-element="sun">
+            <Sun size={20} />
+          </div>
+          <div className={styles.icon} data-element="moon">
+            <Moon size={20} />
+          </div>
+          {/* <i className={styles.icon} data-feather="sun" data-element="sun" />
+          <i className={styles.icon} data-feather="moon" data-element="moon" /> */}
         </div>
         <span data-element="label">{activeTheme === 'light' ? 'Light mode' : 'Dark mode'}</span>
       </div>
