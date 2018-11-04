@@ -1,5 +1,6 @@
 import React from 'react';
 import { css, cx } from 'emotion';
+// import Vibrant from  'node-vibrant/dist/vibrant.js';
 
 
 const styles = {
@@ -83,11 +84,19 @@ const styles = {
 };
 
 
+// const img = 'https://dcassetcdn.com/design_img/3462815/727072/727072_19015191_3462815_05af343b_image.jpg';
+//
+//
+// Vibrant.from(img, { colorCount: 2 }).getPalette().then(function(palette: any) {
+//   console.log(palette.Vibrant._rgb, palette.DarkMuted._rgb);
+// });
+
+
 const QuoteCard: React.SFC<{
   draft: boolean,
 }> = ({ draft }) => {
   const type = draft ? 'Draft' : 'Finished';
-  const colors = ["rgb(236, 180, 36)", "rgb(4, 4, 4)"];
+  const colors = ["rgb(12, 116, 188)", "rgb(108, 108, 115)"];
   return (
     <div className={styles.quoteCard}>
       <div className={styles.cover} style={{ background: `linear-gradient(to left top, ${colors[0]}, ${colors[1]})` }} />
