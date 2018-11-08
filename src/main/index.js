@@ -1,5 +1,4 @@
 const { app, BrowserWindow, Menu } = require('electron');
-const settings = require('electron-settings');
 const dotenv = require('dotenv');
 
 const createMenu = require('./menu');

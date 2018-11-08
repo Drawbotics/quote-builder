@@ -23,17 +23,26 @@ injectGlobal`
 `;
 
 
-class App extends React.Component {
-  state = {
-    theme: getTheme(),
-  }
+interface AppState {
+  theme?: string
+}
 
-  componentDidMount() {
+
+class App extends React.Component {
+  state: AppState = {}
+
+  async componentWillMount() {
     bootstrap();
+    
+    const theme = await getTheme();
+    this.setState({ theme });
   }
 
   render() {
     const { theme } = this.state;
+    if (! theme) {
+      return 'loading';
+    }
     return (
       <Router>
         <Route render={(props) => (

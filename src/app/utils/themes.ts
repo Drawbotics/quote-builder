@@ -1,5 +1,4 @@
-import ipc from 'electron-better-ipc';
-const settings = require('electron').remote.require('electron-settings');
+import { saveSetting, loadSetting } from './storage';
 
 
 export const themes: any = {
@@ -42,8 +41,8 @@ export const themes: any = {
 };
 
 
-export function getTheme() {
-  const themeFromSettings = settings.get('theme');
+export async function getTheme() {
+  const themeFromSettings = await loadSetting('theme');
   if (! themeFromSettings) {
     setTheme('light');
   }
@@ -54,7 +53,7 @@ export function getTheme() {
 
 export function setTheme(theme: string) {
   const htmlRoot = document.getElementsByTagName('html')[0];
-  ipc.callMain('request-theme-update', { theme });
+  saveSetting('theme', theme);
 
   if (theme === 'dark') {
     Object.keys(themes.dark).map((property) => {

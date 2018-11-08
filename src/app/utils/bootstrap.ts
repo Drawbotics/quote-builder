@@ -1,8 +1,8 @@
 import { setTheme, getTheme } from './themes';
 
 
-function setupTheme() {
-  const theme = getTheme();
+async function setupTheme() {
+  const theme = await getTheme();
   setTheme(theme);
 }
 
