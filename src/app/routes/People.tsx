@@ -1,5 +1,6 @@
 import React from 'react';
 import { css } from 'emotion';
+import { Download } from 'react-feather';
 // import autobind from 'autobind-decorator';
 
 import Title from '../components/Title';
@@ -21,6 +22,14 @@ const styles = {
     align-items: center;
     justify-content: flex-end;
   `,
+  action: css`
+    position: relative;
+    margin-right: var(--margin);
+
+    &:last-child {
+      margin-right: 0;
+    }
+  `,
 };
 
 
@@ -34,9 +43,16 @@ class People extends React.Component {
             People
           </Title>
           <div className={styles.actions}>
-            <Button onClick={() => this.setState({ newSelectionOpen: true })}>
-              New person
-            </Button>
+            <div className={styles.action}>
+              <Button icon={<Download size={15} />} reverse>
+                Import
+              </Button>
+            </div>
+            <div className={styles.action}>
+              <Button>
+                New person
+              </Button>
+            </div>
           </div>
         </div>
       </div>

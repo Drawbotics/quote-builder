@@ -23,7 +23,7 @@ export const themes: any = {
     '--grey': '#6C6C6C',
     '--text-primary': '#000000',
     '--box-shadow': '0px 5px 25px rgba(0, 0, 0, 0.1)',
-    '--box-shadow-hover': '0px 8px 40px rgba(0, 0, 0, 0.12)',
+    '--box-shadow-hover': '0px 8px 30px rgba(0, 0, 0, 0.12)',
     '--box-shadow-active': '0px 5px 15px rgba(0, 0, 0, 0.1)',
   },
   dark: {
@@ -36,7 +36,7 @@ export const themes: any = {
     '--grey': '#6C6C6C',
     '--text-primary': '#FFFFFF',
     '--box-shadow': '0px 5px 25px rgba(0, 0, 0, 0.3)',
-    '--box-shadow-hover': '0px 7px 40px rgba(0, 0, 0, 0.25)',
+    '--box-shadow-hover': '0px 7px 30px rgba(0, 0, 0, 0.25)',
     '--box-shadow-active': '0px 5px 25px rgba(0, 0, 0, 0.4)',
   },
 };

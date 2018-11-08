@@ -1,5 +1,5 @@
 import React from 'react';
-import { css } from 'emotion';
+import { css, cx } from 'emotion';
 
 
 const styles = {
@@ -12,7 +12,11 @@ const styles = {
     outline: 0;
     border: 0;
     box-shadow: var(--box-shadow);
-    transition: all calc(var(--transition-duration) / 3) ease-in-out;
+    transition: all calc(var(--transition-duration) / 3) ease-in-out,
+      background var(--transition-duration) ease-in-out,
+      color var(--transition-duration) ease-in-out;
+    display: flex;
+    align-items: center;
 
     &:hover {
       cursor: pointer;
@@ -25,16 +29,37 @@ const styles = {
       box-shadow: 0px 5px 15px var(--primary-semi-transparent);
     }
   `,
+  reverse: css`
+    background: var(--tertiary);
+    color: var(--text-primary);
+
+    &:hover {
+      box-shadow: var(--box-shadow-hover);
+    }
+
+    &:active {
+      box-shadow: var(--box-shadow-active);
+    }
+  `,
+  icon: css`
+    margin-left: 10px;
+  `,
 }
 
 
 const Button: React.SFC<{
   children: string,
   onClick?: (e: any) => void,
-}> = ({ children, onClick }) => {
+  icon?: React.ReactElement<{}>,
+  reverse?: boolean,
+}> = ({ children, onClick, icon, reverse }) => {
   return (
-    <button className={styles.button} onClick={onClick}>
+    <button className={cx(styles.button, {
+      [styles.reverse]: reverse,
+      [styles.icon]: !! icon,
+    })} onClick={onClick}>
       {children}
+      {icon ? <div className={styles.icon}>{icon}</div> : null}
     </button>
   );
 }
