@@ -9,6 +9,7 @@ export const themes: any = {
     '--margin': '20px',
     '--border-radius': '9px',
     '--white': '#FFFFFF',
+    '--black': '#000000',
     '--orange': '#F3820A',
     '--primary': '#2258EA',
   },

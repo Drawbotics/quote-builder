@@ -23,11 +23,13 @@ const styles = {
     flex: 1;
     display: flex;
     flex-direction: column;
+    min-width: 1000px;
   `,
   container: css`
     flex: 1;
     background: var(--background-color);
     transition: background var(--transition-duration) ease-in-out;
+    overflow-y: scroll;
   `,
 };
 

@@ -1,10 +1,10 @@
 import React from 'react';
 import { css } from 'emotion';
 import { Download } from 'react-feather';
-// import autobind from 'autobind-decorator';
 
 import Title from '../components/Title';
 import Button from '../components/Button';
+import Person from '../components/Person';
 
 
 const styles = {
@@ -30,12 +30,18 @@ const styles = {
       margin-right: 0;
     }
   `,
+  list: css`
+    margin-top: calc(var(--margin) * 2);
+  `,
+  row: css`
+    margin-bottom: calc(var(--margin) * 2);
+  `,
 };
 
 
 class People extends React.Component {
   render() {
-    // const people = [0, 0, 0, 0];
+    const people = [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }];
     return (
       <div className={styles.people}>
         <div className={styles.header}>
@@ -54,6 +60,13 @@ class People extends React.Component {
               </Button>
             </div>
           </div>
+        </div>
+        <div className={styles.list}>
+          {people.map((person) => (
+            <div key={person.id} className={styles.row}>
+              <Person person={person} />
+            </div>
+          ))}
         </div>
       </div>
     );
