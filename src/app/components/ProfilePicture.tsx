@@ -34,7 +34,7 @@ const styles = {
       left: 0;
       height: 100%;
       width: 100%;
-      background: rgba(0, 0, 0, 0.6);
+      background: var(--primary-overlay);
       opacity: 0;
       pointer-events: none;
       display: flex;
