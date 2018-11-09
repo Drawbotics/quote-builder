@@ -42,7 +42,7 @@ const styles = {
       justify-content: center;
       font-size: 0.8rem;
       color: var(--white);
-      transition: opacity calc(var(--transition-duration) / 2) ease-in-out;
+      transition: opacity var(--transition-duration-short) ease-in-out;
     }
 
     &:hover {

@@ -3,6 +3,7 @@ import { css } from 'emotion';
 
 import Tabs from './Tabs';
 import ProfilePicture from './ProfilePicture';
+import Input, { InputGroup } from './Input';
 
 
 const styles = {
@@ -11,6 +12,7 @@ const styles = {
     align-items: flex-start;
   `,
   profile: css`
+    margin-right: var(--margin);
   `,
 
   langSwitcher: css`
@@ -19,8 +21,10 @@ const styles = {
     justify-content: center;
   `,
   info: css`
+    flex: 0.4;
   `,
   description: css`
+    flex: 0.5;
   `,
 };
 
@@ -52,6 +56,10 @@ const Person: React.SFC<{
         </div>
       </div>
       <div className={styles.info}>
+        <InputGroup>
+          <Input name="name" onChange={(v, n) => console.log(v, n)} placeholder="Name Surname" />
+          <Input name="role" onChange={(v, n) => console.log(v, n)} placeholder="Role e.g. Sales Manager France" />
+        </InputGroup>
       </div>
       <div className={styles.description}>
       </div>

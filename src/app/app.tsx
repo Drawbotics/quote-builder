@@ -16,6 +16,7 @@ injectGlobal`
     font-family: 'Raleway', sans-serif;
     font-weight: 500;
     font-size: 16px;
+    overflow: hidden;
   }
   :root {
     ${themes.common}
@@ -33,7 +34,7 @@ class App extends React.Component {
 
   async componentWillMount() {
     bootstrap();
-    
+
     const theme = await getTheme();
     this.setState({ theme });
   }
