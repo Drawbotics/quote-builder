@@ -2,6 +2,7 @@ import React from 'react';
 import { css } from 'emotion';
 import { Share } from 'react-feather';
 import { get } from 'lodash';
+import autobind from 'autobind-decorator';
 
 import Tabs from './Tabs';
 import ProfilePicture from './ProfilePicture';
@@ -100,13 +101,17 @@ export interface PersonType {
 
 class Person extends React.Component<{
   person: PersonType
+  onClickDelete?: () => void,
+  onClickSave?: () => void,
+  onClickExport?: () => void,
+  onChangeField: (v: string | object, k: string) => void,
 }> {
   state = {
     language: 'en',
   }
 
   render() {
-    const { person } = this.props;
+    const { person, onClickDelete, onClickExport, onClickSave, onChangeField } = this.props;
     const { language } = this.state;
     const description: string = get(person, `descriptions[${language}]`);
     return (
@@ -115,7 +120,7 @@ class Person extends React.Component<{
           <ProfilePicture photo={person.profilePicture} onClick={() => console.log('hi')} />
           <div className={styles.langSwitcher}>
             <Tabs
-              value='fr'
+              value={language}
               tabs={[{
                 label: 'En',
                 value: 'en',
@@ -131,11 +136,11 @@ class Person extends React.Component<{
         </div>
         <div className={styles.info}>
           <InputGroup>
-            <Input name="name" onChange={(v, n) => console.log(v, n)} placeholder="Name Surname" value={person.name} />
-            <Input name="role" onChange={(v, n) => console.log(v, n)} placeholder="Role e.g. Sales Manager France" value={person.role} />
-            <Input name="mobile" onChange={(v, n) => console.log(v, n)} placeholder="Mobile" label="M" value={person.mobile} />
-            <Input name="phone" onChange={(v, n) => console.log(v, n)} placeholder="Phone" label="T" value={person.phone} />
-            <Input name="email" onChange={(v, n) => console.log(v, n)} placeholder="Email" label="E" value={person.email} />
+            <Input name="name" onChange={onChangeField} placeholder="Name Surname" value={person.name || ''} />
+            <Input name="role" onChange={onChangeField} placeholder="Role e.g. Sales Manager France" value={person.role || ''} />
+            <Input name="mobile" onChange={onChangeField} placeholder="Mobile" label="M" value={person.mobile || ''} />
+            <Input name="phone" onChange={onChangeField} placeholder="Phone" label="T" value={person.phone || ''} />
+            <Input name="email" onChange={onChangeField} placeholder="Email" label="E" value={person.email || ''} />
           </InputGroup>
           <div className={styles.label}>
             Signature:
@@ -149,22 +154,38 @@ class Person extends React.Component<{
             </div>
           </div>
           <div className={styles.actions}>
-            <div className={styles.action}>
-              <Button fullWidth>Save</Button>
-            </div>
-            <div className={styles.action}>
-              <Button reverse fullWidth icon={<Share size={15} />}>Export</Button>
-            </div>
-            <div className={styles.action}>
-              <Button reverse fullWidth>Delete</Button>
-            </div>
+            {onClickSave ?
+              <div className={styles.action}>
+                <Button fullWidth onClick={onClickSave}>Save</Button>
+              </div>
+            : null}
+            {onClickDelete ?
+              <div className={styles.action}>
+                <Button reverse fullWidth onClick={onClickDelete}>Delete</Button>
+              </div>
+            : null}
+            {onClickExport ?
+              <div className={styles.action}>
+                <Button reverse fullWidth icon={<Share size={15} />} onClick={onClickExport}>Export</Button>
+              </div>
+            : null}
           </div>
         </div>
         <div className={styles.description}>
-          <Input name="description" area={true} onChange={(v, n) => console.log(v, n)} placeholder="Description" value={description} />
+          <Input name="descriptions" area={true} onChange={this._handleChangeDescription} placeholder="Description" value={description || ''} />
         </div>
       </div>
     );
+  }
+
+  @autobind
+  _handleChangeDescription(v: string, k: string) {
+    const { onChangeField, person } = this.props;
+    const { language } = this.state;
+    onChangeField({
+      ...person.descriptions,
+      [language]: v,
+    }, k);
   }
 }
 

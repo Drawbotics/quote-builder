@@ -69,6 +69,7 @@ const Input: React.SFC<{
   value,
   label,
   area,
+  name,
 }) => {
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
     if ( ! onChange) return;
@@ -81,7 +82,7 @@ const Input: React.SFC<{
       {area ?
         <textarea style={{ minHeight: '200px' }} name={name} className={cx(styles.input, styles.textarea)} value={value} onChange={handleOnChange} placeholder={placeholder} />
         :
-        <input name={name} className={styles.input} value={value} onChange={handleOnChange} placeholder={placeholder} />
+        <input type="text" name={name} className={styles.input} value={value} onChange={handleOnChange} placeholder={placeholder} />
       }
     </div>
   );

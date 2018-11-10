@@ -67,7 +67,7 @@ const ProfilePicture: React.SFC<{
   return (
     <div className={cx(styles.photoWrapper, { [styles.clickDisabled]: ! onClick })} onClick={onClick}>
       <div className={styles.photo}>
-        <img src={photo} />
+        {photo ? <img src={photo} /> : null}
       </div>
     </div>
   );

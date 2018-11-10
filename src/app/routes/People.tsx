@@ -1,6 +1,7 @@
 import React from 'react';
 import { css } from 'emotion';
 import { Download } from 'react-feather';
+import autobind from 'autobind-decorator';
 
 import Title from '../components/Title';
 import Button from '../components/Button';
@@ -67,14 +68,43 @@ class People extends React.Component {
           </div>
         </div>
         <div className={styles.list}>
+          {tempPerson.id ?
+            <div key={tempPerson.id} className={styles.row}>
+              <Person
+                onChangeField={this._handleChangeField}
+                person={tempPerson}
+                onClickDelete={() => this.setState({ tempPerson: {} })}
+                onClickSave={this._handleCreateNew} />
+            </div> : null}
           {people.map((person: PersonType) => (
             <div key={person.id} className={styles.row}>
-              <Person person={person} />
+              <Person person={person} onChangeField={() => null} />
             </div>
           ))}
         </div>
       </div>
     );
+  }
+
+  @autobind
+  _handleChangeField(v: string | object, k: string) {
+    this.setState({
+      tempPerson: {
+        ...this.state.tempPerson,
+        [k]: v,
+      },
+    });
+  }
+
+  @autobind
+  _handleCreateNew() {
+    const { tempPerson } = this.state;
+    console.log(tempPerson);
+  }
+
+  @autobind
+  _handleSave() {
+
   }
 }
 
