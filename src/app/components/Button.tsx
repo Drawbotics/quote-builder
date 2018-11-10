@@ -17,6 +17,8 @@ const styles = {
       color var(--transition-duration) ease-in-out;
     display: flex;
     align-items: center;
+    text-align: center;
+    justify-content: center;
 
     &:hover {
       cursor: pointer;
@@ -41,6 +43,10 @@ const styles = {
       box-shadow: var(--box-shadow-active);
     }
   `,
+  fullWidth: css`
+    width: 100%;
+    flex: 1;
+  `,
   icon: css`
     margin-left: 10px;
   `,
@@ -52,11 +58,13 @@ const Button: React.SFC<{
   onClick?: (e: any) => void,
   icon?: React.ReactElement<{}>,
   reverse?: boolean,
-}> = ({ children, onClick, icon, reverse }) => {
+  fullWidth?: boolean,
+}> = ({ children, onClick, icon, reverse, fullWidth }) => {
   return (
     <button className={cx(styles.button, {
       [styles.reverse]: reverse,
       [styles.icon]: !! icon,
+      [styles.fullWidth]: fullWidth,
     })} onClick={onClick}>
       {children}
       {icon ? <div className={styles.icon}>{icon}</div> : null}

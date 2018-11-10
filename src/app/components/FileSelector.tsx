@@ -10,15 +10,15 @@ const bounce = keyframes`
   }
 
   40%, 43% {
-    transform: translate3d(0, -10px, 0);
+    transform: translate3d(0, -7px, 0);
   }
 
   70% {
-    transform: translate3d(0, -5px, 0);
+    transform: translate3d(0, -3px, 0);
   }
 
   90% {
-    transform: translate3d(0, -2px, 0);
+    transform: translate3d(0, -1px, 0);
   }
 `;
 

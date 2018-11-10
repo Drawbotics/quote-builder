@@ -34,7 +34,7 @@ const styles = {
     margin-top: calc(var(--margin) * 2);
   `,
   row: css`
-    margin-bottom: calc(var(--margin) * 2);
+    margin-bottom: calc(var(--margin) * 4);
   `,
 };
 

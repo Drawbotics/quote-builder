@@ -5,6 +5,7 @@ import Tabs from './Tabs';
 import ProfilePicture from './ProfilePicture';
 import Input, { InputGroup } from './Input';
 import FileSelector from './FileSelector';
+import Button from './Button';
 
 
 const styles = {
@@ -32,6 +33,7 @@ const styles = {
     margin: var(--margin) 0;
     color: var(--text-primary);
     transition: all var(--transition-duration) ease-in-out;
+    font-size: 0.9rem;
   `,
   signature: css`
     display: flex;
@@ -58,6 +60,17 @@ const styles = {
     align-items: stretch;
   `,
   actions: css`
+    display: flex;
+    align-items: center;
+    margin-top: var(--margin);
+  `,
+  action: css`
+    flex: 1;
+    margin-right: var(--margin);
+
+    &:last-child {
+      margin-right: 0;
+    }
   `,
 };
 
@@ -106,6 +119,14 @@ const Person: React.SFC<{
           </div>
           <div className={styles.fileSelector}>
             <FileSelector label="Pick signature" onFileSelect={(v) => console.log(v)} />
+          </div>
+        </div>
+        <div className={styles.actions}>
+          <div className={styles.action}>
+            <Button fullWidth>Save</Button>
+          </div>
+          <div className={styles.action}>
+            <Button reverse fullWidth>Delete</Button>
           </div>
         </div>
       </div>
