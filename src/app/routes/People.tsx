@@ -2,10 +2,12 @@ import React from 'react';
 import { css } from 'emotion';
 import { Download } from 'react-feather';
 import autobind from 'autobind-decorator';
+import { v4 } from 'uuid';
 
 import Title from '../components/Title';
 import Button from '../components/Button';
 import Person, { PersonType } from '../components/Person';
+import { savePerson, loadPeople, deletePerson } from '../utils/people';
 
 
 const styles = {
@@ -43,11 +45,16 @@ const styles = {
 class People extends React.Component {
   state = {
     tempPerson: {} as PersonType,
+    people: null,
+  }
+
+  async componentWillMount() {
+    const people = await loadPeople();
+    this.setState({ people });
   }
 
   render() {
-    const people: any = [];
-    const { tempPerson } = this.state;
+    const { people, tempPerson } = this.state;
     return (
       <div className={styles.people}>
         <div className={styles.header}>
@@ -61,7 +68,7 @@ class People extends React.Component {
               </Button>
             </div>
             <div className={styles.action}>
-              <Button onClick={() => this.setState({ tempPerson: { id: -1 }})} disabled={!! tempPerson.id}>
+              <Button onClick={() => this.setState({ tempPerson: { id: v4() }})} disabled={!! tempPerson.id}>
                 New person
               </Button>
             </div>
@@ -76,11 +83,16 @@ class People extends React.Component {
                 onClickDelete={() => this.setState({ tempPerson: {} })}
                 onClickSave={this._handleCreateNew} />
             </div> : null}
-          {people.map((person: PersonType) => (
-            <div key={person.id} className={styles.row}>
-              <Person person={person} onChangeField={() => null} />
-            </div>
-          ))}
+          {people ?
+            Object.values(people).map((person: PersonType) => (
+              <div key={person.id} className={styles.row}>
+                <Person
+                  person={person}
+                  onChangeField={() => null}
+                  onClickDelete={this._handleClickDelete}/>
+              </div>
+            ))
+          : null}
         </div>
       </div>
     );
@@ -97,9 +109,18 @@ class People extends React.Component {
   }
 
   @autobind
-  _handleCreateNew() {
+  async _handleCreateNew() {
     const { tempPerson } = this.state;
-    console.log(tempPerson);
+    await savePerson(tempPerson.id, tempPerson);
+    const newPeople = await loadPeople();
+    this.setState({ people: newPeople, tempPerson: {} });
+  }
+
+  @autobind
+  async _handleClickDelete(id: any) {
+    await deletePerson(id);
+    const newPeople = await loadPeople();
+    this.setState({ people: newPeople });
   }
 
   @autobind

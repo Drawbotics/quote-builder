@@ -83,7 +83,7 @@ const styles = {
 
 
 export interface PersonType {
-  id: number
+  id: any
   name: string
   profilePicture: string
   role: string
@@ -101,7 +101,7 @@ export interface PersonType {
 
 class Person extends React.Component<{
   person: PersonType
-  onClickDelete?: () => void,
+  onClickDelete?: (id: any) => void,
   onClickSave?: () => void,
   onClickExport?: () => void,
   onChangeField: (v: string | object, k: string) => void,

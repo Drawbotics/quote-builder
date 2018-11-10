@@ -2,10 +2,10 @@ import storage from 'electron-json-storage';
 import { isEmpty, get, set } from 'lodash';
 
 
-export async function save(scope: string, path: string, value: any): Promise<any> {
+export async function save(scope: string, path: string | null, value: any): Promise<any> {
   return new Promise<any>(async (resolve, reject) => {
     const currentValue = await load(scope, '') || {};
-    const newValue = set(currentValue, path, value);
+    const newValue = path ? set(currentValue, path, value) : value;
     storage.set(scope, newValue, (error: Error) => {
       if (error) {
         reject();
@@ -18,14 +18,14 @@ export async function save(scope: string, path: string, value: any): Promise<any
 }
 
 
-export async function load(scope: string, path: string): Promise<any> {
+export async function load(scope: string, path?: string | undefined): Promise<any> {
   return new Promise<any>((resolve, reject) => {
     storage.get(scope, (error: Error, data: any) => {
       if (error) {
         reject();
       }
       else {
-        const value = isEmpty(data) ? null : get(data, path);
+        const value = isEmpty(data) ? null : (path ? get(data, path) : data);
         resolve(value);
       }
     });

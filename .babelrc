@@ -1,3 +1,6 @@
 {
-  "plugins": [["emotion", { "autoLabel" : true }]]
+  "plugins": [
+    ["emotion", { "autoLabel" : true }],
+    "@babel/plugin-proposal-object-rest-spread"
+  ]
 }
