@@ -16,7 +16,7 @@ const styles = {
       box-shadow var(--transition-duration-short) ease-in-out;
 
     &:focus {
-      box-shadow: 0px 0px 0px 1px var(--primary);
+      box-shadow: 0px 0px 0px 2px var(--primary);
     }
   `,
   textarea: css`

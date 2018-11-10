@@ -30,6 +30,16 @@ const styles = {
       transform: translateY(0px);
       box-shadow: 0px 5px 15px var(--primary-semi-transparent);
     }
+
+    &:disabled {
+      opacity: 0.7;
+
+      &:hover {
+        cursor: not-allowed;
+        box-shadow: var(--box-shadow);
+        transform: initial;
+      }
+    }
   `,
   reverse: css`
     background: var(--tertiary);
@@ -59,13 +69,13 @@ const Button: React.SFC<{
   icon?: React.ReactElement<{}>,
   reverse?: boolean,
   fullWidth?: boolean,
-}> = ({ children, onClick, icon, reverse, fullWidth }) => {
+  disabled?: boolean,
+}> = ({ children, onClick, icon, reverse, fullWidth, disabled }) => {
   return (
     <button className={cx(styles.button, {
       [styles.reverse]: reverse,
-      [styles.icon]: !! icon,
       [styles.fullWidth]: fullWidth,
-    })} onClick={onClick}>
+    })} onClick={onClick} disabled={disabled}>
       {children}
       {icon ? <div className={styles.icon}>{icon}</div> : null}
     </button>

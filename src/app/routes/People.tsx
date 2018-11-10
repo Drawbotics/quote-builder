@@ -4,7 +4,7 @@ import { Download } from 'react-feather';
 
 import Title from '../components/Title';
 import Button from '../components/Button';
-import Person from '../components/Person';
+import Person, { PersonType } from '../components/Person';
 
 
 const styles = {
@@ -40,8 +40,13 @@ const styles = {
 
 
 class People extends React.Component {
+  state = {
+    tempPerson: {} as PersonType,
+  }
+
   render() {
-    const people = [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }];
+    const people: any = [];
+    const { tempPerson } = this.state;
     return (
       <div className={styles.people}>
         <div className={styles.header}>
@@ -50,19 +55,19 @@ class People extends React.Component {
           </Title>
           <div className={styles.actions}>
             <div className={styles.action}>
-              <Button icon={<Download size={15} />} reverse>
+              <Button icon={<Download size={15} />} reverse disabled={!! tempPerson.id}>
                 Import
               </Button>
             </div>
             <div className={styles.action}>
-              <Button>
+              <Button onClick={() => this.setState({ tempPerson: { id: -1 }})} disabled={!! tempPerson.id}>
                 New person
               </Button>
             </div>
           </div>
         </div>
         <div className={styles.list}>
-          {people.map((person) => (
+          {people.map((person: PersonType) => (
             <div key={person.id} className={styles.row}>
               <Person person={person} />
             </div>
