@@ -61,13 +61,13 @@ const styles = {
 
 const FileSelector: React.SFC<{
   label?: string,
-  onFileSelect: (v: string[]) => void,
+  onFileSelect: () => void,
 }> = ({
   label,
   onFileSelect,
 }) => {
   return (
-    <div className={styles.fileSelector} onClick={undefined}>
+    <div className={styles.fileSelector} onClick={onFileSelect}>
       <img src={importIcon} className={styles.icon} data-element="icon" />
       {label ? <div className={styles.label}>
         {label}

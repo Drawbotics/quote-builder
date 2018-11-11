@@ -138,7 +138,7 @@ class Person extends React.Component<{
     return (
       <div className={styles.person}>
         <div className={styles.profile}>
-          <ProfilePicture photo={editing.profilePicture || person.profilePicture} onClick={this._handleClickPicture} />
+          <ProfilePicture photo={editing.profilePicture || person.profilePicture} onClick={() => this._handleSelectFile('profilePicture')} />
           <div className={styles.langSwitcher}>
             <Tabs
               value={language}
@@ -168,10 +168,10 @@ class Person extends React.Component<{
           </div>
           <div className={styles.signature}>
             <div className={styles.preview}>
-              <img src={person.signature} />
+              <img src={editing.signature || person.signature} />
             </div>
             <div className={styles.fileSelector}>
-              <FileSelector label="Pick signature" onFileSelect={(v) => console.log(v)} />
+              <FileSelector label="Pick signature" onFileSelect={() => this._handleSelectFile('signature', ['png'])} />
             </div>
           </div>
           <div className={styles.actions}>
@@ -200,10 +200,10 @@ class Person extends React.Component<{
   }
 
   @autobind
-  _handleClickPicture() {
+  _handleSelectFile(key: string, types=['jpg', 'png']) {
     const filepaths = dialog.showOpenDialog({
       properties: ['openFile'],
-      filters: [{ name: 'Images', extensions: ['png', 'jpg'] }],
+      filters: [{ name: 'Images', extensions: types }],
     });
     if (filepaths) {
       const file = filepaths[0];
@@ -214,7 +214,7 @@ class Person extends React.Component<{
       }
       else {
         const dataURL = `data:image/${fileExt};base64,${data}`;
-        this._handleChangeField(dataURL, 'profilePicture');
+        this._handleChangeField(dataURL, key);
       }
     }
   }
