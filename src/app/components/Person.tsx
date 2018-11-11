@@ -3,6 +3,9 @@ import { css } from 'emotion';
 import { Share } from 'react-feather';
 import { get } from 'lodash';
 import autobind from 'autobind-decorator';
+const { dialog } = require('electron').remote;
+import fs from 'fs';
+import { last } from 'lodash';
 
 import Tabs from './Tabs';
 import ProfilePicture from './ProfilePicture';
@@ -78,10 +81,6 @@ const styles = {
 };
 
 
-// const pic = 'http://s3.amazonaws.com/cdn.roosterteeth.com/uploads/images/36437c1c-f403-42c3-a3a0-4886a49bd012/original/2195219-1449924847806-image-2.jpg';
-// const signature = 'https://upload.wikimedia.org/wikipedia/commons/0/00/Todd_Strasser_signature.png';
-
-
 export interface PersonType {
   id: any
   name: string
@@ -97,28 +96,49 @@ export interface PersonType {
   phone: string
   signature: string
   createdAt: Date
+  [key: string]: any;
+}
+
+
+function getValueForField(key: string, curr: PersonType, prev: PersonType) {
+  if (curr[key] || curr[key] === '') {
+    return curr[key];
+  }
+  else if (prev[key]) {
+    return prev[key];
+  }
+  else {
+    return '';
+  }
 }
 
 
 class Person extends React.Component<{
   person: PersonType
   onClickDelete?: (id: any) => void,
-  onClickSave?: () => void,
+  onClickSave?: (person: PersonType) => void,
   onClickExport?: () => void,
-  onChangeField: (v: string | object, k: string) => void,
 }> {
   state = {
     language: 'en',
+    editing: {} as PersonType,
+  }
+
+  _isMounted = true;
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   render() {
-    const { person, onClickDelete, onClickExport, onClickSave, onChangeField } = this.props;
-    const { language } = this.state;
-    const description: string = get(person, `descriptions[${language}]`);
+    const { person, onClickDelete, onClickExport, onClickSave } = this.props;
+    const { language, editing } = this.state;
+    const description: string = get(editing.descriptions ? editing : person, `descriptions[${language}]`);
+    const canSave = Object.keys(editing).length > 0;
     return (
       <div className={styles.person}>
         <div className={styles.profile}>
-          <ProfilePicture photo={person.profilePicture} onClick={() => console.log('hi')} />
+          <ProfilePicture photo={editing.profilePicture || person.profilePicture} onClick={this._handleClickPicture} />
           <div className={styles.langSwitcher}>
             <Tabs
               value={language}
@@ -137,11 +157,11 @@ class Person extends React.Component<{
         </div>
         <div className={styles.info}>
           <InputGroup>
-            <Input name="name" onChange={onChangeField} placeholder="Name Surname" value={person.name || ''} />
-            <Input name="role" onChange={onChangeField} placeholder="Role e.g. Sales Manager France" value={person.role || ''} />
-            <Input name="mobile" onChange={onChangeField} placeholder="Mobile" label="M" value={person.mobile || ''} />
-            <Input name="phone" onChange={onChangeField} placeholder="Phone" label="T" value={person.phone || ''} />
-            <Input name="email" onChange={onChangeField} placeholder="Email" label="E" value={person.email || ''} />
+            <Input name="name" onChange={this._handleChangeField} placeholder="Name Surname" value={getValueForField('name', editing, person)} />
+            <Input name="role" onChange={this._handleChangeField} placeholder="Role e.g. Sales Manager France" value={getValueForField('role', editing, person)} />
+            <Input name="mobile" onChange={this._handleChangeField} placeholder="Mobile" label="M" value={getValueForField('mobile', editing, person)} />
+            <Input name="phone" onChange={this._handleChangeField} placeholder="Phone" label="T" value={getValueForField('phone', editing, person)} />
+            <Input name="email" onChange={this._handleChangeField} placeholder="Email" label="E" value={getValueForField('email', editing, person)} />
           </InputGroup>
           <div className={styles.label}>
             Signature:
@@ -157,7 +177,7 @@ class Person extends React.Component<{
           <div className={styles.actions}>
             {onClickSave ?
               <div className={styles.action}>
-                <Button fullWidth onClick={onClickSave}>Save</Button>
+                <Button fullWidth onClick={this._handleClickSave} disabled={! canSave}>Save</Button>
               </div>
             : null}
             {onClickDelete ?
@@ -180,13 +200,56 @@ class Person extends React.Component<{
   }
 
   @autobind
+  _handleClickPicture() {
+    const filepaths = dialog.showOpenDialog({
+      properties: ['openFile'],
+      filters: [{ name: 'Images', extensions: ['png', 'jpg'] }],
+    });
+    if (filepaths) {
+      const file = filepaths[0];
+      const fileExt = last(file.split('.'));
+      const data = fs.readFileSync(filepaths[0], 'base64');
+      if (! data) {
+        alert(`An error ocurred reading the file`);
+      }
+      else {
+        const dataURL = `data:image/${fileExt};base64,${data}`;
+        this._handleChangeField(dataURL, 'profilePicture');
+      }
+    }
+  }
+
+  @autobind
   _handleChangeDescription(v: string, k: string) {
-    const { onChangeField, person } = this.props;
-    const { language } = this.state;
-    onChangeField({
+    const { person } = this.props;
+    const { language, editing } = this.state;
+    this._handleChangeField({
       ...person.descriptions,
+      ...editing.descriptions,
       [language]: v,
     }, k);
+  }
+
+  @autobind
+  _handleChangeField(v: string | object, k: string) {
+    this.setState({
+      editing: {
+        ...this.state.editing,
+        [k]: v,
+      },
+    });
+  }
+
+  @autobind
+  async _handleClickSave() {
+    const { onClickSave, person } = this.props;
+    const { editing } = this.state;
+    if (onClickSave) {
+      await onClickSave({ ...person, ...editing });
+      if (this._isMounted) {
+        this.setState({ editing: {} });
+      }
+    }
   }
 }
 

@@ -46,6 +46,7 @@ class People extends React.Component {
   state = {
     tempPerson: {} as PersonType,
     people: null,
+    editing: {} as PersonType,
   }
 
   async componentWillMount() {
@@ -78,7 +79,6 @@ class People extends React.Component {
           {tempPerson.id ?
             <div key={tempPerson.id} className={styles.row}>
               <Person
-                onChangeField={this._handleChangeField}
                 person={tempPerson}
                 onClickDelete={() => this.setState({ tempPerson: {} })}
                 onClickSave={this._handleCreateNew} />
@@ -90,7 +90,7 @@ class People extends React.Component {
               <div key={person.id} className={styles.row}>
                 <Person
                   person={person}
-                  onChangeField={() => null}
+                  onClickSave={this._handleSave}
                   onClickDelete={() => this._handleClickDelete(person.id)} />
               </div>
             ))
@@ -101,19 +101,9 @@ class People extends React.Component {
   }
 
   @autobind
-  _handleChangeField(v: string | object, k: string) {
-    this.setState({
-      tempPerson: {
-        ...this.state.tempPerson,
-        [k]: v,
-      },
-    });
-  }
-
-  @autobind
-  async _handleCreateNew() {
-    const { tempPerson } = this.state;
-    await savePerson(tempPerson.id, { ...tempPerson, createdAt: new Date().toString() });
+  async _handleCreateNew(newPerson: PersonType | null) {
+    if (! newPerson) return;
+    await savePerson(newPerson.id, { ...newPerson, createdAt: new Date().toString() });
     const newPeople = await loadPeople();
     this.setState({ people: newPeople, tempPerson: {} });
   }
@@ -126,8 +116,11 @@ class People extends React.Component {
   }
 
   @autobind
-  _handleSave() {
-
+  async _handleSave(updatedPerson: PersonType | null) {
+    if (! updatedPerson) return;
+    await savePerson(updatedPerson.id, updatedPerson);
+    const newPeople = await loadPeople();
+    this.setState({ people: newPeople });
   }
 }
 
