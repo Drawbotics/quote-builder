@@ -58,6 +58,7 @@ const styles = {
     border-bottom: 1px solid var(--line-color);
     transition: border-bottom var(--transition-duration) ease-in-out;
     height: 100px;
+    pointer-events: none;
 
     > img {
       position: absolute;

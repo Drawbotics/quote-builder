@@ -3,9 +3,9 @@ import { css } from 'emotion';
 import { Share } from 'react-feather';
 import { get } from 'lodash';
 import autobind from 'autobind-decorator';
-const { dialog } = require('electron').remote;
 import fs from 'fs';
 import { last } from 'lodash';
+import { remote } from 'electron';
 
 import Tabs from './Tabs';
 import ProfilePicture from './ProfilePicture';
@@ -201,7 +201,8 @@ class Person extends React.Component<{
 
   @autobind
   _handleSelectFile(key: string, types=['jpg', 'png']) {
-    const filepaths = dialog.showOpenDialog({
+    const { dialog } = remote;
+    const filepaths = dialog.showOpenDialog(remote.getCurrentWindow(), {
       properties: ['openFile'],
       filters: [{ name: 'Images', extensions: types }],
     });
