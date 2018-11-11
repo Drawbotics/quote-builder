@@ -14,7 +14,7 @@ export async function loadPeople() {
 
 
 export async function deletePerson(path: string) {
-  const people = loadPeople();
+  const people = await loadPeople();
   return await save('people', null, omit(people, [path]));
 }
 

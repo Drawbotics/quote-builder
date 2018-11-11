@@ -96,6 +96,7 @@ export interface PersonType {
   mobile: string
   phone: string
   signature: string
+  createdAt: Date
 }
 
 

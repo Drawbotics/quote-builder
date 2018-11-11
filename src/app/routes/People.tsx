@@ -84,12 +84,14 @@ class People extends React.Component {
                 onClickSave={this._handleCreateNew} />
             </div> : null}
           {people ?
-            Object.values(people).map((person: PersonType) => (
+            Object.values(people)
+              .sort((a: any, b: any) => b.createdAt.localeCompare(a.createdAt))
+              .map((person: PersonType) => (
               <div key={person.id} className={styles.row}>
                 <Person
                   person={person}
                   onChangeField={() => null}
-                  onClickDelete={this._handleClickDelete}/>
+                  onClickDelete={() => this._handleClickDelete(person.id)} />
               </div>
             ))
           : null}
@@ -111,7 +113,7 @@ class People extends React.Component {
   @autobind
   async _handleCreateNew() {
     const { tempPerson } = this.state;
-    await savePerson(tempPerson.id, tempPerson);
+    await savePerson(tempPerson.id, { ...tempPerson, createdAt: new Date().toString() });
     const newPeople = await loadPeople();
     this.setState({ people: newPeople, tempPerson: {} });
   }
