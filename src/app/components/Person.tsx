@@ -182,7 +182,7 @@ class Person extends React.Component<{
             : null}
             {onClickDelete ?
               <div className={styles.action}>
-                <Button reverse fullWidth onClick={onClickDelete}>Delete</Button>
+                <Button reverse fullWidth onClick={onClickDelete}>{onClickExport ? 'Delete' : 'Cancel'}</Button>
               </div>
             : null}
             {onClickExport ?

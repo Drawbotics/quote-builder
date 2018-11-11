@@ -30,8 +30,8 @@ const styles = {
 
     & .fade-exit.fade-exit-active {
       opacity: 0;
-      transform: rotate3d(1,1,0,15deg);
-      transform-origin: 0 100%;
+      transform: scale(0.9);
+      transform-origin: center;
     }
 
     > div {
