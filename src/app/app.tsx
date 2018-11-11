@@ -17,6 +17,7 @@ injectGlobal`
     font-weight: 500;
     font-size: 16px;
     overflow: hidden;
+    -webkit-user-select: none;
   }
   :root {
     ${themes.common}

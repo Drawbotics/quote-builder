@@ -1,5 +1,7 @@
 const { app, BrowserWindow, Menu } = require('electron');
 const dotenv = require('dotenv');
+const path = require('path');
+const windowStateKeeper = require('electron-window-state');
 
 const createMenu = require('./menu');
 const registerIpcListeners = require('./ipc-listeners');
@@ -13,14 +15,27 @@ let _window;
 
 module.exports = function startApp() {
   function createWindow() {
+
+    const windowState = windowStateKeeper({
+      defaultWidth: process.env.APP_ENV === 'development' ? 1990 : 1440,
+      defaultHeight: 900
+    });
+
     _window = new BrowserWindow({
-      width: process.env.APP_ENV === 'development' ? 1990 : 1440,
-      height: 900,
+      width: windowState.width,
+      height: windowState.height,
+      x: windowState.x,
+      y: windowState.y,
       titleBarStyle: 'hiddenInset',
+      backgroundColor: '#FFFFFF',
+      icon: path.resolve(__dirname, '/app/images/qtp-desktop-small.png'),
       webPreferences: {
         webSecurity: false,
       },
+      show: false,
     });
+
+    windowState.manage(_window);
 
     if (process.env.APP_ENV === 'development') {
       _window.loadURL(`http://localhost:${process.env.WEBPACK_PORT}`);
@@ -37,6 +52,11 @@ module.exports = function startApp() {
     registerIpcListeners();
 
     Menu.setApplicationMenu(createMenu(app, _window));
+
+    _window.on('ready-to-show', () => {
+      _window.show();
+      _window.focus();
+    });
   }
 
 
@@ -45,7 +65,7 @@ module.exports = function startApp() {
 
   app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
-      app.quit();
+      _window.quit();
     }
   });
 

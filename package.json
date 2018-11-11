@@ -10,7 +10,7 @@
     "start": "ELECTRON_DISABLE_SECURITY_WARNINGS=true NODE_NO_WARNINGS=1 electron .",
     "build": "npm run clean && APP_ENV=production webpack --config webpack.config.js",
     "generate:dmg": "electron-installer-dmg builds/QuoteDP-darwin-x64/QuoteDP.app QuoteDP --out=builds",
-    "generate:application": "electron-packager ./ QuoteDP --out=builds --icon=assets/icons/icon.icns",
+    "generate:application": "electron-packager ./ QuoteDP --out=builds --icon=assets/icons/icon --platform=all",
     "package:mac": "npm run generate:application && npm run generate:dmg",
     "package": "npm run clean:builds && npm run build && npm run package:mac"
   },
@@ -54,6 +54,7 @@
     "dotenv": "^6.1.0",
     "electron-better-ipc": "^0.1.1",
     "electron-json-storage": "^4.1.4",
+    "electron-window-state": "^5.0.2",
     "emotion": "^9.2.12",
     "express": "^4.16.4",
     "fs": "0.0.1-security",
