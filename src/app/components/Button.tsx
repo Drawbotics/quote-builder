@@ -53,12 +53,37 @@ const styles = {
       box-shadow: var(--box-shadow-active);
     }
   `,
+  flat: css`
+    background: transparent;
+    color: var(--grey);
+    box-shadow: none !important;
+    transition: background var(--transition-duration-short) ease-in-out,
+      color var(--transition-duration-short) ease-in-out;
+
+    &:hover {
+      background: var(--secondary);
+      transform: none;
+    }
+
+    &:active {
+      color: var(--text-primary);
+    }
+  `,
   fullWidth: css`
     width: 100%;
     flex: 1;
   `,
   icon: css`
+    display: flex;
     margin-left: 10px;
+  `,
+  rowReverse: css`
+    flex-direction: row-reverse;
+
+    & [data-element="icon"] {
+      margin-left: 0;
+      margin-right: 10px;
+    }
   `,
 }
 
@@ -70,14 +95,18 @@ const Button: React.SFC<{
   reverse?: boolean,
   fullWidth?: boolean,
   disabled?: boolean,
-}> = ({ children, onClick, icon, reverse, fullWidth, disabled }) => {
+  flat?: boolean,
+  leftIcon?: boolean,
+}> = ({ children, onClick, icon, reverse, fullWidth, disabled, flat, leftIcon }) => {
   return (
     <button className={cx(styles.button, {
       [styles.reverse]: reverse,
       [styles.fullWidth]: fullWidth,
+      [styles.flat]: flat,
+      [styles.rowReverse]: leftIcon,
     })} onClick={onClick} disabled={disabled}>
-      {children}
-      {icon ? <div className={styles.icon}>{icon}</div> : null}
+      <span>{children}</span>
+      {icon ? <div className={styles.icon} data-element="icon">{icon}</div> : null}
     </button>
   );
 }

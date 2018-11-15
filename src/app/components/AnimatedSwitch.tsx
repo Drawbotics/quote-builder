@@ -7,6 +7,9 @@ import { css } from 'emotion';
 const styles = {
   wrapper: css`
     position: relative;
+    display: flex;
+    min-height: 0;
+    flex: 1;
 
     & .fade-enter {
       opacity: 0;

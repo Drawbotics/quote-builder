@@ -30,6 +30,7 @@ const styles = {
     background: var(--background-color);
     transition: background var(--transition-duration) ease-in-out;
     overflow-y: scroll;
+    display: flex;
   `,
 };
 
