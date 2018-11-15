@@ -113,9 +113,9 @@ const Selection: React.SFC<{
   icon: React.ReactElement<{}>,
   label: string,
   onClick?: () => void,
-}> = ({ icon, label }) => {
+}> = ({ icon, label, onClick }) => {
   return (
-    <div className={styles.selection}>
+    <div className={styles.selection} onClick={onClick}>
       <div className={styles.icon} data-element="icon">
         {icon}
       </div>
@@ -127,7 +127,9 @@ const Selection: React.SFC<{
 };
 
 
-class Quotes extends React.Component {
+class Quotes extends React.Component<{
+  history: any,
+}> {
   selections: unknown = null;
   button: unknown = null;
 
@@ -144,8 +146,9 @@ class Quotes extends React.Component {
   }
 
   render() {
+    const { history } = this.props;
     const { newSelectionOpen } = this.state;
-    const quotes = [0, 0, 0, 0];
+    const quotes = [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }];
     return (
       <div className={styles.quotes}>
         <div className={styles.header}>
@@ -155,8 +158,8 @@ class Quotes extends React.Component {
           <div className={styles.actions}>
             <div className={styles.action}>
               <div ref={(selections) => this.selections = selections} className={cx(styles.newSelection, { [styles.open]: newSelectionOpen })}>
-                <Selection label="From template" icon={<FileText />} />
-                <Selection label="Blank" icon={<File />} />
+                <Selection label="From template" icon={<FileText />} onClick={() => history.push('/new?template=true')} />
+                <Selection label="Blank" icon={<File />} onClick={() => history.push('/new?template=false')} />
               </div>
               <div ref={(button) => this.button = button}>
                 <Button onClick={() => this.setState({ newSelectionOpen: true })}>
@@ -169,7 +172,7 @@ class Quotes extends React.Component {
         <div className={styles.grid}>
           {quotes.map((quote, i) => (
             <div key={i} className={styles.cell}>
-              <QuoteCard draft={false} />
+              <QuoteCard draft={false} onClick={() => history.push(`/${quote.id}/edit`)} />
             </div>
           ))}
         </div>

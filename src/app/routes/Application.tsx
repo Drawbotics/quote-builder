@@ -42,8 +42,7 @@ class Application extends React.Component<{
 }> {
   render() {
     const { toggleTheme, activeTheme, location } = this.props;
-    // console.log(match, location);
-    const sidebarOpen = true;
+    const sidebarOpen = location.pathname !== '/new' && ! location.pathname.includes('/edit');
     return (
       <div className={styles.application}>
         <div className={styles.sidebar}>

@@ -156,7 +156,6 @@ const NavigationButton: React.SFC<{
   return (
     <Link to={to} style={{ textDecoration: 'none' }}>
       <div className={cx(styles.navigationButton, { [styles.active]: active })} data-element="navigation-button">
-        {/* <i className={styles.icon} data-feather={icon} data-element="nav-icon" /> */}
         <div className={styles.icon} data-element="nav-icon">
           {icon}
         </div>
@@ -183,7 +182,7 @@ const SideBar: React.SFC<{
         <img src={logoAlt} style={{ opacity: activeTheme === 'dark' ? 1 : 0 }} />
       </div>
       <div className={styles.navigation}>
-        <NavigationButton label="My quotes" icon={<File size={20} />} to="/quotes" active={pathname === '/quotes'} />
+        <NavigationButton label="My quotes" icon={<File size={20} />} to="/quotes" active={pathname !== '/exports' && pathname !== '/people'} />
         <NavigationButton label="My exports" icon={<DownloadCloud size={20} />} to="/exports" active={pathname === '/exports'} />
         <NavigationButton label="People" icon={<Users size={20} />} to="/people" active={pathname === '/people'} />
       </div>
@@ -198,8 +197,6 @@ const SideBar: React.SFC<{
           <div className={styles.icon} data-element="moon">
             <Moon size={20} />
           </div>
-          {/* <i className={styles.icon} data-feather="sun" data-element="sun" />
-          <i className={styles.icon} data-feather="moon" data-element="moon" /> */}
         </div>
         <span data-element="label">{activeTheme === 'light' ? 'Light mode' : 'Dark mode'}</span>
       </div>

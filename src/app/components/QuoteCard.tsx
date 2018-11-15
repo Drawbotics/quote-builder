@@ -94,11 +94,12 @@ const styles = {
 
 const QuoteCard: React.SFC<{
   draft: boolean,
-}> = ({ draft }) => {
+  onClick?: () => void,
+}> = ({ draft, onClick }) => {
   const type = draft ? 'Draft' : 'Finished';
   const colors = ["rgb(12, 116, 188)", "rgb(108, 108, 115)"];
   return (
-    <div className={styles.quoteCard}>
+    <div className={styles.quoteCard} onClick={onClick}>
       <div className={styles.cover} style={{ background: `linear-gradient(to left top, ${colors[0]}, ${colors[1]})` }} />
       <div className={styles.body}>
         <div className={styles.title}>
