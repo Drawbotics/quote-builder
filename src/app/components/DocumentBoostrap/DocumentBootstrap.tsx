@@ -25,7 +25,7 @@ const styles = {
     & .rotate-enter.rotate-enter-active, .rotate-reverse-enter.rotate-reverse-enter-active, .rotate-exit, .rotate-reverse-exit {
       opacity: 1;
       transform: none;
-      transition: all var(--transition-duration) ease-in-out;
+      transition: all var(--transition-duration) cubic-bezier(0.88, 0.17, 0.29, 0.85);
     }
 
     & .rotate-exit.rotate-exit-active, .rotate-reverse-enter {
@@ -45,10 +45,12 @@ class DocumentBoostrap extends React.Component<{}> {
   state = {
     step: 1,
     reverse: false,
+    values: {} as any,
   }
 
   render() {
-    const { step, reverse } = this.state;
+    const { step, reverse, values } = this.state;
+    const currentStep = questions[step - 1];
     return (
       <div className={styles.documentBootstrap}>
         <TransitionGroup
@@ -58,8 +60,10 @@ class DocumentBoostrap extends React.Component<{}> {
           })}>
           <CSSTransition key={step} timeout={400} classNames="rotate">
             <Step
+              onChange={(v: string, k: string) => this._handleChange(currentStep.slug, v, k)}
+              value={values[currentStep.slug]}
               progressLabel={`${step}/${MAX_STEP}`}
-              question={questions[step - 1]}
+              question={currentStep}
               goNext={step >= 1 ? (step === MAX_STEP ? this._handleFinish : this._goNext) : null}
               goBack={step === 1 ? null : this._goBack} />
           </CSSTransition>
@@ -82,6 +86,21 @@ class DocumentBoostrap extends React.Component<{}> {
     if (step < MAX_STEP) {
       this.setState({ step: step + 1, reverse: false });
     }
+  }
+
+  @autobind
+  _handleChange(stepKey: string, value: any, key: string) {
+    const { values } = this.state;
+    const currentStepValue = values[stepKey];
+    this.setState({
+      values: {
+        ...values,
+        [stepKey]: {
+          ...currentStepValue,
+          [key]: value,
+        },
+      },
+    });
   }
 
   @autobind

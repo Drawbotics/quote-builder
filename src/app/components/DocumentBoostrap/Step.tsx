@@ -37,6 +37,8 @@ const styles = {
       margin-left: var(--margin);
     }
   `,
+  content: css`
+  `,
 };
 
 
@@ -45,14 +47,20 @@ const Step: React.SFC<{
   progressLabel: string,
   goNext: (() => void) | null,
   goBack: (() => void) | null,
-}> = ({ question, progressLabel, goNext, goBack }) => {
+  onChange: (v: string, k: string) => void,
+  value: any,
+}> = ({ question, progressLabel, goNext, goBack, onChange, value }) => {
+  const { component: Component, title } = question;
   return (
     <div className={styles.step}>
       <div className={styles.subtitle}>
         {`Question ${progressLabel}`}
       </div>
       <div className={styles.title}>
-        <Title>{question.title}</Title>
+        <Title>{title}</Title>
+      </div>
+      <div className={styles.content}>
+        <Component onChange={onChange} value={value} />
       </div>
       <div className={styles.navigation}>
         {goBack ?

@@ -2,13 +2,18 @@ import React from 'react';
 import { css } from 'emotion';
 
 
+// interface OfferTableValue {
+//   dunno: string
+// }
+
+
 const styles = {
   offerTable: css`
   `,
 }
 
 
-const OfferTable: React.SFC = () => {
+const OfferTable: React.StatelessComponent<any> = () => {
   return (
     <div className={styles.offerTable}>
 
