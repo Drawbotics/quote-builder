@@ -70,7 +70,7 @@ const Step: React.SFC<{
         : null}
         {goNext ?
           <div className={styles.button} onClick={goNext}>
-            <Button icon={<ArrowRight size={15} />}>Next</Button>
+            <Button icon={<ArrowRight size={15} />} disabled={! value}>Next</Button>
           </div>
         : null}
       </div>

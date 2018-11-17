@@ -1,7 +1,7 @@
 import React from 'react';
 import { css, cx } from 'emotion';
 
-import { openFileSelector, FileTypes } from './FileSelector';
+import { openFileSelector } from './FileSelector';
 
 
 const styles = {
@@ -67,7 +67,7 @@ const ProfilePicture: React.SFC<{
   onSelectImage?: (f: string) => void,
 }> = ({ photo, onSelectImage }) => {
   const onClickProfilePic: any = onSelectImage
-    ? () => openFileSelector(FileTypes.Image, [{ name: 'Images', extensions: ['jpg', 'png'] }], onSelectImage)
+    ? () => openFileSelector('Image', [{ name: 'Images', extensions: ['jpg', 'png'] }], onSelectImage)
     : (x: string) => x;
   return (
     <div

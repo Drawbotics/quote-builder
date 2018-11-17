@@ -39,6 +39,10 @@ const styles = {
         box-shadow: var(--box-shadow);
         transform: initial;
       }
+
+      > * {
+        pointer-events: none;
+      }
     }
   `,
   reverse: css`
@@ -90,7 +94,7 @@ const styles = {
 
 const Button: React.SFC<{
   children: string,
-  onClick?: (e: any) => void,
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void,
   icon?: React.ReactElement<{}>,
   reverse?: boolean,
   fullWidth?: boolean,
@@ -104,7 +108,7 @@ const Button: React.SFC<{
       [styles.fullWidth]: fullWidth,
       [styles.flat]: flat,
       [styles.rowReverse]: leftIcon,
-    })} onClick={onClick} disabled={disabled}>
+    })} onClick={disabled ? undefined : onClick} disabled={disabled}>
       <span>{children}</span>
       {icon ? <div className={styles.icon} data-element="icon">{icon}</div> : null}
     </button>

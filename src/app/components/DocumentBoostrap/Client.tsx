@@ -22,12 +22,13 @@ const Client: React.SFC<{
   onChange: (v: string, k: string) => void,
   value: ClientValue,
 }> = ({ onChange, value }) => {
-  const { companyName, contactName } = get(value, '', {});
+  const companyName = get(value, 'companyName', '');
+  const contactName = get(value, 'contactName', '');
   return (
     <div className={styles.client}>
       <InputGroup>
-        <Input name="company" onChange={onChange} placeholder="Company name" value={companyName} />
-        <Input name="contact" onChange={onChange} placeholder="Contact name" value={contactName} />
+        <Input name="companyName" onChange={onChange} placeholder="Company name" value={companyName} />
+        <Input name="contactName" onChange={onChange} placeholder="Contact name" value={contactName} />
       </InputGroup>
     </div>
   );

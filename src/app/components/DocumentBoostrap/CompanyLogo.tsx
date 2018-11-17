@@ -37,7 +37,7 @@ const CompanyLogo: React.SFC<{
         <FileSelector label="Click to import" onFileSelect={(file) => onChange(file, 'logo')} />
       </div>
       <div className={styles.confirm}>
-        {value ? <AnimatedCheckmark /> : null}
+        <AnimatedCheckmark checked={!! value} />
       </div>
     </div>
   );

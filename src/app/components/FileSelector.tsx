@@ -70,14 +70,14 @@ interface FileFilter {
 }
 
 
-export enum FileTypes {
-  Image,
-  JSON,
-  Text,
+enum FileTypes {
+  Image='Image',
+  JSON='JSON',
+  Text='Text',
 }
 
 
-export function openFileSelector(fileType: FileTypes, filters: FileFilter[], onFinish: (f: string) => void) {
+export function openFileSelector(fileType: FileTypes | keyof typeof FileTypes, filters: FileFilter[], onFinish: (f: string) => void) {
   const { dialog } = remote;
   const filepaths = dialog.showOpenDialog(remote.getCurrentWindow(), {
     properties: ['openFile'],
@@ -107,7 +107,7 @@ const FileSelector: React.SFC<{
   label?: string,
   onFileSelect: (f: string) => void,
   filters?: FileFilter[],
-  fileType?: FileTypes,
+  fileType?: FileTypes | keyof typeof FileTypes,
 }> = ({
   label,
   onFileSelect,
