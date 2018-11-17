@@ -1,5 +1,8 @@
 import React from 'react';
 import { css, keyframes } from 'emotion';
+import { remote } from 'electron';
+import { last } from 'lodash';
+import fs from 'fs';
 
 import importIcon from '../images/import.svg';
 
@@ -46,6 +49,7 @@ const styles = {
   `,
   icon: css`
     height: 70%;
+    max-height: 80px;
     transform-origin: center bottom;
     animation-duration: 1s;
   `,
@@ -55,19 +59,63 @@ const styles = {
     font-size: 0.9rem;
     white-space: nowrap;
     margin-top: calc(var(--margin) / 2);
+    text-align: center;
   `,
+}
+
+
+interface FileFilter {
+  name: string
+  extensions: string[]
+}
+
+
+export enum FileTypes {
+  Image,
+  JSON,
+  Text,
+}
+
+
+export function openFileSelector(fileType: FileTypes, filters: FileFilter[], onFinish: (f: string) => void) {
+  const { dialog } = remote;
+  const filepaths = dialog.showOpenDialog(remote.getCurrentWindow(), {
+    properties: ['openFile'],
+    filters,
+  });
+  if (filepaths) {
+    const file = filepaths[0];
+    const fileExt = last(file.split('.'));
+    const data = fs.readFileSync(filepaths[0], 'base64');
+    if (! data) {
+      alert(`An error ocurred reading the file`);
+    }
+    else {
+      if (fileType === FileTypes.Image) {
+        const dataURL = `data:image/${fileExt};base64,${data}`;
+        onFinish ? onFinish(dataURL) : null;
+      }
+      else {
+        console.warn(`File type ${fileType} not supported`);
+      }
+    }
+  }
 }
 
 
 const FileSelector: React.SFC<{
   label?: string,
-  onFileSelect: () => void,
+  onFileSelect: (f: string) => void,
+  filters?: FileFilter[],
+  fileType?: FileTypes,
 }> = ({
   label,
   onFileSelect,
+  filters=[{ name: 'Images', extensions: ['jpg', 'png'] }],
+  fileType=FileTypes.Image,
 }) => {
   return (
-    <div className={styles.fileSelector} onClick={onFileSelect}>
+    <div className={styles.fileSelector} onClick={() => openFileSelector(fileType, filters, onFileSelect)}>
       <img src={importIcon} className={styles.icon} data-element="icon" />
       {label ? <div className={styles.label}>
         {label}

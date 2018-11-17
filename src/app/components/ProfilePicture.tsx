@@ -1,6 +1,8 @@
 import React from 'react';
 import { css, cx } from 'emotion';
 
+import { openFileSelector, FileTypes } from './FileSelector';
+
 
 const styles = {
   photoWrapper: css`
@@ -62,10 +64,15 @@ const styles = {
 
 const ProfilePicture: React.SFC<{
   photo: string,
-  onClick?: () => void,
-}> = ({ photo, onClick }) => {
+  onSelectImage?: (f: string) => void,
+}> = ({ photo, onSelectImage }) => {
+  const onClickProfilePic: any = onSelectImage
+    ? () => openFileSelector(FileTypes.Image, [{ name: 'Images', extensions: ['jpg', 'png'] }], onSelectImage)
+    : (x: string) => x;
   return (
-    <div className={cx(styles.photoWrapper, { [styles.clickDisabled]: ! onClick })} onClick={onClick}>
+    <div
+      className={cx(styles.photoWrapper, { [styles.clickDisabled]: ! onSelectImage })}
+      onClick={() => onClickProfilePic()}>
       <div className={styles.photo}>
         {photo ? <img src={photo} /> : null}
       </div>

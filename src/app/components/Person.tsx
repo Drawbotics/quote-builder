@@ -3,9 +3,6 @@ import { css } from 'emotion';
 import { Share } from 'react-feather';
 import { get } from 'lodash';
 import autobind from 'autobind-decorator';
-import fs from 'fs';
-import { last } from 'lodash';
-import { remote } from 'electron';
 
 import Tabs from './Tabs';
 import ProfilePicture from './ProfilePicture';
@@ -138,7 +135,7 @@ class Person extends React.Component<{
     return (
       <div className={styles.person}>
         <div className={styles.profile}>
-          <ProfilePicture photo={editing.profilePicture || person.profilePicture} onClick={() => this._handleSelectFile('profilePicture')} />
+          <ProfilePicture photo={editing.profilePicture || person.profilePicture} onSelectImage={(f) => this._handleChangeField(f, 'profilePicture')} />
           <div className={styles.langSwitcher}>
             <Tabs
               value={language}
@@ -171,7 +168,7 @@ class Person extends React.Component<{
               <img src={editing.signature || person.signature} />
             </div>
             <div className={styles.fileSelector}>
-              <FileSelector label="Pick signature" onFileSelect={() => this._handleSelectFile('signature', ['png'])} />
+              <FileSelector label="Pick signature" onFileSelect={(file) => this._handleChangeField(file, 'signature')} />
             </div>
           </div>
           <div className={styles.actions}>
@@ -197,27 +194,6 @@ class Person extends React.Component<{
         </div>
       </div>
     );
-  }
-
-  @autobind
-  _handleSelectFile(key: string, types=['jpg', 'png']) {
-    const { dialog } = remote;
-    const filepaths = dialog.showOpenDialog(remote.getCurrentWindow(), {
-      properties: ['openFile'],
-      filters: [{ name: 'Images', extensions: types }],
-    });
-    if (filepaths) {
-      const file = filepaths[0];
-      const fileExt = last(file.split('.'));
-      const data = fs.readFileSync(filepaths[0], 'base64');
-      if (! data) {
-        alert(`An error ocurred reading the file`);
-      }
-      else {
-        const dataURL = `data:image/${fileExt};base64,${data}`;
-        this._handleChangeField(dataURL, key);
-      }
-    }
   }
 
   @autobind
