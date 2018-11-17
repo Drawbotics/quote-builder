@@ -40,15 +40,15 @@ const styles = {
   `,
   checked: css`
     transform: none;
-    animation: ${fill} calc(var(--transition-duration) * 2) calc(var(--transition-duration) * 2 - 0.2s) ease-in-out forwards,
-      ${scale} var(--transition-duration) calc(var(--transition-duration) * 2) ease-in-out both;
+    animation: ${fill} calc(var(--transition-duration) * 2) calc(var(--transition-duration) - 0.1s) ease-in-out forwards,
+      ${scale} var(--transition-duration) var(--transition-duration) ease-in-out both;
 
     & > [data-element="circle"] {
-      animation: ${stroke} calc(var(--transition-duration) * 2) ${curve} forwards;
+      animation: ${stroke} var(--transition-duration) ${curve} forwards;
     }
 
     & > [data-element="check"] {
-      animation: ${stroke} var(--transition-duration) ${curve} calc(var(--transition-duration) * 2) forwards;
+      animation: ${stroke} var(--transition-duration) ${curve} var(--transition-duration) forwards;
     }
   `,
   circle: css`

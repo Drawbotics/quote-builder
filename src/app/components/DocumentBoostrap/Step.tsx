@@ -9,7 +9,7 @@ import Title from '../Title';
 
 const styles = {
   step: css`
-    height: 400px;
+    min-height: 400px;
     position: absolute;
     display: flex;
     align-items: center;

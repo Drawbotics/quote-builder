@@ -10,11 +10,14 @@ const styles = {
     width: 150px;
     border-radius: 1000px;
     background: var(--tertiary);
-    border: 3px solid var(--primary);
+    border: 3px solid var(--secondary);
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background var(--transition-duration) ease-in-out;
+    transition: all var(--transition-duration) ease-in-out;
+  `,
+  selected: css`
+    border-color: var(--primary);
   `,
   photo: css`
     position: relative;
@@ -64,14 +67,18 @@ const styles = {
 
 const ProfilePicture: React.SFC<{
   photo: string,
+  selected?: boolean,
   onSelectImage?: (f: string) => void,
-}> = ({ photo, onSelectImage }) => {
+}> = ({ photo, onSelectImage, selected=true }) => {
   const onClickProfilePic: any = onSelectImage
     ? () => openFileSelector('Image', [{ name: 'Images', extensions: ['jpg', 'png'] }], onSelectImage)
     : (x: string) => x;
   return (
     <div
-      className={cx(styles.photoWrapper, { [styles.clickDisabled]: ! onSelectImage })}
+      className={cx(styles.photoWrapper, {
+        [styles.clickDisabled]: ! onSelectImage,
+        [styles.selected]: selected,
+      })}
       onClick={() => onClickProfilePic()}>
       <div className={styles.photo}>
         {photo ? <img src={photo} /> : null}
