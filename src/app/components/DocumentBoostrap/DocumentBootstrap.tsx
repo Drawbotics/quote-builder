@@ -60,7 +60,7 @@ class DocumentBoostrap extends React.Component<{}> {
           })}>
           <CSSTransition key={step} timeout={400} classNames="rotate">
             <Step
-              onChange={(v: string, k: string) => this._handleChange(currentStep.slug, v, k)}
+              onChange={(v: string | any, k: string) => this._handleChange(currentStep.slug, v, k)}
               value={values[currentStep.slug]}
               progressLabel={`${step}/${MAX_STEP}`}
               question={currentStep}

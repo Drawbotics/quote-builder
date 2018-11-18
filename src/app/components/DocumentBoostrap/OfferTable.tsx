@@ -1,10 +1,12 @@
 import React from 'react';
 import { css } from 'emotion';
 
+import TableEditor, { TableType } from '../TableEditor';
 
-// interface OfferTableValue {
-//   dunno: string
-// }
+
+interface OfferTableValue {
+  table: TableType
+}
 
 
 const styles = {
@@ -13,10 +15,13 @@ const styles = {
 }
 
 
-const OfferTable: React.StatelessComponent<any> = () => {
+const OfferTable: React.SFC<{
+  onChange: (v: TableType, k: string) => void,
+  value: OfferTableValue,
+}> = ({ onChange, value }) => {
   return (
     <div className={styles.offerTable}>
-
+      <TableEditor />
     </div>
   );
 }
