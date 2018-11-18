@@ -1,6 +1,6 @@
 ### Data structure
 
-The output of the editor is 2 objects of the following form:
+The output of the editor is an object of the following form:
 
 ```javascript
 tables = [
@@ -23,19 +23,16 @@ tables = [
         ...
       },
     ],
-  },
-]
-```
-
-```javascript
-footers = [
-  {
-    label: string
-    comment: string
-    value: string
-  },
-  {
-    ...
+    footer: [
+      {
+        label: string
+        comment: string
+        value: string
+      },
+      {
+        ...
+      },
+    ],
   },
 ]
 ```

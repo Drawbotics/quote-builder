@@ -5,7 +5,7 @@ import TableEditor, { TableType } from '../TableEditor';
 
 
 interface OfferTableValue {
-  table: TableType
+  table: TableType[]
 }
 
 

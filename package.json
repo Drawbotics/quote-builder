@@ -58,6 +58,7 @@
     "emotion": "^9.2.12",
     "express": "^4.16.4",
     "fs": "0.0.1-security",
+    "json-loader": "^0.5.7",
     "lodash": "^4.17.11",
     "node-vibrant": "^3.0.0",
     "normalize.css": "^8.0.0",
@@ -66,6 +67,7 @@
     "react-feather": "^1.1.4",
     "react-router-dom": "^4.3.1",
     "react-transition-group": "^2.5.0",
-    "uuid": "^3.3.2"
+    "uuid": "^3.3.2",
+    "yaml-loader": "^0.5.0"
   }
 }

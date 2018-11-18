@@ -55,6 +55,17 @@ module.exports = {
         test: require.resolve('node-vibrant/dist/vibrant.js'),
         use: 'exports-loader?Vibrant',
       },
+      {
+        test: /\.yml$/,
+        use: [
+          {
+            loader: 'json-loader',
+          },
+          {
+            loader: 'yaml-loader',
+          },
+        ],
+      },
     ],
   },
 };
