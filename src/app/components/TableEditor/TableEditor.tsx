@@ -88,7 +88,7 @@ class TableEditor extends React.Component {
     const { tables } = this.state;
     if (newTable.body.length === 0 && newTable.footers.length === 0) {
       this.setState({
-        tables: [...tables.slice(0, index), ...tables.slice(index + 1)],
+        tables: [ ...tables.slice(0, index), ...tables.slice(index + 1) ],
       });
     }
     else {

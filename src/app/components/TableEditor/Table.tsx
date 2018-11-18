@@ -41,13 +41,13 @@ class Table extends React.Component<{
           {body.map((row, i) => (
             <Row row={row} key={i} onClickRemove={() => this._handleModifyRow('remove', i)} />
           ))}
-          <Row onClickAdd={() => undefined} />
+          <Row onClickAdd={() => this._handleModifyRow('add')} />
         </div>
         <div className={styles.footers}>
           {footers.map((footer, i) => (
             <Footer footer={footer} key={i} onClickRemove={() => this._handleModifyFooter('remove', i)} />
           ))}
-          <Footer onClickAdd={() => undefined} />
+          <Footer onClickAdd={() => this._handleModifyFooter('add')} />
         </div>
       </div>
     );
@@ -59,26 +59,34 @@ class Table extends React.Component<{
   }
 
   @autobind
-  _handleModifyRow(operation: string, index: number, value?: TableRowType) {
+  _handleModifyRow(operation: string, index=0, value?: TableRowType) {
     const { onChange, table } = this.props;
     const { body } = table;
     if (operation === 'remove') {
       onChange({
         ...table,
-        body: [...body.slice(0, index), ...body.slice(index + 1)],
+        body: [ ...body.slice(0, index), ...body.slice(index + 1) ],
       });
+    }
+    else if (operation === 'add') {
+      const newRow = { phase: '', service: '', comment: '', price: '' };
+      onChange({ ...table, body: [ ...body, newRow ] });
     }
   }
 
   @autobind
-  _handleModifyFooter(operation: string, index: number, value?: FooterRowType) {
+  _handleModifyFooter(operation: string, index=0, value?: FooterRowType) {
     const { onChange, table } = this.props;
     const { footers } = table;
     if (operation === 'remove') {
       onChange({
         ...table,
-        footers: [...footers.slice(0, index), ...footers.slice(index + 1)],
+        footers: [ ...footers.slice(0, index), ...footers.slice(index + 1) ],
       });
+    }
+    else if (operation === 'add') {
+      const newFooter = { label: '', comment: '', value: '' };
+      onChange({ ...table, footers: [ ...footers, newFooter ] });
     }
   }
 }
