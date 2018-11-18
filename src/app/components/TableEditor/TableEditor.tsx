@@ -34,7 +34,13 @@ const initialTable: TableType = {
       price: '€3000'
     }
   ],
-  footers: [],
+  footers: [
+    {
+      label: 'Total',
+      comment: '',
+      value: '€1.500.000',
+    },
+  ],
 }
 
 
