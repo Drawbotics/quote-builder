@@ -61,17 +61,22 @@ const styles = {
 }
 
 class Footer extends React.Component<{
-  footer: FooterRowType,
+  footer?: FooterRowType,
+  onClickAdd?: () => void,
+  onClickRemove?: () => void,
 }> {
   render() {
-    const { footer } = this.props;
+    const { footer={} as FooterRowType, onClickAdd, onClickRemove } = this.props;
     return (
       <div className={styles.row}>
-        <div className={styles.removeIcon} data-element="remove">
-          <ActionButton label="—" onClick={() => undefined} />
-        </div>
+        {onClickRemove ?
+          <div className={styles.removeIcon} data-element="remove">
+            <ActionButton label="—" onClick={onClickRemove} />
+          </div>
+        : null}
         <div className={styles.cell} style={{ textAlign: 'left' }}>
           {footer.label}
+          {onClickAdd ? <ActionButton label="＋" onClick={onClickAdd} /> : null}
         </div>
         <div className={styles.cell}>
           {footer.comment}

@@ -12,12 +12,13 @@ const styles = {
     justify-content: center;
     background: var(--secondary);
     color: var(--text-primary);
-    transition: all var(--transition-duration-short) ease-in-out;
+    transition: all var(--transition-duration) ease-in-out;
 
     &:hover {
       cursor: pointer;
       background: var(--primary);
       color: var(--white);
+      transition: all var(--transition-duration-short) ease-in-out;
     }
   `,
 }

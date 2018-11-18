@@ -56,17 +56,22 @@ const styles = {
 
 
 class Row extends React.Component <{
-  row: TableRowType,
+  row?: TableRowType,
+  onClickAdd?: () => void,
+  onClickRemove?: () => void,
 }> {
   render() {
-    const { row } = this.props;
+    const { row={} as TableRowType, onClickAdd, onClickRemove } = this.props;
     return (
       <div className={styles.row}>
-        <div className={styles.removeIcon} data-element="remove">
-          <ActionButton label="—" onClick={() => undefined} />
-        </div>
+        {onClickRemove ?
+          <div className={styles.removeIcon} data-element="remove">
+            <ActionButton label="—" onClick={onClickRemove} />
+          </div>
+        : null}
         <div className={styles.cell}>
           {row.phase}
+          {onClickAdd ? <ActionButton label="＋" onClick={onClickAdd} /> : null}
         </div>
         <div className={styles.cell}>
           {row.service}

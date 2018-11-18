@@ -37,13 +37,15 @@ class Table extends React.Component<{
         <div className={styles.body}>
           <Header header={header} />
           {body.map((row, i) => (
-            <Row row={row} key={i} />
+            <Row row={row} key={i} onClickRemove={() => undefined} />
           ))}
+          <Row onClickAdd={() => undefined} />
         </div>
         <div className={styles.footers}>
           {footers.map((footer, i) => (
-            <Footer footer={footer} key={i} />
+            <Footer footer={footer} key={i} onClickRemove={() => undefined} />
           ))}
+          <Footer onClickAdd={() => undefined} />
         </div>
       </div>
     );
