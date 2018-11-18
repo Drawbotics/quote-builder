@@ -14,6 +14,7 @@ const styles = {
     display: flex;
     align-items: center;
     flex-direction: column;
+    max-height: calc(100% - var(--margin) * 5);
   `,
   title: css`
     margin-bottom: calc(var(--margin) * 2);
@@ -31,6 +32,7 @@ const styles = {
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-bottom: calc(--var(margin) * 3);
   `,
   button: css`
     &:last-child:not(:nth-child(1)) {

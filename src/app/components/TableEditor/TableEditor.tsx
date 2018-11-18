@@ -52,6 +52,7 @@ const styles = {
     margin-bottom: var(--margin);
   `,
   table: css`
+    margin-bottom: calc(var(--margin) * 2);
   `,
   add: css`
     margin-bottom: var(--margin);
@@ -71,12 +72,12 @@ class TableEditor extends React.Component {
         <div className={styles.tables}>
           {tables.map((table, i) => (
             <div className={styles.table} key={i}>
-              <Table table={table} />
+              <Table table={table} onChange={(t) => this._handleModifyTable(t, i)} />
             </div>
           ))}
         </div>
         <div className={styles.add}>
-          <Button>Add table</Button>
+          <Button onClick={this._handleAddTable}>Add table</Button>
         </div>
       </div>
     );
@@ -85,8 +86,26 @@ class TableEditor extends React.Component {
   @autobind
   _handleModifyTable(newTable: TableType, index: number) {
     const { tables } = this.state;
+    if (newTable.body.length === 0 && newTable.footers.length === 0) {
+      this.setState({
+        tables: [...tables.slice(0, index), ...tables.slice(index + 1)],
+      });
+    }
+    else {
+      this.setState({
+        tables: Object.assign([], tables, { [index]: newTable }),
+      });
+    }
+  }
+
+  @autobind
+  _handleAddTable() {
+    const { tables } = this.state;
     this.setState({
-      tables: Object.assign([], tables, { [index]: newTable }),
+      tables: [
+        ...tables,
+        initialTable,
+      ],
     });
   }
 }

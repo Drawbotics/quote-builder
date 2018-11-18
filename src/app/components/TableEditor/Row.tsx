@@ -15,22 +15,6 @@ const styles = {
       background var(--transition-duration-short) ease-in-out;
     font-size: 0.9rem;
     color: var(--text-primary);
-
-    &:hover {
-      [data-element="remove"] {
-        opacity: 1;
-        transform: scale(1);
-      }
-    }
-
-    &::after {
-      position: absolute;
-      content: ' ';
-      right: -40px;
-      top: 0;
-      height: 100%;
-      width: 40px;
-    }
   `,
   cell: css`
     flex: 1;
@@ -47,10 +31,7 @@ const styles = {
     position: absolute;
     right: calc(var(--margin) * -2);
     top: calc(50% - 15px);
-    transform: scale(0);
-    opacity: 0;
     z-index: 9;
-    transition: all var(--transition-duration-short) ease-in-out;
   `,
 }
 

@@ -1,7 +1,8 @@
 import React from 'react';
 import { css } from 'emotion';
+import autobind from 'autobind-decorator';
 
-import { TableType } from './types';
+import { TableType, TableRowType, FooterRowType } from './types';
 import Row from './Row';
 import Header from './Header';
 import Footer from './Footer';
@@ -28,6 +29,7 @@ const styles = {
 
 class Table extends React.Component<{
   table: TableType,
+  onChange: (newTable: TableType) => void,
 }> {
   render() {
     const { table } = this.props;
@@ -37,18 +39,47 @@ class Table extends React.Component<{
         <div className={styles.body}>
           <Header header={header} />
           {body.map((row, i) => (
-            <Row row={row} key={i} onClickRemove={() => undefined} />
+            <Row row={row} key={i} onClickRemove={() => this._handleModifyRow('remove', i)} />
           ))}
           <Row onClickAdd={() => undefined} />
         </div>
         <div className={styles.footers}>
           {footers.map((footer, i) => (
-            <Footer footer={footer} key={i} onClickRemove={() => undefined} />
+            <Footer footer={footer} key={i} onClickRemove={() => this._handleModifyFooter('remove', i)} />
           ))}
           <Footer onClickAdd={() => undefined} />
         </div>
       </div>
     );
+  }
+
+  @autobind
+  _hanldleModifyHeader() {
+    // const { onChange } = this.props;
+  }
+
+  @autobind
+  _handleModifyRow(operation: string, index: number, value?: TableRowType) {
+    const { onChange, table } = this.props;
+    const { body } = table;
+    if (operation === 'remove') {
+      onChange({
+        ...table,
+        body: [...body.slice(0, index), ...body.slice(index + 1)],
+      });
+    }
+  }
+
+  @autobind
+  _handleModifyFooter(operation: string, index: number, value?: FooterRowType) {
+    const { onChange, table } = this.props;
+    const { footers } = table;
+    if (operation === 'remove') {
+      onChange({
+        ...table,
+        footers: [...footers.slice(0, index), ...footers.slice(index + 1)],
+      });
+    }
   }
 }
 
