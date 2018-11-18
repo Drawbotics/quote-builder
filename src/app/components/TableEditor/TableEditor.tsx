@@ -4,30 +4,46 @@ import { css } from 'emotion';
 
 import Button from '../Button';
 import Table from './Table';
+import { TableType } from './types';
 
 
-export interface TableType {
-  header: object
-  body: object[]
-  footers: object[]
+const initialTable: TableType = {
+  header: {
+    phase: 'Phase',
+    service: 'Service',
+    comment: 'Comment',
+    price: 'Price',
+  },
+  body: [
+    {
+      phase: 'Teasing',
+      service: '3D Exterior',
+      comment: 'Blablabla',
+      price: '€3000'
+    }
+  ],
+  footers: [],
 }
 
 
 const styles = {
   tableEditor: css`
+    width: 100%;
   `,
   tables: css`
+    margin-bottom: var(--margin);
   `,
   table: css`
   `,
   add: css`
+    margin-bottom: var(--margin);
   `,
 }
 
 
 class TableEditor extends React.Component {
   state = {
-    tables: [],
+    tables: [initialTable],
   }
 
   render() {
@@ -35,9 +51,9 @@ class TableEditor extends React.Component {
     return (
       <div className={styles.tableEditor}>
         <div className={styles.tables}>
-          {tables.map((table) => (
-            <div className={styles.table}>
-              <Table />
+          {tables.map((table, i) => (
+            <div className={styles.table} key={i}>
+              <Table table={table} />
             </div>
           ))}
         </div>
