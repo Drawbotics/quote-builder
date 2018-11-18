@@ -10,11 +10,11 @@ const styles = {
     border-left: 1px solid var(--line-color);
     border-bottom: 1px solid var(--line-color);
     color: var(--grey);
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight: 600;
     transition: all var(--transition-duration) ease-in-out;
   `,
-  column: css`
+  cell: css`
     flex: 1;
     border-right: 1px solid var(--line-color);
     padding: calc(var(--padding) / 2) var(--padding);
@@ -22,6 +22,7 @@ const styles = {
 
     &:last-child {
       border-right: 0;
+      text-align: right;
     }
   `,
 }
@@ -32,16 +33,16 @@ const Header: React.SFC<{
 }> = ({ header }) => {
   return (
     <div className={styles.header}>
-      <div className={styles.column}>
+      <div className={styles.cell}>
         {header.phase}
       </div>
-      <div className={styles.column}>
+      <div className={styles.cell}>
         {header.service}
       </div>
-      <div className={styles.column}>
+      <div className={styles.cell}>
         {header.comment}
       </div>
-      <div className={styles.column}>
+      <div className={styles.cell}>
         {header.price}
       </div>
     </div>

@@ -20,6 +20,18 @@ const initialTable: TableType = {
       service: '3D Exterior',
       comment: 'Blablabla',
       price: '€3000'
+    },
+    {
+      phase: '',
+      service: '3D Exterior',
+      comment: 'Blablabla',
+      price: '€3000'
+    },
+    {
+      phase: 'Teasing',
+      service: '3D Exterior',
+      comment: 'Blablabla',
+      price: '€3000'
     }
   ],
   footers: [],
