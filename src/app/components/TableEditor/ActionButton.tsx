@@ -13,6 +13,7 @@ const styles = {
     background: var(--secondary);
     color: var(--text-primary);
     transition: all var(--transition-duration) ease-in-out;
+    pointer-events: all;
 
     &:hover {
       cursor: pointer;

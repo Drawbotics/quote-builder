@@ -1,14 +1,14 @@
 export interface TableRowType {
-  phase: string
+  phase?: string
   service: string
-  comment: string
+  comment?: string
   price: string
 }
 
 
 export interface FooterRowType {
-  label: string
-  comment: string
+  label?: string
+  comment?: string
   value: string
 }
 

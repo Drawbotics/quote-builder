@@ -39,7 +39,11 @@ class Table extends React.Component<{
         <div className={styles.body}>
           <Header header={header} />
           {body.map((row, i) => (
-            <Row row={row} key={i} onClickRemove={() => this._handleModifyRow('remove', i)} />
+            <Row
+              row={row}
+              key={i}
+              onClickRemove={() => this._handleModifyRow('remove', i)}
+              onChange={(v) => this._handleModifyRow('modify', i, v)} />
           ))}
           <Row onClickAdd={() => this._handleModifyRow('add')} />
         </div>
@@ -71,6 +75,12 @@ class Table extends React.Component<{
     else if (operation === 'add') {
       const newRow = { phase: '', service: '', comment: '', price: '' };
       onChange({ ...table, body: [ ...body, newRow ] });
+    }
+    else if (operation === 'modify') {
+      onChange({
+        ...table,
+        body: Object.assign([], body, { [index]: value }),
+      });
     }
   }
 
