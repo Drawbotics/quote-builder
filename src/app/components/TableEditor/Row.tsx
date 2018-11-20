@@ -45,7 +45,7 @@ const styles = {
     }
 
     &:focus {
-      box-shadow: inset 0px 0px 0px 3px var(--primary);
+      box-shadow: inset 0px 0px 0px 2px var(--primary);
     }
   `,
   disabledCell: css`

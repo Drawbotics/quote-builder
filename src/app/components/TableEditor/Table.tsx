@@ -49,7 +49,11 @@ class Table extends React.Component<{
         </div>
         <div className={styles.footers}>
           {footers.map((footer, i) => (
-            <Footer footer={footer} key={i} onClickRemove={() => this._handleModifyFooter('remove', i)} />
+            <Footer
+              key={i}
+              footer={footer}
+              onClickRemove={() => this._handleModifyFooter('remove', i)}
+              onChange={(v) => this._handleModifyFooter('modify', i, v)}/>
           ))}
           <Footer onClickAdd={() => this._handleModifyFooter('add')} />
         </div>
@@ -97,6 +101,12 @@ class Table extends React.Component<{
     else if (operation === 'add') {
       const newFooter = { label: '', comment: '', value: '' };
       onChange({ ...table, footers: [ ...footers, newFooter ] });
+    }
+    else if (operation === 'modify') {
+      onChange({
+        ...table,
+        footers: Object.assign([], footers, { [index]: value }),
+      });
     }
   }
 }
