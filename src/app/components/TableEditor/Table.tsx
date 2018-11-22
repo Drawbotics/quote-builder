@@ -37,7 +37,7 @@ class Table extends React.Component<{
     return (
       <div className={styles.table}>
         <div className={styles.body}>
-          <Header header={header} />
+          <Header header={header} onChange={this._hanldleModifyHeader} />
           {body.map((row, i) => (
             <Row
               row={row}
@@ -62,8 +62,9 @@ class Table extends React.Component<{
   }
 
   @autobind
-  _hanldleModifyHeader() {
-    // const { onChange } = this.props;
+  _hanldleModifyHeader(value: TableRowType) {
+    const { onChange, table } = this.props;
+    onChange({ ...table, header: value });
   }
 
   @autobind

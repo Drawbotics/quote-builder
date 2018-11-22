@@ -1,5 +1,6 @@
 import React from 'react';
 import { css } from 'emotion';
+import autobind from 'autobind-decorator';
 
 import { TableRowType } from './types';
 
@@ -9,44 +10,60 @@ const styles = {
     display: flex;
     border-left: 1px solid var(--line-color);
     border-bottom: 1px solid var(--line-color);
-    color: var(--grey);
-    font-size: 0.85rem;
-    font-weight: 600;
     transition: all var(--transition-duration) ease-in-out;
   `,
   cell: css`
     flex: 1;
+    border: none;
     border-right: 1px solid var(--line-color);
     padding: calc(var(--padding) / 2) var(--padding);
-    transition: border-color var(--transition-duration) ease-in-out;
+    transition: all var(--transition-duration) ease-in-out,
+      box-shadow var(--transition-duration-short) ease-in-out;
+    outline: none;
+    color: var(--grey);
+    font-size: 0.85rem;
+    font-weight: 600;
 
     &:last-child {
       border-right: 0;
       text-align: right;
     }
+
+    &:hover {
+      cursor: pointer;
+      background: var(--primary-transparent);
+      transition: background var(--transition-duration-short) ease-in-out
+    }
+
+    &:focus {
+      box-shadow: inset 0px 0px 0px 2px var(--primary);
+    }
   `,
 }
 
 
-const Header: React.SFC<{
+class Header extends React.Component <{
   header: TableRowType,
-}> = ({ header }) => {
-  return (
-    <div className={styles.header}>
-      <div className={styles.cell}>
-        {header.phase}
+  onChange: (v: TableRowType) => void,
+}> {
+  render() {
+    const { header } = this.props;
+    return (
+      <div className={styles.header}>
+        <input name="phase" className={styles.cell} value={header.phase} onChange={this._handleChangeValue} />
+        <input name="service" className={styles.cell} value={header.service} onChange={this._handleChangeValue} />
+        <input name="comment" className={styles.cell} value={header.comment} onChange={this._handleChangeValue} />
+        <input name="price" className={styles.cell} value={header.price} onChange={this._handleChangeValue} />
       </div>
-      <div className={styles.cell}>
-        {header.service}
-      </div>
-      <div className={styles.cell}>
-        {header.comment}
-      </div>
-      <div className={styles.cell}>
-        {header.price}
-      </div>
-    </div>
-  );
+    );
+  }
+
+  @autobind
+  _handleChangeValue(e: React.ChangeEvent<HTMLInputElement>) {
+    const { onChange, header } = this.props;
+    const newHeader = { ...header, [e.target.name]: e.target.value } as TableRowType;
+    onChange(newHeader);
+  }
 }
 
 
