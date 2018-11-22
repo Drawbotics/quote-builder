@@ -23,7 +23,7 @@ const styles = {
   langSwitcher: css`
     margin-top: var(--margin);
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
   `,
   info: css`
     width: 400px;
@@ -93,6 +93,7 @@ export interface PersonType {
   phone: string
   signature: string
   createdAt: Date
+  quote: string
   [key: string]: any;
 }
 
@@ -131,26 +132,12 @@ class Person extends React.Component<{
     const { person, onClickDelete, onClickExport, onClickSave } = this.props;
     const { language, editing } = this.state;
     const description: string = get(editing.descriptions ? editing : person, `descriptions[${language}]`);
+    const quote: string = get(editing.quotes ? editing : person, `quotes[${language}]`);
     const canSave = Object.keys(editing).length > 0;
     return (
       <div className={styles.person}>
         <div className={styles.profile}>
           <ProfilePicture photo={editing.profilePicture || person.profilePicture} onSelectImage={(f) => this._handleChangeField(f, 'profilePicture')} />
-          <div className={styles.langSwitcher}>
-            <Tabs
-              value={language}
-              tabs={[{
-                label: 'En',
-                value: 'en',
-              }, {
-                label: 'Fr',
-                value: 'fr',
-              }, {
-                label: 'Nl',
-                value: 'nl',
-              }]}
-              onChange={(v) => this.setState({ language: v })} />
-          </div>
         </div>
         <div className={styles.info}>
           <InputGroup>
@@ -190,7 +177,25 @@ class Person extends React.Component<{
           </div>
         </div>
         <div className={styles.description}>
-          <Input name="descriptions" area={true} onChange={this._handleChangeDescription} placeholder="Description" value={description || ''} />
+          <InputGroup>
+            <Input name="quotes" onChange={this._handleChangeQuote} label="Quote" placeholder="e.g. We believe in the necessity of a personal approach" value={quote || ''} />
+            <Input name="descriptions" area={true} onChange={this._handleChangeDescription} placeholder="Description" value={description || ''} />
+          </InputGroup>
+          <div className={styles.langSwitcher}>
+            <Tabs
+              value={language}
+              tabs={[{
+                label: 'En',
+                value: 'en',
+              }, {
+                label: 'Fr',
+                value: 'fr',
+              }, {
+                label: 'Nl',
+                value: 'nl',
+              }]}
+              onChange={(v) => this.setState({ language: v })} />
+          </div>
         </div>
       </div>
     );
@@ -203,6 +208,17 @@ class Person extends React.Component<{
     this._handleChangeField({
       ...person.descriptions,
       ...editing.descriptions,
+      [language]: v,
+    }, k);
+  }
+
+  @autobind
+  _handleChangeQuote(v: string, k: string) {
+    const { person } = this.props;
+    const { language, editing } = this.state;
+    this._handleChangeField({
+      ...person.quotes,
+      ...editing.quotes,
       [language]: v,
     }, k);
   }

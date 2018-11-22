@@ -1,11 +1,12 @@
 import React from 'react';
 import { css } from 'emotion';
+import { get } from 'lodash';
 
 import TableEditor, { TableType } from '../TableEditor';
 
 
 interface OfferTableValue {
-  table: TableType[]
+  tables: TableType[]
 }
 
 
@@ -17,12 +18,13 @@ const styles = {
 
 
 const OfferTable: React.SFC<{
-  onChange: (v: TableType, k: string) => void,
+  onChange: (v: TableType[], k: string) => void,
   value: OfferTableValue,
 }> = ({ onChange, value }) => {
+  const tables = get(value, 'tables', []);
   return (
     <div className={styles.offerTable}>
-      <TableEditor />
+      <TableEditor tables={tables} onChange={(v) => onChange(v, 'tables')} />
     </div>
   );
 }

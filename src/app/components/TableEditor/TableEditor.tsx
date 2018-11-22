@@ -60,13 +60,12 @@ const styles = {
 }
 
 
-class TableEditor extends React.Component {
-  state = {
-    tables: [initialTable],
-  }
-
+class TableEditor extends React.Component<{
+  tables: TableType[],
+  onChange: (v: TableType[]) => void,
+}> {
   render() {
-    const { tables } = this.state;
+    const { tables } = this.props;
     return (
       <div className={styles.tableEditor}>
         <div className={styles.tables}>
@@ -85,28 +84,19 @@ class TableEditor extends React.Component {
 
   @autobind
   _handleModifyTable(newTable: TableType, index: number) {
-    const { tables } = this.state;
+    const { tables, onChange } = this.props;
     if (newTable.body.length === 0 && newTable.footers.length === 0) {
-      this.setState({
-        tables: [ ...tables.slice(0, index), ...tables.slice(index + 1) ],
-      });
+      onChange([ ...tables.slice(0, index), ...tables.slice(index + 1) ]);
     }
     else {
-      this.setState({
-        tables: Object.assign([], tables, { [index]: newTable }),
-      });
+      onChange(Object.assign([], tables, { [index]: newTable }));
     }
   }
 
   @autobind
   _handleAddTable() {
-    const { tables } = this.state;
-    this.setState({
-      tables: [
-        ...tables,
-        initialTable,
-      ],
-    });
+    const { tables, onChange } = this.props;
+    onChange([ ...tables, initialTable ]);
   }
 }
 

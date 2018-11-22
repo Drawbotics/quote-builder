@@ -5,6 +5,7 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 import questions from './questions';
 import Step from './Step';
+import { basicInfoToQuoteFile } from './utils';
 
 
 const styles = {
@@ -38,7 +39,7 @@ const styles = {
 };
 
 
-const MAX_STEP = 5;
+const MAX_STEP = 1;
 
 
 class DocumentBoostrap extends React.Component<{}> {
@@ -105,7 +106,8 @@ class DocumentBoostrap extends React.Component<{}> {
 
   @autobind
   _handleFinish() {
-
+    const { values } = this.state;
+    basicInfoToQuoteFile(values);
   }
 }
 
