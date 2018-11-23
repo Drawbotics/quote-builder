@@ -49,6 +49,7 @@
     "@types/react": "^16.4.18",
     "@types/react-dom": "^16.0.9",
     "@types/react-router-dom": "^4.3.1",
+    "@types/react-sortable-hoc": "^0.6.4",
     "@types/react-transition-group": "^2.0.14",
     "@types/uuid": "^3.4.4",
     "dotenv": "^6.1.0",
@@ -66,6 +67,7 @@
     "react-dom": "^16.6.0",
     "react-feather": "^1.1.4",
     "react-router-dom": "^4.3.1",
+    "react-sortable-hoc": "^0.8.3",
     "react-transition-group": "^2.5.0",
     "uuid": "^3.3.2",
     "yaml-loader": "^0.5.0"

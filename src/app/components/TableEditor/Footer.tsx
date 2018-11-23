@@ -30,6 +30,7 @@ const styles = {
     align-items: center;
     outline: none;
     background: var(--tertiary);
+    color: var(--text-primary);
 
     &:last-child {
       border-right: 0;

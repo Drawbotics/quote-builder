@@ -1,6 +1,13 @@
 import React from 'react';
-import { css } from 'emotion';
+import { css, cx } from 'emotion';
 import autobind from 'autobind-decorator';
+import {
+  SortableContainer,
+  SortableElement,
+  arrayMove,
+  SortableHandle,
+} from 'react-sortable-hoc';
+import { MoreVertical } from 'react-feather';
 
 import { TableType, TableRowType, FooterRowType } from './types';
 import Row from './Row';
@@ -24,13 +31,77 @@ const styles = {
     background: var(--tertiary);
     transition: all var(--transition-duration) ease-in-out;
   `,
+  rowContainer: css`
+    position: relative;
+
+    &:hover {
+      & [data-element="handle"] {
+        opacity: 1;
+      }
+    }
+  `,
+  dragging: css`
+    box-shadow: var(--box-shadow-hover);
+  `,
+  dragHandle: css`
+    display: flex;
+    align-items: center;
+    padding: var(--padding);
+    position: absolute;
+    left: calc(var(--margin) * -2);
+    color: var(--grey);
+    opacity: 0;
+
+    > svg {
+      margin: 0 -7px;
+    }
+
+    &:hover {
+      cursor: grab;
+    }
+  `,
 }
+
+
+const DragHandle = SortableHandle(() => (
+  <div className={styles.dragHandle} data-element="handle">
+    <MoreVertical size={20} />
+    <MoreVertical size={20} />
+  </div>
+));
+
+
+const SortableRow: any = SortableElement(({ value, ...rest }) => {
+  return (
+    <div className={cx(styles.rowContainer)}>
+      <DragHandle />
+      <Row row={value} {...rest} />
+    </div>
+  );
+});
+
+
+const SortableBody: any = SortableContainer(({ items, onChange, onClickRemove, dragging }) => {
+  return (
+    <div>
+      {items.map((row: TableRowType, i: number) => (
+        <SortableRow
+          value={row}
+          key={`item-${i}`}
+          index={i}
+          onClickRemove={(i: number) => onClickRemove(i)}
+          onChange={(v: any) => onChange(i, v)} />
+      ))}
+    </div>
+  );
+});
 
 
 class Table extends React.Component<{
   table: TableType,
   onChange: (newTable: TableType) => void,
 }> {
+
   render() {
     const { table } = this.props;
     const { header, body, footers } = table;
@@ -38,13 +109,14 @@ class Table extends React.Component<{
       <div className={styles.table}>
         <div className={styles.body}>
           <Header header={header} onChange={this._hanldleModifyHeader} />
-          {body.map((row, i) => (
-            <Row
-              row={row}
-              key={i}
-              onClickRemove={() => this._handleModifyRow('remove', i)}
-              onChange={(v) => this._handleModifyRow('modify', i, v)} />
-          ))}
+          <SortableBody
+            helperClass={styles.dragging}
+            useDragHandle={true}
+            lockAxis="y"
+            onChange={(i: number, v: any) => this._handleModifyRow('modify', i, v)}
+            onClickRemove={(i: number) => this._handleModifyRow('remove', i)}
+            items={body}
+            onSortEnd={this._handleOnRowMove} />
           <Row onClickAdd={() => this._handleModifyRow('add')} />
         </div>
         <div className={styles.footers}>
@@ -65,6 +137,13 @@ class Table extends React.Component<{
   _hanldleModifyHeader(value: TableRowType) {
     const { onChange, table } = this.props;
     onChange({ ...table, header: value });
+  }
+
+  @autobind
+  _handleOnRowMove({ oldIndex, newIndex }: { oldIndex: number, newIndex: number }) {
+    const { table, onChange } = this.props;
+    const newBody = arrayMove(table.body, oldIndex, newIndex);
+    onChange({ ...table, body: newBody });
   }
 
   @autobind

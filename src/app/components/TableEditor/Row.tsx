@@ -8,12 +8,12 @@ import ActionButton from './ActionButton';
 
 const styles = {
   row: css`
+    height: 60px;
     position: relative;
     display: flex;
     border-left: 1px solid var(--line-color);
     border-bottom: 1px solid var(--line-color);
-    transition: all var(--transition-duration) ease-in-out,
-      background var(--transition-duration-short) ease-in-out;
+    transition: all var(--transition-duration) ease-in-out;
     font-size: 0.9rem;
     color: var(--text-primary);
   `,
@@ -73,7 +73,7 @@ class Row extends React.Component <{
       <div className={cx(styles.row, { [styles.disabledRow]: !! onClickAdd })}>
         {onClickRemove ?
           <div className={styles.removeIcon} data-element="remove">
-            <ActionButton label="—" onClick={onClickRemove} />
+            <ActionButton label="—" onClick={() => onClickRemove()} />
           </div>
         : null}
         {onClickAdd ?

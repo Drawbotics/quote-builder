@@ -21,6 +21,7 @@ const styles = {
       box-shadow var(--transition-duration-short) ease-in-out;
     outline: none;
     color: var(--grey);
+    background: var(--tertiary);
     font-size: 0.85rem;
     font-weight: 600;
 
