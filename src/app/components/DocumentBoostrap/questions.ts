@@ -15,7 +15,7 @@ export default [
   {
     slug: 'client',
     title: 'Who is your client?',
-    component: Client,
+    component: OfferTable,
   },
   {
     slug: 'logo',
@@ -35,6 +35,6 @@ export default [
   {
     slug: 'quote',
     title: 'Fill in your quote',
-    component: OfferTable,
+    component: Client,
   },
 ];

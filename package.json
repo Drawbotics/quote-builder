@@ -6,7 +6,7 @@
   "scripts": {
     "clean": "rimraf dist",
     "clean:builds": "rimraf builds",
-    "webpack-server": "APP_ENV=development webpack-dev-server --config webpack.dev.config.js",
+    "webpack-server": "npm run clean:builds && APP_ENV=development webpack-dev-server --config webpack.dev.config.js",
     "start": "ELECTRON_DISABLE_SECURITY_WARNINGS=true NODE_NO_WARNINGS=1 electron .",
     "build": "npm run clean && APP_ENV=production webpack --config webpack.config.js",
     "generate:dmg": "electron-installer-dmg builds/QuoteDP-darwin-x64/QuoteDP.app QuoteDP --out=builds",

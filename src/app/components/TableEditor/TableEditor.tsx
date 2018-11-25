@@ -17,20 +17,20 @@ const initialTable: TableType = {
   body: [
     {
       phase: 'Teasing',
-      service: '3D Exterior',
-      comment: 'Blablabla',
+      service: 'exterior3d',
+      comment: 'Exterior comment',
       price: '€3000'
     },
     {
       phase: '',
-      service: '3D Exterior',
-      comment: 'Blablabla',
+      service: '',
+      comment: 'No Comment',
       price: '€3000'
     },
     {
-      phase: 'Teasing',
-      service: '3D Exterior',
-      comment: 'Blablabla',
+      phase: 'Commercialisation',
+      service: 'interior3d',
+      comment: 'Interior comment',
       price: '€3000'
     }
   ],

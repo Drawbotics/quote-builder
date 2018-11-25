@@ -6,6 +6,11 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 dotenv.config();
 
 
+const rootDirs = [
+  path.resolve(__dirname, 'src'),
+];
+
+
 module.exports = {
   entry: [
     './src/app/index.tsx',
@@ -31,6 +36,7 @@ module.exports = {
     rules: [
       {
         test: /\.tsx?$/,
+        include: rootDirs,
         use: [
           'babel-loader',
           'awesome-typescript-loader',
@@ -60,6 +66,9 @@ module.exports = {
         use: [
           {
             loader: 'json-loader',
+            options: {
+              type: 'javascript/auto',
+            },
           },
           {
             loader: 'yaml-loader',

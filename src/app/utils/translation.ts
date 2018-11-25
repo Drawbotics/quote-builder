@@ -30,36 +30,36 @@ function _replaceData(string: any, data={}) {
       }
       return replacement.hasOwnProperty('key') && replacement.key == null ? { ...replacement, key: i } : replacement;
     });
-  return result;
+  return result[0];
 }
 
 
 function _translate(locale: string, key: string, data: string, defaultValue: string | undefined) {
   const value = _replaceData(get(locales[locale], key, defaultValue), data);
   if ( ! value) {
-    console.warn(`Translation key '${key}' not found`);
+    console.warn(`Translation key '${key}' for locale '${locale}' not found`);
     return '';
   }
   return value;
 }
 
 
-export function translate(locale: string, base: string, key: string, data: any, defaultValue?: string | undefined) {
+export function translate(locale: string, base: string, key?: string, data?: any, defaultValue?: string | undefined) {
   let translationKey = '';
-  if (arguments.length === 1) {
+  if (arguments.length === 2) {
     translationKey = base;
   }
-  if (arguments.length === 2) {
+  if (arguments.length === 3) {
     translationKey = base;
     defaultValue = key && (typeof key === 'string') ? key : undefined;
     data = key && (typeof key === 'object') ? key : {};
   }
-  if (arguments.length === 3) {
+  if (arguments.length === 4) {
     translationKey = base.replace(/\.$/, '') + '.' + key;
     defaultValue = data && (typeof data === 'string') ? data : undefined;
     data = data && (typeof data === 'object') ? data : {};
   }
-  if (arguments.length >= 3) {
+  if (arguments.length >= 5) {
     translationKey = base.replace(/\.$/, '') + '.' + key;
   }
   return _translate(locale, translationKey, data, defaultValue);
