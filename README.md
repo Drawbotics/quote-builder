@@ -284,33 +284,54 @@ This is what the `qdp` file should look like after bootstrapping the project (bl
 3. Navigate to `id/edit` (with the newly generated id)
 
 ### Loading a file in `id/edit`
-<ol><li>Get the ID from the url</li><li>Try to load from temp memory.
-    <ol><li>If temp file matches id, then load it in state and start editing. Set the page title to "untitled". If user tries to save, prompt with save dialog to give it a name and choose a location. After the first save we delete the temp file from storage.</li><li>If it doesn't see below.</li></ol></li><li>Try to load from disk using the mapping system id => file location.</li><li>Load is successful
-<ol><li>If file is found, load it normally. At this stage, autosaving is enabled and will save at correct location (gotten from mapping system)</li><li>If file is not found, show dialog saying the specified file id was not found, redirect to home</li></ol>
+<ol>
+  <li>Get the ID from the url</li>
+  <li>
+    Try to load from temp memory.
+    <ol>
+      <li>
+        If temp file matches id, then load it in state and start editing. Set the page title to "untitled". If user tries to save, prompt with save dialog to give it a name and choose a location. After the first save we delete the temp file from storage.
+      </li>
+      <li>
+        If it doesn't see below.
+      </li>
+    </ol>
+  </li>
+  <li>Try to load from disk using the mapping system id => file location.</li>
+  <li>
+    Load is successful
+    <ol>
+      <li>If file is found, load it normally. At this stage, autosaving is enabled and will save at correct location (gotten from mapping system)</li>
+      <li>If file is not found, show dialog saying the specified file id was not found, redirect to home</li>
+    </ol>
   </li>
 </ol>
 
 ### Loading files in home (`quotes`)
 <ol>
-  <li>Check temp storage for any untitled files (could happen if app crashes while editing and file wasn't saved).
+  <li>
+    Check temp storage for any untitled files (could happen if app crashes while editing and file wasn't saved).
     <ol>
-      <li>If file is in temp storage, prompt user asking if they want to continue editing or discard the file they were working on.
-        <ol>
+      <li>
+        If file is in temp storage, prompt user asking if they want to continue editing or discard the file they were working on.
+        <ul>
           <li>If yes, navigate to `id/edit`</li>
           <li>If no, delete file from temp storage</li>
-        </ol>
+        </ul>
       </li>
       <li>Otherwise, continue</li>
     </ol>
   </li>
-  <li>Get all files from the mapping system and try to load them from disk.
+  <li>
+    Get all files from the mapping system and try to load them from disk.
     <ol>
       <li>If files are missing, prompt user telling them n files are missing (were deleted from computer, or moved).</li>
-      <li>Ask if they want to re-import them or ignore them.
-        <ol>
+      <li>
+        Ask if they want to re-import them or ignore them.
+        <ul>
           <li>If ignored, update the mapping file removing the files not found</li>
           <li>If user wants to re-import, then iterate over each missing file opening a "open" dialog. On each iteration update the mapping file</li>
-        </ol>
+        </ul>
       </li>
     </ol>
   </li>
