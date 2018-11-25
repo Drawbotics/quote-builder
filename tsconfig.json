@@ -2,6 +2,10 @@
   "compilerOptions": {
     "outDir": "./dist/",
     "rootDirs": ["./src"],
+    "baseUrl": "./",
+    "paths": {
+      "~/*": ["src/app/*"]
+    },
     "sourceMap": true,
     "noImplicitAny": true,
     "module": "es6",

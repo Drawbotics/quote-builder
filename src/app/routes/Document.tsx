@@ -1,10 +1,12 @@
 import React from 'react';
+import { parse } from 'query-string';
 
 import DocumentBoostrap from '../components/DocumentBoostrap';
 
 
 class Document extends React.Component<{
   match: any,
+  location: any,
 }> {
   componentWillMount() {
     const { match } = this.props;
@@ -15,10 +17,11 @@ class Document extends React.Component<{
   }
 
   render() {
-    const { match } = this.props;
+    const { match, location } = this.props;
     const { params } = match;
+
     if (! params.id) {
-      return <DocumentBoostrap />
+      return <DocumentBoostrap fromTemplate={!! parse(location.search).template} />
     }
     else {
       return (

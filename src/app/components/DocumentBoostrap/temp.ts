@@ -50,7 +50,42 @@ export const fake =
             "value": "€1.500.000"
           }
         ]
-      }
+      },
+      // {
+      //   "header": {
+      //     "phase": "Phase",
+      //     "service": "Service",
+      //     "comment": "Comment",
+      //     "price": "Price"
+      //   },
+      //   "body": [
+      //     {
+      //       "phase": "Teasing",
+      //       "service": { id: 'exterior3d' },
+      //       "comment": "Blablabla",
+      //       "price": "€3000"
+      //     },
+      //     {
+      //       "phase": "",
+      //       "service": { id: 'interior3d' },
+      //       "comment": "Blablabla",
+      //       "price": "€3000"
+      //     },
+      //     {
+      //       "phase": "Teasing",
+      //       "service": { id: '2647', name: 'My custom product 2' },
+      //       "comment": "Blablabla",
+      //       "price": "€3000"
+      //     }
+      //   ],
+      //   "footers": [
+      //     {
+      //       "label": "Total",
+      //       "comment": "",
+      //       "value": "€1.500.000"
+      //     }
+      //   ]
+      // }
     ]
   }
 }

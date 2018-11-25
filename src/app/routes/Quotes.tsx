@@ -158,8 +158,8 @@ class Quotes extends React.Component<{
           <div className={styles.actions}>
             <div className={styles.action}>
               <div ref={(selections) => this.selections = selections} className={cx(styles.newSelection, { [styles.open]: newSelectionOpen })}>
-                <Selection label="From template" icon={<FileText />} onClick={() => history.push('/new?template=true')} />
-                <Selection label="Blank" icon={<File />} onClick={() => history.push('/new?template=false')} />
+                <Selection label="From template" icon={<FileText />} onClick={() => history.push('/new?template')} />
+                <Selection label="Blank" icon={<File />} onClick={() => history.push('/new')} />
               </div>
               <div ref={(button) => this.button = button}>
                 <Button onClick={() => this.setState({ newSelectionOpen: true })}>

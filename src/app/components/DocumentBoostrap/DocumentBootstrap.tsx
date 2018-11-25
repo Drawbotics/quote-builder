@@ -42,7 +42,9 @@ const styles = {
 const MAX_STEP = 1;
 
 
-class DocumentBoostrap extends React.Component<{}> {
+class DocumentBoostrap extends React.Component<{
+  fromTemplate: boolean,
+}> {
   state = {
     step: 1,
     reverse: false,
@@ -105,9 +107,11 @@ class DocumentBoostrap extends React.Component<{}> {
   }
 
   @autobind
-  _handleFinish() {
+  async _handleFinish() {
+    const { fromTemplate } = this.props;
     const { values } = this.state;
-    basicInfoToQuoteFile(values);
+    const fileContent = await basicInfoToQuoteFile(values, fromTemplate);
+    console.log(fileContent);
   }
 }
 
