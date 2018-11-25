@@ -1,6 +1,6 @@
 export interface TableRowType {
   phase?: string
-  service: string
+  service: string | undefined
   comment?: string
   price: string
 }

@@ -73,6 +73,7 @@ class Row extends React.Component <{
   render() {
     const { row={} as TableRowType, onClickAdd, onClickRemove } = this.props;
     const displayServices = services.map((service: string) => ({ value: service, label: t('en', `services.${service}.name`) } as SelectOptionType));
+    const showInput = row.service && (! services.includes(row.service) || row.service === 'custom');
     return (
       <div className={cx(styles.row, { [styles.disabledRow]: !! onClickAdd })}>
         {onClickRemove ?
@@ -88,13 +89,16 @@ class Row extends React.Component <{
         }
         {onClickAdd ?
           <div className={cx(styles.cell, styles.disabledCell)} /> :
-          <Select
-            name="service"
-            className={styles.cell}
-            values={displayServices}
-            onChange={(v: string, n: string) => this._handleChangeValue({ target: { name: n, value: v } } as React.ChangeEvent<HTMLInputElement>)}
-            value={row.service === '' ? undefined : row.service}
-            placeholder="Select service" />
+          (showInput ?
+            <input name="service" onChange={this._handleChangeValue} className={styles.cell} value={row.service} /> :
+            <Select
+              name="service"
+              className={styles.cell}
+              values={displayServices}
+              onChange={(v: string, n: string) => this._handleChangeValue({ target: { name: n, value: v } } as React.ChangeEvent<HTMLInputElement>)}
+              value={row.service}
+              placeholder="Select service" />
+            )
         }
         <input name="comment" onChange={this._handleChangeValue} className={styles.cell} value={row.comment} />
         <input name="price" onChange={this._handleChangeValue} className={styles.cell} value={row.price} />

@@ -23,7 +23,7 @@ const initialTable: TableType = {
     },
     {
       phase: '',
-      service: '',
+      service: undefined,
       comment: 'No Comment',
       price: '€3000'
     },

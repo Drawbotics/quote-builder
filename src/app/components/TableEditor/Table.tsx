@@ -157,7 +157,7 @@ class Table extends React.Component<{
       });
     }
     else if (operation === 'add') {
-      const newRow = { phase: '', service: '', comment: '', price: '' };
+      const newRow = { phase: '', service: undefined, comment: '', price: '' };
       onChange({ ...table, body: [ ...body, newRow ] });
     }
     else if (operation === 'modify') {
