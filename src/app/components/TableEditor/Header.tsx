@@ -2,7 +2,7 @@ import React from 'react';
 import { css } from 'emotion';
 import autobind from 'autobind-decorator';
 
-import { TableRowType } from './types';
+import { TableHeaderType } from './types';
 
 
 const styles = {
@@ -44,8 +44,8 @@ const styles = {
 
 
 class Header extends React.Component <{
-  header: TableRowType,
-  onChange: (v: TableRowType) => void,
+  header: TableHeaderType,
+  onChange: (v: TableHeaderType) => void,
 }> {
   render() {
     const { header } = this.props;
@@ -62,7 +62,7 @@ class Header extends React.Component <{
   @autobind
   _handleChangeValue(e: React.ChangeEvent<HTMLInputElement>) {
     const { onChange, header } = this.props;
-    const newHeader = { ...header, [e.target.name]: e.target.value } as TableRowType;
+    const newHeader = { ...header, [e.target.name]: e.target.value } as TableHeaderType;
     onChange(newHeader);
   }
 }

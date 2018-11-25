@@ -1,8 +1,9 @@
 import React from 'react';
 import { css, cx } from 'emotion';
 import autobind from 'autobind-decorator';
+import { v4 } from 'uuid';
 
-import { TableRowType } from './types';
+import { TableRowType, ServiceType } from './types';
 import ActionButton from './ActionButton';
 import Select, { SelectOptionType } from '../Select';
 import { services } from '../../utils/services';
@@ -71,9 +72,9 @@ class Row extends React.Component <{
   onChange?: (v: TableRowType) => void,
 }> {
   render() {
-    const { row={} as TableRowType, onClickAdd, onClickRemove } = this.props;
+    const { row={ service: {} } as TableRowType, onClickAdd, onClickRemove } = this.props;
     const displayServices = services.map((service: string) => ({ value: service, label: t('en', `services.${service}.name`) } as SelectOptionType));
-    const showInput = row.service && (! services.includes(row.service) || row.service === 'custom');
+    const showInput = row.service.id && ! services.includes(row.service.id);
     return (
       <div className={cx(styles.row, { [styles.disabledRow]: !! onClickAdd })}>
         {onClickRemove ?
@@ -90,13 +91,13 @@ class Row extends React.Component <{
         {onClickAdd ?
           <div className={cx(styles.cell, styles.disabledCell)} /> :
           (showInput ?
-            <input name="service" onChange={this._handleChangeValue} className={styles.cell} value={row.service} /> :
+            <input name="service" onChange={(e: React.ChangeEvent<HTMLInputElement>) => this._handleChangeService({ id: row.service.id, name: e.target.value })} className={styles.cell} value={row.service.name || ''} /> :
             <Select
               name="service"
               className={styles.cell}
               values={displayServices}
-              onChange={(v: string, n: string) => this._handleChangeValue({ target: { name: n, value: v } } as React.ChangeEvent<HTMLInputElement>)}
-              value={row.service}
+              onChange={(v: string) => this._handleChangeService({ id: v })}
+              value={row.service.id}
               placeholder="Select service" />
             )
         }
@@ -104,6 +105,16 @@ class Row extends React.Component <{
         <input name="price" onChange={this._handleChangeValue} className={styles.cell} value={row.price} />
       </div>
     );
+  }
+
+  @autobind
+  _handleChangeService(newValue: ServiceType) {
+    const { onChange, row } = this.props;
+    if (newValue.id === 'custom') {
+      newValue.id = v4();
+    }
+    const newRow = { ...row, service: newValue } as TableRowType;
+    onChange ? onChange(newRow) : null;
   }
 
   @autobind

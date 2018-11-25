@@ -26,19 +26,19 @@ export const fake =
         "body": [
           {
             "phase": "Teasing",
-            "service": "3D Exterior",
+            "service": { id: 'exterior3d' },
             "comment": "Blablabla",
             "price": "€3000"
           },
           {
             "phase": "",
-            "service": "3D Exterior",
+            "service": { id: 'interior3d' },
             "comment": "Blablabla",
             "price": "€3000"
           },
           {
             "phase": "Teasing",
-            "service": "3D Exterior",
+            "service": { id: '2645', name: 'My custom product' },
             "comment": "Blablabla",
             "price": "€3000"
           }

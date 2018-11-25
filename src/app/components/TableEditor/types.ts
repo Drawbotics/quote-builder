@@ -1,6 +1,20 @@
+export interface ServiceType {
+  id: string | undefined
+  name?: string
+}
+
+
 export interface TableRowType {
   phase?: string
-  service: string | undefined
+  service: ServiceType
+  comment?: string
+  price: string
+}
+
+
+export interface TableHeaderType {
+  phase: string
+  service: string
   comment?: string
   price: string
 }
@@ -14,7 +28,7 @@ export interface FooterRowType {
 
 
 export interface TableType {
-  header: TableRowType
+  header: TableHeaderType
   body: TableRowType[]
   footers: FooterRowType[]
 }

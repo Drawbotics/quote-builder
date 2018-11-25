@@ -39,7 +39,7 @@ const styles = {
 };
 
 
-const MAX_STEP = 5;
+const MAX_STEP = 1;
 
 
 class DocumentBoostrap extends React.Component<{}> {

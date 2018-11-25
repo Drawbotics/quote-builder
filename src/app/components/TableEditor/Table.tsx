@@ -9,7 +9,7 @@ import {
 } from 'react-sortable-hoc';
 import { MoreVertical } from 'react-feather';
 
-import { TableType, TableRowType, FooterRowType } from './types';
+import { TableType, TableRowType, FooterRowType, TableHeaderType } from './types';
 import Row from './Row';
 import Header from './Header';
 import Footer from './Footer';
@@ -134,7 +134,7 @@ class Table extends React.Component<{
   }
 
   @autobind
-  _hanldleModifyHeader(value: TableRowType) {
+  _hanldleModifyHeader(value: TableHeaderType) {
     const { onChange, table } = this.props;
     onChange({ ...table, header: value });
   }
@@ -157,7 +157,7 @@ class Table extends React.Component<{
       });
     }
     else if (operation === 'add') {
-      const newRow = { phase: '', service: undefined, comment: '', price: '' };
+      const newRow = { phase: '', service: { id: undefined }, comment: '', price: '' };
       onChange({ ...table, body: [ ...body, newRow ] });
     }
     else if (operation === 'modify') {

@@ -17,19 +17,19 @@ const initialTable: TableType = {
   body: [
     {
       phase: 'Teasing',
-      service: 'exterior3d',
+      service: { id: 'exterior3d' },
       comment: 'Exterior comment',
       price: '€3000'
     },
     {
       phase: '',
-      service: undefined,
+      service: { id: undefined },
       comment: 'No Comment',
       price: '€3000'
     },
     {
       phase: 'Commercialisation',
-      service: 'interior3d',
+      service: { id: 'interior3d' },
       comment: 'Interior comment',
       price: '€3000'
     }
