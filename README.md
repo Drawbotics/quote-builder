@@ -1,7 +1,5 @@
 # Quote Builder
 
-## Data
-
 ### Person (.json)
 
 ```bash
@@ -24,6 +22,16 @@
 ```
 
 ### Quote (.qdp)
+__NOTE__: Each `section` has the following shape:
+```bash
+{
+  type: String (e.g. `cover`)
+  contents: Object (see below for each example)
+}
+```
+Sections may have no `contents` key, and that means no content is editable and the page will only feed from `data`.
+
+
 ```bash
 {
    data: {
@@ -37,18 +45,18 @@
      language: String
      tables: TableType type (defined in app/TableEditor/types)
    }
-   sections: {
-     cover
-     profile [optional]
+   sections: [
+     cover | no `content`
+     profile [optional] | no `content`
      howWeWork [optional]
      stats [optional]
      whatWeDo [optional]
      project [optional, multiple]
      storyTelling [optional, multiple]
      products (feeding from table)
-     tables (feeding from table)
-     paymentMethods (with contact) [optional]
-   }
+     tables (feeding from table) | no `content`
+     paymentMethods (with contact) | no `content`
+   ]
 }
 ```
 
@@ -141,5 +149,125 @@ Can be edited:
   image4: DataURL
   image5: DataURL
   image6: DataURL
+}
+```
+
+#### Products
+This section feeds from `data.tables` and takes all the products (making sure we have a list of unique ids). However, it also has the `contents` key, but here it is used to write/read overwriting values for the products (for custom services and for different text/image for normal services). For example we may have the following list of services:
+```bash
+[{
+  id: 'exterior3d',
+}, {
+  id: 'interior3d',
+}, {
+  id: '1234',
+  name: 'A custom brochure',
+}]
+```
+The equivalent default `contents` for this will be:
+```bash
+...
+contents: {
+  products: {
+    '1234': {
+      title: 'A custom brochure',
+      image: undefined,
+      description: undefined,
+    },
+  },
+}
+```
+The user then has to set the values of `image` and `description` specially for this product. He or she may also modify those same values for `interior3d`. The new contents then are:
+```bash
+...
+contents: {
+  products: {
+    '1234': {
+      title: 'A custom brochure',
+      image: 'base64...',
+      description: 'A custom brochure consists of many parts, etc',
+    },
+    interior3d: {
+      image: 'base64...',
+      description: 'Our newly updated 3D interiors....',
+    },
+  },
+}
+```
+
+## Initial data example
+This is what the `qdp` file should look like after bootstrapping the project (blank)
+```bash
+{
+   data: {
+     person: PersonType
+     project: {
+       contactName: "Mr John, Mrs May"
+       companyName: "My company"
+       companyLogo: "base64..."
+       projectName: "The coolest project ever"
+     }
+     language: "EN"
+     tables: [
+       {
+         header: {
+           phase: "Phase",
+           service: "Service",
+           comment: "Comment",
+           price: "Price"
+         },
+         body: [
+           {
+             phase: "Teasing",
+             service: { id: 'exterior3d' },
+             comment: "Blablabla",
+             price: "€3000"
+           },
+           {
+             phase: "",
+             service: { id: 'interior3d' },
+             comment: "Blablabla",
+             price: "€3000"
+           },
+           {
+             phase: "Teasing",
+             service: { id: '2645', name: 'My custom product' },
+             comment: "Blablabla",
+             price: "€3000"
+           }
+         ],
+         footers: [
+           {
+             label: "Total",
+             comment: "",
+             value: "€1.500.000"
+           }
+         ]
+       }
+     ]
+   }
+   sections: [
+      {
+        type: "cover",
+      },
+      {
+        type: "products",
+        contents: {
+          products: {
+            '2645': {
+              title: 'My custom product',
+              image: undefined,
+              description: undefined,
+            },
+          },
+        },
+      },
+      {
+        type: "tables",
+      },
+      {
+        type: "paymentMethods",
+      },
+   ],
 }
 ```
