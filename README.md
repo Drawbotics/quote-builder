@@ -199,6 +199,7 @@ contents: {
 This is what the `qdp` file should look like after bootstrapping the project (blank)
 ```bash
 {
+   id: String
    data: {
      person: PersonType
      project: {
@@ -269,5 +270,45 @@ This is what the `qdp` file should look like after bootstrapping the project (bl
         type: "paymentMethods",
       },
    ],
+}
+```
+
+## Sequences
+
+### Creating a new file
+1. Generate file as described above
+2. Save it to a temp file (with `save`) in the app contents. Save it as `untitled-[id].qtp` (id is randomly generated)
+3. Navigate to `id/edit` (with the newly generated id)
+
+### Loading a file in `id/edit`
+1. Get the ID from the url
+2. Try to load from temp memory.
+  a. If temp file matches id, then load it in state and start editing. Set the page title to "untitled". If user tries to save, prompt with save dialog to give it a name and choose a location. After the first save we delete the temp file from storage.
+  b. If it doesn't see below.
+3. Try to load from disk using the mapping system id => file location.
+4. Load is successful
+  a. If file is found, load it normally. At this stage, autosaving is enabled and will save at correct location (gotten from mapping system)
+  b. If file is not found, show dialog saying the specified file id was not found, redirect to home
+
+
+### Loading files in home (`quotes`)
+1. Check temp storage for any untitled files (could happen if app crashes while editing and file wasn't saved).
+  a. If file is in temp storage, prompt user asking if they want to continue editing or discard the file they were working on.
+    - If yes, navigate to `id/edit`
+    - If no, delete file from temp storage
+  b. Otherwise, continue
+2. Get all files from the mapping system and try to load them from disk.
+  a. If files are missing, prompt user telling them n files are missing (were deleted from computer, or moved).
+  b. Ask if they want to re-import them or ignore them.
+    - If ignored, update the mapping file removing the files not found
+    - If user wants to re-import, then iterate over each missing file opening a "open" dialog. On each iteration update the mapping file
+
+
+## File management
+We use a basic mapping between files and their location on disk to load them in the homepage of the app. The file looks like the following:
+```
+{
+  '3a1f0404-bd0a-4626-983f-cd6b40181908': '/System/Users/user/Documents/quotes/My quote 1.qdp',
+  '10di3jf0-kj93-1hj8-8oih-3kjhfwo83jhf': '/System/Users/user/Downloads/Client-quote-1.qdp',
 }
 ```
