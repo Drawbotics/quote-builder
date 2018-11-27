@@ -1,10 +1,15 @@
+<style type="text/css">
+    ol ol { list-style-type: lower-alpha; }
+</style>
+
+
 # Quote Builder
 
 ### Person (.json)
 
 ```bash
 {
-  id: Int
+  id: String
   name: String
   profilePicture: DataURL
   role: String
@@ -34,6 +39,7 @@ Sections may have no `contents` key, and that means no content is editable and t
 
 ```bash
 {
+   id: String
    data: {
      person: PersonType
      project: {
@@ -274,9 +280,6 @@ This is what the `qdp` file should look like after bootstrapping the project (bl
 ```
 
 ## Sequences
-<style type="text/css">
-    ol ol { list-style-type: lower-alpha; }
-</style>
 
 ### Creating a new file
 1. Generate file as described above

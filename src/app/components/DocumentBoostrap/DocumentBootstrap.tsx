@@ -44,6 +44,7 @@ const MAX_STEP = 1;
 
 class DocumentBoostrap extends React.Component<{
   fromTemplate: boolean,
+  onFinish: (data: any) => void
 }> {
   state = {
     step: 1,
@@ -108,10 +109,10 @@ class DocumentBoostrap extends React.Component<{
 
   @autobind
   async _handleFinish() {
-    const { fromTemplate } = this.props;
+    const { fromTemplate, onFinish } = this.props;
     const { values } = this.state;
     const fileContent = await basicInfoToQuoteFile(values, fromTemplate);
-    console.log(fileContent);
+    onFinish(fileContent);
   }
 }
 

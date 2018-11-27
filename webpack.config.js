@@ -21,7 +21,7 @@ module.exports = {
   output: {
     filename: 'app.js',
     path: path.resolve(__dirname, 'dist'),
-    publicPath: '',
+    publicPath: '/',
   },
   resolve: {
     extensions: [ '.tsx', '.ts', '.js', '.jsx' ],

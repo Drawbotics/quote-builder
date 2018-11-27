@@ -157,7 +157,7 @@ class People extends React.Component {
       if (files) {
         const rawPerson = fs.readFileSync(files[0], 'utf8');
         if (! rawPerson) {
-          showError('An error ocurred reading the file');
+          showError({ title: 'An error ocurred reading the file' });
         }
         else {
           try {
@@ -165,7 +165,7 @@ class People extends React.Component {
             await this._handleClickSave(person);
           }
           catch (error) {
-            showError('An error ocurred reading the file', error.toString());
+            showError({ title: 'An error ocurred reading the file', extra: error.toString() });
           }
         }
       }

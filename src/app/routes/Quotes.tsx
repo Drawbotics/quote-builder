@@ -6,6 +6,8 @@ import { FileText, File } from 'react-feather';
 import Title from '../components/Title';
 import Button from '../components/Button';
 import QuoteCard from '../components/QuoteCard';
+import { checkForUntitledFile, deleteUntitled } from '../utils/storage';
+import { showMessage } from '../utils/dialogs';
 
 
 const styles = {
@@ -132,12 +134,14 @@ class Quotes extends React.Component<{
 }> {
   selections: unknown = null;
   button: unknown = null;
+  page: unknown = null;
 
   state = {
     newSelectionOpen: false,
   }
 
   componentDidMount() {
+    this._handleUntitledDoc();
     document.addEventListener('click', this._handleClickDocument);
   }
 
@@ -185,6 +189,21 @@ class Quotes extends React.Component<{
     const { newSelectionOpen } = this.state;
     if (! e.path.includes(this.selections) && newSelectionOpen && ! e.path.includes(this.button)) {
       this.setState({ newSelectionOpen: false });
+    }
+  }
+
+  @autobind
+  _handleUntitledDoc() {
+    const untitledFile = checkForUntitledFile();
+    if (untitledFile) {
+      showMessage({
+        title: 'You have an unsaved file',
+        message: 'Click continue to continue editing it, or cancel to discard it',
+        onClickAction: () => console.log('gonna continue editing'),
+        onClickCancel: () => deleteUntitled(untitledFile),
+        confirmButtonLabel: 'Continue',
+        closeButtonLabel: 'Cancel',
+      });
     }
   }
 }
