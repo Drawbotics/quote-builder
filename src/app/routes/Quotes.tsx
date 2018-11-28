@@ -1,12 +1,12 @@
 import React from 'react';
 import { css, cx } from 'emotion';
 import autobind from 'autobind-decorator';
-import { FileText, File } from 'react-feather';
+import { FileText, File, Download } from 'react-feather';
 
 import Title from '../components/Title';
 import Button from '../components/Button';
 import QuoteCard from '../components/QuoteCard';
-import { checkForUntitledFile, deleteUntitled } from '../utils/storage';
+import { checkForUntitledFile, deleteUntitled, getIdFromUntitled } from '../utils/storage';
 import { showMessage } from '../utils/dialogs';
 
 
@@ -161,6 +161,11 @@ class Quotes extends React.Component<{
           </Title>
           <div className={styles.actions}>
             <div className={styles.action}>
+              <Button onClick={this._handleOpenImport} icon={<Download size={15} />} reverse>
+                Import
+              </Button>
+            </div>
+            <div className={styles.action}>
               <div ref={(selections) => this.selections = selections} className={cx(styles.newSelection, { [styles.open]: newSelectionOpen })}>
                 <Selection label="From template" icon={<FileText />} onClick={() => history.push('/new?template')} />
                 <Selection label="Blank" icon={<File />} onClick={() => history.push('/new')} />
@@ -193,13 +198,20 @@ class Quotes extends React.Component<{
   }
 
   @autobind
+  _handleOpenImport() {
+    
+  }
+
+  @autobind
   _handleUntitledDoc() {
+    const { history } = this.props;
     const untitledFile = checkForUntitledFile();
     if (untitledFile) {
+      const id = getIdFromUntitled(untitledFile);
       showMessage({
         title: 'You have an unsaved file',
         message: 'Click continue to continue editing it, or cancel to discard it',
-        onClickAction: () => console.log('gonna continue editing'),
+        onClickAction: () => history.push(`/${id}/edit`),
         onClickCancel: () => deleteUntitled(untitledFile),
         confirmButtonLabel: 'Continue',
         closeButtonLabel: 'Cancel',

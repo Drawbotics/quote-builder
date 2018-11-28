@@ -2,12 +2,16 @@ const electron = require('electron');
 const ipc = require('electron-better-ipc');
 
 
-function toggleThemeFromMenu() {
-  const win = electron.BrowserWindow.getFocusedWindow();
-  ipc.callRenderer(win, 'toggleTheme');
+function getCurrentWindow() {
+  return electron.BrowserWindow.getFocusedWindow();
+}
+
+
+function sendIpcAction(actionName) {
+  ipc.callRenderer(getCurrentWindow(), actionName);
 }
 
 
 module.exports = {
-  toggleThemeFromMenu,
+  sendIpcAction,
 }

@@ -70,3 +70,8 @@ export function checkForUntitledFile() {
   const untitledFiles = files.filter((fileName) => fileName.includes('untitled'));
   return untitledFiles[0];    // NOTE: we should never have more than 1
 }
+
+
+export function getIdFromUntitled(fileName: string) {
+  return fileName.replace('untitled-', '').replace('.json', '');
+}
