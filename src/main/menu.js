@@ -1,5 +1,7 @@
 const { Menu, shell } = require('electron');
 
+const { toggleThemeFromMenu } = require('./ipc-actions');
+
 
 const menuTemplate = (app, mainWindow, shell) => [
   {
@@ -76,10 +78,15 @@ const menuTemplate = (app, mainWindow, shell) => [
         accelerator: 'Ctrl+Command+F',
         click: () => mainWindow.setFullScreen( ! mainWindow.isFullScreen()),
       },
+      // {
+      //   label: 'Toggle Theme',
+      //   accelerator: 'Shift+CmdOrCtrl+T',
+      //   click: () => toggleThemeFromMenu(),
+      // },
       { type: 'separator' },
       {
         label: 'Reload',
-        accelerator: 'Command+R',
+        accelerator: 'CmdOrCtrl+R',
         click: () => {
           if (mainWindow.restart) {
             mainWindow.restart();
@@ -91,7 +98,7 @@ const menuTemplate = (app, mainWindow, shell) => [
       },
       {
         label: 'Toggle Developer Tools',
-        accelerator: 'Alt+Command+I',
+        accelerator: 'Alt+CmdOrCtrl+I',
         click: () => mainWindow.toggleDevTools(),
       },
       { type: 'separator' },
@@ -111,7 +118,7 @@ const menuTemplate = (app, mainWindow, shell) => [
     submenu: [
       {
         label: 'Minimize',
-        accelerator: 'Command+M',
+        accelerator: 'CmdOrCtrl+M',
         selector: 'performMiniaturize:'
       },
       {

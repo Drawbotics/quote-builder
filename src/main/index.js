@@ -4,7 +4,6 @@ const path = require('path');
 const windowStateKeeper = require('electron-window-state');
 
 const createMenu = require('./menu');
-const registerIpcListeners = require('./ipc-listeners');
 
 
 dotenv.config();
@@ -48,8 +47,6 @@ module.exports = function startApp() {
     _window.on('closed', () => {
       _window = null;
     });
-
-    registerIpcListeners();
 
     Menu.setApplicationMenu(createMenu(app, _window));
 

@@ -1,3 +1,4 @@
+import registerIpcListeners from './ipc';
 import { setTheme, getTheme } from './themes';
 
 
@@ -9,4 +10,5 @@ async function setupTheme() {
 
 export function bootstrap() {
   setupTheme();
+  registerIpcListeners();
 }
