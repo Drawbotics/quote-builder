@@ -9,7 +9,7 @@ import fs from 'fs';
 import Title from '../components/Title';
 import Button from '../components/Button';
 import Person, { PersonType } from '../components/Person';
-import { savePerson, loadPeople, deletePerson } from '../utils/people';
+import { savePerson, loadPeople, deletePerson } from '../utils/storage/people';
 import { showError } from '../utils/dialogs';
 
 

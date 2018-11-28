@@ -41,7 +41,12 @@ class Application extends React.Component<{
   location: any,
   match: any,
 }> {
+  state = {
+    title: '',
+  }
+
   render() {
+    const { title } = this.state;
     const { toggleTheme, activeTheme, location } = this.props;
     const sidebarOpen = location.pathname !== '/new' && ! location.pathname.includes('/edit');
     return (
@@ -53,11 +58,11 @@ class Application extends React.Component<{
             open={sidebarOpen} />
         </div>
         <div className={styles.sidebarContent}>
-          <TitleBar />
+          <TitleBar title={title} />
           <div className={styles.container}>
             <AnimatedSwitch location={location}>
-              <Route path="/:id/edit" component={Document} />
-              <Route path="/new" component={Document} />
+              <Route path="/:id/edit" render={(props) => <Document {...props} setDocumentTitle={(title) => this.setState({ title })} />} />
+              <Route path="/new" render={(props) => <Document {...props} setDocumentTitle={(title) => this.setState({ title })} />} />
               <Route path="/people" component={People} />
               <Route path="/exports" component={Exports} />
               <Route path="/quotes" component={Quotes} />

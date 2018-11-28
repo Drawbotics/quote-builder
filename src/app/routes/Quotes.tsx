@@ -7,6 +7,7 @@ import Title from '../components/Title';
 import Button from '../components/Button';
 import QuoteCard from '../components/QuoteCard';
 import { checkForUntitledFile, deleteUntitled, getIdFromUntitled } from '../utils/storage';
+import { loadQuotes } from '../utils/storage/quotes';
 import { showMessage } from '../utils/dialogs';
 
 
@@ -140,6 +141,10 @@ class Quotes extends React.Component<{
     newSelectionOpen: false,
   }
 
+  async componentWillMount() {
+    this._handleLoadQuotes();
+  }
+
   componentDidMount() {
     this._handleUntitledDoc();
     document.addEventListener('click', this._handleClickDocument);
@@ -199,7 +204,7 @@ class Quotes extends React.Component<{
 
   @autobind
   _handleOpenImport() {
-    
+
   }
 
   @autobind
@@ -217,6 +222,12 @@ class Quotes extends React.Component<{
         closeButtonLabel: 'Cancel',
       });
     }
+  }
+
+  @autobind
+  async _handleLoadQuotes() {
+    const quotes = await loadQuotes();
+    console.log(quotes);
   }
 }
 

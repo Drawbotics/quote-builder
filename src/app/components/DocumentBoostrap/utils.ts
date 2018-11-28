@@ -1,5 +1,5 @@
 import { ServiceType } from '../TableEditor/types';
-import { loadPerson } from '~/utils/people';
+import { loadPerson } from '~/utils/storage/people';
 import { tablesToServiceList } from '~/utils/services';
 import { ProductType } from '~/utils/types';
 
