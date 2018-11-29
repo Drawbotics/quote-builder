@@ -5,7 +5,7 @@ import { FileText, File, Download } from 'react-feather';
 
 import Title from '../components/Title';
 import Button from '../components/Button';
-import QuoteCard from '../components/QuoteCard';
+import QuoteCard, { QuoteCardType } from '../components/QuoteCard';
 import { checkForUntitledFile, deleteUntitled, getIdFromUntitled } from '../utils/storage';
 import { loadQuotes } from '../utils/storage/quotes';
 import { showMessage } from '../utils/dialogs';
@@ -140,6 +140,7 @@ class Quotes extends React.Component<{
 
   state = {
     newSelectionOpen: false,
+    quotes: [] as QuoteCardType[],
   }
 
   async componentWillMount() {
@@ -160,8 +161,7 @@ class Quotes extends React.Component<{
 
   render() {
     const { history } = this.props;
-    const { newSelectionOpen } = this.state;
-    const quotes = [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }];
+    const { newSelectionOpen, quotes } = this.state;
     return (
       <div className={styles.quotes}>
         <div className={styles.header}>
@@ -190,7 +190,7 @@ class Quotes extends React.Component<{
         <div className={styles.grid}>
           {quotes.map((quote, i) => (
             <div key={i} className={styles.cell}>
-              <QuoteCard draft={false} onClick={() => history.push(`/${quote.id}/edit`)} />
+              <QuoteCard quote={quote} onClick={() => history.push(`/${quote.id}/edit`)} />
             </div>
           ))}
         </div>
@@ -232,7 +232,17 @@ class Quotes extends React.Component<{
   async _handleLoadQuotes() {
     const quotes = await loadQuotes();
     const { files } = quotes;   // NOTE: get notFound as well to display warnings
-    console.log(files);
+    if (files) {
+      const cards = Object.values(files).map((quote: any) => ({
+        id: quote.id,
+        title: quote.data.project.projectName,
+        subtitle: quote.data.project.companyName,
+        coverImage: quote.data.project.clientLogo,
+        draft: true,
+        lastModified: quote.lastModified,
+      }));
+      this.setState({ quotes: cards });
+    }
   }
 }
 

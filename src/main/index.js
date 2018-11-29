@@ -33,7 +33,7 @@ module.exports = function startApp() {
       },
       show: false,
     });
-
+    
     windowState.manage(_window);
 
     if (process.env.APP_ENV === 'development') {

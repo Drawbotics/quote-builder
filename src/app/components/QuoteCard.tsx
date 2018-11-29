@@ -1,6 +1,17 @@
 import React from 'react';
 import { css, cx } from 'emotion';
-// import Vibrant from  'node-vibrant/dist/vibrant.js';
+import moment from 'moment';
+import ImagePalette from '@nicmosc/react-image-palette';
+
+
+export interface QuoteCardType {
+  id: string
+  title: string
+  subtitle: string
+  lastModified: string
+  coverImage: string
+  draft: boolean
+}
 
 
 const styles = {
@@ -23,9 +34,13 @@ const styles = {
       transform: translateY(0px);
     }
   `,
-  cover: css`
+  coverWrapper: css`
     height: 150px;
-    background: red;
+  `,
+  cover: css`
+    height: 100%;
+    background: var(--tertiary);
+    transition: all var(--transition-duration) ease-in-out;
   `,
   body: css`
     padding: var(--padding);
@@ -84,36 +99,35 @@ const styles = {
 };
 
 
-// const img = 'https://dcassetcdn.com/design_img/3462815/727072/727072_19015191_3462815_05af343b_image.jpg';
-//
-//
-// Vibrant.from(img, { colorCount: 2 }).getPalette().then(function(palette: any) {
-//   console.log(palette.Vibrant._rgb, palette.DarkMuted._rgb);
-// });
-
-
 const QuoteCard: React.SFC<{
-  draft: boolean,
+  quote: QuoteCardType,
   onClick?: () => void,
-}> = ({ draft, onClick }) => {
+}> = ({ quote, onClick }) => {
+  const { draft, title, subtitle, lastModified, coverImage } = quote;
   const type = draft ? 'Draft' : 'Finished';
-  const colors = ["rgb(12, 116, 188)", "rgb(108, 108, 115)"];
+  // const colors = ["rgb(12, 116, 188)", "rgb(108, 108, 115)"];
   return (
     <div className={styles.quoteCard} onClick={onClick}>
-      <div className={styles.cover} style={{ background: `linear-gradient(to left top, ${colors[0]}, ${colors[1]})` }} />
+      <div className={styles.coverWrapper}>
+        <ImagePalette image={coverImage}>
+          {({ backgroundColor, alternativeColor }: { backgroundColor: string, alternativeColor: string }) => (
+            <div className={styles.cover} style={{ background: `linear-gradient(to left top, ${backgroundColor}, ${alternativeColor})` }} />
+          )}
+        </ImagePalette>
+      </div>
       <div className={styles.body}>
         <div className={styles.title}>
-          Groupe Lanay
+          {title}
         </div>
         <div className={styles.subtitle}>
-          Marie Le Bourdonecckk
+          {subtitle}
         </div>
         <div className={styles.footer}>
           <div className={cx(styles.type, { [styles.draft]: draft })}>
             {type}
           </div>
           <div className={styles.date}>
-            23 June, 2018
+            {moment(lastModified).format('Do MMM, YYYY')}
           </div>
         </div>
       </div>
