@@ -68,3 +68,10 @@ export function setTheme(theme: string) {
     });
   }
 }
+
+
+export async function toggleTheme() {
+  console.log('gonna toggle');
+  const currentTheme = await getTheme();
+  setTheme(currentTheme === 'dark' ? 'light' : 'dark');
+}

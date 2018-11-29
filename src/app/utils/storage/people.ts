@@ -1,6 +1,6 @@
 import { omit } from 'lodash';
 
-import { save, load } from './storage';
+import { save, load } from './index';
 
 
 export async function savePerson(path: string, value: any) {

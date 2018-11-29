@@ -55,8 +55,9 @@ export async function loadUntitled(id: string) {
 }
 
 
-export function deleteUntitled(fileName: string) {
-  const pathToFile = path.resolve(storage.getDataPath(), fileName);
+export function deleteUntitled(id: string) {
+  console.log('gonna delete', id);
+  const pathToFile = path.resolve(storage.getDataPath(), `untitled-${id}.json`);
   fs.unlink(pathToFile, (error: Error) => {
     if (error) {
       throw error;
@@ -69,4 +70,9 @@ export function checkForUntitledFile() {
   const files = fs.readdirSync(storage.getDataPath());
   const untitledFiles = files.filter((fileName) => fileName.includes('untitled'));
   return untitledFiles[0];    // NOTE: we should never have more than 1
+}
+
+
+export function getIdFromUntitled(fileName: string) {
+  return fileName.replace('untitled-', '').replace('.json', '');
 }

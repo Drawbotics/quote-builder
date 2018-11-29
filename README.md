@@ -348,3 +348,26 @@ We use a basic mapping between files and their location on disk to load them in 
   '10di3jf0-kj93-1hj8-8oih-3kjhfwo83jhf': '/System/Users/user/Downloads/Client-quote-1.qdp',
 }
 ```
+
+
+## Menu commands
+### File
+- New quote `CmdOrCtrl+N`
+- Import `CmdOrCtrl+O`
+- -
+- Save `CmdOrCtrl+S`
+- Save As `Shift+CmdOrCtrl+S`
+- Export as PDF `CmdOrCtrl+E`
+- -
+- Close file `CmdOrCtrl+W`
+
+If the first two commands and "close file" are called in the `/edit` route, the user is asked if they want to save the current file or they want to discard the changes. If the file is still temporary (untitled), then it will be deleted.
+
+Any file specific command (e.g. save, save as etc) called in routes other than `/edit` it does nothing.
+
+### Edit
+Default
+
+### View
+Default plus:
+- Toggle dark mode/light mode `Shift+CmdOrCtrl+M`

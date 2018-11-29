@@ -2,7 +2,7 @@ import React from 'react';
 import { css, cx } from 'emotion';
 import { get } from 'lodash';
 
-import { loadPeople } from '../../utils/people';
+import { loadPeople } from '../../utils/storage/people';
 import ProfilePicture from '../ProfilePicture';
 import { PersonType } from '../Person';
 

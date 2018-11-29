@@ -1,12 +1,13 @@
 import React from 'react';
 import { css, cx } from 'emotion';
 import autobind from 'autobind-decorator';
-import { FileText, File } from 'react-feather';
+import { FileText, File, Download } from 'react-feather';
 
 import Title from '../components/Title';
 import Button from '../components/Button';
-import QuoteCard from '../components/QuoteCard';
-import { checkForUntitledFile, deleteUntitled } from '../utils/storage';
+import QuoteCard, { QuoteCardType } from '../components/QuoteCard';
+import { checkForUntitledFile, deleteUntitled, getIdFromUntitled } from '../utils/storage';
+import { loadQuotes } from '../utils/storage/quotes';
 import { showMessage } from '../utils/dialogs';
 
 
@@ -131,6 +132,7 @@ const Selection: React.SFC<{
 
 class Quotes extends React.Component<{
   history: any,
+  firstLoad: boolean,
 }> {
   selections: unknown = null;
   button: unknown = null;
@@ -138,10 +140,18 @@ class Quotes extends React.Component<{
 
   state = {
     newSelectionOpen: false,
+    quotes: [] as QuoteCardType[],
+  }
+
+  async componentWillMount() {
+    this._handleLoadQuotes();
   }
 
   componentDidMount() {
-    this._handleUntitledDoc();
+    const { firstLoad } = this.props;
+    if (firstLoad) {
+      this._handleUntitledDoc();
+    }
     document.addEventListener('click', this._handleClickDocument);
   }
 
@@ -151,8 +161,7 @@ class Quotes extends React.Component<{
 
   render() {
     const { history } = this.props;
-    const { newSelectionOpen } = this.state;
-    const quotes = [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }];
+    const { newSelectionOpen, quotes } = this.state;
     return (
       <div className={styles.quotes}>
         <div className={styles.header}>
@@ -160,6 +169,11 @@ class Quotes extends React.Component<{
             My quotes
           </Title>
           <div className={styles.actions}>
+            <div className={styles.action}>
+              <Button onClick={this._handleOpenImport} icon={<Download size={15} />} reverse>
+                Import
+              </Button>
+            </div>
             <div className={styles.action}>
               <div ref={(selections) => this.selections = selections} className={cx(styles.newSelection, { [styles.open]: newSelectionOpen })}>
                 <Selection label="From template" icon={<FileText />} onClick={() => history.push('/new?template')} />
@@ -176,7 +190,7 @@ class Quotes extends React.Component<{
         <div className={styles.grid}>
           {quotes.map((quote, i) => (
             <div key={i} className={styles.cell}>
-              <QuoteCard draft={false} onClick={() => history.push(`/${quote.id}/edit`)} />
+              <QuoteCard quote={quote} onClick={() => history.push(`/${quote.id}/edit`)} />
             </div>
           ))}
         </div>
@@ -193,17 +207,41 @@ class Quotes extends React.Component<{
   }
 
   @autobind
+  _handleOpenImport() {
+
+  }
+
+  @autobind
   _handleUntitledDoc() {
+    const { history } = this.props;
     const untitledFile = checkForUntitledFile();
     if (untitledFile) {
+      const id = getIdFromUntitled(untitledFile);
       showMessage({
         title: 'You have an unsaved file',
-        message: 'Click continue to continue editing it, or cancel to discard it',
-        onClickAction: () => console.log('gonna continue editing'),
-        onClickCancel: () => deleteUntitled(untitledFile),
+        message: 'The application was exited while editing an unsaved file. Click continue to continue editing it, or cancel to discard it',
+        onClickAction: () => history.push(`/${id}/edit`),
+        onClickCancel: () => deleteUntitled(id),
         confirmButtonLabel: 'Continue',
         closeButtonLabel: 'Cancel',
       });
+    }
+  }
+
+  @autobind
+  async _handleLoadQuotes() {
+    const quotes = await loadQuotes();
+    const { files } = quotes;   // NOTE: get notFound as well to display warnings
+    if (files) {
+      const cards = Object.values(files).map((quote: any) => ({
+        id: quote.id,
+        title: quote.data.project.projectName,
+        subtitle: quote.data.project.companyName,
+        coverImage: quote.data.project.clientLogo,
+        draft: true,
+        lastModified: quote.lastModified,
+      }));
+      this.setState({ quotes: cards });
     }
   }
 }

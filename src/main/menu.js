@@ -1,5 +1,7 @@
 const { Menu, shell } = require('electron');
 
+const { sendIpcAction } = require('./ipc-actions');
+
 
 const menuTemplate = (app, mainWindow, shell) => [
   {
@@ -29,6 +31,43 @@ const menuTemplate = (app, mainWindow, shell) => [
         label: 'Quit',
         accelerator: 'CmdOrCtrl+Q',
         click: () => app.quit(),
+      },
+    ],
+  },
+  {
+    label: 'File',
+    submenu: [
+      {
+        label: 'New Quote',
+        accelerator: 'CmdOrCtrl+N',
+        click: () => sendIpcAction('newQuote'),
+      },
+      {
+        label: 'Import Quote',
+        accelerator: 'CmdOrCtrl+O',
+        click: () => sendIpcAction('importQuote'),
+      },
+      { type: 'separator' },
+      {
+        label: 'Save',
+        accelerator: 'CmdOrCtrl+S',
+        click: () => sendIpcAction('saveQuote'),
+      },
+      {
+        label: 'Save As',
+        accelerator: 'Shift+CmdOrCtrl+S',
+        click: () => sendIpcAction('saveQuoteAs'),
+      },
+      {
+        label: 'Export to PDF',
+        accelerator: 'CmdOrCtrl+E',
+        click: () => sendIpcAction('exportToPDF'),
+      },
+      { type: 'separator' },
+      {
+        label: 'Close File',
+        accelerator: 'CmdOrCtrl+W',
+        click: () => sendIpcAction('closeFile'),
       },
     ],
   },
@@ -76,10 +115,15 @@ const menuTemplate = (app, mainWindow, shell) => [
         accelerator: 'Ctrl+Command+F',
         click: () => mainWindow.setFullScreen( ! mainWindow.isFullScreen()),
       },
+      // {
+      //   label: 'Toggle Theme',
+      //   accelerator: 'Shift+CmdOrCtrl+T',
+      //   click: () => sendIpcAction('toggleTheme'),
+      // },
       { type: 'separator' },
       {
         label: 'Reload',
-        accelerator: 'Command+R',
+        accelerator: 'CmdOrCtrl+R',
         click: () => {
           if (mainWindow.restart) {
             mainWindow.restart();
@@ -91,7 +135,7 @@ const menuTemplate = (app, mainWindow, shell) => [
       },
       {
         label: 'Toggle Developer Tools',
-        accelerator: 'Alt+Command+I',
+        accelerator: 'Alt+CmdOrCtrl+I',
         click: () => mainWindow.toggleDevTools(),
       },
       { type: 'separator' },
@@ -111,7 +155,7 @@ const menuTemplate = (app, mainWindow, shell) => [
     submenu: [
       {
         label: 'Minimize',
-        accelerator: 'Command+M',
+        accelerator: 'CmdOrCtrl+M',
         selector: 'performMiniaturize:'
       },
       {

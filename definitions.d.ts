@@ -1,4 +1,4 @@
 declare module 'electron-better-ipc';
 declare module '*.svg';
 declare module '*.yml';
-declare module 'node-vibrant/dist/vibrant.js';
+declare module '@nicmosc/react-image-palette';
