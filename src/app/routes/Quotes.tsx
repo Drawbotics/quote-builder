@@ -132,6 +132,7 @@ const Selection: React.SFC<{
 
 class Quotes extends React.Component<{
   history: any,
+  firstLoad: boolean,
 }> {
   selections: unknown = null;
   button: unknown = null;
@@ -146,7 +147,10 @@ class Quotes extends React.Component<{
   }
 
   componentDidMount() {
-    this._handleUntitledDoc();
+    const { firstLoad } = this.props;
+    if (firstLoad) {
+      this._handleUntitledDoc();
+    }
     document.addEventListener('click', this._handleClickDocument);
   }
 
@@ -215,9 +219,9 @@ class Quotes extends React.Component<{
       const id = getIdFromUntitled(untitledFile);
       showMessage({
         title: 'You have an unsaved file',
-        message: 'Click continue to continue editing it, or cancel to discard it',
+        message: 'The application was exited while editing an unsaved file. Click continue to continue editing it, or cancel to discard it',
         onClickAction: () => history.push(`/${id}/edit`),
-        onClickCancel: () => deleteUntitled(untitledFile),
+        onClickCancel: () => deleteUntitled(id),
         confirmButtonLabel: 'Continue',
         closeButtonLabel: 'Cancel',
       });
@@ -227,7 +231,8 @@ class Quotes extends React.Component<{
   @autobind
   async _handleLoadQuotes() {
     const quotes = await loadQuotes();
-    console.log(quotes);
+    const { files } = quotes;   // NOTE: get notFound as well to display warnings
+    console.log(files);
   }
 }
 

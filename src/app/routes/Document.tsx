@@ -4,11 +4,13 @@ import { v4 } from 'uuid';
 import autobind from 'autobind-decorator';
 import ipc from 'electron-better-ipc';  // NOTE: not sure about using this here, should be in utils
 import { remote } from 'electron';
+import NavigationPrompt from 'react-router-navigation-prompt';
 
 import DocumentBoostrap from '../components/DocumentBoostrap';
-import { saveUntitled, loadUntitled } from '../utils/storage';
+import { saveUntitled, loadUntitled, deleteUntitled } from '../utils/storage';
 import { saveQuote } from '../utils/storage/quotes';
 import { getFilenameFromPath } from '../utils';
+import CustomPrompt from '../components/CustomPrompt';
 
 
 class Document extends React.Component<{
@@ -16,10 +18,15 @@ class Document extends React.Component<{
   location: any,
   history: any,
   setDocumentTitle: (v: string) => void,
+  editing: boolean,
 }> {
+  mounted = false;
+
   state = {
     untitled: false,
     file: {} as any,
+    hasUnsavedChanges: false,
+    exiting: false,
   }
 
   async componentWillMount() {
@@ -40,15 +47,21 @@ class Document extends React.Component<{
   }
 
   componentDidMount() {
-    ipc.answerMain('saveQuote', this._handleSaveDocument);
+    this.mounted = true;
+    const { editing } = this.props;
+    if (editing) {
+      ipc.answerMain('saveQuote', this._handleSaveDocument);
+    }
   }
 
   componentWillUnmount() {
     const { setDocumentTitle } = this.props;
-    setDocumentTitle('');
+    setDocumentTitle ? setDocumentTitle('') : null;
+    this.mounted = false;
   }
 
   render() {
+    const { untitled, hasUnsavedChanges, exiting } = this.state;
     const { match, location } = this.props;
     const { params } = match;
 
@@ -59,6 +72,17 @@ class Document extends React.Component<{
       return (
         <div>
           I am editing a document
+          <NavigationPrompt
+            when={(prevLoc: any, nextLoc: any) => ! nextLoc.pathname.includes('edit') && (untitled || hasUnsavedChanges)}>
+            {({ onConfirm }: { onConfirm: () => void } ) => (
+              <CustomPrompt
+                shouldShow={! exiting && (untitled || hasUnsavedChanges)}
+                message={untitled ? "This file hasn't been saved yet. Exiting will discard it. Are you sure you want to exit?" : undefined}
+                title={untitled ? "Are you sure you want to exit?" : "You have unsaved changes. Are you sure you want to exit?"}
+                confirmLabel="Exit"
+                onConfirm={() => untitled ? this._handleDeleteUntitled(onConfirm) : this.setState({ exiting: true, }, onConfirm)} />
+            )}
+          </NavigationPrompt>
         </div>
       );
     }
@@ -83,17 +107,25 @@ class Document extends React.Component<{
         buttonLabel: 'Save',
         defaultPath: 'Untitled',
         filters: [{ name: 'Quotes', extensions: ['qdp'] }],
-      }, (path) => {
+      }, async (path) => {
         if (path) {
-          saveQuote(file.id, path, file);
-          this.setState({ untitled: false });
+          await saveQuote(file.id, path, file);
+          this.mounted && this.setState({ untitled: false });
           setDocumentTitle(getFilenameFromPath(path));
         }
       });
     }
     else {
-
+      // NOTE: handle saving the actual file as well
+      this.setState({ hasUnsavedChanges: false });
     }
+  }
+
+  @autobind
+  _handleDeleteUntitled(callback: () => void) {
+    const { file } = this.state;
+    deleteUntitled(file.id);
+    this.setState({ exiting: true, }, callback);
   }
 }
 

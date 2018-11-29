@@ -43,10 +43,17 @@ class Application extends React.Component<{
 }> {
   state = {
     title: '',
+    prevPath: '',
+  }
+
+  componentWillReceiveProps(nextProps: any) {
+    if (nextProps.location.pathname !== this.props.location.pathname) {
+      this.setState({ prevPath: this.props.location.pathname })
+    }
   }
 
   render() {
-    const { title } = this.state;
+    const { title, prevPath } = this.state;
     const { toggleTheme, activeTheme, location } = this.props;
     const sidebarOpen = location.pathname !== '/new' && ! location.pathname.includes('/edit');
     return (
@@ -61,11 +68,11 @@ class Application extends React.Component<{
           <TitleBar title={title} />
           <div className={styles.container}>
             <AnimatedSwitch location={location}>
-              <Route path="/:id/edit" render={(props) => <Document {...props} setDocumentTitle={(title) => this.setState({ title })} />} />
-              <Route path="/new" render={(props) => <Document {...props} setDocumentTitle={(title) => this.setState({ title })} />} />
+              <Route path="/:id/edit" render={(props) => <Document {...props} editing={true} setDocumentTitle={(title) => this.setState({ title })} />} />
+              <Route path="/new" component={Document} />
               <Route path="/people" component={People} />
               <Route path="/exports" component={Exports} />
-              <Route path="/quotes" component={Quotes} />
+              <Route path="/quotes" render={(props) => <Quotes {...props} firstLoad={prevPath === '/'} />} />
               <Redirect from="/" to="/quotes" />
             </AnimatedSwitch>
           </div>

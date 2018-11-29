@@ -14,7 +14,7 @@ async function loadMappings() {
 
 export async function loadQuotes() {
   const mappings = await loadMappings();
-  // also return separately the not found files
+  if (! mappings) return {};
   const fileIds = Object.keys(mappings);
   let files = {};
   let notFound: string[] = [];
@@ -31,7 +31,8 @@ export async function loadQuotes() {
 
 
 export async function saveQuote(id: string, path: string, value: any) {
-  await writeFile(path, JSON.stringify(value));
+  const lastModified = new Date();
+  await writeFile(path, JSON.stringify({ ...value, lastModified }));
   await saveMapping(id, path);
-  deleteUntitled(`untitled-${id}.json`);
+  deleteUntitled(id);
 }
