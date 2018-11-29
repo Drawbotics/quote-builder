@@ -34,3 +34,17 @@ export async function readFile(path: string) {
     });
   });
 }
+
+
+export async function deleteFile(path: string) {
+  return new Promise<any>((resolve, reject) => {
+    fs.unlink(path, (error: Error) => {
+      if (error) {
+        reject(error);
+      }
+      else {
+        resolve();
+      }
+    });
+  });
+}

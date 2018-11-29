@@ -1,7 +1,9 @@
 import storage from 'electron-json-storage';
-import { isEmpty, get, set } from 'lodash';
+import { isEmpty, get, set, omit } from 'lodash';
 import fs from 'fs';
 import path from 'path';
+
+import { deleteFile } from '../index';
 
 
 export async function save(scope: string, path: string | null, value: any): Promise<any> {
@@ -35,6 +37,22 @@ export async function load(scope: string, path?: string | undefined): Promise<an
 }
 
 
+export async function remove(scope: string, path: string): Promise<any> {
+  return new Promise<any>(async (resolve, reject) => {
+    const currentValue = await load(scope, '') || {};
+    const newValue = omit(currentValue, [path]);
+    storage.set(scope, newValue, (error: Error) => {
+      if (error) {
+        reject();
+      }
+      else {
+        resolve(newValue);
+      }
+    });
+  });
+}
+
+
 export async function saveSetting(path: string, value: any) {
   return await save('settings', path, value);
 }
@@ -56,13 +74,8 @@ export async function loadUntitled(id: string) {
 
 
 export function deleteUntitled(id: string) {
-  console.log('gonna delete', id);
   const pathToFile = path.resolve(storage.getDataPath(), `untitled-${id}.json`);
-  fs.unlink(pathToFile, (error: Error) => {
-    if (error) {
-      throw error;
-    }
-  });
+  deleteFile(pathToFile);
 }
 
 

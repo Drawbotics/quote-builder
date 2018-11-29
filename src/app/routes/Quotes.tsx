@@ -7,7 +7,7 @@ import Title from '../components/Title';
 import Button from '../components/Button';
 import QuoteCard, { QuoteCardType } from '../components/QuoteCard';
 import { checkForUntitledFile, deleteUntitled, getIdFromUntitled } from '../utils/storage';
-import { loadQuotes } from '../utils/storage/quotes';
+import { loadQuotes, deleteQuote } from '../utils/storage/quotes';
 import { showMessage } from '../utils/dialogs';
 
 
@@ -190,7 +190,7 @@ class Quotes extends React.Component<{
         <div className={styles.grid}>
           {quotes.map((quote, i) => (
             <div key={i} className={styles.cell}>
-              <QuoteCard quote={quote} onClick={() => history.push(`/${quote.id}/edit`)} />
+              <QuoteCard quote={quote} onClick={() => history.push(`/${quote.id}/edit`)} onClickDelete={() => this._handleDeleteQuote(quote.id)} />
             </div>
           ))}
         </div>
@@ -204,6 +204,12 @@ class Quotes extends React.Component<{
     if (! e.path.includes(this.selections) && newSelectionOpen && ! e.path.includes(this.button)) {
       this.setState({ newSelectionOpen: false });
     }
+  }
+
+  @autobind
+  async _handleDeleteQuote(id: string) {
+    await deleteQuote(id);
+    this._handleLoadQuotes();
   }
 
   @autobind
@@ -232,6 +238,7 @@ class Quotes extends React.Component<{
   async _handleLoadQuotes() {
     const quotes = await loadQuotes();
     const { files } = quotes;   // NOTE: get notFound as well to display warnings
+    console.log('loaded quotes', files);
     if (files) {
       const cards = Object.values(files).map((quote: any) => ({
         id: quote.id,
@@ -242,6 +249,9 @@ class Quotes extends React.Component<{
         lastModified: quote.lastModified,
       }));
       this.setState({ quotes: cards });
+    }
+    else {
+      this.setState({ quotes: [] });
     }
   }
 }

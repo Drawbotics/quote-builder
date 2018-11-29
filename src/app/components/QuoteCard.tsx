@@ -2,6 +2,7 @@ import React from 'react';
 import { css, cx } from 'emotion';
 import moment from 'moment';
 import ImagePalette from '@nicmosc/react-image-palette';
+import { Trash2 } from 'react-feather';
 
 
 export interface QuoteCardType {
@@ -36,11 +37,48 @@ const styles = {
   `,
   coverWrapper: css`
     height: 150px;
+    position: relative;
+
+    &:hover {
+      & [data-element="overlay"] {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      & [data-element="delete"] {
+        transform: scale(1);
+      }
+    }
   `,
   cover: css`
     height: 100%;
     background: var(--tertiary);
     transition: all var(--transition-duration) ease-in-out;
+  `,
+  overlay: css`
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: var(--primary-overlay);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--transition-duration-short) ease-in-out;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+    padding: calc(var(--padding) / 2);
+  `,
+  delete: css`
+    color: var(--white);
+    transform: scale(0);
+    transition: transform var(--transition-duration-short) ease-in-out;
+
+    &:hover {
+      cursor: pointer;
+      transform: scale(1.05) !important;
+    }
   `,
   body: css`
     padding: var(--padding);
@@ -101,14 +139,19 @@ const styles = {
 
 const QuoteCard: React.SFC<{
   quote: QuoteCardType,
-  onClick?: () => void,
-}> = ({ quote, onClick }) => {
+  onClick: () => void,
+  onClickDelete: () => void,
+}> = ({ quote, onClick, onClickDelete }) => {
   const { draft, title, subtitle, lastModified, coverImage } = quote;
   const type = draft ? 'Draft' : 'Finished';
-  // const colors = ["rgb(12, 116, 188)", "rgb(108, 108, 115)"];
   return (
     <div className={styles.quoteCard} onClick={onClick}>
       <div className={styles.coverWrapper}>
+        <div className={styles.overlay} data-element="overlay">
+          <div className={styles.delete} data-element="delete" onClick={(e) => { e.stopPropagation(); onClickDelete() }}>
+            <Trash2 size={20} />
+          </div>
+        </div>
         <ImagePalette image={coverImage}>
           {({ backgroundColor, alternativeColor }: { backgroundColor: string, alternativeColor: string }) => (
             <div className={styles.cover} style={{ background: `linear-gradient(to left top, ${backgroundColor}, ${alternativeColor})` }} />

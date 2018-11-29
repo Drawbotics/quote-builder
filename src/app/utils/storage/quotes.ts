@@ -1,5 +1,5 @@
-import { save, deleteUntitled, load } from './index';
-import { readFile, writeFile } from '../index';
+import { save, deleteUntitled, load, remove } from './index';
+import { readFile, writeFile, deleteFile } from '../index';
 
 
 async function saveMapping(id: string, path: string) {
@@ -9,6 +9,11 @@ async function saveMapping(id: string, path: string) {
 
 async function loadMappings() {
   return await load('quote-mappings');
+}
+
+
+async function removeMapping(id: string) {
+  return await remove('quote-mappings', id);
 }
 
 
@@ -35,4 +40,12 @@ export async function saveQuote(id: string, path: string, value: any) {
   await writeFile(path, JSON.stringify({ ...value, lastModified }));
   await saveMapping(id, path);
   deleteUntitled(id);
+}
+
+
+export async function deleteQuote(id: string) {
+  const mappings = await loadMappings();
+  const location = mappings[id];
+  await deleteFile(location);
+  await removeMapping(id);
 }

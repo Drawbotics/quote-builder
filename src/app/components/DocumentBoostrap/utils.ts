@@ -3,11 +3,8 @@ import { loadPerson } from '~/utils/storage/people';
 import { tablesToServiceList } from '~/utils/services';
 import { ProductType } from '~/utils/types';
 
-import { fake } from './temp';
-
 
 export async function basicInfoToQuoteFile(info: any, fromTemplate: boolean) {
-  info = fake;
   const person = await loadPerson(info.sales.personId);
   const uniqueServices = tablesToServiceList(info.quote.tables);
   const customServices = uniqueServices.filter((service: ServiceType) => service.name);
