@@ -1,6 +1,7 @@
 const path = require('path');
 const dotenv = require('dotenv');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 
 dotenv.config();
@@ -34,6 +35,7 @@ module.exports = {
       filename: 'index.html',
       template: 'public/index.html',
     }),
+    new CopyWebpackPlugin([{ from: 'src/app/fonts', to: 'fonts' }]),
   ],
   module: {
     rules: [
@@ -60,8 +62,7 @@ module.exports = {
             },
           },
         ],
-      },
-      {
+      }, {
         test: /\.yml$/,
         use: [
           {

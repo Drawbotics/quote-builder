@@ -222,7 +222,10 @@ class Quotes extends React.Component<{
                   key={quote.id}
                   timeout={300}>
                   <div className={styles.cell}>
-                    <QuoteCard quote={quote} onClick={() => history.push(`/${quote.id}/edit`)} onClickDelete={() => this._handleDeleteQuote(quote.id)} />
+                    <QuoteCard
+                      quote={quote}
+                      onClick={() => history.push(`/${quote.id}/edit`)}
+                      onClickDelete={() => this._handleDeleteQuote(quote.id)} />
                   </div>
                 </CSSTransition>
             ))}

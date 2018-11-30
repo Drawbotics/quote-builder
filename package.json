@@ -25,6 +25,7 @@
     "babel-loader": "^8.0.4",
     "babel-plugin-emotion": "^9.2.11",
     "better-webpack-progress": "^1.1.0",
+    "copy-webpack-plugin": "^4.6.0",
     "css-loader": "^1.0.0",
     "electron": "^3.0.4",
     "electron-installer-dmg": "^2.0.0",

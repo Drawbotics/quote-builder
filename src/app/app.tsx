@@ -12,6 +12,13 @@ import Application from './routes/Application';
 
 
 injectGlobal`
+  @font-face {
+    font-family: 'Raleway';
+    src: local('Raleway-Medium') url('./fonts/Raleway-Medium.ttf') format('truetype');
+    src: local('Raleway-SemiBold') url('./fonts/Raleway-SemiBold.ttf') format('truetype');
+    src: local('Raleway-Bold') url('./fonts/Raleway-Bold.ttf') format('truetype');
+  }
+
   html, body, #root {
     height: 100%;
     font-family: 'Raleway', sans-serif;
