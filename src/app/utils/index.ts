@@ -2,9 +2,26 @@ import fs from 'fs';
 import { last } from 'lodash';
 
 
+declare global {
+  interface Window { _internals: any; }
+}
+
+window._internals = window._internals || {};
+
+
 export function getFilenameFromPath(path: string) {
   const file = last(path.split('/')) || '';
   return file.split('.')[0];
+}
+
+
+export function setCurrentLocale(locale: string) {
+  window._internals.locale = locale;
+}
+
+
+export function getCurrentLocale() {
+  return window._internals.locale || '';
 }
 
 

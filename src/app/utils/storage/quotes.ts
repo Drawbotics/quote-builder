@@ -1,5 +1,5 @@
 import { save, deleteUntitled, load, remove } from './index';
-import { readFile, writeFile, deleteFile, getFilenameFromPath } from '../index';
+import { readFile, writeFile, deleteFile, getFilenameFromPath, setCurrentLocale } from '../index';
 
 
 async function saveMapping(id: string, path: string) {
@@ -35,13 +35,14 @@ export async function loadQuotes() {
 }
 
 
-
 export async function loadQuote(id: string) {
   const mappings = await loadMappings();
   const location = mappings[id];
   const file = await readFile(location, { encoding: 'utf8' });
+  const parsed = JSON.parse(file)
+  setCurrentLocale(parsed.data.language);
   return {
-    file: JSON.parse(file),
+    file: parsed,
     fileName: getFilenameFromPath(location),
   };
 }

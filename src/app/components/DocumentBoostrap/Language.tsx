@@ -4,6 +4,7 @@ import { get } from 'lodash';
 import { Globe } from 'react-feather';
 
 import AnimatedCheckmark from '../AnimatedCheckmark';
+import { setCurrentLocale } from '../../utils';
 
 
 enum LanguageEnum {
@@ -63,6 +64,12 @@ const styles = {
 }
 
 
+function onClickLanguage(value: string, key: string, cb: (v: string, k: string) => void) {
+  setCurrentLocale(value);
+  cb(value, key);
+}
+
+
 const SelectBox: React.SFC<{
   selected: boolean,
   label: string,
@@ -92,9 +99,9 @@ const Language: React.SFC<{
   const language = get(value, 'language');
   return (
     <div className={styles.language}>
-      <SelectBox selected={language === 'EN'} label="English" onClick={() => onChange('EN', key)} />
-      <SelectBox selected={language === 'FR'} label="Français" onClick={() => onChange('FR', key)} />
-      <SelectBox selected={language === 'NL'} label="Nederlands" onClick={() => onChange('NL', key)} />
+      <SelectBox selected={language === 'EN'} label="English" onClick={() => onClickLanguage('EN', key, onChange)} />
+      <SelectBox selected={language === 'FR'} label="Français" onClick={() => onClickLanguage('FR', key, onChange)} />
+      <SelectBox selected={language === 'NL'} label="Nederlands" onClick={() => onClickLanguage('NL', key, onChange)} />
     </div>
   );
 }

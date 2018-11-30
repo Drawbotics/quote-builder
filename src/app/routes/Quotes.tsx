@@ -275,7 +275,6 @@ class Quotes extends React.Component<{
   async _handleLoadQuotes() {
     const quotes = await loadQuotes();
     const { files } = quotes;   // NOTE: get notFound as well to display warnings
-    console.log('loaded quotes', files);
     if (files) {
       const cards = Object.values(files).map((quote: any) => ({
         id: quote.id,
