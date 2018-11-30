@@ -44,6 +44,7 @@ export async function saveQuote(id: string, path: string, value: any) {
 
 
 export async function deleteQuote(id: string) {
+  // NOTE handle case where file is deleted outside of flow and we try to delete here (file not found)
   const mappings = await loadMappings();
   const location = mappings[id];
   await deleteFile(location);
