@@ -8,7 +8,7 @@ import NavigationPrompt from 'react-router-navigation-prompt';
 
 import DocumentBoostrap from '../components/DocumentBoostrap';
 import { saveUntitled, loadUntitled, deleteUntitled } from '../utils/storage';
-import { saveQuote } from '../utils/storage/quotes';
+import { saveQuote, loadQuote } from '../utils/storage/quotes';
 import { getFilenameFromPath } from '../utils';
 import CustomPrompt from '../components/CustomPrompt';
 
@@ -40,8 +40,9 @@ class Document extends React.Component<{
       }
       else {
         // load actual file
-        console.log('gonna load real file');
-        setDocumentTitle('My quote file');
+        const { file, fileName } = await loadQuote(params.id);
+        setDocumentTitle(fileName);
+        console.log(file);
       }
     }
   }

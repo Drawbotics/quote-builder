@@ -22,9 +22,9 @@ export async function writeFile(path: string, value: any) {
 }
 
 
-export async function readFile(path: string) {
+export async function readFile(path: string, options={}) {
   return new Promise<any>((resolve, reject) => {
-    fs.readFile(path, (error: Error, result: any) => {
+    fs.readFile(path, options, (error: Error, result: any) => {
       if (error) {
         reject(error);
       }

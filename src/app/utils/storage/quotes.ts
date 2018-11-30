@@ -1,5 +1,5 @@
 import { save, deleteUntitled, load, remove } from './index';
-import { readFile, writeFile, deleteFile } from '../index';
+import { readFile, writeFile, deleteFile, getFilenameFromPath } from '../index';
 
 
 async function saveMapping(id: string, path: string) {
@@ -35,6 +35,18 @@ export async function loadQuotes() {
 }
 
 
+
+export async function loadQuote(id: string) {
+  const mappings = await loadMappings();
+  const location = mappings[id];
+  const file = await readFile(location, { encoding: 'utf8' });
+  return {
+    file: JSON.parse(file),
+    fileName: getFilenameFromPath(location),
+  };
+}
+
+
 export async function saveQuote(id: string, path: string, value: any) {
   const lastModified = new Date();
   await writeFile(path, JSON.stringify({ ...value, lastModified }));
@@ -44,7 +56,7 @@ export async function saveQuote(id: string, path: string, value: any) {
 
 
 export async function deleteQuote(id: string) {
-  // NOTE handle case where file is deleted outside of flow and we try to delete here (file not found)
+  // TODO handle case where file is deleted outside of flow and we try to delete here (file not found)
   const mappings = await loadMappings();
   const location = mappings[id];
   await deleteFile(location);
