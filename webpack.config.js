@@ -23,6 +23,7 @@ module.exports = {
     filename: 'app.js',
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/',
+    globalObject: 'this',
   },
   resolve: {
     extensions: [ '.tsx', '.ts', '.js', '.jsx' ],

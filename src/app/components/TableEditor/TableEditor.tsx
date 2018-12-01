@@ -24,7 +24,7 @@ const initialTable: TableType = {
     {
       phase: '',
       service: { id: undefined },
-      comment: 'No Comment',
+      comment: '',
       price: '€3000'
     },
     {

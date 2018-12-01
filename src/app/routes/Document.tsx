@@ -11,6 +11,7 @@ import { saveUntitled, loadUntitled, deleteUntitled } from '../utils/storage';
 import { saveQuote, loadQuote } from '../utils/storage/quotes';
 import { getFilenameFromPath } from '../utils';
 import CustomPrompt from '../components/CustomPrompt';
+import DocumentEditor from '../components/DocumentEditor';
 
 
 class Document extends React.Component<{
@@ -72,7 +73,6 @@ class Document extends React.Component<{
     else {
       return (
         <div>
-          I am editing a document
           <NavigationPrompt
             when={(prevLoc: any, nextLoc: any) => ! nextLoc.pathname.includes('edit') && (untitled || hasUnsavedChanges)}>
             {({ onConfirm }: { onConfirm: () => void } ) => (
@@ -84,6 +84,7 @@ class Document extends React.Component<{
                 onConfirm={() => untitled ? this._handleDeleteUntitled(onConfirm) : this.setState({ exiting: true, }, onConfirm)} />
             )}
           </NavigationPrompt>
+          <DocumentEditor />
         </div>
       );
     }
