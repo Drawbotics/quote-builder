@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
   page: {
     fontFamily: 'Oswald',
     flexDirection: 'row',
-    backgroundColor: '#E4E4E4'
+    backgroundColor: 'white',
   },
   section: {
     margin: 10,

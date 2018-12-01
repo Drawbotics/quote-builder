@@ -5,10 +5,6 @@ import { round } from 'lodash';
 
 const styles = {
   controls: css`
-    position: absolute;
-    bottom: var(--margin);
-    right: var(--margin);
-    z-index: 9;
     display: inline-flex;
     align-items: center;
   `,
