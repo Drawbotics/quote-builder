@@ -3,6 +3,8 @@ import { css } from 'emotion';
 import autobind from 'autobind-decorator';
 
 import { TableHeaderType } from './types';
+import { getCurrentLocale } from '../../utils';
+import { translateAlt as ta  } from '../../utils/translation';
 
 
 const styles = {
@@ -49,12 +51,13 @@ class Header extends React.Component <{
 }> {
   render() {
     const { header } = this.props;
+    const loc = getCurrentLocale();
     return (
       <div className={styles.header}>
-        <input name="phase" className={styles.cell} value={header.phase} onChange={this._handleChangeValue} />
-        <input name="service" className={styles.cell} value={header.service} onChange={this._handleChangeValue} />
-        <input name="comment" className={styles.cell} value={header.comment} onChange={this._handleChangeValue} />
-        <input name="price" className={styles.cell} value={header.price} onChange={this._handleChangeValue} />
+        <input name="phase" className={styles.cell} value={ta(loc, 'table.phase', header.phase)} onChange={this._handleChangeValue} />
+        <input name="service" className={styles.cell} value={ta(loc, 'table.service', header.service)} onChange={this._handleChangeValue} />
+        <input name="comment" className={styles.cell} value={ta(loc, 'table.comment', header.comment)} onChange={this._handleChangeValue} />
+        <input name="price" className={styles.cell} value={ta(loc, 'table.price', header.price)} onChange={this._handleChangeValue} />
       </div>
     );
   }

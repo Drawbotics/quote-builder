@@ -21,7 +21,7 @@ export function setCurrentLocale(locale: string) {
 
 
 export function getCurrentLocale() {
-  return window._internals.locale || '';
+  return window._internals.locale || 'EN';
 }
 
 

@@ -14,9 +14,29 @@ import Application from './routes/Application';
 injectGlobal`
   @font-face {
     font-family: 'Raleway';
-    src: local('Raleway-Medium') url('./fonts/Raleway-Medium.ttf') format('truetype');
-    src: local('Raleway-SemiBold') url('./fonts/Raleway-SemiBold.ttf') format('truetype');
-    src: local('Raleway-Bold') url('./fonts/Raleway-Bold.ttf') format('truetype');
+    src: local('Raleway Medium'), local('Raleway-Medium'),
+      url(https://fonts.gstatic.com/s/raleway/v12/1Ptrg8zYS_SKggPNwN4rWqZPANqczVs.woff2) format('woff2'),
+      url('./fonts/Raleway-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'Raleway';
+    src: local('Raleway SemiBold'), local('Raleway-SemiBold'),
+      url(https://fonts.gstatic.com/s/raleway/v12/1Ptrg8zYS_SKggPNwPIsWqZPANqczVs.woff2) format('woff2'),
+      url('./fonts/Raleway-SemiBold.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'Raleway';
+    src: local('Raleway Bold'), local('Raleway-Bold'),
+      url(https://fonts.gstatic.com/s/raleway/v12/1Ptrg8zYS_SKggPNwJYtWqhPANqczVsq4A.woff2) format('woff2'),
+      url('./fonts/Raleway-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
   }
 
   html, body, #root {

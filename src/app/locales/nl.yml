@@ -1,1 +1,12 @@
 table:
+  phase: Phase
+  service: Service
+  comment: Comment
+  price: Price
+services:
+  interior3d:
+    name: 3D Interior
+  exterior3d:
+    name: 3D Exterior
+  custom:
+    name: Custom product

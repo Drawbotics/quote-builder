@@ -79,4 +79,15 @@ export function createTranslate(locale: string, base: string) {
 }
 
 
+export function translateAlt(locale: string, base: string, alt: string | undefined) {
+  const translation = translate(locale, base);
+  if (alt || translation === '') {
+    return alt;
+  }
+  else {
+    return translation;
+  }
+}
+
+
 export default translate;
