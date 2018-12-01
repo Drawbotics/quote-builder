@@ -13,16 +13,6 @@ export interface QuestionType {
 
 export default [
   {
-    slug: 'language',
-    title: 'Choose the language',
-    component: Language,
-  },
-  {
-    slug: 'quote',
-    title: 'Fill in your quote',
-    component: OfferTable,
-  },
-  {
     slug: 'client',
     title: 'Who is your client?',
     component: Client,
@@ -32,19 +22,19 @@ export default [
     title: 'Import the company logo',
     component: CompanyLogo,
   },
-  // {
-  //   slug: 'language',
-  //   title: 'Choose the language',
-  //   component: Language,
-  // },
+  {
+    slug: 'language',
+    title: 'Choose the language',
+    component: Language,
+  },
   {
     slug: 'sales',
     title: 'Choose your sales',
     component: Sales,
   },
-  // {
-  //   slug: 'quote',
-  //   title: 'Fill in your quote',
-  //   component: OfferTable,
-  // },
+  {
+    slug: 'quote',
+    title: 'Fill in your quote',
+    component: OfferTable,
+  },
 ];
