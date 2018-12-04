@@ -1,11 +1,12 @@
 import React from 'react';
 import { Page, Text, View, Document as PDFDocument, StyleSheet, Font } from '@react-pdf/renderer';
+import { remote } from 'electron';
 
 
 // Create styles
 const styles = StyleSheet.create({
   page: {
-    fontFamily: 'Oswald',
+    fontFamily: 'OpenSans',
     flexDirection: 'row',
     backgroundColor: 'white',
   },
@@ -18,8 +19,8 @@ const styles = StyleSheet.create({
 
 
 Font.register(
-  'https://fonts.gstatic.com/s/oswald/v13/Y_TKV6o8WovbUd3m_X9aAA.ttf',
-  { family: 'Oswald' },
+  `http://localhost:${remote.getGlobal('_serverPort')}/fonts/OpenSans-Regular.ttf`,
+  { family: 'OpenSans' },
 );
 
 

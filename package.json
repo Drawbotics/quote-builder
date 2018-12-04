@@ -63,6 +63,7 @@
     "emotion": "^9.2.12",
     "express": "^4.16.4",
     "fs": "0.0.1-security",
+    "get-port": "^4.0.0",
     "json-loader": "^0.5.7",
     "lodash": "^4.17.11",
     "moment": "^2.22.2",

@@ -6,6 +6,7 @@ import autobind from 'autobind-decorator';
 
 import MyDocument from './Document';
 import ZoomControls from './ZoomControls';
+import DraggableContainer from '../DraggableContainer';
 
 
 const styles = {
@@ -54,19 +55,21 @@ class DocumentEditor extends React.Component {
           <ZoomControls zoom={zoom} onClickZoom={(v: number) => this.setState({ zoom: v })} />
         </div>
         <div className={styles.viewer}>
-          <BlobProvider document={MyDocument()}>
-            {({ blob }: { blob: any }) => (
-              <div>
-                {blob ?
-                  <Document file={blob} onLoadSuccess={this._onDocumentLoadSuccess}>
-                    {Array(pages).fill(0).map((value, index) => (
-                      <Page className={styles.page} key={index} pageNumber={index + 1} scale={zoom} />
-                    ))}
-                  </Document>
-                : 'Loading...'}
-              </div>
-            )}
-          </BlobProvider>
+          <DraggableContainer>
+            <BlobProvider document={MyDocument()}>
+              {({ blob }: { blob: any }) => (
+                <div>
+                  {blob ?
+                    <Document file={blob} onLoadSuccess={this._onDocumentLoadSuccess}>
+                      {Array(pages).fill(0).map((value, index) => (
+                        <Page className={styles.page} key={index} pageNumber={index + 1} scale={zoom} />
+                      ))}
+                    </Document>
+                  : 'Loading...'}
+                </div>
+              )}
+            </BlobProvider>
+          </DraggableContainer>
         </div>
       </div>
     );
