@@ -21,7 +21,8 @@ const styles = {
   editingBar: css`
   `,
   viewer: css`
-
+    height: 100%;
+    width: 100%;
   `,
   controls: css`
     position: fixed;
