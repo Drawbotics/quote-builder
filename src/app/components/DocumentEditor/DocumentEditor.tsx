@@ -6,7 +6,7 @@ import autobind from 'autobind-decorator';
 
 import MyDocument from './Document';
 import ZoomControls from './ZoomControls';
-import DraggableContainer from '../DraggableContainer';
+// import DraggableContainer from '../DraggableContainer';
 
 
 const styles = {
@@ -14,15 +14,12 @@ const styles = {
     display: flex;
     justify-content: center;
     position: relative;
-    height: 100%;
   `,
   navigationBar: css`
   `,
   editingBar: css`
   `,
   viewer: css`
-    height: 100%;
-    width: 100%;
   `,
   controls: css`
     position: fixed;
@@ -89,7 +86,7 @@ class DocumentEditor extends React.Component {
           <ZoomControls zoom={zoom} onClickZoom={(v: number) => this.setState({ zoom: v })} />
         </div>
         <div className={styles.viewer}>
-          <DraggableContainer>
+          {/* <DraggableContainer> */}
             <BlobProvider document={MyDocument()}>
               {({ blob }: { blob: any }) => (
                 <div>
@@ -108,7 +105,7 @@ class DocumentEditor extends React.Component {
                 </div>
               )}
             </BlobProvider>
-          </DraggableContainer>
+          {/* </DraggableContainer> */}
         </div>
       </div>
     );
