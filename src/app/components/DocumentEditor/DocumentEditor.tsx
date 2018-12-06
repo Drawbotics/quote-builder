@@ -7,6 +7,7 @@ import autobind from 'autobind-decorator';
 import MyDocument from './Document';
 import ZoomControls from './ZoomControls';
 import Divisor from './Divisor';
+import RoundButton from '../RoundButton';
 
 
 const styles = {
@@ -33,6 +34,15 @@ const styles = {
     box-shadow: var(--box-shadow);
     transition: all var(--transition-duration-short) ease-in-out;
 
+    &::before {
+      content: ' ';
+      position: absolute;
+      left: -30px;
+      width: 30px;
+      top: 0;
+      height: 100%;
+    }
+
     &::after {
       content: ' ';
       position: absolute;
@@ -45,6 +55,13 @@ const styles = {
       opacity: 0;
       transition: all var(--transition-duration-short) ease-in-out;
     }
+
+    &:hover {
+      & [data-element="delete"] {
+        opacity: 1;
+        pointer-events: auto;
+      }
+    }
   `,
   selected: css`
     box-shadow: var(--box-shadow), 0px 0px 0px 4px var(--primary);
@@ -52,6 +69,15 @@ const styles = {
     &::after {
       opacity: 0.2;
     }
+  `,
+  deletePage: css`
+    position: absolute;
+    left: calc(var(--margin) * -2);
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--transition-duration-short) ease-in-out;
   `,
 }
 
@@ -96,6 +122,9 @@ class DocumentEditor extends React.Component {
                           {index !== 0 ? <Divisor onClickPlus={() => console.log('a')} /> : null}
                           <div className={cx(styles.page, { [styles.selected]: editingPage === index })} ref={(page: HTMLDivElement) => this.pages[`page${index}`] = page}>
                             <Page pageNumber={index + 1} scale={zoom} />
+                            <div className={styles.deletePage} data-element="delete">
+                              <RoundButton onClick={() => console.log('d')} size={30}>-</RoundButton>
+                            </div>
                           </div>
                         </Fragment>
                       ))}
