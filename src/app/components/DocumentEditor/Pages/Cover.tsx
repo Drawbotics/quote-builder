@@ -35,16 +35,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    fontSize: 45,
+    fontSize: 40,
     color: sv.textSecondary,
   },
   subtitle: {
-    fontSize: 25,
+    fontSize: 20,
     color: sv.textSecondary,
     marginTop: 10,
   },
   description: {
-    fontSize: 17,
+    fontSize: 14,
     color: sv.textSecondary,
     marginTop: 5,
   },
@@ -66,7 +66,7 @@ const Cover: React.SFC<{
   project: ProjectType,
 }> = ({ project }) => {
   return (
-    <Page style={styles.page}>
+    <Page style={styles.page} wrap={false}>
       <View>
         <View style={styles.content}>
           <Text style={styles.title}>{t(getCurrentLocale(), 'document.price_offer')}</Text>

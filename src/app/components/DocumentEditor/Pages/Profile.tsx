@@ -1,5 +1,5 @@
 import React from 'react';
-import { Page, View, StyleSheet, Text, Image } from '@react-pdf/renderer';
+import { View, StyleSheet, Text, Image } from '@react-pdf/renderer';
 
 import { PersonType } from '~/components/Person';
 import sv from '../vars';
@@ -7,13 +7,8 @@ import { getCurrentLocale } from '~/utils';
 
 
 const styles = StyleSheet.create({
-  page: {
-    fontFamily: 'OpenSans-Light',
-    backgroundColor: 'white',
-  },
   wrapper: {
     width: '100%',
-    marginTop: 120,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -73,7 +68,7 @@ const Profile: React.SFC<{
   console.log(profile);
   const locale = getCurrentLocale().toLowerCase();
   return (
-    <Page style={styles.page}>
+    // <Page style={styles.page} wrap={false}>
       <View style={styles.wrapper}>
         <View style={styles.content}>
           <Text style={styles.quote}>{`"${profile.quotes[locale]}"`}</Text>
@@ -85,7 +80,7 @@ const Profile: React.SFC<{
           <Text style={styles.role}>{profile.role}</Text>
         </View>
       </View>
-    </Page>
+    // </Page>
   );
 };
 

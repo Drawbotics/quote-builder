@@ -2,7 +2,7 @@ import React from 'react';
 import { Document as PDFDocument, Font } from '@react-pdf/renderer';
 import { remote } from 'electron';
 
-import { Cover, Profile } from './Pages';
+import { Cover, Profile, PageWrapper } from './Pages';
 
 
 Font.register(
@@ -32,7 +32,9 @@ const DocumentGenerator = ({ document }: { document: any }) => {
   return (
     <PDFDocument>
       <Cover project={data.project} />
-      <Profile profile={data.person} />
+      <PageWrapper>
+        <Profile profile={data.person} />
+      </PageWrapper>
     </PDFDocument>
   );
 }
