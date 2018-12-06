@@ -1,0 +1,93 @@
+import React from 'react';
+import { Page, View, StyleSheet, Text, Image } from '@react-pdf/renderer';
+
+import { PersonType } from '~/components/Person';
+import sv from '../vars';
+import { getCurrentLocale } from '~/utils';
+
+
+const styles = StyleSheet.create({
+  page: {
+    fontFamily: 'OpenSans-Light',
+    backgroundColor: 'white',
+  },
+  wrapper: {
+    width: '100%',
+    marginTop: 120,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  content: {
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'column',
+    width: 300,
+  },
+  quote: {
+    fontFamily: 'OpenSans-Italic',
+    color: sv.textSecondary,
+    fontSize: 23,
+    textAlign: 'center',
+  },
+  name: {
+    fontFamily: 'OpenSans-SemiBold',
+    fontSize: 11,
+    textTransform: 'uppercase',
+    marginTop: sv.baseMarginSmall,
+    color: sv.textPrimary,
+  },
+  image: {
+    marginTop: sv.baseMargin,
+    height: 140,
+    width: 140,
+  },
+  description: {
+    marginTop: sv.baseMargin,
+    fontSize: 10,
+    color: sv.textSecondary,
+    lineHeight: 2,
+    textAlign: 'justify',
+  },
+  signature: {
+    marginTop: sv.baseMargin,
+    width: 100,
+  },
+  fullName: {
+    fontFamily: 'OpenSans-SemiBold',
+    fontSize: 9,
+    marginTop: sv.baseMarginSmall,
+    color: sv.textPrimary,
+  },
+  role: {
+    marginTop: 5,
+    color: sv.textSecondary,
+    fontSize: 9,
+  },
+});
+
+
+const Profile: React.SFC<{
+  profile: PersonType,
+}> = ({ profile }) => {
+  console.log(profile);
+  const locale = getCurrentLocale().toLowerCase();
+  return (
+    <Page style={styles.page}>
+      <View style={styles.wrapper}>
+        <View style={styles.content}>
+          <Text style={styles.quote}>{`"${profile.quotes[locale]}"`}</Text>
+          <Text style={styles.name}>{profile.name.split(' ')[0]}</Text>
+          <Image style={styles.image} src={profile.profilePicture} />
+          <Text style={styles.description}>{profile.descriptions[locale]}</Text>
+          <Image style={styles.signature} src={profile.signature} />
+          <Text style={styles.fullName}>{profile.name}</Text>
+          <Text style={styles.role}>{profile.role}</Text>
+        </View>
+      </View>
+    </Page>
+  );
+};
+
+
+export default Profile;

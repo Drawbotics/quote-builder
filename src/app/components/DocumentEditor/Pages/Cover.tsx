@@ -36,16 +36,16 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 45,
-    color: sv.textPrimary,
+    color: sv.textSecondary,
   },
   subtitle: {
     fontSize: 25,
-    color: sv.textPrimary,
+    color: sv.textSecondary,
     marginTop: 10,
   },
   description: {
     fontSize: 17,
-    color: sv.textPrimary,
+    color: sv.textSecondary,
     marginTop: 5,
   },
   clientLogo: {
@@ -65,7 +65,6 @@ const styles = StyleSheet.create({
 const Cover: React.SFC<{
   project: ProjectType,
 }> = ({ project }) => {
-  console.log(project);
   return (
     <Page style={styles.page}>
       <View>
