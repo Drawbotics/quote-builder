@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { css, cx } from 'emotion';
 import { BlobProvider } from '@react-pdf/renderer';
 import { Document, Page } from 'react-pdf/dist/entry.webpack';
@@ -6,7 +6,7 @@ import autobind from 'autobind-decorator';
 
 import MyDocument from './Document';
 import ZoomControls from './ZoomControls';
-// import DraggableContainer from '../DraggableContainer';
+import Divisor from './Divisor';
 
 
 const styles = {
@@ -29,7 +29,7 @@ const styles = {
   `,
   page: css`
     position: relative;
-    margin: calc(var(--margin) * 2) 0;
+    margin: var(--margin) 0;
     box-shadow: var(--box-shadow);
     transition: all var(--transition-duration-short) ease-in-out;
 
@@ -86,26 +86,24 @@ class DocumentEditor extends React.Component {
           <ZoomControls zoom={zoom} onClickZoom={(v: number) => this.setState({ zoom: v })} />
         </div>
         <div className={styles.viewer}>
-          {/* <DraggableContainer> */}
             <BlobProvider document={MyDocument()}>
               {({ blob }: { blob: any }) => (
                 <div>
                   {blob ?
                     <Document file={blob} onLoadSuccess={this._onDocumentLoadSuccess}>
                       {Array(pages).fill(0).map((value, index) => (
-                        <Page
-                          inputRef={(page: HTMLElement) => this.pages[`page${index}`] = page}
-                          className={cx(styles.page, { [styles.selected]: editingPage === index })}
-                          key={index}
-                          pageNumber={index + 1}
-                          scale={zoom} />
+                        <Fragment key={index}>
+                          {index !== 0 ? <Divisor onClickPlus={() => console.log('a')} /> : null}
+                          <div className={cx(styles.page, { [styles.selected]: editingPage === index })} ref={(page: HTMLDivElement) => this.pages[`page${index}`] = page}>
+                            <Page pageNumber={index + 1} scale={zoom} />
+                          </div>
+                        </Fragment>
                       ))}
                     </Document>
                   : 'Loading...'}
                 </div>
               )}
             </BlobProvider>
-          {/* </DraggableContainer> */}
         </div>
       </div>
     );
