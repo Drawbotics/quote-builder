@@ -2,6 +2,8 @@ import React from 'react';
 import { Page, View, StyleSheet, Image, Text } from '@react-pdf/renderer';
 
 import sv from '../vars';
+import { getCurrentLocale } from '~/utils';
+import { translate as t } from '~/utils/translation';
 
 import coverImage from '../images/cover.jpg';
 import drawboticsLogo from '../images/logo.png';
@@ -26,7 +28,7 @@ const styles = StyleSheet.create({
   },
   content: {
     position: 'absolute',
-    top: '80px',
+    top: '100px',
     width: '100%',
     display: 'flex',
     flexDirection: 'column',
@@ -68,7 +70,7 @@ const Cover: React.SFC<{
     <Page style={styles.page}>
       <View>
         <View style={styles.content}>
-          <Text style={styles.title}>Price Offer</Text>
+          <Text style={styles.title}>{t(getCurrentLocale(), 'document.price_offer')}</Text>
           <Text style={styles.subtitle}>{project.projectName}</Text>
           <Text style={styles.description}>{project.contactName}</Text>
           <Image style={styles.clientLogo} src={project.clientLogo} />

@@ -10,3 +10,5 @@ services:
     name: 3D Exterior
   custom:
     name: Custom product
+document:
+  price_offer: Price Offer
