@@ -12,7 +12,7 @@ const styles = {
     justify-content: center;
     color: var(--white);
     background: var(--primary);
-    font-size: 1.5rem;
+    font-size: 1.7rem;
     box-shadow: var(--box-shadow);
     transition: all var(--transition-duration-short) ease-in-out;
 
