@@ -25,7 +25,7 @@ Font.register(
 
 
 // Create Document Component
-const Document = () => (
+const DocumentGenerator = () => (
   <PDFDocument>
     <Page style={styles.page}>
       <View style={styles.section}>
@@ -47,4 +47,4 @@ const Document = () => (
 );
 
 
-export default Document;
+export default DocumentGenerator;

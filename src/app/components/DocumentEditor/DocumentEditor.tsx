@@ -4,10 +4,11 @@ import { BlobProvider } from '@react-pdf/renderer';
 import { Document, Page } from 'react-pdf/dist/entry.webpack';
 import autobind from 'autobind-decorator';
 
-import MyDocument from './Document';
+import DocumentGenerator from './DocumentGenerator';
 import ZoomControls from './ZoomControls';
 import Divisor from './Divisor';
 import RoundButton from '../RoundButton';
+import Spinner from '../Spinner';
 
 
 const styles = {
@@ -82,7 +83,9 @@ const styles = {
 }
 
 
-class DocumentEditor extends React.Component {
+class DocumentEditor extends React.Component<{
+  document: any,
+}> {
   pages = {}
 
   state = {
@@ -112,11 +115,11 @@ class DocumentEditor extends React.Component {
           <ZoomControls zoom={zoom} onClickZoom={(v: number) => this.setState({ zoom: v })} />
         </div>
         <div className={styles.viewer}>
-            <BlobProvider document={MyDocument()}>
+            <BlobProvider document={DocumentGenerator()}>
               {({ blob }: { blob: any }) => (
                 <div>
                   {blob ?
-                    <Document file={blob} onLoadSuccess={this._onDocumentLoadSuccess}>
+                    <Document file={blob} onLoadSuccess={this._onDocumentLoadSuccess} loading={<Spinner label="Loading PDF..." />}>
                       {Array(pages).fill(0).map((value, index) => (
                         <Fragment key={index}>
                           {index !== 0 ? <Divisor onClickPlus={() => console.log('a')} /> : null}
@@ -129,7 +132,7 @@ class DocumentEditor extends React.Component {
                         </Fragment>
                       ))}
                     </Document>
-                  : 'Loading...'}
+                  : <Spinner label="Loading PDF..." />}
                 </div>
               )}
             </BlobProvider>
