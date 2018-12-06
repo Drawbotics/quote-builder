@@ -1,5 +1,7 @@
 import React from 'react';
-import { View, Page, StyleSheet, Image } from '@react-pdf/renderer';
+import { View, Page, StyleSheet, Image, Text } from '@react-pdf/renderer';
+
+import sv from '../vars';
 
 import drawboticsLogo from '../images/logo.png';
 
@@ -22,6 +24,21 @@ const styles = StyleSheet.create({
     width: 80,
     transform: 'translate(-40px, 0)',
   },
+  pageLine: {
+    position: 'absolute',
+    top: 60,
+    right: 0,
+    width: 30,
+    height: 1,
+    backgroundColor: sv.textSecondary,
+  },
+  pageCount: {
+    position: 'absolute',
+    top: sv.baseMargin + 5,
+    right: sv.baseMargin + sv.baseMarginSmall,
+    color: sv.textSecondary,
+    fontSize: 32,
+  },
 });
 
 
@@ -35,6 +52,8 @@ const PageWrapper: React.SFC<{
       <View style={styles.wrapper}>
         {children}
       </View>
+      <View style={styles.pageLine}></View>
+      <Text style={styles.pageCount} render={({ pageNumber }: { pageNumber: number }) => `${pageNumber}`} />
       <Image style={styles.footerLogo} src={drawboticsLogo} />
     </Page>
   );
