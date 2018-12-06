@@ -105,6 +105,7 @@ class DocumentEditor extends React.Component<{
 
   render() {
     const { zoom, pages, editingPage } = this.state;
+    const { document } = this.props;
     return (
       <div className={styles.documentEditor}>
         <div className={styles.navigationBar}>
@@ -115,7 +116,7 @@ class DocumentEditor extends React.Component<{
           <ZoomControls zoom={zoom} onClickZoom={(v: number) => this.setState({ zoom: v })} />
         </div>
         <div className={styles.viewer}>
-            <BlobProvider document={DocumentGenerator()}>
+            <BlobProvider document={DocumentGenerator({ document })}>
               {({ blob }: { blob: any }) => (
                 <div>
                   {blob ?

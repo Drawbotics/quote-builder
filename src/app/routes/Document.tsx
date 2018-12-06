@@ -43,7 +43,7 @@ class Document extends React.Component<{
         // load actual file
         const { file, fileName } = await loadQuote(params.id);
         setDocumentTitle(fileName);
-        console.log(file);
+        this.setState({ file });
       }
     }
   }
