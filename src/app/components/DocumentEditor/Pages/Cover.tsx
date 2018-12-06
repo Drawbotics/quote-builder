@@ -1,13 +1,23 @@
 import React from 'react';
-import { Page, View, StyleSheet, Image } from '@react-pdf/renderer';
+import { Page, View, StyleSheet, Image, Text } from '@react-pdf/renderer';
+
+import sv from '../vars';
 
 import coverImage from '../images/cover.jpg';
 import drawboticsLogo from '../images/logo.png';
 
 
+interface ProjectType {
+  clientLogo: string
+  projectName: string
+  companyName: string
+  contactName: string
+}
+
+
 const styles = StyleSheet.create({
   page: {
-    fontFamily: 'OpenSans',
+    fontFamily: 'OpenSans-Light',
     backgroundColor: 'white',
   },
   coverImage: {
@@ -15,6 +25,30 @@ const styles = StyleSheet.create({
     height: 'auto',
   },
   content: {
+    position: 'absolute',
+    top: '80px',
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  title: {
+    fontSize: 45,
+    color: sv.textPrimary,
+  },
+  subtitle: {
+    fontSize: 25,
+    color: sv.textPrimary,
+    marginTop: 10,
+  },
+  description: {
+    fontSize: 17,
+    color: sv.textPrimary,
+    marginTop: 5,
+  },
+  clientLogo: {
+    height: '100px',
+    marginTop: sv.baseMarginSmall,
   },
   logo: {
     position: 'absolute',
@@ -26,10 +60,19 @@ const styles = StyleSheet.create({
 });
 
 
-const Cover = () => {
+const Cover: React.SFC<{
+  project: ProjectType,
+}> = ({ project }) => {
+  console.log(project);
   return (
     <Page style={styles.page}>
       <View>
+        <View style={styles.content}>
+          <Text style={styles.title}>Price Offer</Text>
+          <Text style={styles.subtitle}>{project.projectName}</Text>
+          <Text style={styles.description}>{project.contactName}</Text>
+          <Image style={styles.clientLogo} src={project.clientLogo} />
+        </View>
         <Image style={styles.coverImage} src={coverImage} />
         <Image style={styles.logo} src={drawboticsLogo} />
       </View>

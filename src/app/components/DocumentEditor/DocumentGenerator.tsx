@@ -10,12 +10,17 @@ Font.register(
   { family: 'OpenSans' },
 );
 
+Font.register(
+  `http://localhost:${remote.getGlobal('_serverPort')}/fonts/OpenSans-Light.ttf`,
+  { family: 'OpenSans-Light' },
+);
+
 
 const DocumentGenerator = ({ document }: { document: any }) => {
-  console.log(document);
+  const { data } = document;
   return (
     <PDFDocument>
-      <Cover />
+      <Cover project={data.project} />
       {/* <Page style={styles.page}>
         <View>
           <Text>Section #1</Text>

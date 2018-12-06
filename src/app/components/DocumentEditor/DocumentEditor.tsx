@@ -3,6 +3,7 @@ import { css, cx } from 'emotion';
 import { BlobProvider } from '@react-pdf/renderer';
 import { Document, Page } from 'react-pdf/dist/entry.webpack';
 import autobind from 'autobind-decorator';
+import { isEmpty } from 'lodash';
 
 import DocumentGenerator from './DocumentGenerator';
 import ZoomControls from './ZoomControls';
@@ -106,6 +107,7 @@ class DocumentEditor extends React.Component<{
   render() {
     const { zoom, pages, editingPage } = this.state;
     const { document } = this.props;
+    if (isEmpty(document)) return <Spinner label="Loading PDF..." />;
     return (
       <div className={styles.documentEditor}>
         <div className={styles.navigationBar}>
