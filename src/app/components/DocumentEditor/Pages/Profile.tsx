@@ -4,6 +4,7 @@ import { View, StyleSheet, Text, Image } from '@react-pdf/renderer';
 import { PersonType } from '~/components/Person';
 import sv from '../vars';
 import { getCurrentLocale } from '~/utils';
+import PageWrapper from './PageWrapper';
 
 
 const styles = StyleSheet.create({
@@ -67,17 +68,19 @@ const Profile: React.SFC<{
 }> = ({ profile }) => {
   const locale = getCurrentLocale().toLowerCase();
   return (
-    <View style={styles.wrapper}>
-      <View style={styles.content}>
-        <Text style={styles.quote}>{`"${profile.quotes[locale]}"`}</Text>
-        <Text style={styles.name}>{profile.name.split(' ')[0]}</Text>
-        <Image style={styles.image} src={profile.profilePicture} />
-        <Text style={styles.description}>{profile.descriptions[locale]}</Text>
-        <Image style={styles.signature} src={profile.signature} />
-        <Text style={styles.fullName}>{profile.name}</Text>
-        <Text style={styles.role}>{profile.role}</Text>
+    <PageWrapper>
+      <View style={styles.wrapper}>
+        <View style={styles.content}>
+          <Text style={styles.quote}>{`"${profile.quotes[locale]}"`}</Text>
+          <Text style={styles.name}>{profile.name.split(' ')[0]}</Text>
+          <Image style={styles.image} src={profile.profilePicture} />
+          <Text style={styles.description}>{profile.descriptions[locale]}</Text>
+          <Image style={styles.signature} src={profile.signature} />
+          <Text style={styles.fullName}>{profile.name}</Text>
+          <Text style={styles.role}>{profile.role}</Text>
+        </View>
       </View>
-    </View>
+    </PageWrapper>
   );
 };
 

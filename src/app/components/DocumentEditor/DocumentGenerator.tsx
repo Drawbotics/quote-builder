@@ -2,7 +2,11 @@ import React from 'react';
 import { Document as PDFDocument, Font } from '@react-pdf/renderer';
 import { remote } from 'electron';
 
-import { Cover, Profile, PageWrapper } from './Pages';
+import {
+  Cover,
+  Profile,
+  HowWeWork,
+} from './Pages';
 
 
 Font.register(
@@ -13,6 +17,11 @@ Font.register(
 Font.register(
   `http://localhost:${remote.getGlobal('_serverPort')}/fonts/OpenSans-SemiBold.ttf`,
   { family: 'OpenSans-SemiBold' },
+);
+
+Font.register(
+  `http://localhost:${remote.getGlobal('_serverPort')}/fonts/OpenSans-Bold.ttf`,
+  { family: 'OpenSans-Bold' },
 );
 
 Font.register(
@@ -31,9 +40,8 @@ const DocumentGenerator = ({ document }: { document: any }) => {
   return (
     <PDFDocument>
       <Cover project={data.project} />
-      <PageWrapper>
-        <Profile profile={data.person} />
-      </PageWrapper>
+      <Profile profile={data.person} />
+      <HowWeWork />
     </PDFDocument>
   );
 }

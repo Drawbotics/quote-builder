@@ -15,7 +15,12 @@ const styles = StyleSheet.create({
     height: '100%',
     width: '100%',
     padding: 70,
-    paddingTop: 100,
+    paddingTop: 0,
+    marginTop: 140,
+  },
+  withBackground: {
+    backgroundColor: sv.grey300,
+    marginTop: 180,
   },
   footerLogo: {
     position: 'absolute',
@@ -39,17 +44,39 @@ const styles = StyleSheet.create({
     color: sv.textSecondary,
     fontSize: 32,
   },
+  title: {
+    position: 'absolute',
+    top: 80,
+    left: 70,
+    fontSize: 30,
+    color: sv.textSecondary,
+  },
+  subtitle: {
+    position: 'absolute',
+    fontFamily: 'OpenSans-Bold',
+    top: 125,
+    left: 70,
+    fontSize: 12,
+    textTransform: 'uppercase',
+    color: sv.textPrimary,
+  },
 });
 
 
 const PageWrapper: React.SFC<{
   children: any,
+  title?: string,
+  subtitle?: string,
 }> = ({
   children,
+  title,
+  subtitle,
 }) => {
   return (
     <Page style={styles.page} wrap={false}>
-      <View style={styles.wrapper}>
+      {title ? <Text style={styles.title}>{title}</Text> : null}
+      {subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : null}
+      <View style={[styles.wrapper, title ? styles.withBackground : null ]}>
         {children}
       </View>
       <View style={styles.pageLine}></View>
