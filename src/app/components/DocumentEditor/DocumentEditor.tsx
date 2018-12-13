@@ -3,7 +3,7 @@ import { css, cx } from 'emotion';
 import { BlobProvider } from '@react-pdf/renderer';
 import { Document, Page } from 'react-pdf/dist/entry.webpack';
 import autobind from 'autobind-decorator';
-import { isEmpty } from 'lodash';
+import { isEmpty, get } from 'lodash';
 
 import DocumentGenerator from './DocumentGenerator';
 import ZoomControls from './ZoomControls';
@@ -146,23 +146,28 @@ class DocumentEditor extends React.Component<{
 
   @autobind
   _handleClickPage(e: MouseEvent) {
-    const boundingBoxes = Object.values(this.pages).map((page: HTMLElement) => page.getBoundingClientRect());
-    if (boundingBoxes.length > 0) {
-      const xDelimiter = { left: boundingBoxes[0].left, right: boundingBoxes[0].left + boundingBoxes[0].width };
-      if (e.clientX > xDelimiter.left && e.clientX < xDelimiter.right) {
-        const yDelimiters = boundingBoxes.map((box) => ({ top: box.top, bottom: box.top + box.height }));
-        let page = 0;
-        for (let delimiter of yDelimiters) {
-          if (e.clientY > delimiter.top && e.clientY < delimiter.bottom) {
-            this.setState({ editingPage: page });
-            break;
+    if (get(e.target, 'nodeName') === 'CANVAS') {
+      const boundingBoxes = Object.values(this.pages).map((page: HTMLElement) => page.getBoundingClientRect());
+      if (boundingBoxes.length > 0) {
+        const xDelimiter = { left: boundingBoxes[0].left, right: boundingBoxes[0].left + boundingBoxes[0].width };
+        if (e.clientX > xDelimiter.left && e.clientX < xDelimiter.right) {
+          const yDelimiters = boundingBoxes.map((box) => ({ top: box.top, bottom: box.top + box.height }));
+          let page = 0;
+          for (let delimiter of yDelimiters) {
+            if (e.clientY > delimiter.top && e.clientY < delimiter.bottom) {
+              this.setState({ editingPage: page });
+              break;
+            }
+            page++;
           }
-          page++;
+        }
+        else {
+          this.setState({ editingPage: undefined });
         }
       }
-      else {
-        this.setState({ editingPage: undefined });
-      }
+    }
+    else {
+      this.setState({ editingPage: undefined });
     }
   }
 
