@@ -6,6 +6,7 @@ import {
   Cover,
   Profile,
   HowWeWork,
+  WhatWeDo,
 } from './Pages';
 import { TableType } from '../TableEditor/types';
 import { PersonType } from '../Person';
@@ -36,6 +37,10 @@ Font.register(
   `http://localhost:${remote.getGlobal('_serverPort')}/fonts/OpenSans-LightItalic.ttf`,
   { family: 'OpenSans-Italic' },
 );
+
+Font.registerHyphenationCallback((words: string[]) => (
+  words.map((word: string) => [word])
+));
 
 
 interface SectionType {
@@ -81,6 +86,7 @@ const DocumentGenerator = ({ document }: { document: any }) => {
     <PDFDocument>
       <Cover project={data.project} />
       <Profile profile={data.person} />
+      <WhatWeDo contents={{}} />
       <HowWeWork contents={{}} />
     </PDFDocument>
   );

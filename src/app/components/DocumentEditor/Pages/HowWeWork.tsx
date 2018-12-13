@@ -40,9 +40,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   title: {
-    fontFamily: 'OpenSans-SemiBold',
+    fontFamily: 'OpenSans',
     fontSize: 14,
-    color: sv.textSecondary,
+    color: sv.textTertiary,
     marginBottom: sv.baseMarginSmall - 3,
   },
   paragraph: {
