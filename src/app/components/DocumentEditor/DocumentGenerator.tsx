@@ -37,6 +37,7 @@ Font.register(
 
 const DocumentGenerator = ({ document }: { document: any }) => {
   const { data } = document;
+  console.log(document);
   return (
     <PDFDocument>
       <Cover project={data.project} />

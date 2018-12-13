@@ -48,13 +48,10 @@ export function translate(locale: string, base: string, key?: string, data?: any
   let translationKey = '';
   if (arguments.length === 2) {
     translationKey = base;
-  }
-  if (arguments.length === 3) {
-    translationKey = base;
     defaultValue = key && (typeof key === 'string') ? key : undefined;
     data = key && (typeof key === 'object') ? key : {};
   }
-  if (arguments.length === 4) {
+  if (arguments.length === 3) {
     translationKey = base.replace(/\.$/, '') + '.' + key;
     defaultValue = data && (typeof data === 'string') ? data : undefined;
     data = data && (typeof data === 'object') ? data : {};
@@ -66,27 +63,18 @@ export function translate(locale: string, base: string, key?: string, data?: any
 }
 
 
-export function createTranslate(locale: string, base: string) {
-  return (key: string, data: any, defaultValue: string | undefined) => {
-    if ( ! data && defaultValue) {
-      return translate(locale, base, key, defaultValue);
+export function createTranslate(base: string) {
+  return (locale: string, key: string, alt?: string | undefined) => {
+    if (alt) {
+      return translate(locale, base, key, undefined, alt);
     }
-    if ( ! defaultValue && data) {
-      return translate(locale, base, key, data);
-    }
-    return translate(locale, base, key, data, defaultValue);
+    return translate(locale, base, key);
   };
 }
 
 
 export function translateAlt(locale: string, base: string, alt: string | undefined) {
-  const translation = translate(locale, base);
-  if (alt || translation === '') {
-    return alt;
-  }
-  else {
-    return translation;
-  }
+  return translate(locale, base, '', undefined, alt);
 }
 
 

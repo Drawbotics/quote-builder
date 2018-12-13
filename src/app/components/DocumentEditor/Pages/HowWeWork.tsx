@@ -1,10 +1,18 @@
 import React from 'react';
-import { View, StyleSheet } from '@react-pdf/renderer';
+import { View, StyleSheet, Image, Text } from '@react-pdf/renderer';
 
-// import sv from '../vars';
+import sv from '../vars';
 import { getCurrentLocale } from '~/utils';
+import { createTranslate } from '~/utils/translation';
 import PageWrapper from './PageWrapper';
 
+import studio from '../images/studio.png';
+import screen from '../images/screen.png';
+import rocket from '../images/rocket.png';
+import phone from '../images/phone.png';
+
+
+const tt = createTranslate('document.how_we_work');
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -12,22 +20,99 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: sv.baseMargin * 2,
   },
-  content: {
-    height: '500px',
+  section: {
+    position: 'relative',
+    height: '110px',
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    marginBottom: 10,
+  },
+  reverse: {
+    flexDirection: 'row-reverse',
+    textAlign: 'right',
+  },
+  info: {
+    flex: 1,
+  },
+  title: {
+    fontFamily: 'OpenSans-SemiBold',
+    fontSize: 14,
+    color: sv.textSecondary,
+    marginBottom: sv.baseMarginSmall - 3,
+  },
+  paragraph: {
+    fontSize: 9,
+    color: sv.textSecondary,
+    lineHeight: 1.8,
+  },
+  line: {
+    position: 'absolute',
+    bottom: 0,
+    height: '40px',
+    width: '2px',
+    backgroundColor: sv.grey300,
+    left: '50%',
+    transform: 'translateX(-1px)',
+  },
+  image: {
+    width: '60px',
+    margin: sv.baseMargin,
+    marginTop: 0,
   },
 });
 
 
-const HowWeWork: React.SFC<{}> = () => {
-  const locale = getCurrentLocale().toLowerCase();
-  console.log(locale);
+const Section: React.SFC<{
+  title: string,
+  paragraph: string,
+  icon: string,
+  reverse?: boolean,
+  noLine?: boolean,
+}> = ({ title, paragraph, icon, reverse, noLine }) => {
   return (
-    <PageWrapper title="Drawbotics" subtitle="How we work">
-      <View style={styles.wrapper}>
-        <View style={styles.content}>
+    <View style={[styles.section, reverse ? styles.reverse : null]}>
+      <View style={styles.info} />
+      <Image style={styles.image} src={icon} />
+      {noLine ? null : <View style={styles.line} />}
+      <View style={styles.info}>
+        <Text style={styles.title}>{title}</Text>
+        <Text style={styles.paragraph}>{paragraph}</Text>
+      </View>
+    </View>
+  );
+};
 
-        </View>
+
+const HowWeWork: React.SFC<{}> = () => {
+  const locale = getCurrentLocale();
+  const t = (k: string) => tt(locale, k);
+  return (
+    <PageWrapper title="Drawbotics" subtitle={t('subtitle')}>
+      <View style={styles.wrapper}>
+        <Section
+          title={t('kickoff_title')}
+          paragraph={t('kickoff_description')}
+          icon={phone} />
+        <Section
+          title={t('followup_title')}
+          paragraph={t('followup_description')}
+          icon={screen}
+          reverse />
+        <Section
+          title={t('correction_studio_title')}
+          paragraph={t('correction_studio_description')}
+          icon={studio} />
+        <Section
+          title={t('launch_title')}
+          paragraph={t('launch_description')}
+          icon={rocket}
+          reverse
+          noLine />
       </View>
     </PageWrapper>
   );

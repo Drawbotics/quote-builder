@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     marginTop: 140,
   },
   withBackground: {
-    backgroundColor: sv.grey300,
+    backgroundColor: sv.grey50,
     marginTop: 180,
   },
   footerLogo: {
