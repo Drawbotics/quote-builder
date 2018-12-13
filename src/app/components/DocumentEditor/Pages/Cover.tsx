@@ -4,17 +4,10 @@ import { Page, View, StyleSheet, Image, Text } from '@react-pdf/renderer';
 import sv from '../vars';
 import { getCurrentLocale } from '~/utils';
 import { translate as t } from '~/utils/translation';
+import { ProjectType } from '../../DocumentBoostrap';
 
 import coverImage from '../images/cover.jpg';
 import drawboticsLogo from '../images/logo.png';
-
-
-interface ProjectType {
-  clientLogo: string
-  projectName: string
-  companyName: string
-  contactName: string
-}
 
 
 const styles = StyleSheet.create({

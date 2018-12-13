@@ -88,28 +88,30 @@ const Section: React.SFC<{
 };
 
 
-const HowWeWork: React.SFC<{}> = () => {
+const HowWeWork: React.SFC<{
+  contents: any,
+}> = ({ contents }) => {
   const locale = getCurrentLocale();
-  const t = (k: string) => tt(locale, k);
+  const t = (k: string, alt?: string) => tt(locale, k, alt);
   return (
     <PageWrapper title="Drawbotics" subtitle={t('subtitle')}>
       <View style={styles.wrapper}>
         <Section
-          title={t('kickoff_title')}
-          paragraph={t('kickoff_description')}
+          title={t('kickoff_title', contents.kickoffTitle)}
+          paragraph={t('kickoff_description', contents.kickoffDescription)}
           icon={phone} />
         <Section
-          title={t('followup_title')}
-          paragraph={t('followup_description')}
+          title={t('followup_title', contents.followupTitle)}
+          paragraph={t('followup_description', contents.followupDescription)}
           icon={screen}
           reverse />
         <Section
-          title={t('correction_studio_title')}
-          paragraph={t('correction_studio_description')}
+          title={t('correction_studio_title', contents.correctionStudioTitle)}
+          paragraph={t('correction_studio_description', contents.correctionStudioDescription)}
           icon={studio} />
         <Section
-          title={t('launch_title')}
-          paragraph={t('launch_description')}
+          title={t('launch_title', contents.launchTitle)}
+          paragraph={t('launch_description', contents.launchDescription)}
           icon={rocket}
           reverse
           noLine />
