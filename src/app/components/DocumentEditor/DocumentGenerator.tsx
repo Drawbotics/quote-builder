@@ -7,6 +7,7 @@ import {
   Profile,
   HowWeWork,
   WhatWeDo,
+  PaymentMethods,
 } from './Pages';
 import { TableType } from '../TableEditor/types';
 import { PersonType } from '../Person';
@@ -88,6 +89,7 @@ const DocumentGenerator = ({ document }: { document: any }) => {
       <Profile profile={data.person} />
       <WhatWeDo contents={{}} />
       <HowWeWork contents={{}} />
+      <PaymentMethods profile={data.person} />
     </PDFDocument>
   );
   // TODO: plug like below once we have all templates

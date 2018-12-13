@@ -2,6 +2,7 @@ export default {
   textSecondary: '#616161',
   textPrimary: '#424242',
   textTertiary: '#757575',
+  primary: '#2cb7c6',
   grey50: '#fafafa',
   grey100: '#f5f5f5',
   grey200: '#eeeeee',

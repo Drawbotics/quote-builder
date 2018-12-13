@@ -22,6 +22,10 @@ const styles = StyleSheet.create({
     backgroundColor: sv.grey50,
     marginTop: 180,
   },
+  withoutPadding: {
+    paddingRight: 0,
+    paddingLeft: 0,
+  },
   footerLogo: {
     position: 'absolute',
     bottom: 40,
@@ -67,20 +71,27 @@ const PageWrapper: React.SFC<{
   children: any,
   title?: string,
   subtitle?: string,
+  noPadding?: boolean,
+  noPageNum?: boolean,
 }> = ({
   children,
   title,
   subtitle,
+  noPadding,
+  noPageNum,
 }) => {
   return (
     <Page style={styles.page} wrap={false}>
       {title ? <Text style={styles.title}>{title}</Text> : null}
       {subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : null}
-      <View style={[styles.wrapper, title ? styles.withBackground : null ]}>
+      <View style={[styles.wrapper,
+        title ? styles.withBackground : null,
+        noPadding ? styles.withoutPadding : null,
+      ]}>
         {children}
       </View>
-      <View style={styles.pageLine}></View>
-      <Text style={styles.pageCount} render={({ pageNumber }: { pageNumber: number }) => `${pageNumber}`} />
+      {noPageNum ? null : <View style={styles.pageLine}></View>}
+      {noPageNum ? null : <Text style={styles.pageCount} render={({ pageNumber }: { pageNumber: number }) => `${pageNumber}`} />}
       <Image style={styles.footerLogo} src={drawboticsLogo} />
     </Page>
   );
