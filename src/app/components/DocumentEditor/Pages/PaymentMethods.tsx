@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     marginTop: sv.baseMargin * 2,
   },
   picture: {
-    height: '70px',
+    height: '75px',
     marginRight: sv.baseMargin,
   },
   contact: {
@@ -88,11 +88,19 @@ const styles = StyleSheet.create({
   role: {
     fontSize: 9,
     color: sv.textPrimary,
+    marginBottom: 5,
   },
   contactRow: {
     fontSize: 9,
     color: sv.textPrimary,
     marginTop: 5,
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
+  label: {
+    fontFamily: 'OpenSans-SemiBold',
+    width: 10,
   },
 });
 
@@ -131,18 +139,18 @@ const PaymentMethods: React.SFC<{
             <View style={styles.contact}>
               <Text style={styles.name}>{profile.name}</Text>
               <Text style={styles.role}>{profile.role}</Text>
-              <Text style={styles.contactRow}>
-                <Text style={{ fontFamily: 'OpenSans-SemiBold' }}>P </Text>
-                {profile.phone}
-              </Text>
-              <Text style={styles.contactRow}>
-                <Text style={{ fontFamily: 'OpenSans-SemiBold' }}>M </Text>
-                {profile.mobile}
-              </Text>
-              <Text style={styles.contactRow}>
-                <Text style={{ fontFamily: 'OpenSans-SemiBold' }}>E </Text>
-                {profile.email}
-              </Text>
+              <View style={styles.contactRow}>
+                <Text style={styles.label}>P</Text>
+                <Text>{profile.phone}</Text>
+              </View>
+              <View style={styles.contactRow}>
+                <Text style={styles.label}>M</Text>
+                <Text>{profile.mobile}</Text>
+              </View>
+              <View style={styles.contactRow}>
+                <Text style={styles.label}>E</Text>
+                <Text>{profile.email}</Text>
+              </View>
             </View>
           </View>
         </View>
