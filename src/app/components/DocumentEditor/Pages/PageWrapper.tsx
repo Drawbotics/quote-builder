@@ -22,6 +22,9 @@ const styles = StyleSheet.create({
     backgroundColor: sv.grey50,
     marginTop: 180,
   },
+  withDescription: {
+    marginTop: 250,
+  },
   withoutPadding: {
     paddingRight: 0,
     paddingLeft: 0,
@@ -51,7 +54,9 @@ const styles = StyleSheet.create({
   title: {
     position: 'absolute',
     top: 80,
-    left: 70,
+    left: 0,
+    paddingRight: 70,
+    paddingLeft: 70,
     fontSize: 30,
     color: sv.textSecondary,
   },
@@ -59,10 +64,22 @@ const styles = StyleSheet.create({
     position: 'absolute',
     fontFamily: 'OpenSans-Bold',
     top: 125,
-    left: 70,
+    left: 0,
+    paddingRight: 70,
+    paddingLeft: 70,
     fontSize: 12,
     textTransform: 'uppercase',
     color: sv.textPrimary,
+  },
+  description: {
+    position: 'absolute',
+    top: 170,
+    left: 0,
+    fontSize: 10,
+    color: sv.textSecondary,
+    width: '100%',
+    paddingRight: 70,
+    paddingLeft: 70,
   },
 });
 
@@ -71,12 +88,14 @@ const PageWrapper: React.SFC<{
   children: any,
   title?: string,
   subtitle?: string,
+  description?: string,
   noPadding?: boolean,
   noPageNum?: boolean,
 }> = ({
   children,
   title,
   subtitle,
+  description,
   noPadding,
   noPageNum,
 }) => {
@@ -84,8 +103,10 @@ const PageWrapper: React.SFC<{
     <Page style={styles.page} wrap={false}>
       {title ? <Text style={styles.title}>{title}</Text> : null}
       {subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : null}
+      {description ? <Text style={styles.description}>{description}</Text> : null}
       <View style={[styles.wrapper,
         title ? styles.withBackground : null,
+        description ? styles.withDescription : null,
         noPadding ? styles.withoutPadding : null,
       ]}>
         {children}
