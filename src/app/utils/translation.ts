@@ -56,8 +56,8 @@ export function translate(locale: string, base: string, key?: string, data?: any
     defaultValue = data && (typeof data === 'string') ? data : undefined;
     data = data && (typeof data === 'object') ? data : {};
   }
-  if (arguments.length >= 5) {
-    translationKey = base.replace(/\.$/, '') + '.' + key;
+  if (arguments.length >= 4) {
+    translationKey = key ? base.replace(/\.$/, '') + '.' + key : base;
   }
   return _translate(locale, translationKey, data, defaultValue);
 }
@@ -74,7 +74,7 @@ export function createTranslate(base: string) {
 
 
 export function translateAlt(locale: string, base: string, alt: string | undefined) {
-  return translate(locale, base, '', undefined, alt);
+  return alt ? alt : translate(locale, base, undefined, undefined, alt);
 }
 
 
