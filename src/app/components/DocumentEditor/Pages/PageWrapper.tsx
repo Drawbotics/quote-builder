@@ -11,6 +11,20 @@ const styles = StyleSheet.create({
     fontFamily: 'OpenSans-Light',
     backgroundColor: 'white',
   },
+  pageWithBackground: {
+    backgroundColor: sv.grey50,
+  },
+  headerBackground: {
+    position: 'absolute',
+    top: 0,
+    height: 180,
+    width: '100%',
+    backgroundColor: sv.white,
+  },
+  wrapped: {
+    paddingTop: 210,
+    paddingBottom: 70,
+  },
   wrapper: {
     height: '100%',
     width: '100%',
@@ -29,6 +43,9 @@ const styles = StyleSheet.create({
     paddingRight: 0,
     paddingLeft: 0,
   },
+  wrappedWrapper: {
+    marginTop: 0,
+  },
   footerLogo: {
     position: 'absolute',
     bottom: 40,
@@ -45,6 +62,7 @@ const styles = StyleSheet.create({
     backgroundColor: sv.textSecondary,
   },
   pageCount: {
+    fontFamily: 'OpenSans-Light',
     position: 'absolute',
     top: sv.baseMargin + 5,
     right: sv.baseMargin + sv.baseMarginSmall,
@@ -52,6 +70,7 @@ const styles = StyleSheet.create({
     fontSize: 32,
   },
   title: {
+    fontFamily: 'OpenSans-Light',
     position: 'absolute',
     top: 80,
     left: 0,
@@ -72,6 +91,7 @@ const styles = StyleSheet.create({
     color: sv.textPrimary,
   },
   description: {
+    fontFamily: 'OpenSans-Light',
     position: 'absolute',
     top: 170,
     left: 0,
@@ -91,6 +111,7 @@ const PageWrapper: React.SFC<{
   description?: string,
   noPadding?: boolean,
   noPageNum?: boolean,
+  wrap?: boolean,
 }> = ({
   children,
   title,
@@ -98,22 +119,28 @@ const PageWrapper: React.SFC<{
   description,
   noPadding,
   noPageNum,
+  wrap=false,
 }) => {
   return (
-    <Page style={styles.page} wrap={false}>
-      {title ? <Text style={styles.title}>{title}</Text> : null}
-      {subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : null}
+    <Page style={[styles.page,
+      wrap ? styles.wrapped : null,
+      title && wrap ? styles.pageWithBackground : null,
+    ]} wrap={wrap}>
+      {wrap && title ? <View style={styles.headerBackground} fixed /> : null}
+      {title ? <Text style={styles.title} fixed>{title}</Text> : null}
+      {subtitle ? <Text style={styles.subtitle} fixed>{subtitle}</Text> : null}
       {description ? <Text style={styles.description}>{description}</Text> : null}
       <View style={[styles.wrapper,
         title ? styles.withBackground : null,
         description ? styles.withDescription : null,
         noPadding ? styles.withoutPadding : null,
+        wrap ? styles.wrappedWrapper: null,
       ]}>
         {children}
       </View>
-      {noPageNum ? null : <View style={styles.pageLine}></View>}
-      {noPageNum ? null : <Text style={styles.pageCount} render={({ pageNumber }: { pageNumber: number }) => `${pageNumber}`} />}
-      <Image style={styles.footerLogo} src={drawboticsLogo} />
+      {noPageNum ? null : <View style={styles.pageLine} fixed></View>}
+      {noPageNum ? null : <Text style={styles.pageCount} render={({ pageNumber }: { pageNumber: number }) => `${pageNumber}`} fixed />}
+      <Image style={styles.footerLogo} src={drawboticsLogo} fixed />
     </Page>
   );
 };

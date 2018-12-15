@@ -9,6 +9,7 @@ import {
   WhatWeDo,
   PaymentMethods,
   Stats,
+  Project,
 } from './Pages';
 import { TableType } from '../TableEditor/types';
 import { PersonType } from '../Person';
@@ -72,6 +73,12 @@ function sectionsToComponents(sections: SectionType[], data: DataType) {
       case 'howWeWork': {
         return <HowWeWork key={i} contents={section.contents} />
       }
+      case 'whatWeDo': {
+        return <WhatWeDo key={i} contents={section.contents} />
+      }
+      case 'project': {
+        return <Project key={i} contents={section.contents} />
+      }
       default: {
         console.warn(`No equivalent component for section of type ${section.type}`);
         return '';
@@ -86,6 +93,7 @@ const DocumentGenerator = ({ document }: { document: any }) => {
   // const components = sectionsToComponents(sections, data);
   return (
     <PDFDocument>
+      <Project contents={{}} />
       <Cover project={data.project} />
       <Profile profile={data.person} />
       <Stats contents={{}} />
