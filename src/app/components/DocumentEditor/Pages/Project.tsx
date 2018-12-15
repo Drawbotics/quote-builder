@@ -2,6 +2,7 @@ import React from 'react';
 import { View, StyleSheet, Text } from '@react-pdf/renderer';
 
 import sv from '../vars';
+import { title, paragraph} from './styles';
 import { getCurrentLocale } from '~/utils';
 import { createTranslate } from '~/utils/translation';
 import PageWrapper from './PageWrapper';
@@ -13,18 +14,8 @@ const tt = createTranslate('document.project');
 const styles = StyleSheet.create({
   wrapper: {
   },
-  title: {
-    fontSize: 16,
-    color: sv.textPrimary,
-    marginTop: sv.baseMargin,
-    marginBottom: sv.baseMarginSmall,
-  },
-  paragraph: {
-    fontSize: 10,
-    lineHeight: 1.8,
-    color: sv.textPrimary,
-    marginBottom: 5,
-  },
+  title: title,
+  paragraph: paragraph,
   subtitle: {
     fontSize: 10,
     fontFamily: 'OpenSans-SemiBold',

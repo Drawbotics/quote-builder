@@ -2,6 +2,7 @@ import React from 'react';
 import { View, StyleSheet, Text, Image } from '@react-pdf/renderer';
 
 import sv from '../vars';
+import { title, paragraph } from './styles';
 import { getCurrentLocale } from '~/utils';
 import { createTranslate } from '~/utils/translation';
 import PageWrapper from './PageWrapper';
@@ -24,19 +25,10 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     padding: sv.basePadding * 3,
-    paddingTop: sv.basePadding,
+    paddingTop: 0,
   },
-  title: {
-    fontSize: 15,
-    color: sv.textTertiary,
-    marginBottom: sv.baseMarginSmall - 3,
-  },
-  paragraph: {
-    fontSize: 9,
-    color: sv.textSecondary,
-    lineHeight: 1.8,
-    marginBottom: sv.baseMarginSmall,
-  },
+  title: { ...title, marginTop: 0 },
+  paragraph: { ...paragraph, marginBottom: sv.baseMarginSmall + 5, marginTop: 10 },
   websiteLink: {
     position: 'absolute',
     bottom: sv.baseMargin,
@@ -48,6 +40,7 @@ const styles = StyleSheet.create({
   },
   line: {
     marginBottom: 5,
+    marginTop: 0,
     display: 'flex',
     alignItems: 'flex-start',
     flexDirection: 'row',
