@@ -112,6 +112,7 @@ const PageWrapper: React.SFC<{
   noPadding?: boolean,
   noPageNum?: boolean,
   wrap?: boolean,
+  noLogo?: boolean,
 }> = ({
   children,
   title,
@@ -120,6 +121,7 @@ const PageWrapper: React.SFC<{
   noPadding,
   noPageNum,
   wrap=false,
+  noLogo,
 }) => {
   return (
     <Page style={[styles.page,
@@ -140,7 +142,7 @@ const PageWrapper: React.SFC<{
       </View>
       {noPageNum ? null : <View style={styles.pageLine} fixed></View>}
       {noPageNum ? null : <Text style={styles.pageCount} render={({ pageNumber }: { pageNumber: number }) => `${pageNumber}`} fixed />}
-      <Image style={styles.footerLogo} src={drawboticsLogo} fixed />
+      {noLogo ? null : <Image style={styles.footerLogo} src={drawboticsLogo} fixed />}
     </Page>
   );
 };

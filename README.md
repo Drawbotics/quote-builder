@@ -149,12 +149,8 @@ Can be edited:
 {
   title: undefined | String
   description: undefined | String
-  image1: DataURL
-  image2: DataURL
-  image3: DataURL
-  image4: DataURL
-  image5: DataURL
-  image6: DataURL
+  row1: DataURL[]
+  row2: DataURL[]
 }
 ```
 
