@@ -90,7 +90,7 @@ class DocumentEditor extends React.Component<{
   pages = {}
 
   state = {
-    zoom: 1.0,
+    zoom: 1.5,
     pages: 0,
     activePage: 1,
     editingPage: undefined,

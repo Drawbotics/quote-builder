@@ -113,6 +113,7 @@ const PageWrapper: React.SFC<{
   noPageNum?: boolean,
   wrap?: boolean,
   noLogo?: boolean,
+  extraComponent?: any,
 }> = ({
   children,
   title,
@@ -122,6 +123,7 @@ const PageWrapper: React.SFC<{
   noPageNum,
   wrap=false,
   noLogo,
+  extraComponent,
 }) => {
   return (
     <Page style={[styles.page,
@@ -132,6 +134,7 @@ const PageWrapper: React.SFC<{
       {title ? <Text style={styles.title} fixed>{title}</Text> : null}
       {subtitle ? <Text style={styles.subtitle} fixed>{subtitle}</Text> : null}
       {description ? <Text style={styles.description}>{description}</Text> : null}
+      {!! extraComponent && extraComponent}
       <View style={[styles.wrapper,
         title ? styles.withBackground : null,
         description ? styles.withDescription : null,

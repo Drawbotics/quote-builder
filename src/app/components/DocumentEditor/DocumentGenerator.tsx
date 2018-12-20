@@ -12,7 +12,7 @@ import {
   Project,
   StoryTelling,
   Tables,
-} from './Pages';
+} from './pages';
 import { TableType } from '../TableEditor/types';
 import { PersonType } from '../Person';
 import { ProjectType } from '../DocumentBoostrap';
