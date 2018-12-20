@@ -6,3 +6,4 @@ export { default as PaymentMethods } from './PaymentMethods';
 export { default as Stats } from './Stats';
 export { default as Project } from './Project';
 export { default as StoryTelling } from './StoryTelling';
+export { default as Tables } from './Tables';
