@@ -245,7 +245,6 @@ const Tables: React.SFC<{
   tables: TableType[],
 }> = ({ tables }) => {
   const locale = getCurrentLocale();
-  console.log(tables);
   return (
     <PageWrapper title={tt(locale, 'title')} wrap extraComponent={<Address />}>
       <View style={styles.wrapper}>

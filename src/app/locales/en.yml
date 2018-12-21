@@ -6,6 +6,7 @@ table:
 services:
   interior3d:
     name: 3D Interior
+    description: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
   exterior3d:
     name: 3D Exterior
   custom:
@@ -50,3 +51,5 @@ document:
     title: Storytelling
   tables:
     title: Price offer
+  products:
+    title: Products

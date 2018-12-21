@@ -12,7 +12,6 @@ interface OfferTableValue {
 
 const styles = {
   offerTable: css`
-    min-width: 1000px;
   `,
 }
 
