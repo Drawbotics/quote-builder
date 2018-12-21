@@ -74,8 +74,8 @@ const Services: React.SFC<{
   const sections = generateServiceSections(allServices, contents.products, locale);
   // placeholder
   const service = {
-    name: t(locale, 'services.interio3d.name'),
-    description: t(locale, 'interior3d.description'),
+    name: t(locale, 'services.interior3d.name'),
+    description: t(locale, 'services.interior3d.description'),
     coverImage: require('../images/services/interior3d.jpg'),
     icon: '',
   };
