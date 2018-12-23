@@ -40,7 +40,7 @@ const Stats: React.SFC<{
         <Text style={styles.paragraph}>{t('introduction_description')}</Text>
         <Text style={styles.title}>{t('information_title')}</Text>
         {sections.map((section, i) => (
-          <View key={i}>
+          <View key={i} wrap={false}>
             <Text style={styles.subtitle}>{section.title}</Text>
             <Text style={styles.paragraph}>{section.description}</Text>
           </View>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { View, StyleSheet, Image, Text } from '@react-pdf/renderer';
 
 import sv from '../vars';
@@ -7,12 +7,19 @@ import { getCurrentLocale } from  '~/utils';
 import { createTranslate, translate as t, translateAlt as ta } from '~/utils/translation';
 import { TableType } from '../../TableEditor/types';
 
+import revoLogo from '../images/revo-logo.png';
+
 
 interface ServiceType {
   icon: string
   name: string
   coverImage: string
   description: string
+}
+
+interface RevoType extends ServiceType {
+  description2: string
+  description3: string
 }
 
 
@@ -91,6 +98,22 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     lineHeight: 1.8,
   },
+  revoLogo: {
+    width: 130,
+    marginBottom: sv.baseMarginSmall,
+  },
+  revoWrapper: {
+    marginTop: sv.baseMargin,
+  },
+  descriptions: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+  },
+  revoDescription: {
+    flex: 1,
+    textAlign: 'left',
+  },
 });
 
 
@@ -114,6 +137,30 @@ const Service: React.SFC<{
 };
 
 
+const Revo: React.SFC<{
+  service: RevoType,
+}> = ({ service }) => {
+  const { description, description2, description3, coverImage } = service;
+  return (
+    <View style={styles.revoWrapper}>
+      <View style={styles.service}>
+        <View style={styles.info}>
+          <Image src={revoLogo} style={styles.revoLogo} />
+          <Text style={styles.description}>{description}</Text>
+        </View>
+        <View style={styles.imageWrapper}>
+          <Image src={coverImage} style={styles.image} />
+        </View>
+      </View>
+      <View style={styles.descriptions}>
+        <Text style={[styles.description, styles.revoDescription, { marginRight: sv.baseMargin }]}>{description2}</Text>
+        <Text style={[styles.description, styles.revoDescription, { marginLeft: sv.baseMargin }]}>{description3}</Text>
+      </View>
+    </View>
+  );
+};
+
+
 const Services: React.SFC<{
   tables: TableType[],
   contents: any,
@@ -126,15 +173,26 @@ const Services: React.SFC<{
   const service = {
     name: t(locale, 'services.interior3d.name'),
     description: t(locale, 'services.interior3d.description'),
-    coverImage: require('../images/services/interior3d.jpg'),
+    coverImage: require('../images/services/revo.png'),
     icon: require('../images/icons/services/interior3d.png'),
   };
   return (
-    <PageWrapper title="Drawbotics" subtitle={tt(locale, 'title')} wrap>
-      <Service service={service} />
-      <Service service={service} reversed />
-      <Service service={service} />
-    </PageWrapper>
+    <Fragment>
+      <PageWrapper title="Drawbotics" subtitle={tt(locale, 'title')} wrap>
+        <Service service={service} />
+        <Service service={service} reversed />
+        <Service service={service} />
+      </PageWrapper>
+      {true ?
+        <PageWrapper title="Drawbotics" subtitle={tt(locale, 'title')}>
+          <Revo service={{
+            ...service,
+            description2: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+            description3: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+          }} />
+        </PageWrapper>
+      : null}
+    </Fragment>
   );
 };
 
