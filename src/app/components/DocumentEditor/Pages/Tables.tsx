@@ -3,7 +3,7 @@ import { View, StyleSheet, Text } from '@react-pdf/renderer';
 
 import sv from '../vars';
 import { getCurrentLocale } from '~/utils';
-import { createTranslate } from '~/utils/translation';
+import { createTranslate, translate as t } from '~/utils/translation';
 import PageWrapper from './PageWrapper';
 import { TableType, TableRowType, FooterRowType } from '../../TableEditor/types';
 
@@ -138,7 +138,7 @@ const Row: React.SFC<{
 const Phases: React.SFC<{
   rows: TableRowType[],
 }> = ({ rows }) => {
-  const phases = ['Teasing', '', '', 'Commercialisation', '', ''];
+  const phases = rows.map((row) => row.phase);
   return (
     <View>
       {phases.map((label, i) => (
@@ -154,14 +154,11 @@ const Phases: React.SFC<{
 const Services: React.SFC<{
   rows: TableRowType[],
 }> = ({ rows }) => {
-  const services = [
-    { name: 'Brand ID', comment: '' },
-    { name: 'Landing Page', comment: '' },
-    { name: 'Newsletter', comment: '(2x)' },
-    { name: '3D Visit', comment: '(5 units + 3 hotspots)' },
-    { name: 'Revo', comment: '' },
-    { name: 'Drone shooting', comment: '' },
-  ];
+  const locale = getCurrentLocale();
+  const services = rows.map((row) => ({
+    name: row.service.name ? row.service.name : t(locale, `services.${row.service.id}.name`),
+    comment: row.comment,
+  }));
   return (
     <View>
       {services.map((service, i) => (
@@ -179,7 +176,7 @@ const Services: React.SFC<{
 const Prices: React.SFC<{
   rows: TableRowType[],
 }> = ({ rows }) => {
-  const prices = ['1200€', '1560€', '2500€', '540€', '22500€', '1200€'];
+  const prices = rows.map((row) => row.price);
   return (
     <View>
       {prices.map((price, i) => (
@@ -194,11 +191,7 @@ const Prices: React.SFC<{
 
 const Footer: React.SFC<{
   footers: FooterRowType[],
-}> = () => {
-  const footers = [
-    { label: 'Total', comment: 'Without Tax', value: '1.500.000€' },
-    { label: '', comment: 'With Tax', value: '1.800.000€' },
-  ];
+}> = ({ footers }) => {
   return (
     <View style={styles.footers}>
       {footers.map((footer, i) => (
@@ -251,7 +244,6 @@ const Tables: React.SFC<{
         {tables.map((table, i) => (
           <Table key={i} table={table} />
         ))}
-        <Table table={tables[0]} />
       </View>
     </PageWrapper>
   );

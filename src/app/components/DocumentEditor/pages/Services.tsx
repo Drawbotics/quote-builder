@@ -214,9 +214,8 @@ const Services: React.SFC<{
   const allServices = getAllServices(tables);
   const sections = generateServiceSections(allServices, contents.products, locale);
   const servicePages = chunk(sections.filter((section) => section.id !== 'revo'), 2);
-  // @ts-ignore
   const revo = sections.find((section) => section.id === 'revo');
-  // placeholder
+  // TODO: support revo
   const service = {
     id: 'revo',
     name: t(locale, 'services.revo.name'),
@@ -233,7 +232,7 @@ const Services: React.SFC<{
           ))}
         </PageWrapper>
       ))}
-      {true ?
+      {revo ?
         <PageWrapper title="Drawbotics" subtitle={tt(locale, 'title')}>
           <Revo service={{
             ...service,
