@@ -17,8 +17,9 @@ const styles = {
       left: 0;
       width: 100vw;
       background: var(--line-color);
-      transform: translateY(15px);
+      transform: translate(-25%, 15px);
       transition: background var(--transition-duration) ease-in-out;
+      z-index: 0;
     }
   `,
   button: css`

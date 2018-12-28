@@ -20,6 +20,10 @@ services:
     name: Custom product
 document:
   price_offer: Price Offer
+  cover:
+    title: Cover
+  profile:
+    title: Profile
   how_we_work:
     subtitle: How we work
     kickoff_title: Kick-off call
