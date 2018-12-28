@@ -6,6 +6,7 @@ import { title, paragraph} from './styles';
 import { getCurrentLocale } from '~/utils';
 import { createTranslate } from '~/utils/translation';
 import PageWrapper from './PageWrapper';
+import BulletedText from './utils/BulletedText';
 
 
 const tt = createTranslate('document.project');
@@ -42,7 +43,9 @@ const Stats: React.SFC<{
         {sections.map((section, i) => (
           <View key={i} wrap={false}>
             <Text style={styles.subtitle}>{section.title}</Text>
-            <Text style={styles.paragraph}>{section.description}</Text>
+            <View style={styles.paragraph}>
+              <BulletedText>{section.description}</BulletedText>
+            </View>
           </View>
         ))}
       </View>

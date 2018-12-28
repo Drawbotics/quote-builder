@@ -3,6 +3,7 @@ import { View, StyleSheet, Image, Text } from '@react-pdf/renderer';
 
 import sv from '../vars';
 import PageWrapper from './PageWrapper';
+import BulletedText from './utils/BulletedText';
 import { getCurrentLocale } from  '~/utils';
 import { createTranslate, translate as t, translateAlt as ta } from '~/utils/translation';
 import { TableType } from '../../TableEditor/types';
@@ -153,8 +154,12 @@ const Revo: React.SFC<{
         </View>
       </View>
       <View style={styles.descriptions}>
-        <Text style={[styles.description, styles.revoDescription, { marginRight: sv.baseMargin }]}>{description2}</Text>
-        <Text style={[styles.description, styles.revoDescription, { marginLeft: sv.baseMargin }]}>{description3}</Text>
+        <View style={[styles.description, styles.revoDescription, { marginRight: sv.baseMargin }]}>
+          <BulletedText>{description2}</BulletedText>
+        </View>
+        <View style={[styles.description, styles.revoDescription, { marginLeft: sv.baseMargin }]}>
+          <BulletedText>{description3}</BulletedText>
+        </View>
       </View>
     </View>
   );
@@ -188,7 +193,13 @@ const Services: React.SFC<{
           <Revo service={{
             ...service,
             description2: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-            description3: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+            description3: `
+              You receive:
+              - Lorem ipsum dolor sit amet, rere adipiscing elit.
+              - Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              - Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              Hello Money.
+            `,
           }} />
         </PageWrapper>
       : null}
