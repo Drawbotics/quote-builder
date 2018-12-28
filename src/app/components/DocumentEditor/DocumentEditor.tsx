@@ -3,11 +3,13 @@ import { css, cx } from 'emotion';
 import { BlobProvider } from '@react-pdf/renderer';
 import { Document, Page } from 'react-pdf/dist/entry.webpack';
 import autobind from 'autobind-decorator';
+import { isEmpty, get } from 'lodash';
 
-import MyDocument from './Document';
+import DocumentGenerator from './DocumentGenerator';
 import ZoomControls from './ZoomControls';
 import Divisor from './Divisor';
 import RoundButton from '../RoundButton';
+import Spinner from '../Spinner';
 
 
 const styles = {
@@ -82,7 +84,9 @@ const styles = {
 }
 
 
-class DocumentEditor extends React.Component {
+class DocumentEditor extends React.Component<{
+  document: any,
+}> {
   pages = {}
 
   state = {
@@ -102,6 +106,8 @@ class DocumentEditor extends React.Component {
 
   render() {
     const { zoom, pages, editingPage } = this.state;
+    const { document } = this.props;
+    if (isEmpty(document)) return <Spinner label="Loading PDF..." />;
     return (
       <div className={styles.documentEditor}>
         <div className={styles.navigationBar}>
@@ -112,11 +118,11 @@ class DocumentEditor extends React.Component {
           <ZoomControls zoom={zoom} onClickZoom={(v: number) => this.setState({ zoom: v })} />
         </div>
         <div className={styles.viewer}>
-            <BlobProvider document={MyDocument()}>
+            <BlobProvider document={DocumentGenerator({ document })}>
               {({ blob }: { blob: any }) => (
                 <div>
                   {blob ?
-                    <Document file={blob} onLoadSuccess={this._onDocumentLoadSuccess}>
+                    <Document file={blob} onLoadSuccess={this._onDocumentLoadSuccess} loading={<Spinner label="Loading PDF..." />}>
                       {Array(pages).fill(0).map((value, index) => (
                         <Fragment key={index}>
                           {index !== 0 ? <Divisor onClickPlus={() => console.log('a')} /> : null}
@@ -129,7 +135,7 @@ class DocumentEditor extends React.Component {
                         </Fragment>
                       ))}
                     </Document>
-                  : 'Loading...'}
+                  : <Spinner label="Loading PDF..." />}
                 </div>
               )}
             </BlobProvider>
@@ -140,23 +146,28 @@ class DocumentEditor extends React.Component {
 
   @autobind
   _handleClickPage(e: MouseEvent) {
-    const boundingBoxes = Object.values(this.pages).map((page: HTMLElement) => page.getBoundingClientRect());
-    if (boundingBoxes.length > 0) {
-      const xDelimiter = { left: boundingBoxes[0].left, right: boundingBoxes[0].left + boundingBoxes[0].width };
-      if (e.clientX > xDelimiter.left && e.clientX < xDelimiter.right) {
-        const yDelimiters = boundingBoxes.map((box) => ({ top: box.top, bottom: box.top + box.height }));
-        let page = 0;
-        for (let delimiter of yDelimiters) {
-          if (e.clientY > delimiter.top && e.clientY < delimiter.bottom) {
-            this.setState({ editingPage: page });
-            break;
+    if (get(e.target, 'nodeName') === 'CANVAS') {
+      const boundingBoxes = Object.values(this.pages).map((page: HTMLElement) => page.getBoundingClientRect());
+      if (boundingBoxes.length > 0) {
+        const xDelimiter = { left: boundingBoxes[0].left, right: boundingBoxes[0].left + boundingBoxes[0].width };
+        if (e.clientX > xDelimiter.left && e.clientX < xDelimiter.right) {
+          const yDelimiters = boundingBoxes.map((box) => ({ top: box.top, bottom: box.top + box.height }));
+          let page = 0;
+          for (let delimiter of yDelimiters) {
+            if (e.clientY > delimiter.top && e.clientY < delimiter.bottom) {
+              this.setState({ editingPage: page });
+              break;
+            }
+            page++;
           }
-          page++;
+        }
+        else {
+          this.setState({ editingPage: undefined });
         }
       }
-      else {
-        this.setState({ editingPage: undefined });
-      }
+    }
+    else {
+      this.setState({ editingPage: undefined });
     }
   }
 

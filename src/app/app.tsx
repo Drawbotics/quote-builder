@@ -4,11 +4,14 @@ import 'normalize.css/normalize.css';
 import autobind from 'autobind-decorator';
 import { Router, Route } from 'react-router-dom';
 
-
 import { bootstrap } from './utils/bootstrap';
 import history from './utils/history';
 import { setTheme, getTheme, themes } from './utils/themes';
 import Application from './routes/Application';
+
+import RalewayMedium from './fonts/Raleway-Medium.ttf';
+import RalewaySemiBold from './fonts/Raleway-SemiBold.ttf';
+import RalewayBold from './fonts/Raleway-Bold.ttf';
 
 
 injectGlobal`
@@ -16,7 +19,7 @@ injectGlobal`
     font-family: 'Raleway';
     src: local('Raleway Medium'), local('Raleway-Medium'),
       url(https://fonts.gstatic.com/s/raleway/v12/1Ptrg8zYS_SKggPNwN4rWqZPANqczVs.woff2) format('woff2'),
-      url('./fonts/Raleway-Medium.ttf') format('truetype');
+      url(${RalewayMedium}) format('truetype');
     font-weight: 500;
     font-style: normal;
   }
@@ -25,7 +28,7 @@ injectGlobal`
     font-family: 'Raleway';
     src: local('Raleway SemiBold'), local('Raleway-SemiBold'),
       url(https://fonts.gstatic.com/s/raleway/v12/1Ptrg8zYS_SKggPNwPIsWqZPANqczVs.woff2) format('woff2'),
-      url('./fonts/Raleway-SemiBold.ttf') format('truetype');
+      url(${RalewaySemiBold}) format('truetype');
     font-weight: 600;
     font-style: normal;
   }
@@ -34,7 +37,7 @@ injectGlobal`
     font-family: 'Raleway';
     src: local('Raleway Bold'), local('Raleway-Bold'),
       url(https://fonts.gstatic.com/s/raleway/v12/1Ptrg8zYS_SKggPNwJYtWqhPANqczVsq4A.woff2) format('woff2'),
-      url('./fonts/Raleway-Bold.ttf') format('truetype');
+      url(${RalewayBold}) format('truetype');
     font-weight: 700;
     font-style: normal;
   }

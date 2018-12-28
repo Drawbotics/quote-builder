@@ -43,7 +43,7 @@ class Document extends React.Component<{
         // load actual file
         const { file, fileName } = await loadQuote(params.id);
         setDocumentTitle(fileName);
-        console.log(file);
+        this.setState({ file });
       }
     }
   }
@@ -63,7 +63,7 @@ class Document extends React.Component<{
   }
 
   render() {
-    const { untitled, hasUnsavedChanges, exiting } = this.state;
+    const { untitled, hasUnsavedChanges, exiting, file } = this.state;
     const { match, location } = this.props;
     const { params } = match;
 
@@ -84,7 +84,7 @@ class Document extends React.Component<{
                 onConfirm={() => untitled ? this._handleDeleteUntitled(onConfirm) : this.setState({ exiting: true, }, onConfirm)} />
             )}
           </NavigationPrompt>
-          <DocumentEditor />
+          <DocumentEditor document={file} />
         </div>
       );
     }
