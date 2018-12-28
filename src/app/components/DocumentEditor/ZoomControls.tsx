@@ -25,9 +25,9 @@ const ZoomControls: React.SFC<{
 }> = ({ onClickZoom, zoom }) => {
   return (
     <div className={styles.controls}>
-      <RoundButton onClick={() => onClickZoom(zoom - 0.1)}>-</RoundButton>
+      <RoundButton onClick={() => onClickZoom(zoom - 0.2)}>-</RoundButton>
       <div className={styles.value}>{`${round(zoom * 100, 3)}%`}</div>
-      <RoundButton onClick={() => onClickZoom(zoom + 0.1)}>+</RoundButton>
+      <RoundButton onClick={() => onClickZoom(zoom + 0.2)}>+</RoundButton>
     </div>
   );
 }

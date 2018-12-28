@@ -54,7 +54,7 @@ module.exports = {
           'css-loader',
         ],
       }, {
-        test: /\.svg$/,
+        test: /\.svg|jpg|png$/,
         use: [
           {
             loader: 'file-loader',
@@ -74,6 +74,16 @@ module.exports = {
           },
           {
             loader: 'yaml-loader',
+          },
+        ],
+      }, {
+        test: /\.ttf$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: 'fonts/[name]-[hash].[ext]',
+            },
           },
         ],
       },
