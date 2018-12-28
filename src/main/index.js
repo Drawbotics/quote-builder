@@ -38,6 +38,7 @@ module.exports = function startApp() {
       icon: path.resolve(__dirname, '/app/images/qtp-desktop-small.png'),
       webPreferences: {
         webSecurity: false,
+        experimentalFeatures: true,
       },
       show: false,
     });

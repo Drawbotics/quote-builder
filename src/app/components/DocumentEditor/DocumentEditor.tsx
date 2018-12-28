@@ -8,21 +8,46 @@ import { isEmpty, get } from 'lodash';
 import DocumentGenerator from './DocumentGenerator';
 import ZoomControls from './ZoomControls';
 import Divisor from './Divisor';
+import NavigationPanel from './NavigationPanel';
 import RoundButton from '../RoundButton';
 import Spinner from '../Spinner';
 
 
 const styles = {
   documentEditor: css`
+    position: relative;
     display: flex;
     justify-content: center;
     position: relative;
+    overflow: hidden;
+    height: 100%;
   `,
   navigationBar: css`
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    z-index: 10;
+    transform: translateX(calc(-100% + 40px));
+    display: flex;
+    transition: transform var(--transition-duration-short) ease-in-out;
   `,
   editingBar: css`
   `,
+  barOpen: css`
+    transform: translateX(0);
+  `,
   viewer: css`
+    overflow: scroll;
+    overflow-x: hidden;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  `,
+  document: css`
+    position: relative;
+    width: auto;
   `,
   controls: css`
     position: fixed;
@@ -94,6 +119,7 @@ class DocumentEditor extends React.Component<{
     pages: 0,
     activePage: 1,
     editingPage: undefined,
+    navigationOpen: true,
   }
 
   componentDidMount() {
@@ -105,12 +131,16 @@ class DocumentEditor extends React.Component<{
   }
 
   render() {
-    const { zoom, pages, editingPage } = this.state;
+    const { zoom, pages, editingPage, navigationOpen } = this.state;
     const { document } = this.props;
     if (isEmpty(document)) return <Spinner label="Loading PDF..." />;
     return (
       <div className={styles.documentEditor}>
-        <div className={styles.navigationBar}>
+        <div className={cx(styles.navigationBar, { [styles.barOpen]: navigationOpen })}>
+          <NavigationPanel
+          sections={document.sections}
+          onClickToggle={() => this.setState({ navigationOpen: ! navigationOpen })}
+          open={navigationOpen} />
         </div>
         <div className={styles.editingBar}>
         </div>
@@ -118,27 +148,27 @@ class DocumentEditor extends React.Component<{
           <ZoomControls zoom={zoom} onClickZoom={(v: number) => this.setState({ zoom: v })} />
         </div>
         <div className={styles.viewer}>
-            <BlobProvider document={DocumentGenerator({ document })}>
-              {({ blob }: { blob: any }) => (
-                <div>
-                  {blob ?
-                    <Document file={blob} onLoadSuccess={this._onDocumentLoadSuccess} loading={<Spinner label="Loading PDF..." />}>
-                      {Array(pages).fill(0).map((value, index) => (
-                        <Fragment key={index}>
-                          {index !== 0 ? <Divisor onClickPlus={() => console.log('a')} /> : null}
-                          <div className={cx(styles.page, { [styles.selected]: editingPage === index })} ref={(page: HTMLDivElement) => this.pages[`page${index}`] = page}>
-                            <Page pageNumber={index + 1} scale={zoom} />
-                            <div className={styles.deletePage} data-element="delete">
-                              <RoundButton onClick={() => console.log('d')} size={30}>-</RoundButton>
-                            </div>
+          <BlobProvider document={DocumentGenerator({ document })}>
+            {({ blob }: { blob: any }) => (
+              <div className={styles.document}>
+                {blob ?
+                  <Document file={blob} onLoadSuccess={this._onDocumentLoadSuccess} loading={<Spinner label="Loading PDF..." />}>
+                    {Array(pages).fill(0).map((value, index) => (
+                      <Fragment key={index}>
+                        {index !== 0 ? <Divisor onClickPlus={() => console.log('a')} /> : null}
+                        <div className={cx(styles.page, { [styles.selected]: editingPage === index })} ref={(page: HTMLDivElement) => this.pages[`page${index}`] = page}>
+                          <Page pageNumber={index + 1} scale={zoom} />
+                          <div className={styles.deletePage} data-element="delete">
+                            <RoundButton onClick={() => console.log('d')} size={30}>-</RoundButton>
                           </div>
-                        </Fragment>
-                      ))}
-                    </Document>
-                  : <Spinner label="Loading PDF..." />}
-                </div>
-              )}
-            </BlobProvider>
+                        </div>
+                      </Fragment>
+                    ))}
+                  </Document>
+                : <Spinner label="Loading PDF..." />}
+              </div>
+            )}
+          </BlobProvider>
         </div>
       </div>
     );

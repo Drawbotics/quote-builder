@@ -37,7 +37,8 @@ function _replaceData(string: any, data={}) {
 function _translate(locale: string, key: string, data: string, defaultValue: string | undefined) {
   const value = _replaceData(get(locales[locale], key, defaultValue), data);
   if ( ! value) {
-    console.warn(`Translation key '${key}' for locale '${locale}' not found`);
+    // TODO re-enable this
+    // console.warn(`Translation key '${key}' for locale '${locale}' not found`);
     return '';
   }
   return value;
