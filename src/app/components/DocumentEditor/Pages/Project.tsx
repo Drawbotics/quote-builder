@@ -33,7 +33,8 @@ const Stats: React.SFC<{
   const locale = getCurrentLocale();
   const t = (k: string, alt?: string) => tt(locale, k, alt);
   const section = { title: 'Audience', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.' };
-  const sections = Array(5).fill(section);
+  // TODO: see what to do about project sections longer than 2 pages
+  const sections = Array(10).fill(section);
   return (
     <PageWrapper title={t('title')} wrap={true}>
     <View style={styles.wrapper}>

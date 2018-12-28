@@ -6,6 +6,8 @@ import { TableType, TableRowType, ServiceType } from '../components/TableEditor/
 export const services = [
   'interior3d',
   'exterior3d',
+  'brand-id',
+  'revo',
   'custom',
 ];
 

@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import { View, StyleSheet, Image, Text } from '@react-pdf/renderer';
+import { get, chunk } from 'lodash';
 
 import sv from '../vars';
 import PageWrapper from './PageWrapper';
@@ -8,10 +9,13 @@ import { getCurrentLocale } from  '~/utils';
 import { createTranslate, translate as t, translateAlt as ta } from '~/utils/translation';
 import { TableType } from '../../TableEditor/types';
 
+import images from '../images/services';
+import icons from '../images/icons/services';
 import revoLogo from '../images/revo-logo.png';
 
 
 interface ServiceType {
+  id: string
   icon: string
   name: string
   coverImage: string
@@ -39,13 +43,13 @@ function getAllServices(tables: TableType[]) {
 
 
 function generateServiceSections(allServices: string[], products: any, locale: string) {
-  // TODO fix this section
-  return allServices.map((id) => {
-    return {
-      name: t(locale, `services.${id}.name`),
-      description: ta(locale, `services.${id}description`, 'custom description'),
-    };
-  });
+  return allServices.map((id) => ({
+    id,
+    name: ta(locale, `services.${id}.name`, get(products[id], 'title', '')),
+    description: ta(locale, `services.${id}.description`, get(products[id], 'description', '')),
+    coverImage: get(products[id], 'image') || images[id],
+    icon: icons[id] || icons['custom'],
+  }));
 }
 
 
@@ -98,6 +102,7 @@ const styles = StyleSheet.create({
     color: sv.textPrimary,
     textAlign: 'center',
     lineHeight: 1.8,
+    minHeight: 50,
   },
   revoLogo: {
     width: 130,
@@ -131,7 +136,7 @@ const Service: React.SFC<{
         <Text style={styles.description}>{description}</Text>
       </View>
       <View style={[styles.imageWrapper, reversed ? styles.reversedImage : null]}>
-        <Image src={coverImage} style={styles.image} />
+        <Image src={coverImage} style={styles.image} debug />
       </View>
     </View>
   );
@@ -172,22 +177,27 @@ const Services: React.SFC<{
 }> = ({ tables, contents }) => {
   const locale = getCurrentLocale();
   const allServices = getAllServices(tables);
-  // @ts-ignore:
   const sections = generateServiceSections(allServices, contents.products, locale);
+  const servicePages = chunk(sections.filter((section) => section.id !== 'revo'), 2);
+  // @ts-ignore
+  const revo = sections.find((section) => section.id === 'revo');
   // placeholder
   const service = {
-    name: t(locale, 'services.interior3d.name'),
-    description: t(locale, 'services.interior3d.description'),
+    id: 'revo',
+    name: t(locale, 'services.revo.name'),
+    description: t(locale, 'services.revo.description'),
     coverImage: require('../images/services/revo.png'),
-    icon: require('../images/icons/services/interior3d.png'),
+    icon: '',
   };
   return (
     <Fragment>
-      <PageWrapper title="Drawbotics" subtitle={tt(locale, 'title')} wrap>
-        <Service service={service} />
-        <Service service={service} reversed />
-        <Service service={service} />
-      </PageWrapper>
+      {servicePages.map((services, i) => (
+        <PageWrapper key={i} title="Drawbotics" subtitle={tt(locale, 'title')}>
+          {services.map((service: ServiceType, j) => (
+            <Service key={j} service={service} reversed={j % 2 !== 0} />
+          ))}
+        </PageWrapper>
+      ))}
       {true ?
         <PageWrapper title="Drawbotics" subtitle={tt(locale, 'title')}>
           <Revo service={{

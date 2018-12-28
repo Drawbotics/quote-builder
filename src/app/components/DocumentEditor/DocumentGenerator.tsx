@@ -98,11 +98,11 @@ function sectionsToComponents(sections: SectionType[], data: DataType) {
 
 
 const DocumentGenerator = ({ document }: { document: any }) => {
-  const { data } = document;
+  const { data, sections } = document;
   // const components = sectionsToComponents(sections, data);
   return (
     <PDFDocument>
-      <Services contents={{}} tables={data.tables} />
+      <Services contents={sections.find((s: any) => s.type === 'products').contents} tables={data.tables} />
       <Cover project={data.project} />
       <Profile profile={data.person} />
       <Stats contents={{}} />
