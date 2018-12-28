@@ -120,7 +120,42 @@ const styles = StyleSheet.create({
     flex: 1,
     textAlign: 'left',
   },
+  noImage: {
+    height: '100%',
+    width: '100%',
+    backgroundColor: sv.grey100,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'column',
+    borderTopColor: 'red',
+    borderTopWidth: 2,
+    borderRightColor: 'red',
+    borderRightWidth: 2,
+    borderLeftColor: 'red',
+    borderLeftWidth: 2,
+    borderBottomColor: 'red',
+    borderBottomWidth: 2,
+  },
+  noImageLabel: {
+    marginTop: sv.baseMarginSmall,
+    fontSize: 12,
+  },
+  red: {
+    color: 'red',
+    textAlign: 'left',
+  },
 });
+
+
+const ImagePlaceholder: React.SFC<{}> = () => {
+  return (
+    <View style={styles.noImage}>
+      <Text>No image for this service</Text>
+      <Text style={styles.noImageLabel}>Import an image to see it appear here</Text>
+    </View>
+  );
+};
 
 
 const Service: React.SFC<{
@@ -133,10 +168,10 @@ const Service: React.SFC<{
       <View style={[styles.info, reversed ? styles.reversedInfo : null]}>
         <Image src={icon} style={styles.icon} />
         <Text style={styles.title}>{name}</Text>
-        <Text style={styles.description}>{description}</Text>
+        <Text style={[styles.description, description ? null : styles.red]}>{description || 'No description'}</Text>
       </View>
       <View style={[styles.imageWrapper, reversed ? styles.reversedImage : null]}>
-        <Image src={coverImage} style={styles.image} debug />
+        {coverImage ? <Image src={coverImage} style={styles.image} /> : <ImagePlaceholder />}
       </View>
     </View>
   );
