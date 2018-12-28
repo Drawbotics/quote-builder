@@ -102,7 +102,6 @@ const DocumentGenerator = ({ document }: { document: any }) => {
   // const components = sectionsToComponents(sections, data);
   return (
     <PDFDocument>
-      <Services contents={sections.find((s: any) => s.type === 'products').contents} tables={data.tables} />
       <Cover project={data.project} />
       <Profile profile={data.person} />
       <Stats contents={{}} />
@@ -110,6 +109,7 @@ const DocumentGenerator = ({ document }: { document: any }) => {
       <HowWeWork contents={{}} />
       <Project contents={{}} />
       <StoryTelling contents={{}} />
+      <Services contents={sections.find((s: any) => s.type === 'products').contents} tables={data.tables} />
       <Tables tables={data.tables} />
       <PaymentMethods profile={data.person} />
     </PDFDocument>
