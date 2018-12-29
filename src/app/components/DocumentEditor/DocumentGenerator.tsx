@@ -65,6 +65,7 @@ interface DataType {
 
 function sectionsToComponents(sections: SectionType[], data: DataType, onPageRender: (s: string, pn: number) => void) {
   return sections.map((section, i) => {
+    const contents = section.contents || {};
     switch(section.type) {
       case 'cover': {
         return <Cover key={i} project={data.project} onPageRender={(page: number) => onPageRender(section.type, page)} />
@@ -73,22 +74,22 @@ function sectionsToComponents(sections: SectionType[], data: DataType, onPageRen
         return <Profile key={i} profile={data.person} onPageRender={(page: number) => onPageRender(section.type, page)} />
       }
       case 'stats': {
-        return <Stats key={i} contents={section.contents} onPageRender={(page: number) => onPageRender(section.type, page)} />
+        return <Stats key={i} contents={contents} onPageRender={(page: number) => onPageRender(section.type, page)} />
       }
       case 'howWeWork': {
-        return <HowWeWork key={i} contents={section.contents} onPageRender={(page: number) => onPageRender(section.type, page)} />
+        return <HowWeWork key={i} contents={contents} onPageRender={(page: number) => onPageRender(section.type, page)} />
       }
       case 'whatWeDo': {
-        return <WhatWeDo key={i} contents={section.contents} onPageRender={(page: number) => onPageRender(section.type, page)} />
+        return <WhatWeDo key={i} contents={contents} onPageRender={(page: number) => onPageRender(section.type, page)} />
       }
       case 'project': {
-        return <Project key={i} contents={section.contents} onPageRender={(page: number) => onPageRender(section.type, page)} />
+        return <Project key={i} contents={contents} onPageRender={(page: number) => onPageRender(section.type, page)} />
       }
       case 'storyTelling': {
-        return <StoryTelling key={i} contents={section.contents} onPageRender={(page: number) => onPageRender(section.type, page)} />
+        return <StoryTelling key={i} contents={contents} onPageRender={(page: number) => onPageRender(section.type, page)} />
       }
       case 'products': {
-        return <Services key={i} contents={section.contents} tables={data.tables} onPageRender={(page: number) => onPageRender(section.type, page)} />
+        return <Services key={i} contents={contents} tables={data.tables} onPageRender={(page: number) => onPageRender(section.type, page)} />
       }
       case 'tables': {
         return <Tables key={i} tables={data.tables} onPageRender={(page: number) => onPageRender(section.type, page)} />
