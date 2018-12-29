@@ -106,6 +106,7 @@ const styles = StyleSheet.create({
 
 const PageWrapper: React.SFC<{
   children: any,
+  onPageRender: (p: number) => void,
   title?: string,
   subtitle?: string,
   description?: string,
@@ -124,6 +125,7 @@ const PageWrapper: React.SFC<{
   wrap=false,
   noLogo,
   extraComponent,
+  onPageRender,
 }) => {
   return (
     <Page style={[styles.page,
@@ -144,7 +146,8 @@ const PageWrapper: React.SFC<{
         {children}
       </View>
       {noPageNum ? null : <View style={styles.pageLine} fixed></View>}
-      {noPageNum ? null : <Text style={styles.pageCount} render={({ pageNumber }: { pageNumber: number }) => `${pageNumber}`} fixed />}
+      {noPageNum ? null : <Text style={styles.pageCount} render={({ pageNumber }: { pageNumber: number }) => { onPageRender(pageNumber); return `${pageNumber}`; }} fixed />}
+      {noPageNum ? <Text render={({ pageNumber }: { pageNumber: number }) => onPageRender(pageNumber)} /> : null}
       {noLogo ? null : <Image style={styles.footerLogo} src={drawboticsLogo} fixed />}
     </Page>
   );
