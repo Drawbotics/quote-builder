@@ -15,7 +15,6 @@ const styles = {
     border-right: 1px solid var(--line-color);
     transition: background var(--transition-duration) ease-in-out,
       border-right var(--transition-duration) ease-in-out,
-      width var(--transition-duration-short) ease-in-out;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -78,7 +77,7 @@ const styles = {
     align-items: center;
     padding: var(--padding) calc(var(--padding) * 2);
     color: var(--text-primary);
-    transition: all var(--transition-duration-short) ease-in-out;
+    transition: color var(--transition-duration-short) ease-in-out;
     white-space: nowrap;
 
     &:hover {
