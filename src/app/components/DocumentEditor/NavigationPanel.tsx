@@ -50,6 +50,7 @@ const styles = {
     pointer-events: none;
   `,
   section: css`
+    position: relative;
     padding: calc(var(--padding) / 2) var(--padding);
     margin: 0 calc(var(--margin) * -1);
     color: var(--text-primary);
@@ -74,7 +75,6 @@ const styles = {
     }
   `,
   active: css`
-    position: relative;
     background: var(--primary-transparent);
     color: var(--primary);
 
@@ -90,7 +90,8 @@ const NavigationPanel: React.SFC<{
   activeSection?: string,
   onClickToggle: () => void,
   open: boolean,
-}> = ({ sections, activeSection, onClickToggle, open }) => {
+  onClickSection: (section: string) => void,
+}> = ({ sections, activeSection, onClickToggle, open, onClickSection }) => {
   const locale = getCurrentLocale();
   return (
     <div className={styles.navigationPanel}>
@@ -104,7 +105,7 @@ const NavigationPanel: React.SFC<{
       </div>
       <div className={cx(styles.sections, { [styles.hidden]: ! open })}>
         {sections.map((section, i) => (
-          <div key={i} className={cx(styles.section, { [styles.active]: section.type === activeSection })}>
+          <div key={i} className={cx(styles.section, { [styles.active]: section.type === activeSection })} onClick={() => onClickSection(section.type)}>
             {`${i+1}. ${t(locale, `document.${snakeCase(section.type)}.title`)}`}
           </div>
         ))}

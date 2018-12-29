@@ -4,6 +4,7 @@ import { BlobProvider } from '@react-pdf/renderer';
 import { Document, Page } from 'react-pdf/dist/entry.webpack';
 import autobind from 'autobind-decorator';
 import { isEmpty, get } from 'lodash';
+// import queryString from 'query-string';
 
 import DocumentGenerator from './DocumentGenerator';
 import ZoomControls from './ZoomControls';
@@ -113,6 +114,7 @@ class DocumentEditor extends React.Component<{
   document: any,
 }> {
   pages = {}
+  viewer: any = undefined
 
   state = {
     zoom: 1.0,
@@ -120,6 +122,7 @@ class DocumentEditor extends React.Component<{
     editingPage: -1,
     navigationOpen: true,
     groupedPages: {},
+    activePage: 1,
   }
 
   componentDidMount() {
@@ -131,7 +134,7 @@ class DocumentEditor extends React.Component<{
   }
 
   render() {
-    const { zoom, pages, editingPage, navigationOpen } = this.state;
+    const { zoom, pages, editingPage, navigationOpen, activePage, groupedPages } = this.state;
     const { document } = this.props;
     if (isEmpty(document)) return <Spinner label="Loading PDF..." />;
     // console.log('editing', groupedPages[editingPage + 1]);
@@ -139,16 +142,18 @@ class DocumentEditor extends React.Component<{
       <div className={styles.documentEditor}>
         <div className={cx(styles.navigationBar, { [styles.barOpen]: navigationOpen })}>
           <NavigationPanel
-          sections={document.sections}
-          onClickToggle={() => this.setState({ navigationOpen: ! navigationOpen })}
-          open={navigationOpen} />
+            activeSection={groupedPages[activePage]}
+            onClickSection={this._handleClickSectionNavigation}
+            sections={document.sections}
+            onClickToggle={() => this.setState({ navigationOpen: ! navigationOpen })}
+            open={navigationOpen} />
         </div>
         <div className={styles.editingBar}>
         </div>
         <div className={styles.controls}>
           <ZoomControls zoom={zoom} onClickZoom={(v: number) => this.setState({ zoom: v })} />
         </div>
-        <div className={styles.viewer}>
+        <div className={styles.viewer} ref={(viewer: HTMLDivElement) => this.viewer = viewer}>
           <BlobProvider document={DocumentGenerator({ document, onPageRender: this._onDocumentPageRender })}>
             {({ blob }: { blob: any }) => (
               <div className={styles.document}>
@@ -157,7 +162,7 @@ class DocumentEditor extends React.Component<{
                     {Array(pages).fill(0).map((value, index) => (
                       <Fragment key={index}>
                         {index !== 0 ? <Divisor onClickPlus={() => console.log('a')} /> : null}
-                        <div className={cx(styles.page, { [styles.selected]: editingPage === index })} ref={(page: HTMLDivElement) => this.pages[`page${index}`] = page}>
+                        <div className={cx(styles.page, { [styles.selected]: editingPage === index })} ref={(page: HTMLDivElement) => this.pages[`page${index+1}`] = page}>
                           <Page pageNumber={index + 1} scale={zoom} />
                           <div className={styles.deletePage} data-element="delete">
                             <RoundButton onClick={() => console.log('d')} size={30}>-</RoundButton>
@@ -211,6 +216,24 @@ class DocumentEditor extends React.Component<{
   _onDocumentPageRender(section: string, pageNumber: number) {
     const { groupedPages } = this.state;
     this.setState({ groupedPages: { ...groupedPages, [pageNumber]: section } });
+  }
+
+  @autobind
+  _handleClickSectionNavigation(section: string) {
+    const { groupedPages } = this.state;
+    const firstPage = Object.keys(groupedPages).find((pageNumber) => groupedPages[pageNumber] === section);
+    if (! firstPage) return;
+    const page = this.pages[`page${firstPage}`];
+    this.viewer.scrollTop = 0;
+    const viewerTop = this.viewer.getBoundingClientRect().top + 20;
+    const scrollTop = page.getBoundingClientRect().top - viewerTop;
+    this.viewer.scrollTop = scrollTop;
+    this._setActivePage(parseInt(firstPage));
+  }
+
+  @autobind
+  _setActivePage(page: number) {
+    this.setState({ activePage: page });
   }
 }
 
