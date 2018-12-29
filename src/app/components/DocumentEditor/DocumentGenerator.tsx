@@ -109,26 +109,26 @@ const DocumentGenerator = ({ document, onPageRender }: { document: any, onPageRe
   const { data, sections } = document;
   // @ts-ignore
   const components = sectionsToComponents(sections, data, onPageRender);
-  return (
-    <PDFDocument>
-      <Cover project={data.project} onPageRender={(page: number) => onPageRender('cover', page)} />
-      <Profile profile={data.person} onPageRender={(page: number) => onPageRender('profile', page)} />
-      <Stats contents={{}} onPageRender={(page: number) => onPageRender('stats', page)} />
-      <WhatWeDo contents={{}} onPageRender={(page: number) => onPageRender('whatWeDo', page)} />
-      <HowWeWork contents={{}} onPageRender={(page: number) => onPageRender('howWeWork', page)} />
-      <Project contents={{}} onPageRender={(page: number) => onPageRender('project', page)} />
-      <StoryTelling contents={{}} onPageRender={(page: number) => onPageRender('storyTelling', page)} />
-      <Services contents={sections.find((s: any) => s.type === 'products').contents} tables={data.tables} onPageRender={(page: number) => onPageRender('products', page)} />
-      <Tables tables={data.tables} onPageRender={(page: number) => onPageRender('tables', page)} />
-      <PaymentMethods profile={data.person} onPageRender={(page: number) => onPageRender('paymentMethods', page)} />
-    </PDFDocument>
-  );
-  // TODO: plug like below once we have all templates
   // return (
   //   <PDFDocument>
-  //     {...components}
+  //     <Cover project={data.project} onPageRender={(page: number) => onPageRender('cover', page)} />
+  //     <Profile profile={data.person} onPageRender={(page: number) => onPageRender('profile', page)} />
+  //     <Stats contents={{}} onPageRender={(page: number) => onPageRender('stats', page)} />
+  //     <WhatWeDo contents={{}} onPageRender={(page: number) => onPageRender('whatWeDo', page)} />
+  //     <HowWeWork contents={{}} onPageRender={(page: number) => onPageRender('howWeWork', page)} />
+  //     <Project contents={{}} onPageRender={(page: number) => onPageRender('project', page)} />
+  //     <StoryTelling contents={{}} onPageRender={(page: number) => onPageRender('storyTelling', page)} />
+  //     <Services contents={sections.find((s: any) => s.type === 'products').contents} tables={data.tables} onPageRender={(page: number) => onPageRender('products', page)} />
+  //     <Tables tables={data.tables} onPageRender={(page: number) => onPageRender('tables', page)} />
+  //     <PaymentMethods profile={data.person} onPageRender={(page: number) => onPageRender('paymentMethods', page)} />
   //   </PDFDocument>
   // );
+  // TODO: plug like below once we have all templates
+  return (
+    <PDFDocument>
+      {...components}
+    </PDFDocument>
+  );
 }
 
 
