@@ -112,11 +112,12 @@ const Line: React.SFC<{
 
 const PaymentMethods: React.SFC<{
   profile: PersonType,
-}> = ({ profile }) => {
+  onPageRender: (p: number) => void,
+}> = ({ profile, onPageRender }) => {
   const locale = getCurrentLocale();
   const t = (k: string) => tt(locale, k);
   return (
-    <PageWrapper noPadding noPageNum>
+    <PageWrapper noPadding noPageNum onPageRender={onPageRender}>
       <View style={styles.wrapper}>
         <View style={styles.content}>
           <Text style={styles.title}>{t('title')}</Text>

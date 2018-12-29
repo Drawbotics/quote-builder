@@ -104,11 +104,12 @@ const Stat: React.SFC<{
 
 const Stats: React.SFC<{
   contents: any,
-}> = ({ contents }) => {
+  onPageRender: (p: number) => void,
+}> = ({ contents, onPageRender }) => {
   const locale = getCurrentLocale();
   const t = (k: string, alt?: string) => tt(locale, k, alt);
   return (
-    <PageWrapper title="Drawbotics" subtitle={t('title')} description={t('description')}>
+    <PageWrapper title="Drawbotics" subtitle={t('title')} description={t('description')} onPageRender={onPageRender}>
       <View style={styles.wrapper}>
         <View style={styles.row}>
           <Stat icon={order} title="1400+" subtitle={t('order_subtitle')} />

@@ -117,9 +117,9 @@ class DocumentEditor extends React.Component<{
   state = {
     zoom: 1.0,
     pages: 0,
-    activePage: 1,
-    editingPage: undefined,
+    editingPage: -1,
     navigationOpen: true,
+    groupedPages: {},
   }
 
   componentDidMount() {
@@ -134,6 +134,7 @@ class DocumentEditor extends React.Component<{
     const { zoom, pages, editingPage, navigationOpen } = this.state;
     const { document } = this.props;
     if (isEmpty(document)) return <Spinner label="Loading PDF..." />;
+    // console.log('editing', groupedPages[editingPage + 1]);
     return (
       <div className={styles.documentEditor}>
         <div className={cx(styles.navigationBar, { [styles.barOpen]: navigationOpen })}>
@@ -148,7 +149,7 @@ class DocumentEditor extends React.Component<{
           <ZoomControls zoom={zoom} onClickZoom={(v: number) => this.setState({ zoom: v })} />
         </div>
         <div className={styles.viewer}>
-          <BlobProvider document={DocumentGenerator({ document })}>
+          <BlobProvider document={DocumentGenerator({ document, onPageRender: this._onDocumentPageRender })}>
             {({ blob }: { blob: any }) => (
               <div className={styles.document}>
                 {blob ?
@@ -204,6 +205,12 @@ class DocumentEditor extends React.Component<{
   @autobind
   _onDocumentLoadSuccess({ numPages }: { numPages: number }) {
     this.setState({ pages: numPages });
+  }
+
+  @autobind
+  _onDocumentPageRender(section: string, pageNumber: number) {
+    const { groupedPages } = this.state;
+    this.setState({ groupedPages: { ...groupedPages, [pageNumber]: section } });
   }
 }
 

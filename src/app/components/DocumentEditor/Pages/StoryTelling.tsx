@@ -83,7 +83,8 @@ const NoImages: React.SFC<{}> = () => {
 
 const StoryTelling: React.SFC<{
   contents: any,
-}> = ({ contents }) => {
+  onPageRender: (p: number) => void,
+}> = ({ contents, onPageRender }) => {
   const locale = getCurrentLocale();
   const t = (k: string, alt?: string) => tt(locale, k, alt);
   // const images1 = ['https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAeczDxErmEQXSZQtdFpiKrVKJKB8Y8MFkNCFodNkIPcWly-Fx', 'https://www.telegraph.co.uk/content/dam/Travel/2018/April/hong-kong-skyline.jpg?imwidth=450'];
@@ -91,7 +92,7 @@ const StoryTelling: React.SFC<{
   const images1: string[] = [];
   // const images2: string[] = [];
   return (
-    <PageWrapper title={t('title')} noPadding noLogo>
+    <PageWrapper title={t('title')} noPadding noLogo onPageRender={onPageRender}>
       <View style={styles.wrapper}>
         <View style={styles.padded}>
           <Text style={styles.title}>Central park</Text>

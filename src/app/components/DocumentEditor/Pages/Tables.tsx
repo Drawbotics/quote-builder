@@ -236,10 +236,11 @@ const Table: React.SFC<{
 
 const Tables: React.SFC<{
   tables: TableType[],
-}> = ({ tables }) => {
+  onPageRender: (p: number) => void,
+}> = ({ tables, onPageRender }) => {
   const locale = getCurrentLocale();
   return (
-    <PageWrapper title={tt(locale, 'title')} wrap extraComponent={<Address />}>
+    <PageWrapper title={tt(locale, 'title')} wrap extraComponent={<Address />} onPageRender={onPageRender}>
       <View style={styles.wrapper}>
         {tables.map((table, i) => (
           <Table key={i} table={table} />

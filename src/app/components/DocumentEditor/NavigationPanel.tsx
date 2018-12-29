@@ -90,7 +90,7 @@ const NavigationPanel: React.SFC<{
   activeSection?: string,
   onClickToggle: () => void,
   open: boolean,
-}> = ({ sections, activeSection='cover', onClickToggle, open }) => {
+}> = ({ sections, activeSection, onClickToggle, open }) => {
   const locale = getCurrentLocale();
   return (
     <div className={styles.navigationPanel}>

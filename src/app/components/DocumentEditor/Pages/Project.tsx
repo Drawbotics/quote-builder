@@ -29,14 +29,15 @@ const styles = StyleSheet.create({
 
 const Stats: React.SFC<{
   contents: any,
-}> = ({ contents }) => {
+  onPageRender: (p: number) => void,
+}> = ({ contents, onPageRender }) => {
   const locale = getCurrentLocale();
   const t = (k: string, alt?: string) => tt(locale, k, alt);
   const section = { title: 'Audience', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.' };
   // TODO: see what to do about project sections longer than 2 pages
   const sections = Array(7).fill(section);
   return (
-    <PageWrapper title={t('title')} wrap={true}>
+    <PageWrapper title={t('title')} wrap={true} onPageRender={onPageRender}>
     <View style={styles.wrapper}>
         <Text style={styles.title}>{t('introduction_title')}</Text>
         <Text style={styles.paragraph}>{t('introduction_description')}</Text>
