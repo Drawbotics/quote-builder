@@ -10,6 +10,7 @@ import DocumentGenerator from './DocumentGenerator';
 import ZoomControls from './ZoomControls';
 import Divisor from './Divisor';
 import NavigationPanel from './NavigationPanel';
+import SectionsPanel from './SectionsPanel';
 import RoundButton from '../RoundButton';
 import Spinner from '../Spinner';
 
@@ -34,6 +35,14 @@ const styles = {
     transition: transform var(--transition-duration-short) ease-in-out;
   `,
   editingBar: css`
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    z-index: 10;
+    transform: translateX(calc(100% - 40px));
+    display: flex;
+    transition: transform var(--transition-duration-short) ease-in-out;
   `,
   barOpen: css`
     transform: translateX(0);
@@ -54,7 +63,7 @@ const styles = {
     position: fixed;
     bottom: var(--margin);
     right: var(--margin);
-    z-index: 9;
+    z-index: 11;
   `,
   page: css`
     position: relative;
@@ -121,6 +130,7 @@ class DocumentEditor extends React.Component<{
     pages: 0,
     editingPage: -1,
     navigationOpen: true,
+    editingOpen: true,
     groupedPages: {},
     activePage: 1,
   }
@@ -135,7 +145,7 @@ class DocumentEditor extends React.Component<{
   }
 
   render() {
-    const { zoom, pages, editingPage, navigationOpen, activePage, groupedPages } = this.state;
+    const { zoom, pages, editingPage, navigationOpen, activePage, groupedPages, editingOpen } = this.state;
     const { document } = this.props;
     if (isEmpty(document)) return <Spinner label="Loading PDF..." />;
     // console.log('editing', groupedPages[editingPage + 1]);
@@ -149,7 +159,11 @@ class DocumentEditor extends React.Component<{
             onClickToggle={() => this.setState({ navigationOpen: ! navigationOpen })}
             open={navigationOpen} />
         </div>
-        <div className={styles.editingBar}>
+        <div className={cx(styles.editingBar, { [styles.barOpen]: editingOpen })}>
+          {/* TODO here toggle between editing/adding sections */}
+          <SectionsPanel
+            open={editingOpen}
+            onClickToggle={() => this.setState({ editingOpen: ! editingOpen })} />
         </div>
         <div className={styles.controls}>
           <ZoomControls zoom={zoom} onClickZoom={(v: number) => this.setState({ zoom: v })} />

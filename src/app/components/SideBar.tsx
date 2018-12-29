@@ -14,7 +14,7 @@ const styles = {
     background: var(--tertiary);
     border-right: 1px solid var(--line-color);
     transition: background var(--transition-duration) ease-in-out,
-      border-right var(--transition-duration) ease-in-out,
+      border-right var(--transition-duration) ease-in-out;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -129,18 +129,18 @@ const styles = {
   `,
   darkActive: css`
     [data-element="sun"] {
-      display: none;
+      display: block;
     }
     [data-element="moon"] {
-      display: block;
+      display: none;
     }
   `,
   lightActive: css`
     [data-element="sun"] {
-      display: block;
+      display: none;
     }
     [data-element="moon"] {
-      display: none;
+      display: block;
     }
   `,
 };
@@ -197,7 +197,7 @@ const SideBar: React.SFC<{
             <Moon size={20} />
           </div>
         </div>
-        <span data-element="label">{activeTheme === 'light' ? 'Light mode' : 'Dark mode'}</span>
+        <span data-element="label">{activeTheme === 'light' ? 'Dark mode' : 'Light mode'}</span>
       </div>
     </div>
   );
