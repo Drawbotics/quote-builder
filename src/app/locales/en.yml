@@ -25,7 +25,7 @@ document:
   profile:
     title: Profile
   how_we_work:
-    subtitle: How we work
+    title: How we work
     kickoff_title: Kick-off call
     kickoff_description: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
     followup_title: Production follow-up
