@@ -65,10 +65,11 @@ const styles = StyleSheet.create({
 
 const Profile: React.SFC<{
   profile: PersonType,
-}> = ({ profile }) => {
+  onPageRender: (p: number) => void,
+}> = ({ profile, onPageRender }) => {
   const locale = getCurrentLocale().toLowerCase();
   return (
-    <PageWrapper>
+    <PageWrapper onPageRender={onPageRender}>
       <View style={styles.wrapper}>
         <View style={styles.content}>
           <Text style={styles.quote}>{`"${profile.quotes[locale]}"`}</Text>
