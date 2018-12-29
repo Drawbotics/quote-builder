@@ -19,7 +19,7 @@ export const themes: any = {
     '--primary-semi-transparent': 'rgba(34, 88, 234, 0.4)',
     '--secondary': '#E8F0FD',
     '--tertiary': '#FFFFFF',
-    '--tertiary-transparent': 'rgba(255, 255, 255, 0.7)',
+    '--tertiary-transparent': 'rgba(255, 255, 255, 0.9)',
     '--background-color': '#F8F9F8',
     '--line-color': '#F4F3F4',
     '--grey': '#6C6C6C',
