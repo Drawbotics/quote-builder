@@ -69,11 +69,12 @@ const Section: React.SFC<{
 
 const WhatWeDo: React.SFC<{
   contents: any,
-}> = ({ contents }) => {
+  onPageRender: (p: number) => void,
+}> = ({ contents, onPageRender }) => {
   const locale = getCurrentLocale();
   const t = (k: string, alt?: string) => tt(locale, k, alt);
   return (
-    <PageWrapper title="Drawbotics" subtitle={t('subtitle')}>
+    <PageWrapper title="Drawbotics" subtitle={t('subtitle')} onPageRender={onPageRender}>
       <View style={styles.wrapper}>
         <Section
           title={t('platform_title', contents.platformTitle)}

@@ -209,7 +209,8 @@ const Revo: React.SFC<{
 const Services: React.SFC<{
   tables: TableType[],
   contents: any,
-}> = ({ tables, contents }) => {
+  onPageRender: (p: number) => void,
+}> = ({ tables, contents, onPageRender }) => {
   const locale = getCurrentLocale();
   const allServices = getAllServices(tables);
   const sections = generateServiceSections(allServices, contents.products, locale);
@@ -226,14 +227,14 @@ const Services: React.SFC<{
   return (
     <Fragment>
       {servicePages.map((services, i) => (
-        <PageWrapper key={i} title="Drawbotics" subtitle={tt(locale, 'title')}>
+        <PageWrapper key={i} title="Drawbotics" subtitle={tt(locale, 'title')} onPageRender={onPageRender}>
           {services.map((service: ServiceType, j) => (
             <Service key={j} service={service} reversed={j % 2 !== 0} />
           ))}
         </PageWrapper>
       ))}
       {revo ?
-        <PageWrapper title="Drawbotics" subtitle={tt(locale, 'title')}>
+        <PageWrapper title="Drawbotics" subtitle={tt(locale, 'title')} onPageRender={onPageRender}>
           <Revo service={{
             ...service,
             description2: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',

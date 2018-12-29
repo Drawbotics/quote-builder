@@ -57,7 +57,8 @@ const styles = StyleSheet.create({
 
 const Cover: React.SFC<{
   project: ProjectType,
-}> = ({ project }) => {
+  onPageRender: (p: number) => void,
+}> = ({ project, onPageRender }) => {
   return (
     <Page style={styles.page} wrap={false}>
       <View>
@@ -70,6 +71,7 @@ const Cover: React.SFC<{
         <Image style={styles.coverImage} src={coverImage} />
         <Image style={styles.logo} src={drawboticsLogo} />
       </View>
+      <Text render={({ pageNumber }: { pageNumber: number }) => onPageRender(pageNumber)} />
     </Page>
   );
 };

@@ -28,13 +28,16 @@ export async function basicInfoToQuoteFile(info: any, fromTemplate: boolean) {
   };
 
   let sections = [];
-  // TODO: if fromTemplate add other sections too
   sections.push({ type: 'cover' });
-  sections.push({ type: 'products',
-    contents: {
-      products: customProducts,
-    },
-  });
+  if (fromTemplate) {
+    sections.push({ type: 'profile' });
+    sections.push({ type: 'howWeWork' });
+    sections.push({ type: 'products',
+      contents: {
+        products: customProducts,
+      },
+    });
+  }
   sections.push({ type: 'tables' });
   sections.push({ type: 'paymentMethods' });
 
