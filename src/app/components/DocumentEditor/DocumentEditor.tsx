@@ -3,7 +3,7 @@ import { css, cx } from 'emotion';
 import { BlobProvider } from '@react-pdf/renderer';
 import { Document, Page } from 'react-pdf/dist/entry.webpack';
 import autobind from 'autobind-decorator';
-import { isEmpty, get } from 'lodash';
+import { isEmpty, get, findLastIndex } from 'lodash';
 // import queryString from 'query-string';
 
 import DocumentGenerator from './DocumentGenerator';
@@ -131,6 +131,7 @@ class DocumentEditor extends React.Component<{
 
   componentWillUnmount() {
     document.removeEventListener('click', this._handleClickPage);
+    this.viewer.removeEventListener('scroll', this._handleScrollPage);
   }
 
   render() {
@@ -153,7 +154,7 @@ class DocumentEditor extends React.Component<{
         <div className={styles.controls}>
           <ZoomControls zoom={zoom} onClickZoom={(v: number) => this.setState({ zoom: v })} />
         </div>
-        <div className={styles.viewer} ref={(viewer: HTMLDivElement) => this.viewer = viewer}>
+        <div className={styles.viewer} ref={(viewer: HTMLDivElement) => { this.viewer = viewer; this._addScrollListener(viewer) }}>
           <BlobProvider document={DocumentGenerator({ document, onPageRender: this._onDocumentPageRender })}>
             {({ blob }: { blob: any }) => (
               <div className={styles.document}>
@@ -228,12 +229,26 @@ class DocumentEditor extends React.Component<{
     const viewerTop = this.viewer.getBoundingClientRect().top + 20;
     const scrollTop = page.getBoundingClientRect().top - viewerTop;
     this.viewer.scrollTop = scrollTop;
-    this._setActivePage(parseInt(firstPage));
   }
 
   @autobind
-  _setActivePage(page: number) {
-    this.setState({ activePage: page });
+  _addScrollListener(viewer: HTMLDivElement) {
+    if (viewer) {
+      viewer.addEventListener('scroll', this._handleScrollPage);
+    }
+  }
+
+  @autobind
+  _handleScrollPage() {
+    // TODO add some throttle if performance looks poor
+    const { top } = this.viewer.getBoundingClientRect();
+    const activePageIndex = findLastIndex(Object.values(this.pages), (page: HTMLDivElement) => page.getBoundingClientRect().top <= top + 20);
+    if (this.viewer.scrollTop === (this.viewer.scrollHeight - this.viewer.offsetHeight)) {
+      this.setState({ activePage: Object.keys(this.pages).length });
+    }
+    else {
+      this.setState({ activePage: activePageIndex + 1 });
+    }
   }
 }
 
