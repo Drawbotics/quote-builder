@@ -56,15 +56,15 @@ const styles = {
     position: relative;
     border-bottom: 1px solid var(--line-color);
     transition: border-bottom var(--transition-duration) ease-in-out;
-    height: 100px;
+    height: 70px;
     pointer-events: none;
 
     > img {
       position: absolute;
-      bottom: var(--margin);
+      bottom: 10px;
       left: 50%;
       transform: translateX(-50%);
-      width: calc(100% - var(--margin) * 3);
+      height: 30px;
       transition: opacity var(--transition-duration) ease-in-out;
     }
   `,

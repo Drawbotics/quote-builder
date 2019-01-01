@@ -1,10 +1,25 @@
 import React from 'react';
-import { css } from 'emotion';
+import { css, cx } from 'emotion';
 import { ChevronLeft, ChevronRight } from 'react-feather';
-// import { snakeCase } from 'lodash';
+import { snakeCase } from 'lodash';
 
-// import { translate as t } from '~/utils/translation';
+import { translate as t } from '~/utils/translation';
 import { getCurrentLocale } from '~/utils';
+
+
+const sections = [{
+  key: 'cover',
+  unique: true,
+}, {
+  key: 'profile',
+  unique: true,
+}, {
+  key: 'howWeWork',
+  unique: true,
+}, {
+  key: 'project',
+  unique: false,
+}];
 
 
 const styles = {
@@ -21,6 +36,7 @@ const styles = {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding-bottom: var(--padding);
   `,
   label: css`
     font-size: 0.9rem;
@@ -41,24 +57,40 @@ const styles = {
   grid: css`
     display: flex;
     flex-wrap: wrap;
+    align-content: flex-start;
     padding: var(--padding);
     margin-right: calc(var(--padding) * -1);
+    overflow: scroll;
+    height: 100%;
   `,
   sectionCard: css`
     flex: 1 0 42%;
-    height: 180px;
     max-width: calc(50% - var(--margin));
+    margin-bottom: var(--margin);
+    margin-right: var(--margin);
+
+    &:hover {
+      cursor: pointer;
+    }
+  `,
+  disabled: css`
+    opacity: 0.3;
+
+    &:hover {
+      cursor: not-allowed;
+    }
+  `,
+  image: css`
+    height: 180px;
     border-radius: var(--border-radius);
     overflow: hidden;
     box-shadow: var(--box-shadow);
     background: var(--tertiary);
-    margin-right: var(--margin);
-    margin-bottom: var(--margin);
+
     transition: box-shadow var(--transition-duration-short) ease-in-out,
       background var(--transition-duration) ease-in-out;
 
     &:hover {
-      cursor: pointer;
       box-shadow: var(--box-shadow-hover);
     }
 
@@ -66,14 +98,39 @@ const styles = {
       box-shadow: var(--box-shadow-active);
     }
   `,
+  cardLabel: css`
+    text-align: center;
+    margin-top: var(--margin);
+    color: var(--text-primary);
+    transition: color var(--transition-duration) ease-in-out;
+  `,
+};
+
+
+const SectionCard: React.SFC<{
+  label: string,
+  image: string,
+  disabled: boolean,
+}> = ({ label, disabled }) => {
+  return (
+    <div
+      className={cx(styles.sectionCard, { [styles.disabled]: disabled })}
+      onClick={disabled ? x=>x : x=>x}>
+      <div className={styles.image}>
+      </div>
+      <div className={styles.cardLabel}>
+        {label}
+      </div>
+    </div>
+  );
 };
 
 
 const SectionsPanel: React.SFC<{
   onClickToggle: () => void,
   open: boolean,
-}> = ({ onClickToggle, open }) => {
-  // @ts-ignore
+  currentSections: string[],
+}> = ({ onClickToggle, open, currentSections }) => {
   const locale = getCurrentLocale();
   return (
     <div className={styles.sectionsPanel}>
@@ -86,12 +143,13 @@ const SectionsPanel: React.SFC<{
         </div>
       </div>
       <div className={styles.grid}>
-        <div className={styles.sectionCard}>
-        </div>
-        <div className={styles.sectionCard}>
-        </div>
-        <div className={styles.sectionCard}>
-        </div>
+        {sections.map((section, i) => (
+          <SectionCard
+            key={i}
+            label={t(locale, `document.${snakeCase(section.key)}.title`)}
+            disabled={currentSections.includes(section.key) && section.unique}
+            image="" />
+        ))}
       </div>
     </div>
   );

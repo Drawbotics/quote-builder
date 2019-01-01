@@ -163,6 +163,7 @@ class DocumentEditor extends React.Component<{
           {/* TODO here toggle between editing/adding sections */}
           <SectionsPanel
             open={editingOpen}
+            currentSections={document.sections.map((section: any) => section.type)}
             onClickToggle={() => this.setState({ editingOpen: ! editingOpen })} />
         </div>
         <div className={styles.controls}>
