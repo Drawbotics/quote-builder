@@ -111,11 +111,12 @@ const SectionCard: React.SFC<{
   label: string,
   image: string,
   disabled: boolean,
-}> = ({ label, disabled }) => {
+  onClick: () => void,
+}> = ({ label, disabled, onClick }) => {
   return (
     <div
       className={cx(styles.sectionCard, { [styles.disabled]: disabled })}
-      onClick={disabled ? x=>x : x=>x}>
+      onClick={disabled ? x=>x : onClick}>
       <div className={styles.image}>
       </div>
       <div className={styles.cardLabel}>
@@ -130,7 +131,8 @@ const SectionsPanel: React.SFC<{
   onClickToggle: () => void,
   open: boolean,
   currentSections: string[],
-}> = ({ onClickToggle, open, currentSections }) => {
+  onClickAddSection: (sectionKey: string) => void,
+}> = ({ onClickToggle, open, currentSections, onClickAddSection }) => {
   const locale = getCurrentLocale();
   return (
     <div className={styles.sectionsPanel}>
@@ -146,6 +148,7 @@ const SectionsPanel: React.SFC<{
         {sections.map((section, i) => (
           <SectionCard
             key={i}
+            onClick={() => onClickAddSection(section.key)}
             label={t(locale, `document.${snakeCase(section.key)}.title`)}
             disabled={currentSections.includes(section.key) && section.unique}
             image="" />
