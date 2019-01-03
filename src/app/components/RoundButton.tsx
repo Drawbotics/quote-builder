@@ -1,5 +1,5 @@
 import React from 'react';
-import { css } from 'emotion';
+import { css, cx } from 'emotion';
 
 
 const styles = {
@@ -26,6 +26,10 @@ const styles = {
       transform: scale(0.95);
     }
   `,
+  disabled: css`
+    cursor: not-allowed;
+    opacity: 0.5;
+  `,
 };
 
 
@@ -33,9 +37,10 @@ const RoundButton: React.SFC<{
   onClick: () => void,
   children: string,
   size?: number,
-}> = ({ onClick, children, size }) => {
+  disabled?: boolean,
+}> = ({ onClick, children, size, disabled }) => {
   return (
-    <div className={styles.button} onClick={onClick} style={size ? { height: size, width: size } : undefined}>{children}</div>
+    <div className={cx(styles.button, { [styles.disabled]: disabled })} onClick={disabled ? x=>x : onClick} style={size ? { height: size, width: size } : undefined}>{children}</div>
   );
 }
 
