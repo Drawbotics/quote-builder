@@ -174,26 +174,29 @@ class DocumentEditor extends React.Component<{
         <div className={styles.controls}>
           <ZoomControls zoom={zoom} onClickZoom={(v: number) => this.setState({ zoom: v })} />
         </div>
-        <div key={reload} className={styles.viewer} ref={(viewer: HTMLDivElement) => { this.viewer = viewer; this._addScrollListener(viewer) }}>
-          <BlobProvider document={DocumentGenerator({ document, onPageRender: this._onDocumentPageRender })}>
+        <div className={styles.viewer} ref={(viewer: HTMLDivElement) => { this.viewer = viewer; this._addScrollListener(viewer) }}>
+          <BlobProvider key={reload} document={DocumentGenerator({ document, onPageRender: this._onDocumentPageRender })}>
             {({ blob }: { blob: any }) => (
               <div className={styles.document}>
-                {blob ?
-                  <Document file={blob} onLoadSuccess={this._onDocumentLoadSuccess} loading={<Spinner label="Loading PDF..." />}>
-                    {Array(pages).fill(0).map((value, index) => (
-                      <Fragment key={index}>
-                        <Divisor onClickPlus={() => this._openAddSection(index)} />
-                        <div className={cx(styles.page, { [styles.selected]: editingPage === index })} ref={(page: HTMLDivElement) => this.pages[`page${index+1}`] = page}>
-                          <Page pageNumber={index + 1} scale={zoom} />
-                          <div className={styles.deletePage} data-element="delete">
-                            <RoundButton onClick={() => console.log('d')} size={30}>-</RoundButton>
+                {blob ? (() => {
+                  this.pages = {};
+                  return (
+                    <Document file={blob} onLoadSuccess={this._onDocumentLoadSuccess} onSourceSuccess={() => console.log('success')} loading={<Spinner label="Loading PDF..." />}>
+                      {Array(pages).fill(0).map((value, index) => (
+                        <Fragment key={index}>
+                          <Divisor onClickPlus={() => this._openAddSection(index)} />
+                          <div className={cx(styles.page, { [styles.selected]: editingPage === index })} ref={(page: HTMLDivElement) => page ? this.pages[`page${index+1}`] = page : null}>
+                            <Page pageNumber={index + 1} scale={zoom} />
+                            <div className={styles.deletePage} data-element="delete">
+                              <RoundButton onClick={() => this._handleRemoveSection(index + 1)} size={30}>-</RoundButton>
+                            </div>
                           </div>
-                        </div>
-                      </Fragment>
-                    ))}
-                    <Divisor onClickPlus={() => this._openAddSection(pages)} />
-                  </Document>
-                : <Spinner label="Loading PDF..." />}
+                        </Fragment>
+                      ))}
+                      <Divisor onClickPlus={() => this._openAddSection(pages)} />
+                    </Document>
+                  );
+                })() : <Spinner label="Loading PDF..." />}
               </div>
             )}
           </BlobProvider>
@@ -231,6 +234,7 @@ class DocumentEditor extends React.Component<{
 
   @autobind
   _onDocumentLoadSuccess({ numPages }: { numPages: number }) {
+    console.log('document loaded', numPages);
     this.setState({ pages: numPages, reload: 0 });
   }
 
@@ -281,14 +285,27 @@ class DocumentEditor extends React.Component<{
   }
 
   @autobind
+  _handleRemoveSection(index: number) {
+    const { groupedPages } = this.state;
+    const { document } = this.props;
+    const toRemove = groupedPages[index];
+    const sections = document.sections.filter((s: any) => s.id !== toRemove.id);
+    document.sections = sections;
+    this.pages = {};
+    this.setState({ reload: 1 });
+  }
+
+  @autobind
   _handleAddSection(section: string) {
     const { insertSectionAt, groupedPages } = this.state;
     const { document } = this.props;
-    const insertAfter = groupedPages[insertSectionAt];
+    console.log(insertSectionAt);
+    const insertAfter = groupedPages[insertSectionAt === 0 ? 1 : insertSectionAt];
     const newSection = { type: section, id: v4() };
     const sections = document.sections.reduce((memo: any, section: any) =>
-      section.id === insertAfter.id ? [ ...memo, section, newSection ] : [ ...memo, section ], []);
+      section.id === insertAfter.id ? (insertSectionAt === 0 ? [ newSection, section ] : [ ...memo, section, newSection ]) : [ ...memo, section ], []);
     document.sections = sections;
+    this.pages = {};
     this.setState({ reload: 1 });
   }
 }
