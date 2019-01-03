@@ -35,9 +35,15 @@ export async function loadQuotes() {
 }
 
 
-export async function loadQuote(id: string) {
+export async function getQuoteLocation(id: string) {
   const mappings = await loadMappings();
   const location = mappings[id];
+  return location;
+}
+
+
+export async function loadQuote(id: string) {
+  const location = await getQuoteLocation(id);
   const file = await readFile(location, { encoding: 'utf8' });
   const parsed = JSON.parse(file)
   setCurrentLocale(parsed.data.language);
@@ -48,18 +54,17 @@ export async function loadQuote(id: string) {
 }
 
 
-export async function saveQuote(id: string, path: string, value: any) {
+export async function saveQuote(id: string, path: string, value: any, newFile=false) {
   const lastModified = new Date();
   await writeFile(path, JSON.stringify({ ...value, lastModified }));
   await saveMapping(id, path);
-  deleteUntitled(id);
+  newFile ? deleteUntitled(id) : null;
 }
 
 
 export async function deleteQuote(id: string) {
   // TODO handle case where file is deleted outside of flow and we try to delete here (file not found)
-  const mappings = await loadMappings();
-  const location = mappings[id];
+  const location = await getQuoteLocation(id);
   await deleteFile(location);
   await removeMapping(id);
 }

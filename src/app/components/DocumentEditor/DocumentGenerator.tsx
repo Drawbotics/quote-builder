@@ -50,8 +50,9 @@ Font.registerHyphenationCallback((words: string[]) => (
 
 
 interface SectionType {
+  id: string
   type: string
-  contents: any
+  contents?: any
 }
 
 
@@ -63,42 +64,43 @@ interface DataType {
 }
 
 
-function sectionsToComponents(sections: SectionType[], data: DataType, onPageRender: (s: string, pn: number) => void) {
+function sectionsToComponents(sections: SectionType[], data: DataType, onPageRender: (s: SectionType, pn: number) => void) {
   return sections.map((section, i) => {
+    const { type, id } = section;
     const contents = section.contents || {};
-    switch(section.type) {
+    switch(type) {
       case 'cover': {
-        return <Cover key={i} project={data.project} onPageRender={(page: number) => onPageRender(section.type, page)} />
+        return <Cover key={i} project={data.project} onPageRender={(page: number) => onPageRender({ type, id }, page)} />
       }
       case 'profile': {
-        return <Profile key={i} profile={data.person} onPageRender={(page: number) => onPageRender(section.type, page)} />
+        return <Profile key={i} profile={data.person} onPageRender={(page: number) => onPageRender({ type, id }, page)} />
       }
       case 'stats': {
-        return <Stats key={i} contents={contents} onPageRender={(page: number) => onPageRender(section.type, page)} />
+        return <Stats key={i} contents={contents} onPageRender={(page: number) => onPageRender({ type, id }, page)} />
       }
       case 'howWeWork': {
-        return <HowWeWork key={i} contents={contents} onPageRender={(page: number) => onPageRender(section.type, page)} />
+        return <HowWeWork key={i} contents={contents} onPageRender={(page: number) => onPageRender({ type, id }, page)} />
       }
       case 'whatWeDo': {
-        return <WhatWeDo key={i} contents={contents} onPageRender={(page: number) => onPageRender(section.type, page)} />
+        return <WhatWeDo key={i} contents={contents} onPageRender={(page: number) => onPageRender({ type, id }, page)} />
       }
       case 'project': {
-        return <Project key={i} contents={contents} onPageRender={(page: number) => onPageRender(section.type, page)} />
+        return <Project key={i} contents={contents} onPageRender={(page: number) => onPageRender({ type, id }, page)} />
       }
       case 'storyTelling': {
-        return <StoryTelling key={i} contents={contents} onPageRender={(page: number) => onPageRender(section.type, page)} />
+        return <StoryTelling key={i} contents={contents} onPageRender={(page: number) => onPageRender({ type, id }, page)} />
       }
       case 'products': {
-        return <Services key={i} contents={contents} tables={data.tables} onPageRender={(page: number) => onPageRender(section.type, page)} />
+        return <Services key={i} contents={contents} tables={data.tables} onPageRender={(page: number) => onPageRender({ type, id }, page)} />
       }
       case 'tables': {
-        return <Tables key={i} tables={data.tables} onPageRender={(page: number) => onPageRender(section.type, page)} />
+        return <Tables key={i} tables={data.tables} onPageRender={(page: number) => onPageRender({ type, id }, page)} />
       }
       case 'paymentMethods': {
-        return <PaymentMethods key={i} profile={data.person} onPageRender={(page: number) => onPageRender(section.type, page)} />
+        return <PaymentMethods key={i} profile={data.person} onPageRender={(page: number) => onPageRender({ type, id }, page)} />
       }
       default: {
-        console.warn(`No equivalent component for section of type ${section.type}`);
+        console.warn(`No equivalent component for section of type ${type}`);
         return undefined;
       }
     }
@@ -106,25 +108,9 @@ function sectionsToComponents(sections: SectionType[], data: DataType, onPageRen
 }
 
 
-const DocumentGenerator = ({ document, onPageRender }: { document: any, onPageRender: (s: string, pn: number) => void }) => {
+const DocumentGenerator = ({ document, onPageRender }: { document: any, onPageRender: (s: SectionType, pn: number) => void }) => {
   const { data, sections } = document;
-  // @ts-ignore
   const components = sectionsToComponents(sections, data, onPageRender);
-  // return (
-  //   <PDFDocument>
-  //     <Cover project={data.project} onPageRender={(page: number) => onPageRender('cover', page)} />
-  //     <Profile profile={data.person} onPageRender={(page: number) => onPageRender('profile', page)} />
-  //     <Stats contents={{}} onPageRender={(page: number) => onPageRender('stats', page)} />
-  //     <WhatWeDo contents={{}} onPageRender={(page: number) => onPageRender('whatWeDo', page)} />
-  //     <HowWeWork contents={{}} onPageRender={(page: number) => onPageRender('howWeWork', page)} />
-  //     <Project contents={{}} onPageRender={(page: number) => onPageRender('project', page)} />
-  //     <StoryTelling contents={{}} onPageRender={(page: number) => onPageRender('storyTelling', page)} />
-  //     <Services contents={sections.find((s: any) => s.type === 'products').contents} tables={data.tables} onPageRender={(page: number) => onPageRender('products', page)} />
-  //     <Tables tables={data.tables} onPageRender={(page: number) => onPageRender('tables', page)} />
-  //     <PaymentMethods profile={data.person} onPageRender={(page: number) => onPageRender('paymentMethods', page)} />
-  //   </PDFDocument>
-  // );
-  // TODO: plug like below once we have all templates
   return (
     <PDFDocument>
       {...components}
