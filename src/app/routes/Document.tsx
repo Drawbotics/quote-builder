@@ -120,6 +120,7 @@ class Document extends React.Component<{
     else {
       const location = await getQuoteLocation(file.id);
       await saveQuote(file.id, location, file);
+      // TODO add button to save + indicator for unsaved changes
       this.setState({ hasUnsavedChanges: false });
     }
   }
