@@ -8,7 +8,7 @@ import NavigationPrompt from 'react-router-navigation-prompt';
 
 import DocumentBoostrap from '../components/DocumentBoostrap';
 import { saveUntitled, loadUntitled, deleteUntitled } from '../utils/storage';
-import { saveQuote, loadQuote } from '../utils/storage/quotes';
+import { saveQuote, loadQuote, getQuoteLocation } from '../utils/storage/quotes';
 import { getFilenameFromPath } from '../utils';
 import CustomPrompt from '../components/CustomPrompt';
 import DocumentEditor from '../components/DocumentEditor';
@@ -99,7 +99,7 @@ class Document extends React.Component<{
   }
 
   @autobind
-  _handleSaveDocument() {
+  async _handleSaveDocument() {
     const { setDocumentTitle } = this.props;
     const { untitled, file } = this.state;
     if (untitled) {
@@ -111,14 +111,15 @@ class Document extends React.Component<{
         filters: [{ name: 'Quotes', extensions: ['qdp'] }],
       }, async (path) => {
         if (path) {
-          await saveQuote(file.id, path, file);
+          await saveQuote(file.id, path, file, true);
           this.mounted && this.setState({ untitled: false });
           setDocumentTitle(getFilenameFromPath(path));
         }
       });
     }
     else {
-      // NOTE: handle saving the actual file as well
+      const location = await getQuoteLocation(file.id);
+      await saveQuote(file.id, location, file);
       this.setState({ hasUnsavedChanges: false });
     }
   }
