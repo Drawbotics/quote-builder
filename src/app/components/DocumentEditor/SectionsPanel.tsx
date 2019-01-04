@@ -1,6 +1,6 @@
 import React from 'react';
 import { css, cx } from 'emotion';
-import { ChevronLeft, ChevronRight } from 'react-feather';
+import { ChevronRight } from 'react-feather';
 import { snakeCase } from 'lodash';
 
 import { translate as t } from '~/utils/translation';
@@ -17,8 +17,26 @@ const sections = [{
   key: 'howWeWork',
   unique: true,
 }, {
+  key: 'whatWeDo',
+  unique: true,
+}, {
+  key: 'stats',
+  unique: true,
+}, {
   key: 'project',
   unique: false,
+}, {
+  key: 'storyTelling',
+  unique: false,
+}, {
+  key: 'products',
+  unique: true,
+}, {
+  key: 'tables',
+  unique: true,
+}, {
+  key: 'paymentMethods',
+  unique: true,
 }];
 
 
@@ -27,10 +45,11 @@ const styles = {
     width: 350px;
     background: var(--tertiary-transparent);
     border-left: 1px solid var(--line-color);
-    height: 100%;
     padding: var(--padding);
     transition: all var(--transition-duration) ease-in-out;
     backdrop-filter: blur(3px);
+    display: flex;
+    flex-direction: column;
   `,
   header: css`
     display: flex;
@@ -59,9 +78,11 @@ const styles = {
     flex-wrap: wrap;
     align-content: flex-start;
     padding: var(--padding);
+    padding-bottom: calc(var(--padding) * 3);
     margin-right: calc(var(--padding) * -1);
     overflow: scroll;
-    height: 100%;
+    flex: 1;
+    min-height: 0;
   `,
   sectionCard: css`
     flex: 1 0 42%;
@@ -129,16 +150,15 @@ const SectionCard: React.SFC<{
 
 const SectionsPanel: React.SFC<{
   onClickToggle: () => void,
-  open: boolean,
   currentSections: string[],
   onClickAddSection: (sectionKey: string) => void,
-}> = ({ onClickToggle, open, currentSections, onClickAddSection }) => {
+}> = ({ onClickToggle, currentSections, onClickAddSection }) => {
   const locale = getCurrentLocale();
   return (
     <div className={styles.sectionsPanel}>
       <div className={styles.header}>
         <div className={styles.icon} onClick={onClickToggle}>
-          {open ? <ChevronRight size={20} /> : <ChevronLeft size={20} /> }
+          <ChevronRight size={20} />
         </div>
         <div className={styles.label}>
           Add a section
