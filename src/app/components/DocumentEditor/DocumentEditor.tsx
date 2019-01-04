@@ -181,7 +181,7 @@ class DocumentEditor extends React.Component<{
                 {blob ? (() => {
                   this.pages = {};
                   return (
-                    <Document file={blob} onLoadSuccess={this._onDocumentLoadSuccess} onSourceSuccess={() => console.log('success')} loading={<Spinner label="Loading PDF..." />}>
+                    <Document file={blob} onLoadSuccess={this._onDocumentLoadSuccess} loading={<Spinner label="Loading PDF..." />}>
                       {Array(pages).fill(0).map((value, index) => (
                         <Fragment key={index}>
                           <Divisor onClickPlus={() => this._openAddSection(index)} />
@@ -234,7 +234,6 @@ class DocumentEditor extends React.Component<{
 
   @autobind
   _onDocumentLoadSuccess({ numPages }: { numPages: number }) {
-    console.log('document loaded', numPages);
     this.setState({ pages: numPages, reload: 0 });
   }
 
@@ -299,14 +298,13 @@ class DocumentEditor extends React.Component<{
   _handleAddSection(section: string) {
     const { insertSectionAt, groupedPages } = this.state;
     const { document } = this.props;
-    console.log(insertSectionAt);
     const insertAfter = groupedPages[insertSectionAt === 0 ? 1 : insertSectionAt];
     const newSection = { type: section, id: v4() };
     const sections = document.sections.reduce((memo: any, section: any) =>
       section.id === insertAfter.id ? (insertSectionAt === 0 ? [ newSection, section ] : [ ...memo, section, newSection ]) : [ ...memo, section ], []);
     document.sections = sections;
     this.pages = {};
-    this.setState({ reload: 1 });
+    this.setState({ reload: 1, editingOpen: false });
   }
 }
 
