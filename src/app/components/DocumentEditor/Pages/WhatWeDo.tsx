@@ -74,7 +74,7 @@ const WhatWeDo: React.SFC<{
   const locale = getCurrentLocale();
   const t = (k: string, alt?: string) => tt(locale, k, alt);
   return (
-    <PageWrapper title="Drawbotics" subtitle={t('subtitle')} onPageRender={onPageRender}>
+    <PageWrapper title="Drawbotics" subtitle={t('title')} onPageRender={onPageRender}>
       <View style={styles.wrapper}>
         <Section
           title={t('platform_title', contents.platformTitle)}

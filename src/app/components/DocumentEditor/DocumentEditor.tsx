@@ -41,7 +41,7 @@ const styles = {
     right: 0;
     height: 100%;
     z-index: 10;
-    transform: translateX(calc(100% - 40px));
+    transform: translateX(100%);
     display: flex;
     transition: transform var(--transition-duration-short) ease-in-out;
   `,
@@ -166,7 +166,6 @@ class DocumentEditor extends React.Component<{
         <div className={cx(styles.editingBar, { [styles.barOpen]: editingOpen })}>
           {/* TODO here toggle between editing/adding sections */}
           <SectionsPanel
-            open={editingOpen}
             onClickAddSection={this._handleAddSection}
             currentSections={document.sections.map((section: any) => section.type)}
             onClickToggle={() => this.setState({ editingOpen: ! editingOpen })} />
