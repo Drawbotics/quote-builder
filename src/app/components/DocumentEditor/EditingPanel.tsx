@@ -22,10 +22,12 @@ const EditingPanel: React.SFC<{
   onClickToggle: () => void,
   editingSection: Section,
   document: any,
+  onChange: (document: any) => void,
 }> = ({
   onClickToggle,
   editingSection,
   document,
+  onChange,
 }) => {
   const Editor = editors[editingSection.type];
   if (! Editor) {
@@ -35,7 +37,7 @@ const EditingPanel: React.SFC<{
   return (
     <div className={styles.editingPanel} id="editing-panel">
       <Panel title="Modify section" onClick={onClickToggle}>
-        <Editor document={document} />
+        <Editor document={document} onClickUpdate={onChange} />
       </Panel>
     </div>
   );
