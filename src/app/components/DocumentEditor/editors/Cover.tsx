@@ -1,17 +1,21 @@
 import React from 'react';
 import { css } from 'emotion';
 import autobind from 'autobind-decorator';
-import { get } from 'lodash';
+import { get, omit } from 'lodash';
 
+import Tabs from '../../Tabs';
 import Input, { InputGroup } from '../../Input';
 import ImagePicker from '../../ImagePicker';
 import Button from '../../Button';
+import { setCurrentLocale } from '~/utils';
 
 
 const styles = {
   cover: css`
   `,
-  actions: css`
+  language: css`
+    display: inline-flex;
+    margin-bottom: var(--margin);
     margin-top: var(--margin);
   `,
 };
@@ -25,7 +29,7 @@ class Cover extends React.Component<{
 
   render() {
     const { document: { data } } = this.props;
-    const { project } = data;
+    const { project, language } = data;
     return (
       <div className={styles.cover}>
         <InputGroup>
@@ -34,9 +38,21 @@ class Cover extends React.Component<{
           <Input name="companyName" label="Company name" value={get(this.state, 'companyName', project.companyName)} onChange={this._handleChange} topLabel />
         </InputGroup>
         <ImagePicker image={this.state.clientLogo || project.clientLogo} onFileSelect={(file: string) => this.setState({ clientLogo: file })} />
-        <div className={styles.actions}>
-          <Button onClick={this._handleClickUpdate}>Update</Button>
-        </div>
+        <div className={styles.language}>
+          <Tabs
+            value={this.state.language || language}
+            tabs={[{
+              label: 'En',
+              value: 'EN',
+            }, {
+              label: 'Fr',
+              value: 'FR',
+            }, {
+              label: 'Nl',
+              value: 'NL',
+            }]}
+            onChange={(v) => this.setState({ language: v })} /></div>
+        <Button onClick={this._handleClickUpdate}>Update</Button>
       </div>
     );
   }
@@ -49,7 +65,11 @@ class Cover extends React.Component<{
   @autobind
   _handleClickUpdate() {
     const { document, onClickUpdate } = this.props;
-    document.data.project = { ...document.data.project, ...this.state };
+    document.data.project = { ...document.data.project, ...omit(this.state, 'language') };
+    if (this.state.language) {
+      document.data.language = this.state.language;
+      setCurrentLocale(this.state.language);
+    }
     onClickUpdate(document);
   }
 }

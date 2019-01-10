@@ -36,7 +36,7 @@ const styles = {
   `,
   selected: css`
     color: var(--text-primary);
-  `
+  `,
 }
 
 
