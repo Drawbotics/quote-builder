@@ -1,10 +1,10 @@
 import React from 'react';
 import { css, cx } from 'emotion';
-import { ChevronRight } from 'react-feather';
 import { snakeCase } from 'lodash';
 
 import { translate as t } from '~/utils/translation';
 import { getCurrentLocale } from '~/utils';
+import Panel from './Panel';
 
 
 const sections = [{
@@ -42,47 +42,14 @@ const sections = [{
 
 const styles = {
   sectionsPanel: css`
-    width: 350px;
-    background: var(--tertiary-transparent);
-    border-left: 1px solid var(--line-color);
-    padding: var(--padding);
-    transition: all var(--transition-duration) ease-in-out;
-    backdrop-filter: blur(3px);
-    display: flex;
-    flex-direction: column;
-  `,
-  header: css`
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-bottom: var(--padding);
-  `,
-  label: css`
-    font-size: 0.9rem;
-    color: var(--grey);
-    transition: color var(--transition-duration) ease-in-out;
-  `,
-  icon: css`
-    color: var(--grey);
-    margin-bottom: -6px;
-    margin-left: calc(var(--padding) / -2);
-    margin-right: var(--padding);
-
-    &:hover {
-      cursor: pointer;
-      color: var(--text-primary);
-    }
+    width: 370px;
   `,
   grid: css`
     display: flex;
     flex-wrap: wrap;
     align-content: flex-start;
     padding: var(--padding);
-    padding-bottom: calc(var(--padding) * 3);
     margin-right: calc(var(--padding) * -1);
-    overflow: scroll;
-    flex: 1;
-    min-height: 0;
   `,
   sectionCard: css`
     flex: 1 0 42%;
@@ -124,6 +91,7 @@ const styles = {
     margin-top: var(--margin);
     color: var(--text-primary);
     transition: color var(--transition-duration) ease-in-out;
+    font-size: 0.8rem;
   `,
 };
 
@@ -156,24 +124,18 @@ const SectionsPanel: React.SFC<{
   const locale = getCurrentLocale();
   return (
     <div className={styles.sectionsPanel}>
-      <div className={styles.header}>
-        <div className={styles.icon} onClick={onClickToggle}>
-          <ChevronRight size={20} />
+      <Panel title="Add section" onClick={onClickToggle}>
+        <div className={styles.grid}>
+          {sections.map((section, i) => (
+            <SectionCard
+              key={i}
+              onClick={() => onClickAddSection(section.key)}
+              label={t(locale, `document.${snakeCase(section.key)}.title`)}
+              disabled={currentSections.includes(section.key) && section.unique}
+              image="" />
+          ))}
         </div>
-        <div className={styles.label}>
-          Add a section
-        </div>
-      </div>
-      <div className={styles.grid}>
-        {sections.map((section, i) => (
-          <SectionCard
-            key={i}
-            onClick={() => onClickAddSection(section.key)}
-            label={t(locale, `document.${snakeCase(section.key)}.title`)}
-            disabled={currentSections.includes(section.key) && section.unique}
-            image="" />
-        ))}
-      </div>
+      </Panel>
     </div>
   );
 };
