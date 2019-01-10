@@ -169,8 +169,14 @@ class DocumentEditor extends React.Component<{
             <SectionsPanel
               onClickAddSection={this._handleAddSection}
               currentSections={document.sections.map((section: any) => section.type)}
-              onClickToggle={() => this.setState({ editingOpen: ! editingOpen })} />}
-          {editingPage !== undefined && <EditingPanel onClickToggle={() => this.setState({ editingOpen: ! editingOpen })} />}
+              onClickToggle={() => this.setState({ editingOpen: ! editingOpen })} />
+          }
+          {editingPage !== undefined &&
+            <EditingPanel
+              document={document}
+              editingSection={groupedPages[editingPage + 1]}
+              onClickToggle={() => this.setState({ editingOpen: ! editingOpen })} />
+          }
         </div>
         <div className={styles.controls}>
           <ZoomControls zoom={zoom} onClickZoom={(v: number) => this.setState({ zoom: v })} />
