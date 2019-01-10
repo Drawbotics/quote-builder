@@ -6,8 +6,8 @@ import { openFileSelector } from './FileSelector';
 
 const styles = {
   photoWrapper: css`
-    height: 150px;
-    width: 150px;
+    height: 120px;
+    width: 120px;
     border-radius: 1000px;
     background: var(--tertiary);
     border: 3px solid var(--secondary);
@@ -21,8 +21,8 @@ const styles = {
   `,
   photo: css`
     position: relative;
-    height: calc(100% - 14px);
-    width: calc(100% - 14px);
+    height: calc(100% - 10px);
+    width: calc(100% - 10px);
     overflow: hidden;
     border-radius: 1000px;
 
