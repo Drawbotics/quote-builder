@@ -173,6 +173,7 @@ class DocumentEditor extends React.Component<{
           }
           {editingPage !== undefined &&
             <EditingPanel
+              onChange={this._handleModifyDocument}
               document={document}
               editingSection={groupedPages[editingPage + 1]}
               onClickToggle={() => this.setState({ editingOpen: ! editingOpen })} />
@@ -313,6 +314,11 @@ class DocumentEditor extends React.Component<{
     document.sections = sections;
     this.pages = {};
     this.setState({ reload: 1, editingOpen: false });
+  }
+
+  @autobind
+  _handleModifyDocument(newDocument: any) {
+    this.setState({ reload: 1 });
   }
 }
 
