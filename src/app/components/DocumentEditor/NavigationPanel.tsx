@@ -55,6 +55,7 @@ const styles = {
     margin: 0 calc(var(--margin) * -1);
     color: var(--text-primary);
     transition: all var(--transition-duration-short) ease-in-out;
+    font-size: 0.9rem;
 
     &:hover {
       cursor: pointer;

@@ -12,6 +12,7 @@ import ZoomControls from './ZoomControls';
 import Divisor from './Divisor';
 import NavigationPanel from './NavigationPanel';
 import SectionsPanel from './SectionsPanel';
+import EditingPanel from './EditingPanel';
 import RoundButton from '../RoundButton';
 import Spinner from '../Spinner';
 
@@ -130,7 +131,7 @@ class DocumentEditor extends React.Component<{
   state = {
     zoom: 1.0,
     pages: 0,
-    editingPage: -1,
+    editingPage: undefined,
     navigationOpen: true,
     editingOpen: false,
     groupedPages: {},
@@ -149,7 +150,7 @@ class DocumentEditor extends React.Component<{
   }
 
   render() {
-    const { zoom, pages, editingPage, navigationOpen, activePage, groupedPages, editingOpen, reload } = this.state;
+    const { zoom, pages, editingPage, navigationOpen, activePage, groupedPages, editingOpen, reload, insertSectionAt } = this.state;
     const { document } = this.props;
     if (isEmpty(document)) return <Spinner label="Loading PDF..." />;
     // console.log('editing', groupedPages[editingPage + 1]);
@@ -164,11 +165,12 @@ class DocumentEditor extends React.Component<{
             open={navigationOpen} />
         </div>
         <div className={cx(styles.editingBar, { [styles.barOpen]: editingOpen })}>
-          {/* TODO here toggle between editing/adding sections */}
-          <SectionsPanel
-            onClickAddSection={this._handleAddSection}
-            currentSections={document.sections.map((section: any) => section.type)}
-            onClickToggle={() => this.setState({ editingOpen: ! editingOpen })} />
+          {insertSectionAt !== -1 &&
+            <SectionsPanel
+              onClickAddSection={this._handleAddSection}
+              currentSections={document.sections.map((section: any) => section.type)}
+              onClickToggle={() => this.setState({ editingOpen: ! editingOpen })} />}
+          {editingPage !== undefined && <EditingPanel onClickToggle={() => this.setState({ editingOpen: ! editingOpen })} />}
         </div>
         <div className={styles.controls}>
           <ZoomControls zoom={zoom} onClickZoom={(v: number) => this.setState({ zoom: v })} />
@@ -205,7 +207,8 @@ class DocumentEditor extends React.Component<{
   }
 
   @autobind
-  _handleClickPage(e: MouseEvent) {
+  _handleClickPage(e: any) {
+    const clickedEditing = !! e.path.find((element: HTMLElement) => element.id === 'editing-panel');
     if (get(e.target, 'nodeName') === 'CANVAS') {
       const boundingBoxes = Object.values(this.pages).map((page: HTMLElement) => page.getBoundingClientRect());
       if (boundingBoxes.length > 0) {
@@ -215,7 +218,7 @@ class DocumentEditor extends React.Component<{
           let page = 0;
           for (let delimiter of yDelimiters) {
             if (e.clientY > delimiter.top && e.clientY < delimiter.bottom) {
-              this.setState({ editingPage: page });
+              this.setState({ editingPage: page, editingOpen: true, insertSectionAt: -1 });
               break;
             }
             page++;
@@ -226,7 +229,7 @@ class DocumentEditor extends React.Component<{
         }
       }
     }
-    else {
+    else if (! clickedEditing) {
       this.setState({ editingPage: undefined });
     }
   }
