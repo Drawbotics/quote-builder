@@ -27,11 +27,20 @@ const styles = {
     display: flex;
     align-items: center;
   `,
+  topLabel: css`
+    flex-direction: column;
+    align-items: stretch;
+
+    & [data-element="label"] {
+      margin-bottom: 5px;
+    }
+  `,
   label: css`
     margin-right: calc(var(--margin) / 2);
     font-weight: 600;
     color: var(--text-primary);
     transition: color var(--transition-duration) ease-in-out;
+    font-size: 0.8rem;
   `,
   inputWrapper: css`
     margin-bottom: calc(var(--margin) / 2);
@@ -57,12 +66,13 @@ export const InputGroup: React.SFC<{
 
 
 const Input: React.SFC<{
-  onChange: (v: string, n: string) => void,
+  onChange?: (v: string, n: string) => void,
   placeholder?: string,
   value?: string,
   name?: string,
   label?: string,
   area?: boolean,
+  topLabel?: boolean,
 }> = ({
   onChange,
   placeholder,
@@ -70,6 +80,7 @@ const Input: React.SFC<{
   label,
   area,
   name,
+  topLabel=false,
 }) => {
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
     if ( ! onChange) return;
@@ -77,8 +88,8 @@ const Input: React.SFC<{
   };
 
   return (
-    <div className={styles.wrapper}>
-      {label ? <label htmlFor={name} className={styles.label}>{label}</label> : null}
+    <div className={cx(styles.wrapper, { [styles.topLabel]: topLabel })}>
+      {label ? <label htmlFor={name} className={styles.label} data-element="label">{label}</label> : null}
       {area ?
         <textarea style={{ minHeight: '200px' }} name={name} className={cx(styles.input, styles.textarea)} value={value} onChange={handleOnChange} placeholder={placeholder} />
         :

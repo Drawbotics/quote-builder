@@ -41,6 +41,8 @@ const styles = {
     flex: 1;
     min-height: 0;
     overflow: scroll;
+    margin: -5px;
+    padding: 5px;
     padding-bottom: calc(var(--padding) * 3);
   `,
 };
