@@ -4,14 +4,14 @@ import { View, StyleSheet, Image, Text } from '@react-pdf/renderer';
 import sv from '../vars';
 import { title, paragraph } from './styles';
 import { getCurrentLocale } from '~/utils';
-import { createTranslate } from '~/utils/translation';
+import { createTranslateAlt } from '~/utils/translation';
 import PageWrapper from './PageWrapper';
 
 import management from '../images/management.png';
 import platform from '../images/online-platform.png';
 
 
-const tt = createTranslate('document.what_we_do');
+const tt = createTranslateAlt('document.what_we_do');
 
 const styles = StyleSheet.create({
   wrapper: {
