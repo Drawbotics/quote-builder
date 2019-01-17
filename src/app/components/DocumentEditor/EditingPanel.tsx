@@ -37,7 +37,7 @@ const EditingPanel: React.SFC<{
   return (
     <div className={styles.editingPanel} id="editing-panel">
       <Panel title="Modify section" onClick={onClickToggle}>
-        <Editor document={document} onClickUpdate={onChange} />
+        <Editor document={document} onClickUpdate={onChange} sectionId={editingSection.id} />
       </Panel>
     </div>
   );

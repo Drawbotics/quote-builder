@@ -74,8 +74,13 @@ export function createTranslate(base: string) {
 }
 
 
-export function translateAlt(locale: string, base: string, alt: string | undefined) {
-  return alt ? alt : translate(locale, base, undefined, undefined, alt);
+export function translateAlt(locale: string, base: string, alt: string | undefined, key?: string | undefined) {
+  return alt ? alt : translate(locale, base, key, undefined, alt);
+}
+
+
+export function createTranslateAlt(base: string) {
+  return (locale: string, key: string, alt?: string | undefined) => translateAlt(locale, base, alt, key);
 }
 
 
