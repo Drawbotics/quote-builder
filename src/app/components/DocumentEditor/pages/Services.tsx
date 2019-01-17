@@ -45,9 +45,9 @@ function getAllServices(tables: TableType[]) {
 function generateServiceSections(allServices: string[], products: any, locale: string) {
   return allServices.map((id) => ({
     id,
-    name: ta(locale, `services.${id}.name`, get(products[id], 'title', '')),
-    description: ta(locale, `services.${id}.description`, get(products[id], 'description', '')),
-    coverImage: get(products[id], 'image') || images[id],
+    name: ta(locale, `services.${id}.name`, get(products, `${id}.title`, '')),
+    description: ta(locale, `services.${id}.description`, get(products, `${id}.description`, '')),
+    coverImage: get(products, `${id}.image`) || images[id],
     icon: icons[id] || icons['custom'],
   }));
 }
@@ -211,7 +211,6 @@ const Services: React.SFC<{
   contents: any,
   onPageRender: (p: number) => void,
 }> = ({ tables, contents, onPageRender }) => {
-  console.log(tables);
   const locale = getCurrentLocale();
   const allServices = getAllServices(tables);
   const sections = generateServiceSections(allServices, contents.products, locale);
