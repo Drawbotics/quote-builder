@@ -367,3 +367,7 @@ Default
 ### View
 Default plus:
 - Toggle dark mode/light mode `Shift+CmdOrCtrl+M`
+
+
+# Known Issues
+- `react-pdf` triggers a setState error when reloading the whole document, will need to be monitored as it could be a memory leak
