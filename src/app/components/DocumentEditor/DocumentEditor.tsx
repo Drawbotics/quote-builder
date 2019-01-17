@@ -215,7 +215,7 @@ class DocumentEditor extends React.Component<{
 
   @autobind
   _handleClickPage(e: any) {
-    const clickedEditing = !! e.path.find((element: HTMLElement) => element.id === 'editing-panel');
+    const clickedPanels = !! e.path.find((element: HTMLElement) => element.id === 'editing-panel' || element.id === 'navigation-panel');
     if (get(e.target, 'nodeName') === 'CANVAS') {
       const boundingBoxes = Object.values(this.pages).map((page: HTMLElement) => page.getBoundingClientRect());
       if (boundingBoxes.length > 0) {
@@ -236,7 +236,7 @@ class DocumentEditor extends React.Component<{
         }
       }
     }
-    else if (! clickedEditing) {
+    else if (! clickedPanels) {
       this.setState({ editingPage: undefined });
     }
   }

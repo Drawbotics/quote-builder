@@ -211,6 +211,7 @@ const Services: React.SFC<{
   contents: any,
   onPageRender: (p: number) => void,
 }> = ({ tables, contents, onPageRender }) => {
+  console.log(tables);
   const locale = getCurrentLocale();
   const allServices = getAllServices(tables);
   const sections = generateServiceSections(allServices, contents.products, locale);
