@@ -87,27 +87,25 @@ const StoryTelling: React.SFC<{
 }> = ({ contents, onPageRender }) => {
   const locale = getCurrentLocale();
   const t = (k: string, alt?: string) => tt(locale, k, alt);
-  // const images1 = ['https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAeczDxErmEQXSZQtdFpiKrVKJKB8Y8MFkNCFodNkIPcWly-Fx', 'https://www.telegraph.co.uk/content/dam/Travel/2018/April/hong-kong-skyline.jpg?imwidth=450'];
-  const images2 = ['https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRy_yhj0tmdPemwpX2reGNPrE7fqYH7w_uVrSe9fax9cAGhy5k6', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsOIYUGblX8STY6m2K-ruHwcqhk6jQ4XbZwrUv5579esxJfeEP', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTxB9xVDh3YreSZPYtq2BCpDFhoYtvEdM-LkdRrOlKaU8ZbGmIu'];
-  const images1: string[] = [];
-  // const images2: string[] = [];
+  const row1 = contents.row1 || [];
+  const row2 = contents.row2 || [];
   return (
     <PageWrapper title={t('title')} noPadding noLogo onPageRender={onPageRender}>
       <View style={styles.wrapper}>
         <View style={styles.padded}>
-          <Text style={styles.title}>Central park</Text>
+          <Text style={styles.title}>{contents.title}</Text>
           <Text style={styles.paragraph}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            {contents.description}
           </Text>
         </View>
         <View style={styles.gallery}>
           <View style={styles.row}>
-            {images1.length > 0 ? images1.map((image, i) => (
+            {row1.length > 0 ? row1.map((image: string, i: number) => (
               <Image key={i} style={styles.image} src={image} />
             )) : <NoImages />}
           </View>
           <View style={styles.row}>
-            {images2.length > 0 ? images2.map((image, i) => (
+            {row2.length > 0 ? row2.map((image: string, i: number) => (
               <Image key={i} style={styles.image} src={image} />
             )) : <NoImages />}
           </View>

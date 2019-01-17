@@ -4,6 +4,7 @@ import HowWeWork from './HowWeWork';
 import Stats from './Stats';
 import WhatWeDo from './WhatWeDo';
 import Project from './Project';
+import StoryTelling from './StoryTelling';
 
 
 export default {
@@ -13,4 +14,5 @@ export default {
   stats: Stats,
   whatWeDo: WhatWeDo,
   project: Project,
+  storyTelling: StoryTelling,
 };
