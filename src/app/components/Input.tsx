@@ -21,7 +21,7 @@ const styles = {
   `,
   textarea: css`
     resize: none;
-    padding: var(--padding);
+    padding: var(--padding) calc(var(--padding) / 2);
   `,
   wrapper: css`
     display: flex;

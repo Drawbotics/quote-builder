@@ -44,6 +44,8 @@ const styles = {
     margin: -5px;
     padding: 5px;
     padding-bottom: calc(var(--padding) * 3);
+    padding-right: calc(var(--padding) * 2);
+    margin-right: calc(var(--padding) * -2);
   `,
 };
 

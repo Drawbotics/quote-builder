@@ -66,7 +66,7 @@ const styles = {
     position: fixed;
     bottom: var(--margin);
     right: calc(var(--margin) * 3);
-    z-index: 11;
+    z-index: 9;
   `,
   page: css`
     position: relative;
