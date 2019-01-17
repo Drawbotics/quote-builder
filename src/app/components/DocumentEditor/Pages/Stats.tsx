@@ -3,7 +3,7 @@ import { View, StyleSheet, Image, Text } from '@react-pdf/renderer';
 
 import sv from '../vars';
 import { getCurrentLocale } from '~/utils';
-import { createTranslate } from '~/utils/translation';
+import { createTranslateAlt } from '~/utils/translation';
 import PageWrapper from './PageWrapper';
 
 import compass from '../images/icons/compass.png';
@@ -13,7 +13,7 @@ import order from '../images/icons/order-online.png';
 import shadow from '../images/shadow.png';
 
 
-const tt = createTranslate('document.stats');
+const tt = createTranslateAlt('document.stats');
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -109,7 +109,7 @@ const Stats: React.SFC<{
   const locale = getCurrentLocale();
   const t = (k: string, alt?: string) => tt(locale, k, alt);
   return (
-    <PageWrapper title="Drawbotics" subtitle={t('title')} description={t('description')} onPageRender={onPageRender}>
+    <PageWrapper title="Drawbotics" subtitle={t('title')} description={t('description', contents.description)} onPageRender={onPageRender}>
       <View style={styles.wrapper}>
         <View style={styles.row}>
           <Stat icon={order} title="1400+" subtitle={t('order_subtitle')} />
