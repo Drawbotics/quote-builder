@@ -21,9 +21,9 @@ export interface RevoType extends ServiceType {
 
 
 export function generateServiceSections(allServices: any[], products: any, locale: string) {
-  const services = allServices.map(({ id }) => ({
+  const services = allServices.map(({ id, name }) => ({
     id,
-    name: ta(locale, `services.${id}.name`, get(products, `${id}.title`, '')),
+    name: ta(locale, `services.${id}.name`, get(products, `${id}.title`, name || '')),
     description: ta(locale, `services.${id}.description`, get(products, `${id}.description`, '')),
     image: get(products, `${id}.image`) || images[id],
     icon: icons[id] || icons['custom'],
