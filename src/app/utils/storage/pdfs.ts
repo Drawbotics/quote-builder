@@ -1,5 +1,5 @@
 import { save, load, remove } from './index';
-import { readFile, writeFile, deleteFile } from '../index';
+import { writeFile, deleteFile, fileExists } from '../index';
 
 
 async function saveMapping(id: string, path: string) {
@@ -24,11 +24,11 @@ export async function loadPDFs() {
   let files = {};
   let notFound: string[] = [];
   for (const id of fileIds) {
-    const file = await readFile(mappings[id]).catch(() => {
+    const exists = await fileExists(mappings[id]).catch(() => {
       notFound.push(id);
     });
-    if (file) {
-      files[id] = JSON.parse(file);
+    if (exists) {
+      files[id] = mappings[id];
     }
   }
   return { files, notFound };
