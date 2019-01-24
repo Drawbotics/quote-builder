@@ -73,7 +73,6 @@ const styles = {
   delete: css`
     color: var(--white);
     transform: scale(0);
-    transition: transform var(--transition-duration-short) ease-in-out;
 
     &:hover {
       cursor: pointer;
