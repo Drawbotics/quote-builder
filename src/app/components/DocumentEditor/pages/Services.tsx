@@ -1,13 +1,13 @@
 import React, { Fragment } from 'react';
 import { View, StyleSheet, Image, Text } from '@react-pdf/renderer';
-import { chunk } from 'lodash';
+import { chunk, last } from 'lodash';
 
 import sv from '../vars';
 import PageWrapper from './PageWrapper';
 import BulletedText from './utils/BulletedText';
 import { getCurrentLocale } from  '~/utils';
 import { tablesToServiceList } from '~/utils/services';
-import { createTranslate, translate as t } from '~/utils/translation';
+import { createTranslate } from '~/utils/translation';
 import { TableType } from '../../TableEditor/types';
 import { ServiceType, RevoType, generateServiceSections } from '../utils';
 
@@ -178,16 +178,8 @@ const Services: React.SFC<{
   const locale = getCurrentLocale();
   const allServices = tablesToServiceList(tables);
   const sections = generateServiceSections(allServices, contents.products, locale);
-  const servicePages = chunk(sections.filter((section) => section.id !== 'revo'), 2);
-  const revo = sections.find((section) => section.id === 'revo');
-  // TODO: support revo
-  const service = {
-    id: 'revo',
-    name: t(locale, 'services.revo.name'),
-    description: t(locale, 'services.revo.description'),
-    image: require('../images/services/revo.png'),
-    icon: '',
-  };
+  const servicePages = chunk(sections.filter((section: ServiceType | RevoType) => section.id !== 'revo'), 2);
+  const revo = last(sections) as RevoType;
   return (
     <Fragment>
       {servicePages.map((services, i) => (
@@ -197,21 +189,11 @@ const Services: React.SFC<{
           ))}
         </PageWrapper>
       ))}
-      {revo ?
+      {revo &&
         <PageWrapper title="Drawbotics" subtitle={tt(locale, 'title')} onPageRender={onPageRender}>
-          <Revo service={{
-            ...service,
-            description2: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-            description3: `
-              You receive:
-              - Lorem ipsum dolor sit amet, rere adipiscing elit.
-              - Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              - Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Hello Money.
-            `,
-          }} />
+          <Revo service={revo} />
         </PageWrapper>
-      : null}
+      }
     </Fragment>
   );
 };
