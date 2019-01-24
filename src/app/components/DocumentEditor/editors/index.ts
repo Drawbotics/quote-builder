@@ -6,6 +6,7 @@ import WhatWeDo from './WhatWeDo';
 import Project from './Project';
 import StoryTelling from './StoryTelling';
 import Services from './Services';
+import Tables from './Tables';
 
 
 export default {
@@ -17,4 +18,5 @@ export default {
   project: Project,
   storyTelling: StoryTelling,
   products: Services,
+  tables: Tables,
 };

@@ -25,6 +25,7 @@ const styles = {
     border-bottom: 2px solid var(--line-color);
   `,
   title: css`
+    color: var(--text-primary);
     margin-bottom: var(--margin);
   `,
   descriptions: css`
