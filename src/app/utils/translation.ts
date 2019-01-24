@@ -37,7 +37,8 @@ function _replaceData(string: any, data={}) {
 function _translate(locale: string, key: string, data: string, defaultValue: string | undefined) {
   const value = _replaceData(get(locales[locale], key, defaultValue), data);
   if ( ! value) {
-    console.warn(`Translation key '${key}' for locale '${locale}' not found`);
+    // TODO re-enable this
+    // console.warn(`Translation key '${key}' for locale '${locale}' not found`);
     return '';
   }
   return value;
@@ -48,34 +49,38 @@ export function translate(locale: string, base: string, key?: string, data?: any
   let translationKey = '';
   if (arguments.length === 2) {
     translationKey = base;
-  }
-  if (arguments.length === 3) {
-    translationKey = base;
     defaultValue = key && (typeof key === 'string') ? key : undefined;
     data = key && (typeof key === 'object') ? key : {};
   }
-  if (arguments.length === 4) {
+  if (arguments.length === 3) {
     translationKey = base.replace(/\.$/, '') + '.' + key;
     defaultValue = data && (typeof data === 'string') ? data : undefined;
     data = data && (typeof data === 'object') ? data : {};
   }
-  if (arguments.length >= 5) {
-    translationKey = base.replace(/\.$/, '') + '.' + key;
+  if (arguments.length >= 4) {
+    translationKey = key ? base.replace(/\.$/, '') + '.' + key : base;
   }
   return _translate(locale, translationKey, data, defaultValue);
 }
 
 
-export function createTranslate(locale: string, base: string) {
-  return (key: string, data: any, defaultValue: string | undefined) => {
-    if ( ! data && defaultValue) {
-      return translate(locale, base, key, defaultValue);
+export function createTranslate(base: string) {
+  return (locale: string, key: string, alt?: string | undefined) => {
+    if (alt) {
+      return translate(locale, base, key, undefined, alt);
     }
-    if ( ! defaultValue && data) {
-      return translate(locale, base, key, data);
-    }
-    return translate(locale, base, key, data, defaultValue);
+    return translate(locale, base, key);
   };
+}
+
+
+export function translateAlt(locale: string, base: string, alt: string | undefined, key?: string | undefined) {
+  return alt ? alt : translate(locale, base, key, undefined, alt);
+}
+
+
+export function createTranslateAlt(base: string) {
+  return (locale: string, key: string, alt?: string | undefined) => translateAlt(locale, base, alt, key);
 }
 
 

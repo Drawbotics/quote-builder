@@ -8,9 +8,10 @@ import NavigationPrompt from 'react-router-navigation-prompt';
 
 import DocumentBoostrap from '../components/DocumentBoostrap';
 import { saveUntitled, loadUntitled, deleteUntitled } from '../utils/storage';
-import { saveQuote } from '../utils/storage/quotes';
+import { saveQuote, loadQuote, getQuoteLocation } from '../utils/storage/quotes';
 import { getFilenameFromPath } from '../utils';
 import CustomPrompt from '../components/CustomPrompt';
+import DocumentEditor from '../components/DocumentEditor';
 
 
 class Document extends React.Component<{
@@ -40,8 +41,9 @@ class Document extends React.Component<{
       }
       else {
         // load actual file
-        console.log('gonna load real file');
-        setDocumentTitle('My quote file');
+        const { file, fileName } = await loadQuote(params.id);
+        setDocumentTitle(fileName);
+        this.setState({ file });
       }
     }
   }
@@ -61,7 +63,7 @@ class Document extends React.Component<{
   }
 
   render() {
-    const { untitled, hasUnsavedChanges, exiting } = this.state;
+    const { untitled, hasUnsavedChanges, exiting, file } = this.state;
     const { match, location } = this.props;
     const { params } = match;
 
@@ -71,7 +73,6 @@ class Document extends React.Component<{
     else {
       return (
         <div>
-          I am editing a document
           <NavigationPrompt
             when={(prevLoc: any, nextLoc: any) => ! nextLoc.pathname.includes('edit') && (untitled || hasUnsavedChanges)}>
             {({ onConfirm }: { onConfirm: () => void } ) => (
@@ -83,6 +84,7 @@ class Document extends React.Component<{
                 onConfirm={() => untitled ? this._handleDeleteUntitled(onConfirm) : this.setState({ exiting: true, }, onConfirm)} />
             )}
           </NavigationPrompt>
+          <DocumentEditor document={file} />
         </div>
       );
     }
@@ -97,7 +99,7 @@ class Document extends React.Component<{
   }
 
   @autobind
-  _handleSaveDocument() {
+  async _handleSaveDocument() {
     const { setDocumentTitle } = this.props;
     const { untitled, file } = this.state;
     if (untitled) {
@@ -109,14 +111,16 @@ class Document extends React.Component<{
         filters: [{ name: 'Quotes', extensions: ['qdp'] }],
       }, async (path) => {
         if (path) {
-          await saveQuote(file.id, path, file);
+          await saveQuote(file.id, path, file, true);
           this.mounted && this.setState({ untitled: false });
           setDocumentTitle(getFilenameFromPath(path));
         }
       });
     }
     else {
-      // NOTE: handle saving the actual file as well
+      const location = await getQuoteLocation(file.id);
+      await saveQuote(file.id, location, file);
+      // TODO add button to save + indicator for unsaved changes
       this.setState({ hasUnsavedChanges: false });
     }
   }

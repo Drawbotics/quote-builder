@@ -1,6 +1,7 @@
 const path = require('path');
 const dotenv = require('dotenv');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 
 dotenv.config();
@@ -21,7 +22,8 @@ module.exports = {
   output: {
     filename: 'app.js',
     path: path.resolve(__dirname, 'dist'),
-    publicPath: '/',
+    publicPath: './',
+    globalObject: 'this',
   },
   resolve: {
     extensions: [ '.tsx', '.ts', '.js', '.jsx' ],
@@ -34,6 +36,7 @@ module.exports = {
       filename: 'index.html',
       template: 'public/index.html',
     }),
+    new CopyWebpackPlugin([{ from: 'src/app/fonts', to: 'fonts' }]),
   ],
   module: {
     rules: [
@@ -51,7 +54,7 @@ module.exports = {
           'css-loader',
         ],
       }, {
-        test: /\.svg$/,
+        test: /\.svg|jpg|png$/,
         use: [
           {
             loader: 'file-loader',
@@ -60,8 +63,7 @@ module.exports = {
             },
           },
         ],
-      },
-      {
+      }, {
         test: /\.yml$/,
         use: [
           {
@@ -72,6 +74,16 @@ module.exports = {
           },
           {
             loader: 'yaml-loader',
+          },
+        ],
+      }, {
+        test: /\.ttf$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: 'fonts/[name]-[hash].[ext]',
+            },
           },
         ],
       },

@@ -16,6 +16,8 @@ const styles = {
     display: flex;
     align-items: stretch;
     height: 100%;
+    min-width: 1200px;
+    overflow: hidden;
   `,
   sidebar: css`
   `,
@@ -23,13 +25,13 @@ const styles = {
     flex: 1;
     display: flex;
     flex-direction: column;
-    min-width: 1000px;
   `,
   container: css`
     flex: 1;
     background: var(--background-color);
     transition: background var(--transition-duration) ease-in-out;
     overflow-y: scroll;
+    overflow-x: hidden;
     display: flex;
   `,
 };

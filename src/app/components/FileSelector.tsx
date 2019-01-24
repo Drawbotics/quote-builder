@@ -1,10 +1,11 @@
 import React from 'react';
-import { css, keyframes } from 'emotion';
+import { css, keyframes, cx } from 'emotion';
 import { remote } from 'electron';
 import { last } from 'lodash';
 import fs from 'fs';
 
 import importIcon from '../images/import.svg';
+import importIconInverse from '../images/import-inverse.svg';
 
 
 const bounce = keyframes`
@@ -47,16 +48,25 @@ const styles = {
       }
     }
   `,
+  inverse: css`
+    background: none;
+    border: none;
+
+    & [data-element="label"] {
+      color: var(--white);
+      font-weight: 600;
+    }
+  `,
   icon: css`
     height: 70%;
-    max-height: 80px;
+    max-height: 50px;
     transform-origin: center bottom;
     animation-duration: 1s;
   `,
   label: css`
     color: var(--text-primary);
     transition: color var(--transition-duration) ease-in-out;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     white-space: nowrap;
     margin-top: calc(var(--margin) / 2);
     text-align: center;
@@ -64,13 +74,13 @@ const styles = {
 }
 
 
-interface FileFilter {
+export interface FileFilter {
   name: string
   extensions: string[]
 }
 
 
-enum FileTypes {
+export enum FileTypes {
   Image='Image',
   JSON='JSON',
   Text='Text',
@@ -108,16 +118,20 @@ const FileSelector: React.SFC<{
   onFileSelect: (f: string) => void,
   filters?: FileFilter[],
   fileType?: FileTypes | keyof typeof FileTypes,
+  inverse?: boolean,
+  style?: any,
 }> = ({
   label,
   onFileSelect,
   filters=[{ name: 'Images', extensions: ['jpg', 'png'] }],
   fileType=FileTypes.Image,
+  inverse=false,
+  style,
 }) => {
   return (
-    <div className={styles.fileSelector} onClick={() => openFileSelector(fileType, filters, onFileSelect)}>
-      <img src={importIcon} className={styles.icon} data-element="icon" />
-      {label ? <div className={styles.label}>
+    <div className={cx(styles.fileSelector, { [styles.inverse]: inverse })} onClick={() => openFileSelector(fileType, filters, onFileSelect)} style={style}>
+      <img src={inverse ? importIconInverse : importIcon} className={styles.icon} data-element="icon" />
+      {label ? <div className={styles.label} data-element="label">
         {label}
       </div> : null}
     </div>

@@ -4,7 +4,7 @@ import nl from './nl.yml';
 
 
 export default {
-  en: en,
-  fr: fr,
-  nl: nl,
+  EN: en,
+  FR: fr,
+  NL: nl,
 };
