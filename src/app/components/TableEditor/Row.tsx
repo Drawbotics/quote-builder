@@ -8,6 +8,7 @@ import ActionButton from './ActionButton';
 import Select, { SelectOptionType } from '../Select';
 import { services } from '../../utils/services';
 import { translate as t } from '../../utils/translation';
+import { getCurrentLocale } from '../../utils';
 
 
 const styles = {
@@ -73,7 +74,8 @@ class Row extends React.Component <{
 }> {
   render() {
     const { row={ service: {} } as TableRowType, onClickAdd, onClickRemove } = this.props;
-    const displayServices = services.map((service: string) => ({ value: service, label: t('en', `services.${service}.name`) } as SelectOptionType));
+    const language = getCurrentLocale();
+    const displayServices = services.map((service: string) => ({ value: service, label: t(language, `services.${service}.name`) } as SelectOptionType));
     const showInput = row.service.id && ! services.includes(row.service.id);
     return (
       <div className={cx(styles.row, { [styles.disabledRow]: !! onClickAdd })}>

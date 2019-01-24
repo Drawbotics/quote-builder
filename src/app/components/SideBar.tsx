@@ -14,8 +14,7 @@ const styles = {
     background: var(--tertiary);
     border-right: 1px solid var(--line-color);
     transition: background var(--transition-duration) ease-in-out,
-      border-right var(--transition-duration) ease-in-out,
-      width var(--transition-duration-short) ease-in-out;
+      border-right var(--transition-duration) ease-in-out;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -57,15 +56,15 @@ const styles = {
     position: relative;
     border-bottom: 1px solid var(--line-color);
     transition: border-bottom var(--transition-duration) ease-in-out;
-    height: 100px;
+    height: 70px;
     pointer-events: none;
 
     > img {
       position: absolute;
-      bottom: var(--margin);
+      bottom: 10px;
       left: 50%;
       transform: translateX(-50%);
-      width: calc(100% - var(--margin) * 3);
+      height: 30px;
       transition: opacity var(--transition-duration) ease-in-out;
     }
   `,
@@ -78,7 +77,7 @@ const styles = {
     align-items: center;
     padding: var(--padding) calc(var(--padding) * 2);
     color: var(--text-primary);
-    transition: all var(--transition-duration-short) ease-in-out;
+    transition: color var(--transition-duration-short) ease-in-out;
     white-space: nowrap;
 
     &:hover {
@@ -130,18 +129,18 @@ const styles = {
   `,
   darkActive: css`
     [data-element="sun"] {
-      display: none;
+      display: block;
     }
     [data-element="moon"] {
-      display: block;
+      display: none;
     }
   `,
   lightActive: css`
     [data-element="sun"] {
-      display: block;
+      display: none;
     }
     [data-element="moon"] {
-      display: none;
+      display: block;
     }
   `,
 };
@@ -198,7 +197,7 @@ const SideBar: React.SFC<{
             <Moon size={20} />
           </div>
         </div>
-        <span data-element="label">{activeTheme === 'light' ? 'Light mode' : 'Dark mode'}</span>
+        <span data-element="label">{activeTheme === 'light' ? 'Dark mode' : 'Light mode'}</span>
       </div>
     </div>
   );

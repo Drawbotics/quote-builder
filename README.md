@@ -52,21 +52,21 @@ Sections may have no `contents` key, and that means no content is editable and t
      tables: TableType type (defined in app/TableEditor/types)
    }
    sections: [
-     cover | no `content`
-     profile [optional] | no `content`
+     cover | no `contents`
+     profile [optional] | no `contents`
      howWeWork [optional]
      stats [optional]
      whatWeDo [optional]
      project [optional, multiple]
      storyTelling [optional, multiple]
      products (feeding from table)
-     tables (feeding from table) | no `content`
-     paymentMethods (with contact) | no `content`
+     tables (feeding from table) | no `contents`
+     paymentMethods (with contact) | no `contents`
    ]
 }
 ```
 
-Since we want to be able to update the person profile even after it has been assigned to a quote, the `profile` section will feed from the people list saved locally. The `data.person` field is updated when the file is saved/exported, so that if someone else is given the file and does not have the profile included, it can be generated from the data in the quote file.
+Since we want to be able to update the person profile even after it has been assigned to a quote, when clicking the profile page the user is given the choice to select a new profile or to get update info of the current one (that is, if a profile with the same ID is found in memory).
 
 __NOTE__: custom products have no icon
 __NOTE__: Revo has a custom page and is always first in products
@@ -149,12 +149,8 @@ Can be edited:
 {
   title: undefined | String
   description: undefined | String
-  image1: DataURL
-  image2: DataURL
-  image3: DataURL
-  image4: DataURL
-  image5: DataURL
-  image6: DataURL
+  row1: DataURL[]
+  row2: DataURL[]
 }
 ```
 
@@ -371,3 +367,7 @@ Default
 ### View
 Default plus:
 - Toggle dark mode/light mode `Shift+CmdOrCtrl+M`
+
+
+# Known Issues
+- `react-pdf` triggers a setState error when reloading the whole document, will need to be monitored as it could be a memory leak

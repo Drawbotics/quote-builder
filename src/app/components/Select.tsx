@@ -25,6 +25,8 @@ const styles = {
     -webkit-border-radius: 0px;
     padding: var(--padding);
     margin: calc(var(--padding) * -1);
+    color: var(--text-primary);
+    transition: color var(--transition-duration) ease-in-out;
 
     &:focus {
       box-shadow: inset 0px 0px 0px 2px var(--primary);

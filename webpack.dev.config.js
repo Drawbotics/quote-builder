@@ -16,6 +16,9 @@ module.exports = Object.assign({}, webpackConfig, {
     'webpack/hot/only-dev-server',
     ...webpackConfig.entry,
   ],
+  output: Object.assign({}, webpackConfig.output, {
+    publicPath: '/',
+  }),
   plugins: [
     ...webpackConfig.plugins,
     new webpack.HotModuleReplacementPlugin(),

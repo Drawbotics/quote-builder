@@ -2,6 +2,7 @@ import React from 'react';
 import { css, cx } from 'emotion';
 import autobind from 'autobind-decorator';
 import { FileText, File, Download } from 'react-feather';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 import Title from '../components/Title';
 import Button from '../components/Button';
@@ -39,6 +40,32 @@ const styles = {
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     column-gap: var(--margin);
     row-gap: var(--margin);
+
+    & .cardsFade-enter {
+      opacity: 0;
+      z-index: 1;
+      transform: rotate3d(1,1,0,20deg);
+      transform-origin: 0 100%;
+      transition: all var(--transition-duration-short) var(--transition-duration-short) ease-out;
+      transition-property: opacity, transform;
+    }
+
+    & .cardsFade-enter.cardsFade-enter-active {
+      opacity: 1;
+      transform: none;
+    }
+
+    & .cardsFade-exit {
+      opacity: 1;
+      transform: none;
+      transition: all var(--transition-duration-short) ease-in-out;
+    }
+
+    & .cardsFade-exit.cardsFade-exit-active {
+      opacity: 0;
+      transform: scale(0.9);
+      transform-origin: center;
+    }
   `,
   cell: css`
   `,
@@ -176,7 +203,7 @@ class Quotes extends React.Component<{
             </div>
             <div className={styles.action}>
               <div ref={(selections) => this.selections = selections} className={cx(styles.newSelection, { [styles.open]: newSelectionOpen })}>
-                <Selection label="From template" icon={<FileText />} onClick={() => history.push('/new?template')} />
+                <Selection label="From template" icon={<FileText />} onClick={() => history.push('/new?template=true')} />
                 <Selection label="Blank" icon={<File />} onClick={() => history.push('/new')} />
               </div>
               <div ref={(button) => this.button = button}>
@@ -188,11 +215,21 @@ class Quotes extends React.Component<{
           </div>
         </div>
         <div className={styles.grid}>
-          {quotes.map((quote, i) => (
-            <div key={i} className={styles.cell}>
-              <QuoteCard quote={quote} onClick={() => history.push(`/${quote.id}/edit`)} onClickDelete={() => this._handleDeleteQuote(quote.id)} />
-            </div>
-          ))}
+          <TransitionGroup component={null}>
+              {quotes.map((quote, i) => (
+                <CSSTransition
+                  classNames="cardsFade"
+                  key={quote.id}
+                  timeout={300}>
+                  <div className={styles.cell}>
+                    <QuoteCard
+                      quote={quote}
+                      onClick={() => history.push(`/${quote.id}/edit`)}
+                      onClickDelete={() => this._handleDeleteQuote(quote.id)} />
+                  </div>
+                </CSSTransition>
+            ))}
+          </TransitionGroup>
         </div>
       </div>
     );
@@ -238,7 +275,6 @@ class Quotes extends React.Component<{
   async _handleLoadQuotes() {
     const quotes = await loadQuotes();
     const { files } = quotes;   // NOTE: get notFound as well to display warnings
-    console.log('loaded quotes', files);
     if (files) {
       const cards = Object.values(files).map((quote: any) => ({
         id: quote.id,

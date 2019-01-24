@@ -13,10 +13,10 @@ export interface TableRowType {
 
 
 export interface TableHeaderType {
-  phase: string
-  service: string
-  comment?: string
-  price: string
+  phase: undefined | string
+  service: undefined | string
+  comment?: undefined | string
+  price: undefined | string
 }
 
 

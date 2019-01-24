@@ -9,10 +9,10 @@ import { TableType } from './types';
 
 const initialTable: TableType = {
   header: {
-    phase: 'Phase',
-    service: 'Service',
-    comment: 'Comment',
-    price: 'Price',
+    phase: undefined,
+    service: undefined,
+    comment: undefined,
+    price: undefined,
   },
   body: [
     {
@@ -24,7 +24,7 @@ const initialTable: TableType = {
     {
       phase: '',
       service: { id: undefined },
-      comment: 'No Comment',
+      comment: '',
       price: '€3000'
     },
     {

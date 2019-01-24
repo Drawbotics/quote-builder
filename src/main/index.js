@@ -4,16 +4,24 @@ const path = require('path');
 const windowStateKeeper = require('electron-window-state');
 
 const createMenu = require('./menu');
+const startServer = require('./static-server');
 
 
 dotenv.config();
+
+
+const IS_DEV = process.env.APP_ENV === 'development';
 
 
 let _window;
 
 
 module.exports = function startApp() {
-  function createWindow() {
+  async function createWindow() {
+
+    const port = IS_DEV ? process.env.WEBPACK_PORT : await startServer();
+
+    global._serverPort = port;
 
     const windowState = windowStateKeeper({
       defaultWidth: process.env.APP_ENV === 'development' ? 1990 : 1440,
@@ -30,18 +38,17 @@ module.exports = function startApp() {
       icon: path.resolve(__dirname, '/app/images/qtp-desktop-small.png'),
       webPreferences: {
         webSecurity: false,
+        experimentalFeatures: true,
       },
       show: false,
     });
-    
+
     windowState.manage(_window);
 
-    if (process.env.APP_ENV === 'development') {
-      _window.loadURL(`http://localhost:${process.env.WEBPACK_PORT}`);
+    _window.loadURL(`http://localhost:${port}`);
+
+    if (IS_DEV) {
       _window.webContents.openDevTools();
-    }
-    else {
-      _window.loadFile('dist/index.html');
     }
 
     _window.on('closed', () => {

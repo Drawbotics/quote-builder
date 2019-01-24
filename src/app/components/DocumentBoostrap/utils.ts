@@ -1,3 +1,5 @@
+import { v4 } from 'uuid';
+
 import { ServiceType } from '../TableEditor/types';
 import { loadPerson } from '~/utils/storage/people';
 import { tablesToServiceList } from '~/utils/services';
@@ -29,13 +31,17 @@ export async function basicInfoToQuoteFile(info: any, fromTemplate: boolean) {
 
   let sections = [];
   sections.push({ type: 'cover' });
-  sections.push({ type: 'products',
-    contents: {
-      products: customProducts,
-    },
-  });
+  if (fromTemplate) {
+    sections.push({ type: 'profile' });
+    sections.push({ type: 'howWeWork' });
+    sections.push({ type: 'products',
+      contents: {
+        products: customProducts,
+      },
+    });
+  }
   sections.push({ type: 'tables' });
   sections.push({ type: 'paymentMethods' });
 
-  return { data, sections };
+  return { data, sections: sections.map((s) => ({ ...s, id: v4() })) };
 }
