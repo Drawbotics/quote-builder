@@ -4,12 +4,18 @@ import { View, StyleSheet, Text } from '@react-pdf/renderer';
 import sv from '../vars';
 import { title, paragraph} from './styles';
 import { getCurrentLocale } from '~/utils';
-import { createTranslate } from '~/utils/translation';
+import { createTranslateAlt } from '~/utils/translation';
 import PageWrapper from './PageWrapper';
 import BulletedText from './utils/BulletedText';
 
 
-const tt = createTranslate('document.project');
+interface SubsectionType {
+  title: string
+  description: string
+}
+
+
+const tt = createTranslateAlt('document.project');
 
 
 const styles = StyleSheet.create({
@@ -27,26 +33,25 @@ const styles = StyleSheet.create({
 });
 
 
-const Stats: React.SFC<{
+const Project: React.SFC<{
   contents: any,
   onPageRender: (p: number) => void,
 }> = ({ contents, onPageRender }) => {
   const locale = getCurrentLocale();
   const t = (k: string, alt?: string) => tt(locale, k, alt);
-  const section = { title: 'Audience', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.' };
   // TODO: see what to do about project sections longer than 2 pages
-  const sections = Array(7).fill(section);
+  const subsections = contents.subsections || [];
   return (
     <PageWrapper title={t('title')} wrap={true} onPageRender={onPageRender}>
-    <View style={styles.wrapper}>
-        <Text style={styles.title}>{t('introduction_title')}</Text>
-        <Text style={styles.paragraph}>{t('introduction_description')}</Text>
-        <Text style={styles.title}>{t('information_title')}</Text>
-        {sections.map((section, i) => (
+      <View style={styles.wrapper}>
+        <Text style={styles.title}>{t('introduction_title', contents.introductionTitle)}</Text>
+        <Text style={styles.paragraph}>{t('introduction_description', contents.introductionDescription)}</Text>
+        <Text style={styles.title}>{t('information_title', contents.informationTitle)}</Text>
+        {subsections.map((subsection: SubsectionType, i: number) => (
           <View key={i} wrap={false}>
-            <Text style={styles.subtitle}>{section.title}</Text>
+            <Text style={styles.subtitle}>{subsection.title}</Text>
             <View style={styles.paragraph}>
-              <BulletedText>{section.description}</BulletedText>
+              <BulletedText>{subsection.description}</BulletedText>
             </View>
           </View>
         ))}
@@ -56,4 +61,4 @@ const Stats: React.SFC<{
 };
 
 
-export default Stats;
+export default Project;

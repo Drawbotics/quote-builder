@@ -4,7 +4,7 @@ import { View, StyleSheet, Image, Text } from '@react-pdf/renderer';
 import sv from '../vars';
 import { title, paragraph } from './styles';
 import { getCurrentLocale } from '~/utils';
-import { createTranslate } from '~/utils/translation';
+import { createTranslateAlt } from '~/utils/translation';
 import PageWrapper from './PageWrapper';
 
 import studio from '../images/studio.png';
@@ -13,7 +13,7 @@ import rocket from '../images/rocket.png';
 import phone from '../images/phone.png';
 
 
-const tt = createTranslate('document.how_we_work');
+const tt = createTranslateAlt('document.how_we_work');
 
 const styles = StyleSheet.create({
   wrapper: {

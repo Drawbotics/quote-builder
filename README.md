@@ -52,16 +52,16 @@ Sections may have no `contents` key, and that means no content is editable and t
      tables: TableType type (defined in app/TableEditor/types)
    }
    sections: [
-     cover | no `content`
-     profile [optional] | no `content`
+     cover | no `contents`
+     profile [optional] | no `contents`
      howWeWork [optional]
      stats [optional]
      whatWeDo [optional]
      project [optional, multiple]
      storyTelling [optional, multiple]
      products (feeding from table)
-     tables (feeding from table) | no `content`
-     paymentMethods (with contact) | no `content`
+     tables (feeding from table) | no `contents`
+     paymentMethods (with contact) | no `contents`
    ]
 }
 ```
@@ -367,3 +367,7 @@ Default
 ### View
 Default plus:
 - Toggle dark mode/light mode `Shift+CmdOrCtrl+M`
+
+
+# Known Issues
+- `react-pdf` triggers a setState error when reloading the whole document, will need to be monitored as it could be a memory leak
