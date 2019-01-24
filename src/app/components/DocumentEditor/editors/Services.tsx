@@ -6,10 +6,13 @@ import { css } from 'emotion';
 import { getCurrentLocale } from '~/utils';
 import { tablesToServiceList } from '~/utils/services';
 import Button from '../../Button';
-import Input from '../../Input';
+import Input, { InputGroup } from '../../Input';
 import ImagePicker from '../../ImagePicker';
-import { generateServiceSections, ServiceType } from '../utils';
-// import { translateAlt as ta } from '~/utils/translation';
+import { generateServiceSections, ServiceType as _ServiceType, RevoType } from '../utils';
+
+
+interface ServiceType extends _ServiceType, RevoType {
+}
 
 
 const styles = {
@@ -24,7 +27,7 @@ const styles = {
   title: css`
     margin-bottom: var(--margin);
   `,
-  description: css`
+  descriptions: css`
     margin-bottom: var(--margin);
 
     & textarea {
@@ -61,8 +64,16 @@ class Services extends React.Component<{
         {servicesWithContent.map((service: ServiceType, i: number) => (
           <div className={styles.service} key={i}>
             <div className={styles.title}>{service.name}</div>
-            <div className={styles.description}>
-              <Input label="Description" name="description" value={service.description || ''} onChange={this._handleChange} topLabel area />
+            <div className={styles.descriptions}>
+              <InputGroup>
+                <Input label="Description" name="description" value={service.description || ''} onChange={this._handleChange} topLabel area />
+                {service.description2 ?
+                  <Input label="Left column" name="description2" value={service.description2 || ''} onChange={this._handleChange} topLabel area />
+                : null}
+                {service.description3 ?
+                  <Input label="Right column" name="description3" value={service.description3 || ''} onChange={this._handleChange} topLabel area />
+                : null}
+              </InputGroup>
             </div>
             <ImagePicker image={service.image || ''} onFileSelect={(file: string) => null} />
           </div>

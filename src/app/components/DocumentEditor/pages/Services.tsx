@@ -159,10 +159,10 @@ const Revo: React.SFC<{
       </View>
       <View style={styles.descriptions}>
         <View style={[styles.description, styles.revoDescription, { marginRight: sv.baseMargin }]}>
-          <BulletedText>{description2}</BulletedText>
+          <BulletedText>{description2 || ''}</BulletedText>
         </View>
         <View style={[styles.description, styles.revoDescription, { marginLeft: sv.baseMargin }]}>
-          <BulletedText>{description3}</BulletedText>
+          <BulletedText>{description3 || ''}</BulletedText>
         </View>
       </View>
     </View>

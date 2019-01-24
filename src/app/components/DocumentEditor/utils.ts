@@ -15,8 +15,8 @@ export interface ServiceType {
 
 
 export interface RevoType extends ServiceType {
-  description2: string
-  description3: string
+  description2?: string
+  description3?: string
 }
 
 
