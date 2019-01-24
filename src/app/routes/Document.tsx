@@ -146,7 +146,7 @@ class Document extends React.Component<{
       filters: [{ name: 'Quote exports', extensions: ['pdf'] }],
     }, async (path) => {
       if (path) {
-        await savePDF(getFilenameFromPath(path), path, pdf);
+        await savePDF(file.id, path, pdf);
       }
     });
   }
