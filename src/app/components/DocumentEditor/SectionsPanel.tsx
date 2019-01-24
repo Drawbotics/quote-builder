@@ -1,10 +1,10 @@
 import React from 'react';
 import { css, cx } from 'emotion';
-import { ChevronLeft, ChevronRight } from 'react-feather';
 import { snakeCase } from 'lodash';
 
 import { translate as t } from '~/utils/translation';
 import { getCurrentLocale } from '~/utils';
+import Panel from './Panel';
 
 
 const sections = [{
@@ -17,42 +17,32 @@ const sections = [{
   key: 'howWeWork',
   unique: true,
 }, {
+  key: 'whatWeDo',
+  unique: true,
+}, {
+  key: 'stats',
+  unique: true,
+}, {
   key: 'project',
   unique: false,
+}, {
+  key: 'storyTelling',
+  unique: false,
+}, {
+  key: 'products',
+  unique: true,
+}, {
+  key: 'tables',
+  unique: true,
+}, {
+  key: 'paymentMethods',
+  unique: true,
 }];
 
 
 const styles = {
   sectionsPanel: css`
-    width: 350px;
-    background: var(--tertiary-transparent);
-    border-left: 1px solid var(--line-color);
-    height: 100%;
-    padding: var(--padding);
-    transition: all var(--transition-duration) ease-in-out;
-    backdrop-filter: blur(3px);
-  `,
-  header: css`
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-bottom: var(--padding);
-  `,
-  label: css`
-    font-size: 0.9rem;
-    color: var(--grey);
-    transition: color var(--transition-duration) ease-in-out;
-  `,
-  icon: css`
-    color: var(--grey);
-    margin-bottom: -6px;
-    margin-left: calc(var(--padding) / -2);
-    margin-right: var(--padding);
-
-    &:hover {
-      cursor: pointer;
-      color: var(--text-primary);
-    }
+    width: 370px;
   `,
   grid: css`
     display: flex;
@@ -60,8 +50,6 @@ const styles = {
     align-content: flex-start;
     padding: var(--padding);
     margin-right: calc(var(--padding) * -1);
-    overflow: scroll;
-    height: 100%;
   `,
   sectionCard: css`
     flex: 1 0 42%;
@@ -103,6 +91,7 @@ const styles = {
     margin-top: var(--margin);
     color: var(--text-primary);
     transition: color var(--transition-duration) ease-in-out;
+    font-size: 0.8rem;
   `,
 };
 
@@ -129,31 +118,24 @@ const SectionCard: React.SFC<{
 
 const SectionsPanel: React.SFC<{
   onClickToggle: () => void,
-  open: boolean,
   currentSections: string[],
   onClickAddSection: (sectionKey: string) => void,
-}> = ({ onClickToggle, open, currentSections, onClickAddSection }) => {
+}> = ({ onClickToggle, currentSections, onClickAddSection }) => {
   const locale = getCurrentLocale();
   return (
     <div className={styles.sectionsPanel}>
-      <div className={styles.header}>
-        <div className={styles.icon} onClick={onClickToggle}>
-          {open ? <ChevronRight size={20} /> : <ChevronLeft size={20} /> }
+      <Panel title="Add section" onClick={onClickToggle}>
+        <div className={styles.grid}>
+          {sections.map((section, i) => (
+            <SectionCard
+              key={i}
+              onClick={() => onClickAddSection(section.key)}
+              label={t(locale, `document.${snakeCase(section.key)}.title`)}
+              disabled={currentSections.includes(section.key) && section.unique}
+              image="" />
+          ))}
         </div>
-        <div className={styles.label}>
-          Add a section
-        </div>
-      </div>
-      <div className={styles.grid}>
-        {sections.map((section, i) => (
-          <SectionCard
-            key={i}
-            onClick={() => onClickAddSection(section.key)}
-            label={t(locale, `document.${snakeCase(section.key)}.title`)}
-            disabled={currentSections.includes(section.key) && section.unique}
-            image="" />
-        ))}
-      </div>
+      </Panel>
     </div>
   );
 };

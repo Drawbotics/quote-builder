@@ -55,6 +55,7 @@ const styles = {
     margin: 0 calc(var(--margin) * -1);
     color: var(--text-primary);
     transition: all var(--transition-duration-short) ease-in-out;
+    font-size: 0.9rem;
 
     &:hover {
       cursor: pointer;
@@ -94,7 +95,7 @@ const NavigationPanel: React.SFC<{
 }> = ({ sections, activeSection, onClickToggle, open, onClickSection }) => {
   const locale = getCurrentLocale();
   return (
-    <div className={styles.navigationPanel}>
+    <div className={styles.navigationPanel} id="navigation-panel">
       <div className={styles.header}>
         <div className={styles.label}>
           Sections
