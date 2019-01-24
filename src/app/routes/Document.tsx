@@ -9,9 +9,10 @@ import NavigationPrompt from 'react-router-navigation-prompt';
 import DocumentBoostrap from '../components/DocumentBoostrap';
 import { saveUntitled, loadUntitled, deleteUntitled } from '../utils/storage';
 import { saveQuote, loadQuote, getQuoteLocation } from '../utils/storage/quotes';
+import { savePDF } from '../utils/storage/pdfs';
 import { getFilenameFromPath } from '../utils';
 import CustomPrompt from '../components/CustomPrompt';
-import DocumentEditor from '../components/DocumentEditor';
+import DocumentEditor, { documentToPDF } from '../components/DocumentEditor';
 
 
 class Document extends React.Component<{
@@ -53,6 +54,7 @@ class Document extends React.Component<{
     const { editing } = this.props;
     if (editing) {
       ipc.answerMain('saveQuote', this._handleSaveDocument);
+      ipc.answerMain('exportToPDF', this._handleExportToPDF);
     }
   }
 
@@ -130,6 +132,23 @@ class Document extends React.Component<{
     const { file } = this.state;
     deleteUntitled(file.id);
     this.setState({ exiting: true, }, callback);
+  }
+
+  @autobind
+  async _handleExportToPDF() {
+    const { file } = this.state;
+    const pdf = await documentToPDF(file);
+    const { dialog, getCurrentWindow } = remote;
+    dialog.showSaveDialog(getCurrentWindow(), {
+      title: 'Export quote',
+      buttonLabel: 'Save',
+      defaultPath: 'Untitled',
+      filters: [{ name: 'Quote exports', extensions: ['pdf'] }],
+    }, async (path) => {
+      if (path) {
+        await savePDF(getFilenameFromPath(path), path, pdf);
+      }
+    });
   }
 }
 
