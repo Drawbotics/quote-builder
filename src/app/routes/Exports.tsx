@@ -7,6 +7,7 @@ import Title from '../components/Title';
 import PDFCard, { PDFCardType } from '../components/PDFCard';
 import { getFilenameFromPath } from '../utils';
 import { loadPDFs } from '../utils/storage/pdfs';
+import { openLocally, openInExplorer } from '../utils/storage';
 
 
 const styles = {
@@ -83,7 +84,8 @@ class Exports extends React.Component {
                   <div>
                     <PDFCard
                       pdf={pdf}
-                      onClick={() => null}
+                      onClick={openLocally}
+                      onClickFolder={openInExplorer}
                       onClickDelete={() => null} />
                   </div>
                 </CSSTransition>
