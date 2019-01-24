@@ -61,6 +61,7 @@ const styles = {
     color: var(--text-primary);
     text-align: center;
     margin-top: var(--margin);
+    transition: color var(--transition-duration) ease-in-out;
   `,
   actions: css`
     position: absolute;
