@@ -65,3 +65,17 @@ export async function deleteFile(path: string) {
     });
   });
 }
+
+
+export async function fileExists(path: string) {
+  return new Promise<any>((resolve, reject) => {
+    fs.access(path, (error: Error | undefined) => {
+      if (error) {
+        reject(error);
+      }
+      else {
+        resolve(true);
+      }
+    });
+  });
+}
