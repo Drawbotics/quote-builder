@@ -1,56 +1,20 @@
 import React, { Fragment } from 'react';
 import { View, StyleSheet, Image, Text } from '@react-pdf/renderer';
-import { get, chunk } from 'lodash';
+import { chunk } from 'lodash';
 
 import sv from '../vars';
 import PageWrapper from './PageWrapper';
 import BulletedText from './utils/BulletedText';
 import { getCurrentLocale } from  '~/utils';
-import { createTranslate, translate as t, translateAlt as ta } from '~/utils/translation';
+import { tablesToServiceList } from '~/utils/services';
+import { createTranslate, translate as t } from '~/utils/translation';
 import { TableType } from '../../TableEditor/types';
+import { ServiceType, RevoType, generateServiceSections } from '../utils';
 
-import images from '../images/services';
-import icons from '../images/icons/services';
 import revoLogo from '../images/revo-logo.png';
 
 
-interface ServiceType {
-  id: string
-  icon: string
-  name: string
-  coverImage: string
-  description: string
-}
-
-interface RevoType extends ServiceType {
-  description2: string
-  description3: string
-}
-
-
 const tt = createTranslate('document.products');
-
-
-function getAllServices(tables: TableType[]) {
-  return tables.reduce((memo, table) => [
-    ...memo,
-    ...table.body.reduce((memo, row) => row.service.id ? [
-      ...memo,
-      row.service.id,
-    ] : memo, []),
-  ], []);
-}
-
-
-function generateServiceSections(allServices: string[], products: any, locale: string) {
-  return allServices.map((id) => ({
-    id,
-    name: ta(locale, `services.${id}.name`, get(products, `${id}.title`, '')),
-    description: ta(locale, `services.${id}.description`, get(products, `${id}.description`, '')),
-    coverImage: get(products, `${id}.image`) || images[id],
-    icon: icons[id] || icons['custom'],
-  }));
-}
 
 
 const styles = StyleSheet.create({
@@ -162,7 +126,7 @@ const Service: React.SFC<{
   service: ServiceType,
   reversed?: boolean,
 }> = ({ service, reversed=false }) => {
-  const { icon, name, coverImage, description } = service;
+  const { icon, name, image, description } = service;
   return (
     <View style={[styles.service, reversed ? styles.reversed : null]} wrap={false}>
       <View style={[styles.info, reversed ? styles.reversedInfo : null]}>
@@ -171,7 +135,7 @@ const Service: React.SFC<{
         <Text style={[styles.description, description ? null : styles.red]}>{description || 'No description'}</Text>
       </View>
       <View style={[styles.imageWrapper, reversed ? styles.reversedImage : null]}>
-        {coverImage ? <Image src={coverImage} style={styles.image} /> : <ImagePlaceholder />}
+        {image ? <Image src={image} style={styles.image} /> : <ImagePlaceholder />}
       </View>
     </View>
   );
@@ -181,7 +145,7 @@ const Service: React.SFC<{
 const Revo: React.SFC<{
   service: RevoType,
 }> = ({ service }) => {
-  const { description, description2, description3, coverImage } = service;
+  const { description, description2, description3, image } = service;
   return (
     <View style={styles.revoWrapper}>
       <View style={styles.service}>
@@ -190,7 +154,7 @@ const Revo: React.SFC<{
           <Text style={styles.description}>{description}</Text>
         </View>
         <View style={styles.imageWrapper}>
-          <Image src={coverImage} style={styles.image} />
+          <Image src={image} style={styles.image} />
         </View>
       </View>
       <View style={styles.descriptions}>
@@ -212,7 +176,7 @@ const Services: React.SFC<{
   onPageRender: (p: number) => void,
 }> = ({ tables, contents, onPageRender }) => {
   const locale = getCurrentLocale();
-  const allServices = getAllServices(tables);
+  const allServices = tablesToServiceList(tables);
   const sections = generateServiceSections(allServices, contents.products, locale);
   const servicePages = chunk(sections.filter((section) => section.id !== 'revo'), 2);
   const revo = sections.find((section) => section.id === 'revo');
@@ -221,7 +185,7 @@ const Services: React.SFC<{
     id: 'revo',
     name: t(locale, 'services.revo.name'),
     description: t(locale, 'services.revo.description'),
-    coverImage: require('../images/services/revo.png'),
+    image: require('../images/services/revo.png'),
     icon: '',
   };
   return (

@@ -16,6 +16,12 @@ services:
   revo:
     name: Revo
     description: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+    description2: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+    description3: 'You receive:
+      - Lorem ipsum dolor sit amet, rere adipiscing elit.
+      - Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      - Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      Hello Money.'
   custom:
     name: Custom product
 document:
