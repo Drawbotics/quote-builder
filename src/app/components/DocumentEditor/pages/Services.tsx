@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { View, StyleSheet, Image, Text } from '@react-pdf/renderer';
-import { chunk, last } from 'lodash';
+import { chunk } from 'lodash';
 
 import sv from '../vars';
 import PageWrapper from './PageWrapper';
@@ -179,7 +179,7 @@ const Services: React.SFC<{
   const allServices = tablesToServiceList(tables);
   const sections = generateServiceSections(allServices, contents.products, locale);
   const servicePages = chunk(sections.filter((section: ServiceType | RevoType) => section.id !== 'revo'), 2);
-  const revo = last(sections) as RevoType;
+  const revo = sections.find((section) => section.id === 'revo') as RevoType;
   return (
     <Fragment>
       {servicePages.map((services, i) => (
@@ -189,11 +189,11 @@ const Services: React.SFC<{
           ))}
         </PageWrapper>
       ))}
-      {revo &&
+      {revo ?
         <PageWrapper title="Drawbotics" subtitle={tt(locale, 'title')} onPageRender={onPageRender}>
           <Revo service={revo} />
         </PageWrapper>
-      }
+      : null}
     </Fragment>
   );
 };
