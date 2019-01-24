@@ -12,6 +12,7 @@ const styles = {
     justify-content: center;
     overflow: hidden;
     border-radius: var(--border-radius);
+    min-height: 140px;
   `,
   image: css`
     max-width: 250px;
