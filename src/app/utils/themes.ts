@@ -11,6 +11,7 @@ export const themes: any = {
     '--white': '#FFFFFF',
     '--black': '#000000',
     '--orange': '#F3820A',
+    '--red': '#E30016',
     '--primary': '#2258EA',
     '--primary-overlay': 'rgba(34, 88, 234, 0.7)',
   },

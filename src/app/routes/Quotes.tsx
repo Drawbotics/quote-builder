@@ -1,15 +1,18 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { css, cx } from 'emotion';
 import autobind from 'autobind-decorator';
 import { FileText, File, Download } from 'react-feather';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
+import { remote } from 'electron';
 
 import Title from '../components/Title';
 import Button from '../components/Button';
 import QuoteCard, { QuoteCardType } from '../components/QuoteCard';
+import MissingCard, { MissingQuoteType } from '../components/MissingCard';
 import { checkForUntitledFile, deleteUntitled, getIdFromUntitled } from '../utils/storage';
-import { loadQuotes, deleteQuote } from '../utils/storage/quotes';
+import { loadQuotes, deleteQuote, saveMapping } from '../utils/storage/quotes';
 import { showMessage } from '../utils/dialogs';
+import { getFilenameFromPath } from '../utils';
 
 
 const styles = {
@@ -20,7 +23,7 @@ const styles = {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: calc(var(--margin) * 2);
+    margin-bottom: var(--margin);
   `,
   actions: css`
     display: flex;
@@ -40,6 +43,7 @@ const styles = {
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     column-gap: var(--margin);
     row-gap: var(--margin);
+    margin-bottom: calc(var(--margin) * 2);
 
     & .cardsFade-enter {
       opacity: 0;
@@ -168,6 +172,7 @@ class Quotes extends React.Component<{
   state = {
     newSelectionOpen: false,
     quotes: [] as QuoteCardType[],
+    notFound: [] as MissingQuoteType[],
   }
 
   async componentWillMount() {
@@ -188,7 +193,7 @@ class Quotes extends React.Component<{
 
   render() {
     const { history } = this.props;
-    const { newSelectionOpen, quotes } = this.state;
+    const { newSelectionOpen, quotes, notFound } = this.state;
     return (
       <div className={styles.quotes}>
         <div className={styles.header}>
@@ -231,6 +236,32 @@ class Quotes extends React.Component<{
             ))}
           </TransitionGroup>
         </div>
+        {notFound.length > 0 ?
+          <Fragment>
+            <div className={styles.header}>
+              <Title small>
+                Missing quote files
+              </Title>
+            </div>
+            <div className={styles.grid}>
+              <TransitionGroup component={null}>
+                  {notFound.map((file: MissingQuoteType, i) => (
+                    <CSSTransition
+                      classNames="cardsFade"
+                      key={i}
+                      timeout={300}>
+                      <div>
+                        <MissingCard
+                          file={file}
+                          onClickRelink={() => this._handleRelinkQuote(file.id)}
+                          onClickDelete={() => this._handleDeleteQuote(file.id)} />
+                      </div>
+                    </CSSTransition>
+                ))}
+              </TransitionGroup>
+            </div>
+          </Fragment>
+        : null}
       </div>
     );
   }
@@ -247,6 +278,22 @@ class Quotes extends React.Component<{
   async _handleDeleteQuote(id: string) {
     await deleteQuote(id);
     this._handleLoadQuotes();
+  }
+
+  @autobind
+  async _handleRelinkQuote(id: string) {
+    const { dialog, getCurrentWindow } = remote;
+    dialog.showOpenDialog(getCurrentWindow(), {
+      properties: ['openFile'],
+      title: 'Find quote',
+      buttonLabel: 'Relink',
+      filters: [{ name: 'Quotes', extensions: ['qdp'] }],
+    }, async (files) => {
+      if (files) {
+        await saveMapping(id, files[0]);
+        this._handleLoadQuotes();
+      }
+    });
   }
 
   @autobind
@@ -274,21 +321,22 @@ class Quotes extends React.Component<{
   @autobind
   async _handleLoadQuotes() {
     const quotes = await loadQuotes();
-    const { files } = quotes;   // NOTE: get notFound as well to display warnings
-    if (files) {
-      const cards = Object.values(files).map((quote: any) => ({
-        id: quote.id,
-        title: quote.data.project.projectName,
-        subtitle: quote.data.project.companyName,
-        coverImage: quote.data.project.clientLogo,
-        draft: true,
-        lastModified: quote.lastModified,
-      }));
-      this.setState({ quotes: cards });
-    }
-    else {
-      this.setState({ quotes: [] });
-    }
+    const { files={}, notFound={} } = quotes;
+    const cards = Object.values(files).map((quote: any) => ({
+      id: quote.id,
+      title: quote.data.project.projectName,
+      subtitle: quote.data.project.companyName,
+      coverImage: quote.data.project.clientLogo,
+      draft: true,
+      lastModified: quote.lastModified,
+    }));
+    const notFoundCards = Object.keys(notFound).map((id: string) => ({
+      id,
+      name: getFilenameFromPath(notFound[id]) + '.qdp',
+      localPath: notFound[id],
+    }));
+    // TODO: add warning dialog if notFoundCards is more than 0
+    this.setState({ quotes: cards, notFound: notFoundCards });
   }
 }
 

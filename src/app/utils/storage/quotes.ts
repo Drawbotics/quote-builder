@@ -2,7 +2,7 @@ import { save, deleteUntitled, load, remove } from './index';
 import { readFile, writeFile, deleteFile, getFilenameFromPath, setCurrentLocale } from '../index';
 
 
-async function saveMapping(id: string, path: string) {
+export async function saveMapping(id: string, path: string) {
   return await save('quote-mappings', id, path);
 }
 
@@ -22,10 +22,10 @@ export async function loadQuotes() {
   if (! mappings) return {};
   const fileIds = Object.keys(mappings);
   let files = {};
-  let notFound: string[] = [];
+  let notFound = {};
   for (const id of fileIds) {
     const file = await readFile(mappings[id]).catch(() => {
-      notFound.push(id);
+      notFound[id] = mappings[id];
     });
     if (file) {
       files[id] = JSON.parse(file);
