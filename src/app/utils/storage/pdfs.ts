@@ -2,7 +2,7 @@ import { save, load, remove } from './index';
 import { writeFile, deleteFile, fileExists } from '../index';
 
 
-async function saveMapping(id: string, path: string) {
+export async function saveMapping(id: string, path: string) {
   return await save('pdf-mappings', id, path);
 }
 
@@ -22,10 +22,10 @@ export async function loadPDFs() {
   if (! mappings) return {};
   const fileIds = Object.keys(mappings);
   let files = {};
-  let notFound: string[] = [];
+  let notFound = {};
   for (const id of fileIds) {
     const exists = await fileExists(mappings[id]).catch(() => {
-      notFound.push(id);
+      notFound[id] = mappings[id];
     });
     if (exists) {
       files[id] = mappings[id];
