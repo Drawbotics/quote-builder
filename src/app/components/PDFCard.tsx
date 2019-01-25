@@ -6,10 +6,10 @@ import pdfIcon from '../images/pdf-icon.svg';
 
 
 export interface PDFCardType {
+  id: string
   name: string
   localPath: string
   notFound?: boolean
-  id?: string
 }
 
 
@@ -97,7 +97,7 @@ const styles = {
 
 const PDFCard: React.SFC<{
   pdf: PDFCardType,
-  onClickDelete: () => void,
+  onClickDelete: (e: any) => void,
   onClick?: () => void,
   onClickFolder?: (e: any) => void,
   onClickRelink?: (e: any) => void,
@@ -117,7 +117,7 @@ const PDFCard: React.SFC<{
               <Folder size={30} />
             </div>
           }
-          <div className={styles.action}>
+          <div className={styles.action} onClick={onClickDelete}>
             <Trash2 size={30} />
           </div>
         </div>
