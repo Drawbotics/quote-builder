@@ -141,7 +141,7 @@ class Document extends React.Component<{
     const { dialog, getCurrentWindow } = remote;
     dialog.showSaveDialog(getCurrentWindow(), {
       title: 'Export quote',
-      buttonLabel: 'Save',
+      buttonLabel: 'Export',
       defaultPath: 'Untitled',
       filters: [{ name: 'Quote exports', extensions: ['pdf'] }],
     }, async (path) => {

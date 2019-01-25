@@ -2,7 +2,7 @@ import React from 'react';
 import { css, cx } from 'emotion';
 import moment from 'moment';
 import ImagePalette from '@nicmosc/react-image-palette';
-import { Trash2 } from 'react-feather';
+import { Trash2, Share } from 'react-feather';
 
 
 export interface QuoteCardType {
@@ -45,7 +45,7 @@ const styles = {
         pointer-events: auto;
       }
 
-      & [data-element="delete"] {
+      & [data-element="action"] {
         transform: scale(1);
       }
     }
@@ -67,10 +67,10 @@ const styles = {
     transition: opacity var(--transition-duration-short) ease-in-out;
     display: flex;
     align-items: flex-start;
-    justify-content: flex-end;
+    justify-content: space-between;
     padding: calc(var(--padding) / 2);
   `,
-  delete: css`
+  action: css`
     color: var(--white);
     transform: scale(0);
 
@@ -140,14 +140,18 @@ const QuoteCard: React.SFC<{
   quote: QuoteCardType,
   onClick: () => void,
   onClickDelete: () => void,
-}> = ({ quote, onClick, onClickDelete }) => {
+  onClickExport: () => void,
+}> = ({ quote, onClick, onClickDelete, onClickExport }) => {
   const { draft, title, subtitle, lastModified, coverImage } = quote;
   const type = draft ? 'Draft' : 'Finished';
   return (
     <div className={styles.quoteCard} onClick={onClick}>
       <div className={styles.coverWrapper}>
         <div className={styles.overlay} data-element="overlay">
-          <div className={styles.delete} data-element="delete" onClick={(e) => { e.stopPropagation(); onClickDelete() }}>
+          <div className={styles.action} data-element="action" onClick={(e) => { e.stopPropagation(); onClickExport() }}>
+            <Share size={20} />
+          </div>
+          <div className={styles.action} data-element="action" onClick={(e) => { e.stopPropagation(); onClickDelete() }}>
             <Trash2 size={20} />
           </div>
         </div>

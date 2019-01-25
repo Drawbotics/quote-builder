@@ -9,9 +9,11 @@ import Title from '../components/Title';
 import Button from '../components/Button';
 import QuoteCard, { QuoteCardType } from '../components/QuoteCard';
 import MissingCard, { MissingQuoteType } from '../components/MissingCard';
+import { documentToPDF } from '../components/DocumentEditor';
 import { checkForUntitledFile, deleteUntitled, getIdFromUntitled } from '../utils/storage';
-import { loadQuotes, deleteQuote, saveMapping } from '../utils/storage/quotes';
+import { loadQuotes, deleteQuote, saveMapping, loadQuote } from '../utils/storage/quotes';
 import { showMessage } from '../utils/dialogs';
+import { savePDF } from '../utils/storage/pdfs';
 import { getFilenameFromPath } from '../utils';
 
 
@@ -230,6 +232,7 @@ class Quotes extends React.Component<{
                     <QuoteCard
                       quote={quote}
                       onClick={() => history.push(`/${quote.id}/edit`)}
+                      onClickExport={() => this._handleExportPDF(quote.id)}
                       onClickDelete={() => this._handleDeleteQuote(quote.id)} />
                   </div>
                 </CSSTransition>
@@ -278,6 +281,24 @@ class Quotes extends React.Component<{
   async _handleDeleteQuote(id: string) {
     await deleteQuote(id);
     this._handleLoadQuotes();
+  }
+
+  @autobind
+  async _handleExportPDF(quoteId: string) {
+    // TODO: dispatch action to show working (loading, exporting etc)
+    const { file } = await loadQuote(quoteId)
+    const pdf = await documentToPDF(file);
+    const { dialog, getCurrentWindow } = remote;
+    dialog.showSaveDialog(getCurrentWindow(), {
+      title: 'Export quote',
+      buttonLabel: 'Export',
+      defaultPath: 'Untitled',
+      filters: [{ name: 'Quote exports', extensions: ['pdf'] }],
+    }, async (path) => {
+      if (path) {
+        await savePDF(`${file.id}-${getFilenameFromPath(path)}`, path, pdf);
+      }
+    });
   }
 
   @autobind
