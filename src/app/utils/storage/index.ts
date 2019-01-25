@@ -2,6 +2,7 @@ import storage from 'electron-json-storage';
 import { isEmpty, get, set, omit } from 'lodash';
 import fs from 'fs';
 import path from 'path';
+import { shell } from 'electron';
 
 import { deleteFile } from '../index';
 
@@ -88,4 +89,14 @@ export function checkForUntitledFile() {
 
 export function getIdFromUntitled(fileName: string) {
   return fileName.replace('untitled-', '').replace('.json', '');
+}
+
+
+export function openLocally(path: string) {
+  shell.openItem(path);
+}
+
+
+export function openInExplorer(path: string) {
+  shell.showItemInFolder(path);
 }

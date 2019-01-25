@@ -1,5 +1,8 @@
 import { translateAlt as ta } from '~/utils/translation';
 import { get } from 'lodash';
+import { pdf } from '@react-pdf/renderer';
+
+import DocumentGenerator from './DocumentGenerator';
 
 import images from './images/services';
 import icons from './images/icons/services';
@@ -34,4 +37,30 @@ export function generateServiceSections(allServices: any[], products: any, local
     description3: ta(locale, 'services.revo.description3', get(products, 'revo.description3', '')),
   }) : service);
   return withRevo.sort((a) => a.id === 'revo' ? 1 : -1);
+}
+
+
+async function blobToBuffer(blob: Blob) {
+  const reader = new FileReader();
+  return new Promise<any>((resolve, reject) => {
+    reader.onload = () => {
+      try {
+        const buffer = new Buffer(reader.result as ArrayBuffer);
+        resolve(buffer);
+      }
+      catch (err) {
+        reject(err);
+      }
+    };
+    reader.readAsArrayBuffer(blob);
+  });
+}
+
+
+export async function documentToPDF(document: any) {
+  const blobGenerator = pdf();
+  const generatedDocument = DocumentGenerator({ document, onPageRender: () => null });
+  blobGenerator.updateContainer(generatedDocument);
+  const blob = await blobGenerator.toBlob();
+  return await blobToBuffer(blob);
 }
