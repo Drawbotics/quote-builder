@@ -1,5 +1,5 @@
 import React from 'react';
-import { css } from 'emotion';
+import { css, cx } from 'emotion';
 
 
 const styles = {
@@ -8,14 +8,18 @@ const styles = {
     font-size: 1.8em;
     transition: color var(--transition-duration) ease-in-out;
   `,
+  small: css`
+    font-size: 1.2em;
+  `,
 }
 
 
 const Title: React.SFC<{
   children: string,
-}> = ({ children }) => {
+  small?: boolean,
+}> = ({ children, small }) => {
   return (
-    <div className={styles.title}>
+    <div className={cx(styles.title, { [styles.small]: small })}>
       {children}
     </div>
   );
