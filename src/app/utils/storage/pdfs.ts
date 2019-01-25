@@ -50,7 +50,10 @@ export async function savePDF(id: string, path: string, value: any) {
 
 export async function deletePDF(id: string) {
   // TODO handle case where file is deleted outside of flow and we try to delete here (file not found)
-  const location = await getPDFLocation(id);
-  await deleteFile(location);
+  try {
+    const location = await getPDFLocation(id);
+    await deleteFile(location);
+  }
+  catch (err) {}
   await removeMapping(id);
 }

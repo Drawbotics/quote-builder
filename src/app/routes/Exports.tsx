@@ -7,7 +7,7 @@ import { remote } from 'electron';
 import Title from '../components/Title';
 import PDFCard, { PDFCardType } from '../components/PDFCard';
 import { getFilenameFromPath } from '../utils';
-import { loadPDFs, saveMapping } from '../utils/storage/pdfs';
+import { loadPDFs, saveMapping, deletePDF } from '../utils/storage/pdfs';
 import { openLocally, openInExplorer } from '../utils/storage';
 
 
@@ -86,7 +86,7 @@ class Exports extends React.Component {
                       pdf={pdf}
                       onClick={() => openLocally(pdf.localPath)}
                       onClickFolder={(e) => { e.stopPropagation(); openInExplorer(pdf.localPath) }}
-                      onClickDelete={() => null} />
+                      onClickDelete={(e) => { e.stopPropagation(); this._handleDeletePDF(pdf.id) }} />
                   </div>
                 </CSSTransition>
             ))}
@@ -109,8 +109,8 @@ class Exports extends React.Component {
                       <div>
                         <PDFCard
                           pdf={pdf}
-                          onClickRelink={(e) => { e.stopPropagation(); this._handleRelinkPDF(pdf.id as string) }}
-                          onClickDelete={() => null} />
+                          onClickRelink={(e) => { e.stopPropagation(); this._handleRelinkPDF(pdf.id) }}
+                          onClickDelete={(e) => { e.stopPropagation(); this._handleDeletePDF(pdf.id) }} />
                       </div>
                     </CSSTransition>
                 ))}
@@ -126,9 +126,10 @@ class Exports extends React.Component {
   async _handleLoadPDFs() {
     const pdfs = await loadPDFs();
     const { files={}, notFound={} } = pdfs;
-    const cards = Object.values(files).map((path: string) => ({
-      name: getFilenameFromPath(path) + '.pdf',
-      localPath: path,
+    const cards = Object.keys(files).map((id: string) => ({
+      name: getFilenameFromPath(files[id]) + '.pdf',
+      localPath: files[id],
+      id,
     }));
     const notFoundCards = Object.keys(notFound).map((id: string) => ({
       name: getFilenameFromPath(notFound[id]) + '.pdf',
@@ -153,6 +154,12 @@ class Exports extends React.Component {
         this._handleLoadPDFs();
       }
     });
+  }
+
+  @autobind
+  async _handleDeletePDF(id: string) {
+    await deletePDF(id);
+    this._handleLoadPDFs();
   }
 }
 
