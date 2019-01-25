@@ -1,6 +1,6 @@
 import React from 'react';
-import { css } from 'emotion';
-import { Folder, Trash2 } from 'react-feather';
+import { css, cx } from 'emotion';
+import { Folder, Trash2, AlertOctagon, Link } from 'react-feather';
 
 import pdfIcon from '../images/pdf-icon.svg';
 
@@ -8,6 +8,8 @@ import pdfIcon from '../images/pdf-icon.svg';
 export interface PDFCardType {
   name: string
   localPath: string
+  notFound?: boolean
+  id?: string
 }
 
 
@@ -46,9 +48,16 @@ const styles = {
     transition: all calc(var(--transition-duration) / 3) ease-in-out;
     overflow: hidden;
   `,
+  missing: css`
+    background: linear-gradient(45deg, #E3001670, #6C000770);
+  `,
   icon: css`
     flex: 1;
     padding: calc(var(--padding) * 2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
 
     & > img {
       width: 100%;
@@ -88,20 +97,26 @@ const styles = {
 
 const PDFCard: React.SFC<{
   pdf: PDFCardType,
-  onClick: (path: string) => void,
-  onClickFolder: (path: string) => void,
   onClickDelete: () => void,
-}> = ({ pdf, onClick, onClickDelete, onClickFolder }) => {
+  onClick?: () => void,
+  onClickFolder?: (e: any) => void,
+  onClickRelink?: (e: any) => void,
+}> = ({ pdf, onClick, onClickDelete, onClickFolder, onClickRelink }) => {
   return (
-    <div className={styles.cardWrapper} onClick={() => onClick(pdf.localPath)}>
-      <div className={styles.card} data-element="card">
+    <div className={styles.cardWrapper} onClick={onClick}>
+      <div className={cx(styles.card, { [styles.missing]: pdf.notFound })} data-element="card">
         <div className={styles.icon}>
-          <img src={pdfIcon} />
+          {pdf.notFound ? <AlertOctagon size={60} /> : <img src={pdfIcon} />}
         </div>
         <div className={styles.actions} data-element="actions">
-          <div className={styles.action} onClick={(e) => { e.stopPropagation(); onClickFolder(pdf.localPath) }}>
-            <Folder size={30} />
-          </div>
+          {pdf.notFound ?
+            <div className={styles.action} onClick={onClickRelink}>
+              <Link size={30} />
+            </div> :
+            <div className={styles.action} onClick={onClickFolder}>
+              <Folder size={30} />
+            </div>
+          }
           <div className={styles.action}>
             <Trash2 size={30} />
           </div>
