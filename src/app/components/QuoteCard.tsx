@@ -149,10 +149,10 @@ const QuoteCard: React.SFC<{
       <div className={styles.coverWrapper}>
         <div className={styles.overlay} data-element="overlay">
           <div className={styles.action} data-element="action" onClick={(e) => { e.stopPropagation(); onClickExport() }}>
-            <Share size={20} />
+            <Share size={25} />
           </div>
           <div className={styles.action} data-element="action" onClick={(e) => { e.stopPropagation(); onClickDelete() }}>
-            <Trash2 size={20} />
+            <Trash2 size={25} />
           </div>
         </div>
         <ImagePalette image={coverImage}>
