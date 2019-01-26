@@ -22,7 +22,7 @@ module.exports = {
   output: {
     filename: 'app.js',
     path: path.resolve(__dirname, 'dist'),
-    publicPath: './',
+    publicPath: '/',
     globalObject: 'this',
   },
   resolve: {
