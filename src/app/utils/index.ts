@@ -1,5 +1,5 @@
-import fs from 'fs';
 import { last } from 'lodash';
+import { remote } from 'electron';
 
 
 declare global {
@@ -25,57 +25,23 @@ export function getCurrentLocale() {
 }
 
 
-export async function writeFile(path: string, value: any) {
-  return new Promise<any>((resolve, reject) => {
-    fs.writeFile(path, value, (error: Error) => {
-      if (error) {
-        reject();
+const editingMenuIds = ['saveQuote', 'saveQuoteAs', 'exportToPDF', 'closeFile'];
+
+
+export function toggleMenuItems(route: string) {
+  const menu = remote.Menu.getApplicationMenu();
+  if (menu) {
+    editingMenuIds.map((id) => {
+      const exportItem = menu.getMenuItemById(id);
+      if (route.includes('edit')) {
+        exportItem.enabled = true;
       }
       else {
-        resolve();
+        exportItem.enabled = false;
       }
     });
-  });
+  }
 }
 
 
-export async function readFile(path: string, options={}) {
-  return new Promise<any>((resolve, reject) => {
-    fs.readFile(path, options, (error: Error, result: any) => {
-      if (error) {
-        reject(error);
-      }
-      else {
-        resolve(result);
-      }
-    });
-  });
-}
-
-
-export async function deleteFile(path: string) {
-  return new Promise<any>((resolve, reject) => {
-    fs.unlink(path, (error: Error) => {
-      if (error) {
-        reject(error);
-      }
-      else {
-        resolve();
-      }
-    });
-  });
-}
-
-
-export async function fileExists(path: string) {
-  return new Promise<any>((resolve, reject) => {
-    fs.access(path, (error: Error | undefined) => {
-      if (error) {
-        reject(error);
-      }
-      else {
-        resolve(true);
-      }
-    });
-  });
-}
+export * from './file-system';

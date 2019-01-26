@@ -319,7 +319,7 @@ class Quotes extends React.Component<{
 
   @autobind
   _handleOpenImport() {
-
+    // TODO handle import quote
   }
 
   @autobind

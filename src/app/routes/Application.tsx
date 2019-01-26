@@ -9,6 +9,7 @@ import Exports from './Exports';
 import TitleBar from '../components/TitleBar';
 import SideBar from '../components/SideBar';
 import AnimatedSwitch from '../components/AnimatedSwitch';
+import { toggleMenuItems } from '../utils';
 
 
 const styles = {
@@ -50,7 +51,13 @@ class Application extends React.Component<{
 
   componentWillReceiveProps(nextProps: any) {
     if (nextProps.location.pathname !== this.props.location.pathname) {
-      this.setState({ prevPath: this.props.location.pathname })
+      this.setState({ prevPath: this.props.location.pathname });
+    }
+  }
+
+  componentDidUpdate(prevProps: any) {
+    if (this.props.location !== prevProps.location) {
+      toggleMenuItems(this.props.location.pathname);
     }
   }
 
