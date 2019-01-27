@@ -27,7 +27,7 @@ class Document extends React.Component<{
   state = {
     untitled: false,
     file: {} as any,
-    hasUnsavedChanges: false,
+    hasUnsavedChanges: true,
     exiting: false,
   }
 
@@ -54,6 +54,7 @@ class Document extends React.Component<{
     const { editing } = this.props;
     if (editing) {
       ipc.answerMain('saveQuote', this._handleSaveDocument);
+      ipc.answerMain('saveQuoteAs', this._handleSaveAs);
       ipc.answerMain('exportToPDF', this._handleExportToPDF);
     }
   }
@@ -113,7 +114,7 @@ class Document extends React.Component<{
         filters: [{ name: 'Quotes', extensions: ['qdp'] }],
       }, async (path) => {
         if (path) {
-          await saveQuote(file.id, path, file, true);
+          await saveQuote(file.id, path, file, { newFile: true });
           this.mounted && this.setState({ untitled: false });
           setDocumentTitle(getFilenameFromPath(path));
         }
@@ -124,6 +125,24 @@ class Document extends React.Component<{
       await saveQuote(file.id, location, file);
       // TODO add button to save + indicator for unsaved changes
       this.setState({ hasUnsavedChanges: false });
+    }
+  }
+
+  @autobind
+  _handleSaveAs() {
+    const { untitled, file } = this.state;
+    if (! untitled) {
+      const { dialog, getCurrentWindow } = remote;
+      dialog.showSaveDialog(getCurrentWindow(), {
+        title: 'Save quote as',
+        buttonLabel: 'Save',
+        defaultPath: 'Untitled',
+        filters: [{ name: 'Quotes', extensions: ['qdp'] }],
+      }, async (path) => {
+        if (path) {
+          await saveQuote(file.id, path, file, { newFile: false, withMapping: false });
+        }
+      });
     }
   }
 

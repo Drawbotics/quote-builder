@@ -54,17 +54,25 @@ export async function loadQuote(id: string) {
 }
 
 
-export async function saveQuote(id: string, path: string, value: any, newFile=false) {
+export async function saveQuote(id: string, path: string, value: any, options={} as any) {
+  const { newFile=false, withMapping=true } = options;
+
   const lastModified = new Date();
   await writeFile(path, JSON.stringify({ ...value, lastModified }));
-  await saveMapping(id, path);
-  newFile ? deleteUntitled(id) : null;
+  if (withMapping) {
+    await saveMapping(id, path);
+  }
+  if (newFile) {
+    deleteUntitled(id);
+  }
 }
 
 
 export async function deleteQuote(id: string) {
-  // TODO handle case where file is deleted outside of flow and we try to delete here (file not found)
-  const location = await getQuoteLocation(id);
-  await deleteFile(location);
+  try {
+    const location = await getQuoteLocation(id);
+    await deleteFile(location);
+  }
+  catch (err) {}
   await removeMapping(id);
 }

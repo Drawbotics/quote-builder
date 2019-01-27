@@ -12,7 +12,16 @@ function createNewQuote() {
 }
 
 
+function closeFile() {
+  const { location } = history;
+  if (location.pathname.includes('edit')) {
+    history.push('/quotes');
+  }
+}
+
+
 export default function registerIpcListeners() {
   ipc.answerMain('toggleTheme', toggleTheme);
   ipc.answerMain('newQuote', createNewQuote);
+  ipc.answerMain('closeFile', closeFile);
 }
