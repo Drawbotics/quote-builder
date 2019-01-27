@@ -42,6 +42,7 @@ const styles = {
   `,
   dragging: css`
     box-shadow: var(--box-shadow-hover);
+    z-index: 9999;
   `,
   dragHandle: css`
     display: flex;
