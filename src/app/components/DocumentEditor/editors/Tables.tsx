@@ -14,6 +14,7 @@ const styles = {
   `,
   tables: css`
     padding-right: calc(var(--margin) * 2);
+    padding-left: var(--margin);
   `,
 };
 

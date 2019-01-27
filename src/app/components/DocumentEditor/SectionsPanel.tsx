@@ -10,32 +10,42 @@ import Panel from './Panel';
 const sections = [{
   key: 'cover',
   unique: true,
+  image: require('./images/sections/cover.jpg'),
 }, {
   key: 'profile',
   unique: true,
+  image: require('./images/sections/profile.jpg'),
 }, {
   key: 'howWeWork',
   unique: true,
+  image: require('./images/sections/how-we-work.jpg'),
 }, {
   key: 'whatWeDo',
   unique: true,
+  image: require('./images/sections/what-we-do.jpg'),
 }, {
   key: 'stats',
   unique: true,
+  image: require('./images/sections/stats.jpg'),
 }, {
   key: 'project',
   unique: false,
+  image: require('./images/sections/project.jpg'),
 }, {
   key: 'storyTelling',
   unique: false,
+  image: require('./images/sections/storytelling.jpg'),
 }, {
   key: 'products',
   unique: true,
+  image: require('./images/sections/products.jpg'),
 }, {
   key: 'tables',
+  image: require('./images/sections/offer.jpg'),
   unique: true,
 }, {
   key: 'paymentMethods',
+  image: require('./images/sections/payments.jpg'),
   unique: true,
 }];
 
@@ -85,6 +95,12 @@ const styles = {
     &:active {
       box-shadow: var(--box-shadow-active);
     }
+
+    & > img {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+    }
   `,
   cardLabel: css`
     text-align: center;
@@ -101,12 +117,13 @@ const SectionCard: React.SFC<{
   image: string,
   disabled: boolean,
   onClick: () => void,
-}> = ({ label, disabled, onClick }) => {
+}> = ({ label, disabled, onClick, image }) => {
   return (
     <div
       className={cx(styles.sectionCard, { [styles.disabled]: disabled })}
       onClick={disabled ? x=>x : onClick}>
       <div className={styles.image}>
+        <img src={image} />
       </div>
       <div className={styles.cardLabel}>
         {label}
@@ -132,7 +149,7 @@ const SectionsPanel: React.SFC<{
               onClick={() => onClickAddSection(section.key)}
               label={t(locale, `document.${snakeCase(section.key)}.title`)}
               disabled={currentSections.includes(section.key) && section.unique}
-              image="" />
+              image={section.image} />
           ))}
         </div>
       </Panel>
