@@ -153,6 +153,7 @@ class DocumentEditor extends React.Component<{
     const { zoom, pages, editingPage, navigationOpen, activePage, groupedPages, editingOpen, reload, insertSectionAt } = this.state;
     const { document } = this.props;
     if (isEmpty(document)) return <Spinner label="Loading PDF..." />;
+    const renderedDocument = DocumentGenerator({ document, onPageRender: this._onDocumentPageRender });
     return (
       <div className={styles.documentEditor}>
         <div className={cx(styles.navigationBar, { [styles.barOpen]: navigationOpen })}>
@@ -182,7 +183,7 @@ class DocumentEditor extends React.Component<{
           <ZoomControls zoom={zoom} onClickZoom={(v: number) => this.setState({ zoom: v })} />
         </div>
         <div className={styles.viewer} ref={(viewer: HTMLDivElement) => { this.viewer = viewer; this._addScrollListener(viewer) }}>
-          <BlobProvider key={reload} document={DocumentGenerator({ document, onPageRender: this._onDocumentPageRender })}>
+          <BlobProvider key={reload} document={renderedDocument}>
             {({ blob }: { blob: any }) => (
               <div className={styles.document}>
                 {blob ? (() => {
@@ -299,7 +300,7 @@ class DocumentEditor extends React.Component<{
     const sections = document.sections.filter((s: any) => s.id !== toRemove.id);
     document.sections = sections;
     this.pages = {};
-    this.setState({ reload: 1 });
+    this.setState({ reload: 1, pages: 0 });
   }
 
   @autobind
@@ -312,7 +313,7 @@ class DocumentEditor extends React.Component<{
       section.id === insertAfter.id ? (insertSectionAt === 0 ? [ newSection, section ] : [ ...memo, section, newSection ]) : [ ...memo, section ], []);
     document.sections = sections;
     this.pages = {};
-    this.setState({ reload: 1, editingOpen: false });
+    this.setState({ reload: 1, editingOpen: false, pages: 0 });
   }
 
   @autobind
