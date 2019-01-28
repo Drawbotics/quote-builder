@@ -60,8 +60,8 @@ class Document extends React.Component<{
   }
 
   componentWillUnmount() {
-    const { setDocumentTitle } = this.props;
-    setDocumentTitle ? setDocumentTitle('') : null;
+    // const { setDocumentTitle } = this.props;
+    // setDocumentTitle ? setDocumentTitle('') : null;
     this.mounted = false;
   }
 
