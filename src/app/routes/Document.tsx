@@ -5,6 +5,8 @@ import autobind from 'autobind-decorator';
 import ipc from 'electron-better-ipc';  // NOTE: not sure about using this here, should be in utils
 import { remote } from 'electron';
 import NavigationPrompt from 'react-router-navigation-prompt';
+import { css, cx, keyframes } from 'emotion';
+import { Save } from 'react-feather';
 
 import DocumentBoostrap from '../components/DocumentBoostrap';
 import { saveUntitled, loadUntitled, deleteUntitled } from '../utils/storage';
@@ -13,6 +15,54 @@ import { savePDF } from '../utils/storage/pdfs';
 import { getFilenameFromPath } from '../utils';
 import CustomPrompt from '../components/CustomPrompt';
 import DocumentEditor, { documentToPDF } from '../components/DocumentEditor';
+
+
+const showAnimation = keyframes`
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+`;
+
+
+const styles = {
+  saveContainer: css`
+    position: fixed;
+    top: calc(var(--margin) + 3px);
+    right: calc(var(--margin) * 3.5);
+    z-index: 99999;
+    animation: ${showAnimation} 0s 0.3s forwards;
+    opacity: 0;
+  `,
+  save: css`
+    position: relative;
+    color: var(--text-primary);
+    transition: all var(--transition-duration) ease-in-out;
+
+    &:hover {
+      color: var(--primary);
+    }
+  `,
+  disabled: css`
+    pointer-events: none;
+    opacity: 0.5;
+
+    & [data-element="indicator"] {
+      display: none;
+    }
+  `,
+  unsavedChanges: css`
+    position: absolute;
+    top: -3px;
+    right: -3px;
+    height: 10px;
+    width: 10px;
+    background: var(--red);
+    border-radius: 1000px;
+  `,
+};
 
 
 class Document extends React.Component<{
@@ -27,7 +77,7 @@ class Document extends React.Component<{
   state = {
     untitled: false,
     file: {} as any,
-    hasUnsavedChanges: true,
+    hasUnsavedChanges: false,
     exiting: false,
   }
 
@@ -87,7 +137,13 @@ class Document extends React.Component<{
                 onConfirm={() => untitled ? this._handleDeleteUntitled(onConfirm) : this.setState({ exiting: true, }, onConfirm)} />
             )}
           </NavigationPrompt>
-          <DocumentEditor document={file} />
+          <DocumentEditor document={file} onChange={this._setHasUnsavedChanges} />
+          <div className={styles.saveContainer}>
+            <div className={cx(styles.save, { [styles.disabled]: ! hasUnsavedChanges })} onClick={this._handleSaveDocument}>
+              <div className={styles.unsavedChanges} data-element="indicator" />
+              <Save size={20} />
+            </div>
+          </div>
         </div>
       );
     }
@@ -123,7 +179,6 @@ class Document extends React.Component<{
     else {
       const location = await getQuoteLocation(file.id);
       await saveQuote(file.id, location, file);
-      // TODO add button to save + indicator for unsaved changes
       this.setState({ hasUnsavedChanges: false });
     }
   }
@@ -168,6 +223,11 @@ class Document extends React.Component<{
         await savePDF(`${file.id}-${getFilenameFromPath(path)}`, path, pdf);
       }
     });
+  }
+
+  @autobind
+  _setHasUnsavedChanges() {
+    this.setState({ hasUnsavedChanges: true });
   }
 }
 

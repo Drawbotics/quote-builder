@@ -1,5 +1,6 @@
 import React from 'react';
 import { css } from 'emotion';
+import { Settings } from 'react-feather';
 
 
 const styles = {
@@ -11,7 +12,7 @@ const styles = {
     transition: all var(--transition-duration) ease-in-out;
     display: flex;
     align-items: center;
-    padding-left: var(--padding);
+    padding: 0 var(--padding);
   `,
   title: css`
     color: var(--text-primary);
@@ -20,6 +21,16 @@ const styles = {
   label: css`
     color: var(--grey);
     margin-right: calc(var(--margin) / 2);
+  `,
+  settings: css`
+    margin-left: auto;
+    color: var(--text-primary);
+    transition: all var(--transition-duration) ease-in-out;
+    padding: 5px;
+
+    &:hover {
+      color: var(--primary);
+    }
   `,
 };
 
@@ -37,6 +48,9 @@ const TitleBar: React.SFC<{
           {title}
         </div>
       : null}
+      <div className={styles.settings}>
+        <Settings size={20} />
+      </div>
     </div>
   );
 }
