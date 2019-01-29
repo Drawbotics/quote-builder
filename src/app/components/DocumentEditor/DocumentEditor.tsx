@@ -124,6 +124,7 @@ const styles = {
 
 class DocumentEditor extends React.Component<{
   document: any,
+  onChange: () => void,
 }> {
   pages = {}
   viewer: any = undefined
@@ -295,29 +296,33 @@ class DocumentEditor extends React.Component<{
   @autobind
   _handleRemoveSection(index: number) {
     const { groupedPages } = this.state;
-    const { document } = this.props;
+    const { document, onChange } = this.props;
     const toRemove = groupedPages[index];
     const sections = document.sections.filter((s: any) => s.id !== toRemove.id);
     document.sections = sections;
     this.pages = {};
+    onChange();
     this.setState({ reload: 1, pages: 0 });
   }
 
   @autobind
   _handleAddSection(section: string) {
     const { insertSectionAt, groupedPages } = this.state;
-    const { document } = this.props;
+    const { document, onChange } = this.props;
     const insertAfter = groupedPages[insertSectionAt === 0 ? 1 : insertSectionAt];
     const newSection = { type: section, id: v4() };
     const sections = document.sections.reduce((memo: any, section: any) =>
       section.id === insertAfter.id ? (insertSectionAt === 0 ? [ newSection, section ] : [ ...memo, section, newSection ]) : [ ...memo, section ], []);
     document.sections = sections;
     this.pages = {};
+    onChange();
     this.setState({ reload: 1, editingOpen: false, pages: 0 });
   }
 
   @autobind
   _handleModifyDocument(newDocument: any) {
+    const { onChange } = this.props;
+    onChange();
     this.setState({ reload: 1 });
   }
 }
