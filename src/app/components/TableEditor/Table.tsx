@@ -90,7 +90,7 @@ const SortableBody: any = SortableContainer(({ items, onChange, onClickRemove, d
           value={row}
           key={`item-${i}`}
           index={i}
-          onClickRemove={(i: number) => onClickRemove(i)}
+          onClickRemove={() => onClickRemove(i)}
           onChange={(v: any) => onChange(i, v)} />
       ))}
     </div>
