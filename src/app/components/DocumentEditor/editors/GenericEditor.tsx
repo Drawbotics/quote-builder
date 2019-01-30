@@ -1,6 +1,6 @@
 import React from 'react';
 import autobind from 'autobind-decorator';
-import { omit } from 'lodash';
+import omit from 'lodash/omit';
 
 
 class GenericEditor extends React.Component<{

@@ -11,9 +11,10 @@ import QuoteCard, { QuoteCardType } from '../components/QuoteCard';
 import MissingCard, { MissingQuoteType } from '../components/MissingCard';
 import { documentToPDF } from '../components/DocumentEditor';
 import { checkForUntitledFile, deleteUntitled, getIdFromUntitled } from '../utils/storage';
-import { loadQuotes, deleteQuote, saveMapping, loadQuote } from '../utils/storage/quotes';
-import { showMessage } from '../utils/dialogs';
+import { loadQuotes, deleteQuote, saveMapping, loadQuote, importQuote, saveQuote } from '../utils/storage/quotes';
+import { savePerson } from '../utils/storage/people';
 import { savePDF } from '../utils/storage/pdfs';
+import { showMessage, showError } from '../utils/dialogs';
 import { getFilenameFromPath } from '../utils';
 
 
@@ -318,8 +319,54 @@ class Quotes extends React.Component<{
   }
 
   @autobind
-  _handleOpenImport() {
-    // TODO handle import quote
+  async _handleOpenImport() {
+    const { dialog, getCurrentWindow } = remote;
+    dialog.showOpenDialog(getCurrentWindow(), {
+      properties: ['openFile'],
+      title: 'Import quote',
+      buttonLabel: 'Import',
+      filters: [{ name: 'Quotes', extensions: ['qdp'] }],
+    }, async (files) => {
+      if (files) {
+        try {
+          const { existing, person, quote } = await importQuote(files[0]);
+          if (existing) {
+            dialog.showMessageBox(getCurrentWindow(), {
+              type: 'question',
+              message: 'Existing person found',
+              detail: `${existing.name} is already in your list of people. Would you like to update the document information or replace the person in your local list?`,
+              buttons: [ 'Cancel', 'Replace local', 'Update document' ],
+            }, async (buttonId) => {
+              if (buttonId === 1) {
+                await savePerson(person.id, person);
+                await saveMapping(quote.id, files[0]);
+                this._handleLoadQuotes();
+              }
+              else if (buttonId === 2) {
+                quote.data.person = existing;
+                await saveQuote(quote.id, files[0], quote);
+                this._handleLoadQuotes();
+              }
+            });
+          }
+          else {
+            showMessage({
+              title: 'New person found',
+              message: `${person.name} is not currently in your list of people. It will be added automatically after importing.`,
+              closeButtonLabel: 'Cancel',
+              onClickAction: async () => {
+                await savePerson(person.id, person);
+                await saveMapping(quote.id, files[0]);
+                this._handleLoadQuotes();
+              },
+            });
+          }
+        }
+        catch (error) {
+          showError({ title: 'An error ocurred reading the file', extra: error.toString() });
+        }
+      }
+    });
   }
 
   @autobind

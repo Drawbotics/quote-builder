@@ -3,7 +3,9 @@ import { css, cx } from 'emotion';
 import { BlobProvider } from '@react-pdf/renderer';
 import { Document, Page } from 'react-pdf/dist/entry.webpack';
 import autobind from 'autobind-decorator';
-import { isEmpty, get, findLastIndex } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
+import get from 'lodash/get';
+import findLastIndex from 'lodash/findLastIndex';
 import { v4 } from 'uuid';
 import queryString from 'query-string';
 

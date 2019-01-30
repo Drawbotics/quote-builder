@@ -147,14 +147,15 @@ class People extends React.Component {
 
   @autobind
   async _handleClickImport() {
-    const { dialog } = remote;
-    dialog.showOpenDialog(remote.getCurrentWindow(), {
+    const { dialog, getCurrentWindow } = remote;
+    dialog.showOpenDialog(getCurrentWindow(), {
       properties: ['openFile'],
       title: 'Import person',
       buttonLabel: 'Import',
       filters: [{ name: 'People', extensions: ['json'] }],
     }, async (files) => {
       if (files) {
+        // TODO do this in the people utils and use readFile
         const rawPerson = fs.readFileSync(files[0], 'utf8');
         if (! rawPerson) {
           showError({ title: 'An error ocurred reading the file' });
