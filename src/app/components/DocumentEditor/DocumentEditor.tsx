@@ -5,7 +5,7 @@ import { Document, Page } from 'react-pdf/dist/entry.webpack';
 import autobind from 'autobind-decorator';
 import { isEmpty, get, findLastIndex } from 'lodash';
 import { v4 } from 'uuid';
-// import queryString from 'query-string';
+import queryString from 'query-string';
 
 import DocumentGenerator from './DocumentGenerator';
 import ZoomControls from './ZoomControls';
@@ -125,6 +125,8 @@ const styles = {
 class DocumentEditor extends React.Component<{
   document: any,
   onChange: () => void,
+  location: any,
+  history: any,
 }> {
   pages = {}
   viewer: any = undefined
@@ -195,7 +197,7 @@ class DocumentEditor extends React.Component<{
                         <Fragment key={index}>
                           <Divisor onClickPlus={() => this._openAddSection(index)} />
                           <div className={cx(styles.page, { [styles.selected]: editingPage === index })} ref={(page: HTMLDivElement) => page ? this.pages[`page${index+1}`] = page : null}>
-                            <Page pageNumber={index + 1} scale={zoom} />
+                            <Page pageNumber={index + 1} scale={zoom} onLoadSuccess={index + 1 === pages ? this._handleScrollToPage : null} />
                             <div className={styles.deletePage} data-element="delete">
                               <RoundButton onClick={() => this._handleRemoveSection(index + 1)} size={30}>-</RoundButton>
                             </div>
@@ -216,6 +218,7 @@ class DocumentEditor extends React.Component<{
 
   @autobind
   _handleClickPage(e: any) {
+    const { history } = this.props;
     const clickedPanels = !! e.path.find((element: HTMLElement) => element.id === 'editing-panel' || element.id === 'navigation-panel');
     if (get(e.target, 'nodeName') === 'CANVAS') {
       const boundingBoxes = Object.values(this.pages).map((page: HTMLElement) => page.getBoundingClientRect());
@@ -226,6 +229,8 @@ class DocumentEditor extends React.Component<{
           let page = 0;
           for (let delimiter of yDelimiters) {
             if (e.clientY > delimiter.top && e.clientY < delimiter.bottom) {
+              const search = queryString.stringify({ page: page + 1 });
+              history.replace({ search });
               this.setState({ editingPage: page, editingOpen: true, insertSectionAt: -1 });
               break;
             }
@@ -233,6 +238,7 @@ class DocumentEditor extends React.Component<{
           }
         }
         else {
+          history.replace({ search: '' });
           this.setState({ editingPage: undefined });
         }
       }
@@ -248,6 +254,15 @@ class DocumentEditor extends React.Component<{
   }
 
   @autobind
+  _handleScrollToPage() {
+    const { location } = this.props;
+    const search = queryString.parse(location.search);
+    if (search.page) {
+      this._scrollToPage(search.page as string);
+    }
+  }
+
+  @autobind
   _onDocumentPageRender(section: { type: string, id: string }, pageNumber: number) {
     const { groupedPages } = this.state;
     this.setState({ groupedPages: { ...groupedPages, [pageNumber]: section } });
@@ -255,10 +270,16 @@ class DocumentEditor extends React.Component<{
 
   @autobind
   _handleClickSectionNavigation(section: string) {
+    // TODO: fix multiple pages of the same type issue
     const { groupedPages } = this.state;
     const firstPage = Object.keys(groupedPages).find((pageNumber) => groupedPages[pageNumber].type === section);
     if (! firstPage) return;
-    const page = this.pages[`page${firstPage}`];
+    this._scrollToPage(firstPage);
+  }
+
+  @autobind
+  _scrollToPage(pageIndex: string) {
+    const page = this.pages[`page${pageIndex}`];
     this.viewer.scrollTop = 0;
     const viewerTop = this.viewer.getBoundingClientRect().top + 20;
     const scrollTop = page.getBoundingClientRect().top - viewerTop;
@@ -277,38 +298,43 @@ class DocumentEditor extends React.Component<{
     // TODO add some throttle if performance looks poor
     const { top } = this.viewer.getBoundingClientRect();
     const activePageIndex = findLastIndex(Object.values(this.pages), (page: HTMLDivElement) => page.getBoundingClientRect().top <= top + 20);
+    let activePage;
     if (this.viewer.scrollTop === (this.viewer.scrollHeight - this.viewer.offsetHeight)) {
-      this.setState({ activePage: Object.keys(this.pages).length });
+      activePage = Object.keys(this.pages).length;
     }
     else {
-      this.setState({ activePage: activePageIndex === -1 ? 1 : activePageIndex + 1 });
+      activePage = activePageIndex === -1 ? 1 : activePageIndex + 1;
     }
+    this.setState({ activePage });
   }
 
   @autobind
   _openAddSection(index: number) {
+    const { history } = this.props
     this.setState({
       editingOpen: true,
       insertSectionAt: index,
     });
+    history.replace({ search: '' });
   }
 
   @autobind
   _handleRemoveSection(index: number) {
     const { groupedPages } = this.state;
-    const { document, onChange } = this.props;
+    const { document, onChange, history } = this.props;
     const toRemove = groupedPages[index];
     const sections = document.sections.filter((s: any) => s.id !== toRemove.id);
     document.sections = sections;
     this.pages = {};
     onChange();
     this.setState({ reload: 1, pages: 0 });
+    history.replace({ search: '' });
   }
 
   @autobind
   _handleAddSection(section: string) {
     const { insertSectionAt, groupedPages } = this.state;
-    const { document, onChange } = this.props;
+    const { document, onChange, history } = this.props;
     const insertAfter = groupedPages[insertSectionAt === 0 ? 1 : insertSectionAt];
     const newSection = { type: section, id: v4() };
     const sections = document.sections.reduce((memo: any, section: any) =>
@@ -317,6 +343,7 @@ class DocumentEditor extends React.Component<{
     this.pages = {};
     onChange();
     this.setState({ reload: 1, editingOpen: false, pages: 0 });
+    history.replace({ search: '' });
   }
 
   @autobind
