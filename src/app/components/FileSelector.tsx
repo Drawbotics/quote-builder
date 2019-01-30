@@ -1,7 +1,7 @@
 import React from 'react';
 import { css, keyframes, cx } from 'emotion';
 import { remote } from 'electron';
-import { last } from 'lodash';
+import last from 'lodash/last';
 import fs from 'fs';
 
 import importIcon from '../images/import.svg';

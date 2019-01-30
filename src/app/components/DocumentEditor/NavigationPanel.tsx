@@ -1,7 +1,8 @@
 import React from 'react';
 import { css, cx } from 'emotion';
 import { ChevronLeft, ChevronRight } from 'react-feather';
-import { snakeCase, get } from 'lodash';
+import snakeCase from 'lodash/snakeCase';
+import get from 'lodash/get';
 
 import { translate as t } from '~/utils/translation';
 import { getCurrentLocale } from '~/utils';

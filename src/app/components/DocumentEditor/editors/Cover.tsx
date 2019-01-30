@@ -1,7 +1,8 @@
 import React from 'react';
 import { css } from 'emotion';
 import autobind from 'autobind-decorator';
-import { get, omit } from 'lodash';
+import get from 'lodash/get';
+import omit from 'lodash/omit';
 
 import Tabs from '../../Tabs';
 import Input, { InputGroup } from '../../Input';

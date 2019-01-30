@@ -1,6 +1,6 @@
 import React from 'react';
 import { css, cx } from 'emotion';
-import { get } from 'lodash';
+import get from 'lodash/get';
 
 import { loadPeople } from '../../utils/storage/people';
 import ProfilePicture from '../ProfilePicture';

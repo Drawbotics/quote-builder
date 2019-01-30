@@ -1,5 +1,8 @@
+import get from 'lodash/get';
+
 import { save, deleteUntitled, load, remove } from './index';
 import { readFile, writeFile, deleteFile, getFilenameFromPath, setCurrentLocale } from '../index';
+import { loadPerson } from './people';
 
 
 export async function saveMapping(id: string, path: string) {
@@ -74,4 +77,13 @@ export async function deleteQuote(id: string) {
   }
   catch (err) {}
   await removeMapping(id);
+}
+
+
+export async function importQuote(path: string) {
+  const file = await readFile(path);
+  const quote = JSON.parse(file);
+  const person = get(quote, 'data.person');
+  const existingPerson = await loadPerson(person.id);
+  return { existing: existingPerson, person, quote };
 }

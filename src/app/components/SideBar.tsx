@@ -113,6 +113,7 @@ const styles = {
     margin-top: auto;
     display: flex;
     align-items: center;
+    justify-content: center;
     color: var(--text-primary);
     transition: all var(--transition-duration-short) ease-in-out;
     white-space: nowrap;
