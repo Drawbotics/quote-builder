@@ -117,7 +117,7 @@ class Document extends React.Component<{
 
   render() {
     const { untitled, hasUnsavedChanges, exiting, file } = this.state;
-    const { match, location } = this.props;
+    const { match, location, history } = this.props;
     const { params } = match;
 
     if (! params.id) {
@@ -137,7 +137,7 @@ class Document extends React.Component<{
                 onConfirm={() => untitled ? this._handleDeleteUntitled(onConfirm) : this.setState({ exiting: true, }, onConfirm)} />
             )}
           </NavigationPrompt>
-          <DocumentEditor document={file} onChange={this._setHasUnsavedChanges} />
+          <DocumentEditor document={file} onChange={this._setHasUnsavedChanges} location={location} history={history} />
           <div className={styles.saveContainer}>
             <div className={cx(styles.save, { [styles.disabled]: ! hasUnsavedChanges })} onClick={this._handleSaveDocument}>
               <div className={styles.unsavedChanges} data-element="indicator" />
