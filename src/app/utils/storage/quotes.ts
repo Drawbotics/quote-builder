@@ -56,7 +56,6 @@ export async function loadQuote(id: string) {
 
 export async function saveQuote(id: string, path: string, value: any, options={} as any) {
   const { newFile=false, withMapping=true } = options;
-
   const lastModified = new Date();
   await writeFile(path, JSON.stringify({ ...value, lastModified }));
   if (withMapping) {
