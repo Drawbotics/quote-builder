@@ -1,5 +1,6 @@
 import last from 'lodash/last';
 import { remote } from 'electron';
+import sharp from 'sharp';
 
 
 declare global {
@@ -41,6 +42,33 @@ export function toggleMenuItems(route: string) {
       }
     });
   }
+}
+
+
+const roundedCorners = Buffer.from(
+  '<svg><rect x="0" y="0" width="200" height="200" rx="200" ry="200"/></svg>'
+);
+
+
+export async function roundImage(image: string) {
+  return new Promise<any>((resolve, reject) => {
+    try {
+      const uri = image.split(';base64,').pop() as string;
+      const imageBuffer = Buffer.from(uri, 'base64');
+      sharp(imageBuffer)
+        .resize(200, 200)
+        .overlayWith(roundedCorners, { cutout: true })
+        .png()
+        .toBuffer()
+        .then((data) => {
+        const roundedImage = 'data:image/png;base64,' + data.toString('base64');
+        resolve(roundedImage);
+      });
+    }
+    catch (err) {
+      reject(err);
+    }
+  });
 }
 
 
