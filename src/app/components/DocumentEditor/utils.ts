@@ -1,5 +1,5 @@
 import { translateAlt as ta } from '~/utils/translation';
-import { get } from 'lodash';
+import get from 'lodash/get';
 import { pdf } from '@react-pdf/renderer';
 
 import DocumentGenerator from './DocumentGenerator';

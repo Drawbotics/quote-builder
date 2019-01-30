@@ -1,7 +1,7 @@
 import React from 'react';
 import { css } from 'emotion';
 import { Share } from 'react-feather';
-import { get } from 'lodash';
+import get from 'lodash/get';
 import autobind from 'autobind-decorator';
 
 import Tabs from './Tabs';

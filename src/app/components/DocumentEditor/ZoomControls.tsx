@@ -1,6 +1,6 @@
 import React from 'react';
 import { css } from 'emotion';
-import { round } from 'lodash';
+import round from 'lodash/round';
 
 import RoundButton from '../RoundButton';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { css } from 'emotion';
-import { get } from 'lodash';
+import get from 'lodash/get';
 
 import TableEditor, { TableType } from '../TableEditor';
 
