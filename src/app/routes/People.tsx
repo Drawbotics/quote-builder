@@ -4,13 +4,13 @@ import { Download } from 'react-feather';
 import autobind from 'autobind-decorator';
 import { v4 } from 'uuid';
 import { remote } from 'electron';
-import fs from 'fs';
 
 import Title from '../components/Title';
 import Button from '../components/Button';
 import Person, { PersonType } from '../components/Person';
 import { savePerson, loadPeople, deletePerson } from '../utils/storage/people';
 import { showError } from '../utils/dialogs';
+import { readFile, writeFile } from '../utils';
 
 
 const styles = {
@@ -136,11 +136,9 @@ class People extends React.Component {
       buttonLabel: 'Export',
       defaultPath: name,
       filters: [{ name: 'People', extensions: ['json'] }],
-    }, (file) => {
+    }, async (file) => {
       if (file) {
-        fs.writeFile(file, JSON.stringify(person), (err) => {
-          if (err) throw err;
-        });
+        await writeFile(file, JSON.stringify(person));
       }
     });
   }
@@ -155,19 +153,13 @@ class People extends React.Component {
       filters: [{ name: 'People', extensions: ['json'] }],
     }, async (files) => {
       if (files) {
-        // TODO do this in the people utils and use readFile
-        const rawPerson = fs.readFileSync(files[0], 'utf8');
-        if (! rawPerson) {
-          showError({ title: 'An error ocurred reading the file' });
+        try {
+          const rawPerson = await readFile(files[0]);
+          const person = JSON.parse(rawPerson);
+          await this._handleClickSave(person);
         }
-        else {
-          try {
-            const person = JSON.parse(rawPerson);
-            await this._handleClickSave(person);
-          }
-          catch (error) {
-            showError({ title: 'An error ocurred reading the file', extra: error.toString() });
-          }
+        catch (error) {
+          showError({ title: 'An error ocurred reading the file', extra: error.toString() });
         }
       }
     });
