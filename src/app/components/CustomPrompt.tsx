@@ -5,6 +5,7 @@ import { showMessage } from '../utils/dialogs';
 
 class CustomPrompt extends React.Component<{
   onConfirm: () => void,
+  onCancel: () => void,
   title: string,
   message?: string,
   confirmLabel: string,
@@ -18,6 +19,7 @@ class CustomPrompt extends React.Component<{
     const { shouldShow, title } = this.props;
     const { title: prevTitle } = prevProps;
     if (shouldShow && (prevTitle === title)) {
+      console.log('gonna open from update');
       this._handleOpenDialog();
     }
   }
@@ -27,8 +29,8 @@ class CustomPrompt extends React.Component<{
   }
 
   _handleOpenDialog() {
-    const { title, message, onConfirm, confirmLabel } = this.props;
-    showMessage({ title, message, onClickAction: onConfirm, confirmButtonLabel: confirmLabel });
+    const { title, message, onConfirm, confirmLabel, onCancel } = this.props;
+    showMessage({ title, message, onClickAction: onConfirm, confirmButtonLabel: confirmLabel, onClickCancel: onCancel });
   }
 }
 

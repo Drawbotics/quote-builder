@@ -81,22 +81,8 @@ class Document extends React.Component<{
     exiting: false,
   }
 
-  async componentWillMount() {
-    const { match, setDocumentTitle } = this.props;
-    const { params } = match;
-    if (params.id) {
-      const untitledFile = await loadUntitled(params.id);
-      if (untitledFile) {
-        this.setState({ untitled: true, file: untitledFile });
-        setDocumentTitle('Untitled');
-      }
-      else {
-        // load actual file
-        const { file, fileName } = await loadQuote(params.id);
-        setDocumentTitle(fileName);
-        this.setState({ file });
-      }
-    }
+  componentWillMount() {
+    this._loadDocument();
   }
 
   componentDidMount() {
@@ -128,8 +114,9 @@ class Document extends React.Component<{
         <div>
           <NavigationPrompt
             when={(prevLoc: any, nextLoc: any) => ! nextLoc.pathname.includes('edit') && (untitled || hasUnsavedChanges)}>
-            {({ onConfirm }: { onConfirm: () => void } ) => (
+            {({ onConfirm, onCancel }: { onConfirm: () => void, onCancel: () => void } ) => (
               <CustomPrompt
+                onCancel={onCancel}
                 shouldShow={! exiting && (untitled || hasUnsavedChanges)}
                 message={untitled ? "This file hasn't been saved yet. Exiting will discard it. Are you sure you want to exit?" : undefined}
                 title={untitled ? "Are you sure you want to exit?" : "You have unsaved changes. Are you sure you want to exit?"}
@@ -150,11 +137,31 @@ class Document extends React.Component<{
   }
 
   @autobind
+  async _loadDocument() {
+    const { match, setDocumentTitle } = this.props;
+    const { params } = match;
+    if (params.id) {
+      const untitledFile = await loadUntitled(params.id);
+      if (untitledFile) {
+        this.setState({ untitled: true, file: untitledFile });
+        setDocumentTitle('Untitled');
+      }
+      else {
+        // load actual file
+        const { file, fileName } = await loadQuote(params.id);
+        setDocumentTitle(fileName);
+        this.setState({ file });
+      }
+    }
+  }
+
+  @autobind
   async _onFinishBootstrap(newFileData: any) {
     const { history } = this.props;
     const newId = v4();
     await saveUntitled(newId, '', { ...newFileData, id: newId });
     history.push(`/${newId}/edit`);
+    this._loadDocument();
   }
 
   @autobind
