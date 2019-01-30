@@ -1,5 +1,8 @@
 import storage from 'electron-json-storage';
-import { isEmpty, get, set, omit } from 'lodash';
+import isEmpty from 'lodash/isEmpty';
+import get from 'lodash/get';
+import set from 'lodash/set';
+import omit from 'lodash/omit';
 import fs from 'fs';
 import path from 'path';
 import { shell } from 'electron';

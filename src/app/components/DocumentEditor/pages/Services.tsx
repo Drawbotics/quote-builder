@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { View, StyleSheet, Image, Text } from '@react-pdf/renderer';
-import { chunk } from 'lodash';
+import chunk from 'lodash/chunk';
 
 import sv from '../vars';
 import PageWrapper from './PageWrapper';

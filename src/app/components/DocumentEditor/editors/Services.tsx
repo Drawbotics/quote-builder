@@ -1,6 +1,7 @@
 import React from 'react';
 import autobind from 'autobind-decorator';
-import { get, omit } from 'lodash';
+import get from 'lodash/get';
+import omit from 'lodash/omit';
 import { css } from 'emotion';
 
 import { getCurrentLocale } from '~/utils';

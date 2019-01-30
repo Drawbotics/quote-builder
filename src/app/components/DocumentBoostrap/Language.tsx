@@ -1,6 +1,6 @@
 import React from 'react';
 import { css, cx } from 'emotion';
-import { get } from 'lodash';
+import get from 'lodash/get';
 import { Globe } from 'react-feather';
 
 import AnimatedCheckmark from '../AnimatedCheckmark';

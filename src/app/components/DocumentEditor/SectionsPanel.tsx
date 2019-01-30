@@ -1,6 +1,6 @@
 import React from 'react';
 import { css, cx } from 'emotion';
-import { snakeCase } from 'lodash';
+import snakeCase from 'lodash/snakeCase';
 
 import { translate as t } from '~/utils/translation';
 import { getCurrentLocale } from '~/utils';
