@@ -270,7 +270,6 @@ class DocumentEditor extends React.Component<{
 
   @autobind
   _handleClickSectionNavigation(id: string) {
-    // TODO: fix multiple pages of the same type issue
     const { groupedPages } = this.state;
     const firstPage = Object.keys(groupedPages).find((pageNumber) => groupedPages[pageNumber].id === id);
     if (! firstPage) return;

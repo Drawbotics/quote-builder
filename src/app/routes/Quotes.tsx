@@ -356,7 +356,6 @@ class Quotes extends React.Component<{
       name: getFilenameFromPath(notFound[id]) + '.qdp',
       localPath: notFound[id],
     }));
-    // TODO: add warning dialog if notFoundCards is more than 0
     this.setState({ quotes: cards, notFound: notFoundCards });
   }
 }
