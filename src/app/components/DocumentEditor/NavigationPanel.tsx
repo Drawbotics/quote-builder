@@ -1,13 +1,14 @@
 import React from 'react';
 import { css, cx } from 'emotion';
 import { ChevronLeft, ChevronRight } from 'react-feather';
-import { snakeCase } from 'lodash';
+import { snakeCase, get } from 'lodash';
 
 import { translate as t } from '~/utils/translation';
 import { getCurrentLocale } from '~/utils';
 
 
 interface SectionType {
+  id: string
   type: string
 }
 
@@ -88,7 +89,7 @@ const styles = {
 
 const NavigationPanel: React.SFC<{
   sections: SectionType[],
-  activeSection?: string,
+  activeSection?: SectionType,
   onClickToggle: () => void,
   open: boolean,
   onClickSection: (section: string) => void,
@@ -106,7 +107,7 @@ const NavigationPanel: React.SFC<{
       </div>
       <div className={cx(styles.sections, { [styles.hidden]: ! open })}>
         {sections.map((section, i) => (
-          <div key={i} className={cx(styles.section, { [styles.active]: section.type === activeSection })} onClick={() => onClickSection(section.type)}>
+          <div key={i} className={cx(styles.section, { [styles.active]: section.id === get(activeSection, 'id') })} onClick={() => onClickSection(section.id)}>
             {`${i+1}. ${t(locale, `document.${snakeCase(section.type)}.title`)}`}
           </div>
         ))}

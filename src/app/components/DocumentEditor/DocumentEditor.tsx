@@ -161,7 +161,7 @@ class DocumentEditor extends React.Component<{
       <div className={styles.documentEditor}>
         <div className={cx(styles.navigationBar, { [styles.barOpen]: navigationOpen })}>
           <NavigationPanel
-            activeSection={get(groupedPages[activePage], 'type')}
+            activeSection={groupedPages[activePage]}
             onClickSection={this._handleClickSectionNavigation}
             sections={document.sections}
             onClickToggle={() => this.setState({ navigationOpen: ! navigationOpen })}
@@ -269,10 +269,10 @@ class DocumentEditor extends React.Component<{
   }
 
   @autobind
-  _handleClickSectionNavigation(section: string) {
+  _handleClickSectionNavigation(id: string) {
     // TODO: fix multiple pages of the same type issue
     const { groupedPages } = this.state;
-    const firstPage = Object.keys(groupedPages).find((pageNumber) => groupedPages[pageNumber].type === section);
+    const firstPage = Object.keys(groupedPages).find((pageNumber) => groupedPages[pageNumber].id === id);
     if (! firstPage) return;
     this._scrollToPage(firstPage);
   }
