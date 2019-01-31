@@ -79,4 +79,11 @@ module.exports = function startApp() {
       createWindow();
     }
   });
+
+  app.on('will-finish-launching', () => {
+    app.on('open-file', (ev, url) => {
+      console.log(url);
+    });
+  })
+
 }

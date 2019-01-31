@@ -2,7 +2,7 @@ import React from 'react';
 import { css, cx } from 'emotion';
 import moment from 'moment';
 import ImagePalette from '@nicmosc/react-image-palette';
-import { Trash2, Share } from 'react-feather';
+import { Trash2, Share, Folder } from 'react-feather';
 
 
 export interface QuoteCardType {
@@ -12,6 +12,7 @@ export interface QuoteCardType {
   lastModified: string
   coverImage: string
   draft: boolean
+  localPath: string
 }
 
 
@@ -79,6 +80,14 @@ const styles = {
       transform: scale(1.05) !important;
     }
   `,
+  actionGroup: css`
+    display: flex;
+    align-items: center;
+
+    & > [data-element="action"] {
+      margin-right: var(--margin);
+    }
+  `,
   body: css`
     padding: var(--padding);
   `,
@@ -141,15 +150,21 @@ const QuoteCard: React.SFC<{
   onClick: () => void,
   onClickDelete: () => void,
   onClickExport: () => void,
-}> = ({ quote, onClick, onClickDelete, onClickExport }) => {
+  onClickOpenInFinder: () => void,
+}> = ({ quote, onClick, onClickDelete, onClickExport, onClickOpenInFinder }) => {
   const { draft, title, subtitle, lastModified, coverImage } = quote;
   const type = draft ? 'Draft' : 'Finished';
   return (
     <div className={styles.quoteCard} onClick={onClick}>
       <div className={styles.coverWrapper}>
         <div className={styles.overlay} data-element="overlay">
-          <div className={styles.action} data-element="action" onClick={(e) => { e.stopPropagation(); onClickExport() }}>
-            <Share size={25} />
+          <div className={styles.actionGroup}>
+            <div className={styles.action} data-element="action" onClick={(e) => { e.stopPropagation(); onClickExport() }}>
+              <Share size={25} />
+            </div>
+            <div className={styles.action} data-element="action" onClick={(e) => { e.stopPropagation(); onClickOpenInFinder() }}>
+              <Folder size={25} />
+            </div>
           </div>
           <div className={styles.action} data-element="action" onClick={(e) => { e.stopPropagation(); onClickDelete() }}>
             <Trash2 size={25} />

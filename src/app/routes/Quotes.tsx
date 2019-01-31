@@ -10,7 +10,7 @@ import Button from '../components/Button';
 import QuoteCard, { QuoteCardType } from '../components/QuoteCard';
 import MissingCard, { MissingQuoteType } from '../components/MissingCard';
 import { documentToPDF } from '../components/DocumentEditor';
-import { checkForUntitledFile, deleteUntitled, getIdFromUntitled } from '../utils/storage';
+import { checkForUntitledFile, deleteUntitled, getIdFromUntitled, openInExplorer } from '../utils/storage';
 import { loadQuotes, deleteQuote, saveMapping, loadQuote, importQuote, saveQuote } from '../utils/storage/quotes';
 import { savePerson } from '../utils/storage/people';
 import { savePDF } from '../utils/storage/pdfs';
@@ -234,7 +234,8 @@ class Quotes extends React.Component<{
                       quote={quote}
                       onClick={() => history.push(`/${quote.id}/edit`)}
                       onClickExport={() => this._handleExportPDF(quote.id)}
-                      onClickDelete={() => this._handleDeleteQuote(quote.id)} />
+                      onClickDelete={() => this._handleDeleteQuote(quote.id)}
+                      onClickOpenInFinder={() => openInExplorer(quote.localPath)} />
                   </div>
                 </CSSTransition>
             ))}
@@ -397,6 +398,7 @@ class Quotes extends React.Component<{
       coverImage: quote.data.project.clientLogo,
       draft: true,
       lastModified: quote.lastModified,
+      localPath: quote.localPath,
     }));
     const notFoundCards = Object.keys(notFound).map((id: string) => ({
       id,
