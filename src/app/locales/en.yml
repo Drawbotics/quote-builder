@@ -6,23 +6,81 @@ table:
 services:
   interior3d:
     name: 3D Interior
-    description: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+    description: Our 3D interiors allow your prospects to see themselves living inside your project. And a specific atmosphere will be tailored to the project to elicit and capture their interest.
   exterior3d:
     name: 3D Exterior
-    description: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+    description: A fundamental part of the promotion of new properties, our photorealistic 3D exteriors will help your target audience visualize their future accommodation (or investment).
+  shoebox:
+    name: Shoebox
+    description: 3D floor plans serve a double purpose. They can be used to attract attention, through ad campaigns or press releases and serve to help your clients visualize the practical realities of living in the residence.
+  video-animation:
+    name: Video Animation
+    description: As a crucial part of the attraction phase, a video is a powerful tool to elicit interest and desire.
+  virtual-tour:
+    name: 3D Tour
+    description: 3D tours allow for a completely immersive experience enabling potential clients to visit their future home.
+  drone-shooting:
+    name: Drone Shooting
+    description: The shooting drone provides realistic images that can be really impressive when integrated into video or 3D renders.
+  photo-shooting:
+    name: Photo Shooting
+    description: A custom photo shooting is essential for the creation of a brand identity. It is much more effective than overused stock images and gives interesting info about the area of the building.
+  maquette:
+    name: 360 Maquette
+    description: The maquette gives a 360-degree look at the project integrated into its surrounding. It is a very effective tool to show the size of the project.
+  commercial-floorplan:
+    name: Commercial Floorplan
+    description: Commercial floorplans are essential for any new project. They are the final element used by your client to make his decision.
+  billboard:
+    name: Billboard
+    description: The billboard offers a great local visibility. Designed to capture potential client attention and trigger their interest.
   brand-id:
     name: Brand ID
     description: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+  brochure:
+    name: Brochure
+    description: The brochure is the foremost physical support for visuals. A stylish folder that communicates all the information your customers need, and fosters the right atmosphere to help them make the decision.
+  flyer:
+    name: Flyer
+    description: This simple and cheap ad print is designed to capture the local audience’s attention.
+  landing-page:
+    name: Landing Page
+    description: The landing page is a unique web page that introduces the project’s essential information at a glance. It is the best method for lead generation.
+  newsletter:
+    name: Newsletter
+    description: 'It has three purposes: it keeps leads’ interest high, provides updates to every contact you’ve collected in the teasing phase, announces the start of the commercialization phase.'
+  website:
+    name: Website
+    description: The website is key to the success of your marketing campaign. It plays a crucial part in the conversion of your leads.
+  media-kit:
+    name: Media Kit
+    description: Communication is the basic concept of a marketing campaign. This kit includes various services designed for web and print advertising.
+  social-media-kit:
+    name: Social Media Kit
+    description: Social networks have better results with young people than traditional media. This kit includes visuals designed specificaly for social media.
+  floorplan:
+    name: Floorplan
+    description:
+  photo-editing:
+    name: Photo Editing
+    description:
+  restyling:
+    name: Restyling
+    description:
+  exterior-restyling:
+    name: Exterior Restyling
+    description:
   revo:
     name: Revo
-    description: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-    description2: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
-    description3: >-
-      You receive:
-        - Lorem ipsum dolor sit amet, rere adipiscing elit.
-        - Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        - Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-      Hello Money.
+    description: Revo is the perfect tool, combining all our expertise into one beautifully designed marketing tool. It allows for a complete visualization of your projects - integrating  3D images, 3D floor plans and call to action prompts.
+    description2: Your clients will be able to explore the project at an unprecedented visual quality on whatever device they wish. But we didn’t stop there.  We integrated listings, data, and calls for action.
+    description3: With all these features seamlessly integrated to allow you to follow up on leads, Revo not only showcases your project but sells it. And with minimal adaptation, it can be transformed from an investment raising vehicle to an ideal booking mechanism for the tech-savvy potential clients. 
+    # description3: >-
+    #   You receive:
+    #     - Lorem ipsum dolor sit amet, rere adipiscing elit.
+    #     - Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+    #     - Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+    #   Hello Money.
   custom:
     name: Custom product
 document:
