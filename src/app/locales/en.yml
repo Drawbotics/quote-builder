@@ -36,7 +36,7 @@ services:
     description: The billboard offers a great local visibility. Designed to capture potential client attention and trigger their interest.
   brand-id:
     name: Brand ID
-    description: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+    description: More than a logo or color combination, a beautiful branding sets the tone of your new property development.
   brochure:
     name: Brochure
     description: The brochure is the foremost physical support for visuals. A stylish folder that communicates all the information your customers need, and fosters the right atmosphere to help them make the decision.
@@ -60,16 +60,16 @@ services:
     description: Social networks have better results with young people than traditional media. This kit includes visuals designed specificaly for social media.
   floorplan:
     name: Floorplan
-    description:
+    description: From giving homebuyers important insights into the layout of their desired home, interactive floor plans give potential buyers much needed information and perspective.
   photo-editing:
     name: Photo Editing
-    description:
+    description: Missing!!!
   restyling:
     name: Restyling
-    description:
+    description: The premium virtual home staging. Enable your clients to see the true potential of a property.
   exterior-restyling:
     name: Exterior Restyling
-    description:
+    description: Help your prospects see their future home in a new perspective. Give your property a new virtual look with a fresh layer of paint or a new roofing.
   revo:
     name: Revo
     description: Revo is the perfect tool, combining all our expertise into one beautifully designed marketing tool. It allows for a complete visualization of your projects - integrating  3D images, 3D floor plans and call to action prompts.

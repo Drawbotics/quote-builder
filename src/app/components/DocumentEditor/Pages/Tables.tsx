@@ -213,7 +213,7 @@ const Table: React.SFC<{
   const t = (k: string, alt?: string) => ta(locale, k, alt);
   const { header, body, footers } = table;
   return (
-    <View style={styles.table} wrap={false}>
+    <View style={styles.table}>
       <View style={styles.columns}>
         <View style={styles.column}>
           <Text style={styles.title}>{t('phase', header.phase)}</Text>

@@ -41,7 +41,7 @@ const TitleBar: React.SFC<{
   title,
 }) => {
   return (
-    <div className={styles.titleBar}>
+    <div className={styles.titleBar} id="title-bar">
       {title ?
         <div className={styles.title}>
           <span className={styles.label}>Editing</span>
