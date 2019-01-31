@@ -17,6 +17,11 @@ const styles = {
     font-size: 0.9rem;
     color: var(--text-primary);
   `,
+  disabledRow: css`
+    & > div, > input {
+      pointer-events: none;
+    }
+  `,
   cell: css`
     flex: 1;
     border: none;
@@ -70,7 +75,7 @@ class Footer extends React.Component<{
   render() {
     const { footer={} as FooterRowType, onClickAdd, onClickRemove } = this.props;
     return (
-      <div className={styles.row}>
+      <div className={cx(styles.row, { [styles.disabledRow]: !! onClickAdd })}>
         {onClickRemove ?
           <div className={styles.removeIcon} data-element="remove">
             <ActionButton label="—" onClick={onClickRemove} />

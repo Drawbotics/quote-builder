@@ -7,7 +7,7 @@ import { paragraph } from '../styles';
 
 function getSectionsFromText(text: string) {
   const sections = text.split('\n').filter((s) => /\S/.test(s));
-  return sections.map((string) => string.includes('-') ? { type: 'line', value: string.replace('-', '') } : { type: 'text', value: string });
+  return sections.map((string) => string.includes('- ') ? { type: 'line', value: string.replace('-', '') } : { type: 'text', value: string });
 }
 
 
