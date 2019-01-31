@@ -31,7 +31,7 @@ export async function loadQuotes() {
       notFound[id] = mappings[id];
     });
     if (file) {
-      files[id] = JSON.parse(file);
+      files[id] = { ...JSON.parse(file), localPath: mappings[id] };
     }
   }
   return { files, notFound };
