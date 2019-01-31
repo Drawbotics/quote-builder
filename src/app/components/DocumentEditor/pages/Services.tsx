@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
   imageWrapper: {
     marginRight: -120,
     width: 330,
+    height: '100%',
     marginLeft: sv.baseMargin,
   },
   reversedImage: {
@@ -51,7 +52,6 @@ const styles = StyleSheet.create({
     marginLeft: -120
   },
   image: {
-    height: '100%',
   },
   icon: {
     height: 30,
