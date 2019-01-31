@@ -2,6 +2,7 @@ import React from 'react';
 import { css, cx } from 'emotion';
 
 import { openFileSelector } from './FileSelector';
+import { roundImage } from '../utils';
 
 
 const styles = {
@@ -29,7 +30,7 @@ const styles = {
     > img {
       height: 100%;
       width: 100%;
-      object-fit: cover;
+      object-fit: contain;
     }
 
     &::after {
@@ -71,7 +72,8 @@ const ProfilePicture: React.SFC<{
   onSelectImage?: (f: string) => void,
 }> = ({ photo, onSelectImage, selected=true }) => {
   const onClickProfilePic: any = onSelectImage
-    ? () => openFileSelector('Image', [{ name: 'Images', extensions: ['jpg', 'png'] }], onSelectImage)
+    ? () => openFileSelector('Image', [{ name: 'Images', extensions: ['jpg', 'png'] }],
+      async (file: string) => onSelectImage(await roundImage(file)))
     : (x: string) => x;
   return (
     <div
