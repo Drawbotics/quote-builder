@@ -51,6 +51,7 @@ const roundedCorners = Buffer.from(
 
 
 export async function roundImage(image: string) {
+  // TODO this fails in production, if not solved, remove it
   return new Promise<any>((resolve, reject) => {
     try {
       const uri = image.split(';base64,').pop() as string;
