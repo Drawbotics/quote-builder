@@ -92,19 +92,19 @@ document:
   how_we_work:
     title: How we work
     kickoff_title: Kick-off call
-    kickoff_description: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+    kickoff_description: Before each project we set up a meeting to make sure we properly understand the requirements.
     followup_title: Production follow-up
-    followup_description: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+    followup_description: Through our online platform you will be able to follow the progress of your services in real time.
     correction_studio_title: Correction studio
-    correction_studio_description: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+    correction_studio_description: You will have access to a correction studio to request changes in real time on all of the visuals we will deliver.
     launch_title: Launch
-    launch_description: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+    launch_description: We are always available even after your marketing campaign launch to assist you with anything regarding your products.
   what_we_do:
     title: What we do
     platform_title: We created an incredible platform
-    platform_description: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+    platform_description: Order all the marketing services you need to promote your real estate. Through our platform, you receive a quotation in real time based on your options and preferences. Additionally, our team is always available via our chat service to assist you and answer all your questions!
     management_title: Drawbotics is also a project management platform
-    management_description: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+    management_description: With a personal dashboard where you can visualize the status of your projects in real-time and a collaborative review-studio that allows you to request modifications, managing your marketing projects from start to finish has never been this easy.
   payment_methods:
     title: Price and payment methods
     paragraph1: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
@@ -113,7 +113,7 @@ document:
     line2: Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
   stats:
     title: Key figures
-    description: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+    description: Drawbotics is the only one-stop shop specialized in real estate marketing. Thanks to our platform, you can easily order and manage all the marketing services and products you need in one place. On top of that, you get free marketing advice from our experts.
     order_subtitle: Clients
     global_subtitle: Countries and 650 cities
     projects_subtitle: Successful projects
