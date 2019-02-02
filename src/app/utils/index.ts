@@ -1,6 +1,6 @@
 import last from 'lodash/last';
 import { remote } from 'electron';
-import sharp from 'sharp';
+// import sharp from 'sharp';
 
 
 declare global {
@@ -44,27 +44,55 @@ export function toggleMenuItems(route: string) {
   }
 }
 
-
-const roundedCorners = Buffer.from(
-  '<svg><rect x="0" y="0" width="200" height="200" rx="200" ry="200"/></svg>'
-);
+//
+// const roundedCorners = Buffer.from(
+//   '<svg><rect x="0" y="0" width="200" height="200" rx="200" ry="200"/></svg>'
+// );
 
 
 export async function roundImage(image: string) {
   // TODO this fails in production, if not solved, remove it
   return new Promise<any>((resolve, reject) => {
     try {
-      const uri = image.split(';base64,').pop() as string;
-      const imageBuffer = Buffer.from(uri, 'base64');
-      sharp(imageBuffer)
-        .resize(200, 200)
-        .overlayWith(roundedCorners, { cutout: true })
-        .png()
-        .toBuffer()
-        .then((data) => {
-        const roundedImage = 'data:image/png;base64,' + data.toString('base64');
-        resolve(roundedImage);
-      });
+      // const uri = image.split(';base64,').pop() as string;
+      // const imageBuffer = Buffer.from(uri, 'base64');
+      // sharp(imageBuffer)
+      //   .resize(200, 200)
+      //   .overlayWith(roundedCorners, { cutout: true })
+      //   .png()
+      //   .toBuffer()
+      //   .then((data) => {
+      //   const roundedImage = 'data:image/png;base64,' + data.toString('base64');
+      //   resolve(roundedImage);
+      // });
+      const canvas = document.createElement('canvas');
+      canvas.width = 200;
+      canvas.height = 200;
+      const ctx = canvas.getContext('2d');
+      if (! ctx) {
+        console.warn('Canvas not supported, returning original image');
+        resolve(image);
+        return;
+      }
+      const img = new Image();
+      img.src = image;
+      img.onload = () => {
+        ctx.save();
+        ctx.scale(1,1);
+        ctx.beginPath();
+        ctx.arc(100, 100, 100, 0, Math.PI * 2, true);
+        ctx.closePath();
+        ctx.clip();
+        if (img.height > img.width) {
+          ctx.drawImage(img, 0, (img.height - img.width) / 2, img.width, img.width, 0, 0, canvas.width, canvas.height);
+        }
+        else {
+          ctx.drawImage(img, (img.width - img.height) / 2, 0, img.height, img.height, 0, 0, canvas.width, canvas.height);
+        }
+        ctx.restore();
+        const dataUrl = canvas.toDataURL();
+        resolve(dataUrl);
+      }
     }
     catch (err) {
       reject(err);
