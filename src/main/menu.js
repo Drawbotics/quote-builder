@@ -132,6 +132,7 @@ const menuTemplate = (app, mainWindow, shell) => [
       {
         label: 'Reload',
         accelerator: 'CmdOrCtrl+R',
+        visible: process.env.APP_ENV === 'development',
         click: () => {
           if (mainWindow.restart) {
             mainWindow.restart();

@@ -10,7 +10,7 @@ export async function saveMapping(id: string, path: string) {
 }
 
 
-async function loadMappings() {
+export async function loadMappings() {
   return await load('quote-mappings');
 }
 
