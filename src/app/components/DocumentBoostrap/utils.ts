@@ -34,6 +34,8 @@ export async function basicInfoToQuoteFile(info: any, fromTemplate: boolean) {
   if (fromTemplate) {
     sections.push({ type: 'profile' });
     sections.push({ type: 'howWeWork' });
+    sections.push({ type: 'whatWeDo' });
+    sections.push({ type: 'stats' });
     sections.push({ type: 'products',
       contents: {
         products: customProducts,

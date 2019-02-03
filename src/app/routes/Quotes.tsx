@@ -13,7 +13,7 @@ import { documentToPDF } from '../components/DocumentEditor';
 import { checkForUntitledFile, deleteUntitled, getIdFromUntitled, openInExplorer } from '../utils/storage';
 import { loadQuotes, deleteQuote, saveMapping, loadQuote, importQuote, saveQuote } from '../utils/storage/quotes';
 import { savePerson } from '../utils/storage/people';
-import { savePDF } from '../utils/storage/pdfs';
+import { savePDF, loadPDFs } from '../utils/storage/pdfs';
 import { showMessage, showError } from '../utils/dialogs';
 import { getFilenameFromPath } from '../utils';
 
@@ -390,13 +390,15 @@ class Quotes extends React.Component<{
   @autobind
   async _handleLoadQuotes() {
     const quotes = await loadQuotes();
+    const pdfs = await loadPDFs();
     const { files={}, notFound={} } = quotes;
+    const { files: pdfFiles={} } = pdfs;
     const cards = Object.values(files).map((quote: any) => ({
       id: quote.id,
       title: quote.data.project.projectName,
       subtitle: quote.data.project.companyName,
       coverImage: quote.data.project.clientLogo,
-      draft: true,
+      draft: ! Object.keys(pdfFiles).find((k) => k.includes(quote.id)),
       lastModified: quote.lastModified,
       localPath: quote.localPath,
     }));
