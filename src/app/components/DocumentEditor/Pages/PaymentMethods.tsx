@@ -133,10 +133,12 @@ const PaymentMethods: React.SFC<{
             <View style={styles.contact}>
               <Text style={styles.name}>{profile.name}</Text>
               <Text style={styles.role}>{profile.role}</Text>
-              <View style={styles.contactRow}>
-                <Text style={styles.label}>P</Text>
-                <Text>{profile.phone}</Text>
-              </View>
+              {profile.phone ?
+                <View style={styles.contactRow}>
+                  <Text style={styles.label}>P</Text>
+                  <Text>{profile.phone}</Text>
+                </View>
+              : null}
               <View style={styles.contactRow}>
                 <Text style={styles.label}>M</Text>
                 <Text>{profile.mobile}</Text>

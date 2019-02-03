@@ -182,6 +182,11 @@ const Services: React.SFC<{
   const revo = sections.find((section) => section.id === 'revo') as RevoType;
   return (
     <Fragment>
+      {revo ?
+        <PageWrapper title="Drawbotics" subtitle={tt(locale, 'title')} onPageRender={onPageRender}>
+          <Revo service={revo} />
+        </PageWrapper>
+      : null}
       {servicePages.map((services, i) => (
         <PageWrapper key={i} title="Drawbotics" subtitle={tt(locale, 'title')} onPageRender={onPageRender}>
           {services.map((service: ServiceType, j) => (
@@ -189,11 +194,6 @@ const Services: React.SFC<{
           ))}
         </PageWrapper>
       ))}
-      {revo ?
-        <PageWrapper title="Drawbotics" subtitle={tt(locale, 'title')} onPageRender={onPageRender}>
-          <Revo service={revo} />
-        </PageWrapper>
-      : null}
     </Fragment>
   );
 };
