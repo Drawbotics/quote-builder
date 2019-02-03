@@ -9,6 +9,8 @@ import ProfilePicture from './ProfilePicture';
 import Input, { InputGroup } from './Input';
 import FileSelector from './FileSelector';
 import Button from './Button';
+import { isPNGValid } from '../utils/image-ops';
+import { showError } from '../utils/dialogs';
 
 
 const styles = {
@@ -225,6 +227,16 @@ class Person extends React.Component<{
 
   @autobind
   _handleChangeField(v: string | object, k: string) {
+    if (k === 'signature') {
+      const isValid = isPNGValid(v as string);
+      if (! isValid) {
+        showError({
+          title: 'Signature image is not valid',
+          extra: 'This is because the png is interlaced. To fix this, open it in Photoshop and save a new version, and choose Interlace: None',
+        });
+        return;
+      }
+    }
     this.setState({
       editing: {
         ...this.state.editing,
