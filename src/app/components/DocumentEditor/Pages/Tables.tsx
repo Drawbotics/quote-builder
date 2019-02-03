@@ -3,13 +3,13 @@ import { View, StyleSheet, Text } from '@react-pdf/renderer';
 
 import sv from '../vars';
 import { getCurrentLocale } from '~/utils';
-import { createTranslate, translate as t } from '~/utils/translation';
+import { createTranslate, translate as t, createTranslateAlt } from '~/utils/translation';
 import PageWrapper from './PageWrapper';
 import { TableType, TableRowType, FooterRowType } from '../../TableEditor/types';
 
 
 const tt = createTranslate('document.tables');
-const ta = createTranslate('table');
+const ta = createTranslateAlt('table');
 
 
 const rowHeight = 40;
