@@ -36,7 +36,7 @@ export function generateServiceSections(allServices: any[], products: any, local
     description2: ta(locale, 'services.revo.description2', get(products, 'revo.description2', '')),
     description3: ta(locale, 'services.revo.description3', get(products, 'revo.description3', '')),
   }) : service);
-  return withRevo.sort((a) => a.id === 'revo' ? 1 : -1);
+  return withRevo.sort((a) => a.id === 'revo' ? -1 : 1);
 }
 
 
