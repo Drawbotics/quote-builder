@@ -153,7 +153,7 @@ const QuoteCard: React.SFC<{
   onClickOpenInFinder: () => void,
 }> = ({ quote, onClick, onClickDelete, onClickExport, onClickOpenInFinder }) => {
   const { draft, title, subtitle, lastModified, coverImage } = quote;
-  const type = draft ? 'Draft' : 'Finished';
+  const type = draft ? 'Draft' : 'Exported';
   return (
     <div className={styles.quoteCard} onClick={onClick}>
       <div className={styles.coverWrapper}>
