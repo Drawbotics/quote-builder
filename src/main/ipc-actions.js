@@ -7,8 +7,8 @@ function getCurrentWindow() {
 }
 
 
-function sendIpcAction(actionName) {
-  ipc.callRenderer(getCurrentWindow(), actionName);
+function sendIpcAction(actionName, data) {
+  ipc.callRenderer(getCurrentWindow(), actionName, data);
 }
 
 

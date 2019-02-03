@@ -5,6 +5,7 @@ const windowStateKeeper = require('electron-window-state');
 
 const createMenu = require('./menu');
 const startServer = require('./static-server');
+const { sendIpcAction } = require('./ipc-actions');
 
 
 dotenv.config();
@@ -82,7 +83,10 @@ module.exports = function startApp() {
 
   app.on('will-finish-launching', () => {
     app.on('open-file', (ev, url) => {
-      console.log(url);
+      if (_window === null) {
+        createWindow();
+      }
+      sendIpcAction('openFile', url);
     });
   })
 

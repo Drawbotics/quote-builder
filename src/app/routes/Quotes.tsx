@@ -4,6 +4,7 @@ import autobind from 'autobind-decorator';
 import { FileText, File, Download } from 'react-feather';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { remote } from 'electron';
+import ipc from 'electron-better-ipc';
 
 import Title from '../components/Title';
 import Button from '../components/Button';
@@ -187,6 +188,7 @@ class Quotes extends React.Component<{
     if (firstLoad) {
       this._handleUntitledDoc();
     }
+    ipc.answerMain('importQuote', this._handleOpenImport);
     document.addEventListener('click', this._handleClickDocument);
   }
 
