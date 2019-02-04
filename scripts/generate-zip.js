@@ -2,7 +2,7 @@ const createZip = require('electron-installer-zip');
 
 
 const options = {
-  out: 'builds/QuoteDP.zip',
+  out: 'builds/QuoteDP-mac.zip',
 };
 
 
