@@ -1,7 +1,12 @@
+const dotenv = require('dotenv');
+
 const { generateApplication } = require('./generate-application');
 const { generateDmg } = require('./generate-dmg');
 const { generateZip } = require('./generate-zip');
 const { signApp } = require('./sign-app');
+
+
+dotenv.config();
 
 
 async function package() {
