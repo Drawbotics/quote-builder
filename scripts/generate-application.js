@@ -8,9 +8,6 @@ const options = {
   out: 'builds',
   icon: 'assets/icons/icon',
   extendInfo: 'assets/Info.plist',
-  osxSign: {
-    identity: 'Mac Developer: nico_moskito@hotmail.com (VR4XRKTTJG)',
-  },
 };
 
 

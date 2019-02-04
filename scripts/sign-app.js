@@ -6,7 +6,7 @@ function signApp(path) {
     app: path + '/QuoteDP.app',
     platform: 'darwin',
     type: 'distribution',
-    identity: 'Mac Developer: nico_moskito@hotmail.com (VR4XRKTTJG)',
+    identity: '',
   }, function done (err) { console.log('done signing') });
 }
 

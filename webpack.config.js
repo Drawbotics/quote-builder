@@ -31,9 +31,6 @@ module.exports = {
       '~': path.resolve(__dirname, 'src/app'),
     },
   },
-  externals: {
-    'sharp': 'commonjs sharp',
-  },
   plugins: [
     new HtmlWebpackPlugin({
       filename: 'index.html',
