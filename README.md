@@ -16,7 +16,7 @@ To get started with developing it's very straightforward. Before anything, clone
 You will find a `.env.template` file, which you need to duplicate and rename to `.env`. The following env vars are necessary:
 - `WEBPACK_PORT`: up to you
 - `APP_ENV`: should be `development`
-- `CERTIFICATE_IDENTITY`: used for packaging and publishing, see [here](# to build for production) for more info about it.
+- `CERTIFICATE_IDENTITY`: used for packaging and publishing, see [here](#to-build-for-production) for more info about it.
 
 ```
 npm install
