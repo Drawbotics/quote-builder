@@ -19,7 +19,7 @@ let _window;
 
 
 if (! IS_DEV) {
-  // autoUpdate();
+  autoUpdate();
 }
 
 
