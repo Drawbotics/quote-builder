@@ -1,14 +1,13 @@
 import React from 'react';
-
-import { showMessage } from '../utils/dialogs';
+import { remote } from 'electron';
 
 
 class CustomPrompt extends React.Component<{
   onConfirm: () => void,
   onCancel: () => void,
+  onDiscard: () => void,
   title: string,
   message?: string,
-  confirmLabel: string,
   shouldShow: boolean,
 }> {
   componentDidMount() {
@@ -19,7 +18,6 @@ class CustomPrompt extends React.Component<{
     const { shouldShow, title } = this.props;
     const { title: prevTitle } = prevProps;
     if (shouldShow && (prevTitle === title)) {
-      console.log('gonna open from update');
       this._handleOpenDialog();
     }
   }
@@ -29,8 +27,24 @@ class CustomPrompt extends React.Component<{
   }
 
   _handleOpenDialog() {
-    const { title, message, onConfirm, confirmLabel, onCancel } = this.props;
-    showMessage({ title, message, onClickAction: onConfirm, confirmButtonLabel: confirmLabel, onClickCancel: onCancel });
+    const { title, message, onConfirm, onCancel, onDiscard } = this.props;
+    const { dialog, getCurrentWindow } = remote;
+    dialog.showMessageBox(getCurrentWindow(), {
+      type: 'info',
+      message: title,
+      detail: message,
+      buttons: [ 'Save & exit', 'Discard', 'Cancel' ],
+    }, async (buttonId) => {
+      if (buttonId === 0) {
+        onConfirm();
+      }
+      else if (buttonId === 1) {
+        onDiscard();
+      }
+      else {
+        onCancel();
+      }
+    });
   }
 }
 

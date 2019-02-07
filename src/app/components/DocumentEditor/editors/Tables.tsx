@@ -50,7 +50,7 @@ class Tables extends React.Component<{
             area
             name="billingAddress"
             label="Billing address"
-            value={get(this.state, 'billingAddress', project.billingAddress)}
+            value={get(this.state, 'billingAddress', project.billingAddress) || ''}
             onChange={this._handleChangeAddress}
             topLabel />
         </div>

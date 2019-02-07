@@ -118,10 +118,10 @@ class Document extends React.Component<{
               <CustomPrompt
                 onCancel={onCancel}
                 shouldShow={! exiting && (untitled || hasUnsavedChanges)}
-                message={untitled ? "This file hasn't been saved yet. Exiting will discard it. Are you sure you want to exit?" : undefined}
+                message={untitled ? "This file hasn't been saved yet. Are you sure you want to exit?" : undefined}
                 title={untitled ? "Are you sure you want to exit?" : "You have unsaved changes. Are you sure you want to exit?"}
-                confirmLabel="Exit"
-                onConfirm={() => untitled ? this._handleDeleteUntitled(onConfirm) : this.setState({ exiting: true, }, onConfirm)} />
+                onDiscard={() => untitled ? this._handleDeleteUntitled(onConfirm) : this.setState({ exiting: true }, onConfirm)}
+                onConfirm={async () => { await this._handleSaveDocument(); this.setState({ exiting: true }, onConfirm) }} />
             )}
           </NavigationPrompt>
           <DocumentEditor document={file} onChange={this._setHasUnsavedChanges} location={location} history={history} />
