@@ -135,7 +135,7 @@ class Person extends React.Component<{
     const { language, editing } = this.state;
     const description: string = get(editing.descriptions ? editing : person, `descriptions[${language}]`);
     const quote: string = get(editing.quotes ? editing : person, `quotes[${language}]`);
-    const canSave = Object.keys(editing).length > 0;
+    const canSave = this._getIsPersonComplete();
     return (
       <div className={styles.person}>
         <div className={styles.profile}>
@@ -255,6 +255,24 @@ class Person extends React.Component<{
         this.setState({ editing: {} });
       }
     }
+  }
+
+  @autobind
+  _getIsPersonComplete() {
+    const { person } = this.props;
+    const { editing } = this.state;
+    const fullPerson = { ...person, ...editing };
+    let complete = true;
+    complete = complete && !! fullPerson.name;
+    complete = complete && !! fullPerson.email;
+    complete = complete && !! fullPerson.role;
+    complete = complete && !! fullPerson.signature;
+    complete = complete && !! fullPerson.profilePicture;
+    complete = complete && !! fullPerson.name;
+    complete = complete && !! fullPerson.mobile;
+    complete = complete && !! fullPerson.descriptions && (!! fullPerson.descriptions.en || !! fullPerson.descriptions.fr || !! fullPerson.descriptions.nl);
+    complete = complete && !! fullPerson.quotes && (!! fullPerson.quotes.en || !! fullPerson.quotes.fr || !! fullPerson.quotes.nl);
+    return complete;
   }
 }
 
