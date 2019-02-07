@@ -9,7 +9,7 @@ import Title from '../components/Title';
 import Button from '../components/Button';
 import Person, { PersonType } from '../components/Person';
 import { savePerson, loadPeople, deletePerson } from '../utils/storage/people';
-import { showError } from '../utils/dialogs';
+import { showError, showMessage } from '../utils/dialogs';
 import { readFile, writeFile } from '../utils';
 
 
@@ -113,10 +113,19 @@ class People extends React.Component {
   }
 
   @autobind
-  async _handleClickDelete(id: any) {
-    await deletePerson(id);
-    const newPeople = await loadPeople();
-    this.setState({ people: newPeople });
+  _handleClickDelete(id: any) {
+    showMessage({
+      type: 'warning',
+      title: 'Are you sure you want to delete this person?',
+      message: 'It will not be removed from existing quotes, but you will not be able to assign it unless you re-import it or re-create it.',
+      onClickAction: async () => {
+        await deletePerson(id);
+        const newPeople = await loadPeople();
+        this.setState({ people: newPeople });
+      },
+      confirmButtonLabel: 'Delete',
+      closeButtonLabel: 'Cancel',
+    });
   }
 
   @autobind

@@ -9,6 +9,7 @@ import PDFCard, { PDFCardType } from '../components/PDFCard';
 import { getFilenameFromPath } from '../utils';
 import { loadPDFs, saveMapping, deletePDF } from '../utils/storage/pdfs';
 import { openLocally, openInExplorer } from '../utils/storage';
+import { showMessage } from '../utils/dialogs';
 
 
 const styles = {
@@ -157,9 +158,18 @@ class Exports extends React.Component {
   }
 
   @autobind
-  async _handleDeletePDF(id: string) {
-    await deletePDF(id);
-    this._handleLoadPDFs();
+  _handleDeletePDF(id: string) {
+    showMessage({
+      type: 'warning',
+      title: 'Are you sure you want to delete this PDF?',
+      message: 'Deleting will also remove it from your computer',
+      onClickAction: async () => {
+        await deletePDF(id);
+        this._handleLoadPDFs();
+      },
+      confirmButtonLabel: 'Delete',
+      closeButtonLabel: 'Cancel',
+    });
   }
 }
 

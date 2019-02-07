@@ -282,9 +282,18 @@ class Quotes extends React.Component<{
   }
 
   @autobind
-  async _handleDeleteQuote(id: string) {
-    await deleteQuote(id);
-    this._handleLoadQuotes();
+  _handleDeleteQuote(id: string) {
+    showMessage({
+      type: 'warning',
+      title: 'Are you sure you want to delete this quote?',
+      message: 'Deleting will also remove it from your computer',
+      onClickAction: async () => {
+        await deleteQuote(id);
+        this._handleLoadQuotes();
+      },
+      confirmButtonLabel: 'Delete',
+      closeButtonLabel: 'Cancel',
+    });
   }
 
   @autobind
