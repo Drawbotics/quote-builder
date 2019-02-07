@@ -25,6 +25,7 @@ export async function basicInfoToQuoteFile(info: any, fromTemplate: boolean) {
     project: {
       ...info.client,
       clientLogo: get(info, 'logo.logo'),
+      billingAddress: null,
     },
     language: info.language.language,
     tables: info.quote.tables,

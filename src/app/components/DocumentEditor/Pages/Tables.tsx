@@ -18,10 +18,17 @@ const styles = StyleSheet.create({
   wrapper: {
     position: 'relative',
   },
-  address: {
+  addresses: {
     position: 'absolute',
     top: sv.baseMargin * 3,
     right: sv.baseMargin * 2,
+    display: 'flex',
+    alignItems: 'flex-start',
+    justifyContent: 'flex-end',
+    flexDirection: 'row',
+  },
+  address: {
+    marginLeft: sv.baseMargin * 1.5,
   },
   addressLabel: {
     color: sv.textTertiary,
@@ -114,6 +121,18 @@ const Address: React.SFC<{}> = () => {
       <Text style={styles.addressLabel}>1160 Brussels</Text>
       <Text style={styles.addressLabel}>TVA BE0666514417</Text>
       <Text style={styles.addressLabel}>+32 2 380 69 33</Text>
+    </View>
+  );
+};
+
+
+const Addresses: React.SFC<{
+  address: string | null,
+}> = ({ address }) => {
+  return (
+    <View style={styles.addresses}>
+      {address && <Text style={styles.addressLabel}>{address}</Text>}
+      <Address />
     </View>
   );
 };
@@ -236,11 +255,12 @@ const Table: React.SFC<{
 
 const Tables: React.SFC<{
   tables: TableType[],
+  billingAddress: string | null,
   onPageRender: (p: number) => void,
-}> = ({ tables, onPageRender }) => {
+}> = ({ tables, onPageRender, billingAddress }) => {
   const locale = getCurrentLocale();
   return (
-    <PageWrapper title={tt(locale, 'title')} wrap extraComponent={<Address />} onPageRender={onPageRender}>
+    <PageWrapper title={tt(locale, 'title')} wrap extraComponent={<Addresses address={billingAddress} />} onPageRender={onPageRender}>
       <View style={styles.wrapper}>
         {tables.map((table, i) => (
           <Table key={i} table={table} />

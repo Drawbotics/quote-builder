@@ -45,8 +45,9 @@ Sections may have no `contents` key, and that means no content is editable and t
      project: {
        contactName: String
        companyName: String
-       companyLogo: DataURL
+       companyLogo: DataURL # can be empty
        projectName: String
+       billingAddress: String # can be empty
      }
      language: String
      tables: TableType type (defined in app/TableEditor/types)

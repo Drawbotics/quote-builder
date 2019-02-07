@@ -94,7 +94,7 @@ function sectionsToComponents(sections: SectionType[], data: DataType, onPageRen
         return <Services key={i} contents={contents} tables={data.tables} onPageRender={(page: number) => onPageRender({ type, id }, page)} />
       }
       case 'tables': {
-        return <Tables key={i} tables={data.tables} onPageRender={(page: number) => onPageRender({ type, id }, page)} />
+        return <Tables key={i} tables={data.tables} billingAddress={data.project.billingAddress} onPageRender={(page: number) => onPageRender({ type, id }, page)} />
       }
       case 'paymentMethods': {
         return <PaymentMethods key={i} profile={data.person} onPageRender={(page: number) => onPageRender({ type, id }, page)} />

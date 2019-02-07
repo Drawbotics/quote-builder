@@ -6,6 +6,7 @@ export interface ProjectType {
   projectName: string
   companyName: string
   contactName: string
+  billingAddress: string
 }
 
 
