@@ -1,6 +1,6 @@
 import React from 'react';
 import autobind from 'autobind-decorator';
-import { css } from 'emotion';
+import { css, cx } from 'emotion';
 
 import Button from '../Button';
 import Table from './Table';
@@ -57,6 +57,10 @@ const styles = {
   add: css`
     margin-bottom: var(--margin);
   `,
+  center: css`
+    display: flex;
+    justify-content: center;
+  `,
 }
 
 
@@ -75,7 +79,7 @@ class TableEditor extends React.Component<{
             </div>
           ))}
         </div>
-        <div className={styles.add}>
+        <div className={cx(styles.add, { [styles.center]: tables.length === 0 })}>
           <Button onClick={this._handleAddTable}>Add table</Button>
         </div>
       </div>

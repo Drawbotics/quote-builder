@@ -39,6 +39,7 @@ const styles = {
   icon: css`
     position: absolute;
     right: var(--margin);
+    pointer-events: none;
   `,
 };
 
