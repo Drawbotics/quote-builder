@@ -8,6 +8,8 @@ import OfferTable from './OfferTable';
 export interface QuestionType {
   title: string
   component: any  // dont really know what type this should be to make it work
+  slug: string
+  optional?: boolean
 }
 
 
@@ -20,6 +22,7 @@ export default [
   {
     slug: 'logo',
     title: 'Import the company logo',
+    optional: true,
     component: CompanyLogo,
   },
   {

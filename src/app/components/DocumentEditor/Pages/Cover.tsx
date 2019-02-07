@@ -66,7 +66,9 @@ const Cover: React.SFC<{
           <Text style={styles.title}>{t(getCurrentLocale(), 'document.price_offer')}</Text>
           <Text style={styles.subtitle}>{project.projectName}</Text>
           <Text style={styles.description}>{project.contactName}</Text>
-          <Image style={styles.clientLogo} src={project.clientLogo} />
+          {project.clientLogo ?
+            <Image style={styles.clientLogo} src={project.clientLogo} />
+          : null}
         </View>
         <Image style={styles.coverImage} src={coverImage} />
         <Image style={styles.logo} src={drawboticsLogo} />

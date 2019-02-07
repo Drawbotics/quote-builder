@@ -12,6 +12,7 @@ export const themes: any = {
     '--black': '#000000',
     '--orange': '#F3820A',
     '--red': '#E30016',
+    '--dark': '#2B343F',
     '--primary': '#2258EA',
     '--primary-overlay': 'rgba(34, 88, 234, 0.7)',
   },

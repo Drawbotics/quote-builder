@@ -52,7 +52,7 @@ const Step: React.SFC<{
   onChange: (v: string, k: string) => void,
   value: any,
 }> = ({ question, progressLabel, goNext, goBack, onChange, value }) => {
-  const { component: Component, title } = question;
+  const { component: Component, title, optional } = question;
   return (
     <div className={styles.step}>
       <div className={styles.subtitle}>
@@ -72,7 +72,7 @@ const Step: React.SFC<{
         : null}
         {goNext ?
           <div className={styles.button} onClick={goNext}>
-            <Button icon={<ArrowRight size={15} />} disabled={! value}>Next</Button>
+            <Button icon={<ArrowRight size={15} />} disabled={! value && ! optional}>Next</Button>
           </div>
         : null}
       </div>

@@ -19,6 +19,16 @@ const styles = {
     margin-bottom: var(--margin);
     margin-top: var(--margin);
   `,
+  resetImage: css`
+    color: var(--primary);
+    font-size: 0.8rem;
+    text-decoration: underline;
+    margin-top: calc(var(--margin) / 2);
+
+    &:hover {
+      cursor: pointer;
+    }
+  `,
 };
 
 
@@ -38,7 +48,10 @@ class Cover extends React.Component<{
           <Input name="contactName" label="Contact name" value={get(this.state, 'contactName', project.contactName)} onChange={this._handleChange} topLabel />
           <Input name="companyName" label="Company name" value={get(this.state, 'companyName', project.companyName)} onChange={this._handleChange} topLabel />
         </InputGroup>
-        <ImagePicker image={this.state.clientLogo || project.clientLogo} onFileSelect={(file: string) => this.setState({ clientLogo: file })} />
+        <ImagePicker
+          image={this.state.clientLogo !== undefined ? this.state.clientLogo : project.clientLogo}
+          onFileSelect={(file: string) => this.setState({ clientLogo: file })} />
+        <div className={styles.resetImage} onClick={() => this._handleChange(null, 'clientLogo')}>Reset image</div>
         <div className={styles.language}>
           <Tabs
             value={this.state.language || language}
@@ -59,7 +72,7 @@ class Cover extends React.Component<{
   }
 
   @autobind
-  _handleChange(value: string, key: string) {
+  _handleChange(value: string | null, key: string) {
     this.setState({ [key]: value });
   }
 

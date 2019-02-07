@@ -55,6 +55,7 @@ const styles = {
     height: 100%;
     background: var(--tertiary);
     transition: all var(--transition-duration) ease-in-out;
+    background: linear-gradient(to left top, var(--primary), var(--dark));
   `,
   overlay: css`
     position: absolute;
@@ -170,11 +171,16 @@ const QuoteCard: React.SFC<{
             <Trash2 size={25} />
           </div>
         </div>
-        <ImagePalette image={coverImage}>
-          {({ backgroundColor, alternativeColor }: { backgroundColor: string, alternativeColor: string }) => (
-            <div className={styles.cover} style={{ background: `linear-gradient(to left top, ${backgroundColor}, ${alternativeColor})` }} />
-          )}
-        </ImagePalette>
+        {!! coverImage ?
+          <ImagePalette image={coverImage}>
+            {({ backgroundColor, alternativeColor }: { backgroundColor: string, alternativeColor: string }) => (
+              <div
+                className={styles.cover}
+                style={{ background: `linear-gradient(to left top, ${backgroundColor}, ${alternativeColor})` }} />
+            )}
+          </ImagePalette> :
+          <div className={styles.cover} />
+        }
       </div>
       <div className={styles.body}>
         <div className={styles.title}>

@@ -1,4 +1,5 @@
 import { v4 } from 'uuid';
+import get from 'lodash/get';
 
 import { ServiceType } from '../TableEditor/types';
 import { loadPerson } from '~/utils/storage/people';
@@ -23,7 +24,7 @@ export async function basicInfoToQuoteFile(info: any, fromTemplate: boolean) {
     person: person,
     project: {
       ...info.client,
-      clientLogo: info.logo.logo,
+      clientLogo: get(info, 'logo.logo'),
     },
     language: info.language.language,
     tables: info.quote.tables,
