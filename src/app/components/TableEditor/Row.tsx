@@ -2,9 +2,11 @@ import React from 'react';
 import { css, cx } from 'emotion';
 import autobind from 'autobind-decorator';
 import { v4 } from 'uuid';
+import get from 'lodash/get';
 
 import { TableRowType, ServiceType } from './types';
 import ActionButton from './ActionButton';
+import AnimatedCheckmark from '../AnimatedCheckmark';
 import Select, { SelectOptionType } from '../Select';
 import { services } from '../../utils/services';
 import { translate as t } from '../../utils/translation';
@@ -54,9 +56,25 @@ const styles = {
       box-shadow: inset 0px 0px 0px 2px var(--primary);
     }
   `,
+  small: css`
+    flex: none;
+    padding: 0;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-primary);
+  `,
   disabledCell: css`
     cursor: default !important;
     background: none !important;
+  `,
+  checkbox: css`
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
   `,
   removeIcon: css`
     position: absolute;
@@ -106,6 +124,10 @@ class Row extends React.Component <{
         }
         <textarea name="comment" onChange={this._handleChangeValue} className={styles.cell} value={row.comment} />
         <input name="price" onChange={this._handleChangeValue} className={styles.cell} value={row.price} />
+        <label className={cx(styles.cell, styles.small)}>
+          <input className={styles.checkbox} type="checkbox" name="hidden" onChange={this._handleChangeValue} checked={row.hidden || false} />
+          <AnimatedCheckmark size={15} checked={row.hidden || false} />
+        </label>
       </div>
     );
   }
@@ -123,7 +145,7 @@ class Row extends React.Component <{
   @autobind
   _handleChangeValue(e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) {
     const { onChange, row } = this.props;
-    const newRow = { ...row, [e.target.name]: e.target.value } as TableRowType;
+    const newRow = { ...row, [e.target.name]: e.target.name === 'hidden' ? get(e.target, 'checked') : e.target.value } as TableRowType;
     onChange ? onChange(newRow) : null;
   }
 }

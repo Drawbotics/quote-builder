@@ -31,7 +31,7 @@ const styles = {
     height: 40px;
     border-radius: 50%;
     display: block;
-    stroke-width: 2;
+    stroke-width: 4;
     stroke: var(--white);
     stroke-miterlimit: 10;
     box-shadow: inset 0px 0px 0px var(--primary);

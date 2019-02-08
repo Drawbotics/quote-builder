@@ -9,6 +9,7 @@ export interface TableRowType {
   service: ServiceType
   comment?: string
   price: string
+  hidden?: undefined | boolean
 }
 
 

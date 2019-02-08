@@ -1,6 +1,7 @@
 import React from 'react';
-import { css } from 'emotion';
+import { css, cx } from 'emotion';
 import autobind from 'autobind-decorator';
+import { EyeOff } from 'react-feather';
 
 import { TableHeaderType } from './types';
 import { getCurrentLocale } from '../../utils';
@@ -42,6 +43,14 @@ const styles = {
       box-shadow: inset 0px 0px 0px 2px var(--primary);
     }
   `,
+  small: css`
+    flex: none;
+    padding: 0;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  `,
 }
 
 
@@ -58,6 +67,7 @@ class Header extends React.Component <{
         <input name="service" className={styles.cell} value={ta(loc, 'table.service', header.service)} onChange={this._handleChangeValue} />
         <input name="comment" className={styles.cell} value={ta(loc, 'table.comment', header.comment)} onChange={this._handleChangeValue} />
         <input name="price" className={styles.cell} value={ta(loc, 'table.price', header.price)} onChange={this._handleChangeValue} />
+        <div className={cx(styles.cell, styles.small)} data-tooltip-side="left" data-tooltip="Hide from table"><EyeOff size={15} /></div>
       </div>
     );
   }

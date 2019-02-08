@@ -239,7 +239,8 @@ const Table: React.SFC<{
 }> = ({ table }) => {
   const locale = getCurrentLocale();
   const t = (k: string, alt?: string) => ta(locale, k, alt);
-  const { header, body, footers } = table;
+  const { header, body: rawBody, footers } = table;
+  const body = rawBody.filter((row) => ! row.hidden);
   return (
     <View style={styles.table}>
       <View style={styles.columns}>

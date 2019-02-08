@@ -15,6 +15,11 @@ export interface QuestionType {
 
 export default [
   {
+    slug: 'quote',
+    title: 'Fill in your quote',
+    component: OfferTable,
+  },
+  {
     slug: 'client',
     title: 'Who is your client?',
     component: Client,
@@ -34,10 +39,5 @@ export default [
     slug: 'sales',
     title: 'Choose your sales',
     component: Sales,
-  },
-  {
-    slug: 'quote',
-    title: 'Fill in your quote',
-    component: OfferTable,
   },
 ];
