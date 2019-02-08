@@ -23,7 +23,6 @@ const styles = {
     transition: all calc(var(--transition-duration) / 3) ease-in-out,
       background var(--transition-duration) ease-in-out;
     box-shadow: var(--box-shadow);
-    overflow: hidden;
 
     &:hover {
       cursor: pointer;
@@ -56,6 +55,8 @@ const styles = {
     background: var(--tertiary);
     transition: all var(--transition-duration) ease-in-out;
     background: linear-gradient(to left top, var(--primary), var(--dark));
+    border-top-left-radius: var(--border-radius);
+    border-top-right-radius: var(--border-radius);
   `,
   overlay: css`
     position: absolute;
@@ -71,6 +72,8 @@ const styles = {
     align-items: flex-start;
     justify-content: space-between;
     padding: calc(var(--padding) / 2);
+    border-top-left-radius: var(--border-radius);
+    border-top-right-radius: var(--border-radius);
   `,
   action: css`
     color: var(--white);
@@ -160,14 +163,14 @@ const QuoteCard: React.SFC<{
       <div className={styles.coverWrapper}>
         <div className={styles.overlay} data-element="overlay">
           <div className={styles.actionGroup}>
-            <div className={styles.action} data-element="action" onClick={(e) => { e.stopPropagation(); onClickExport() }}>
+            <div className={styles.action} data-tooltip="Export PDF" data-element="action" onClick={(e) => { e.stopPropagation(); onClickExport() }}>
               <Share size={25} />
             </div>
-            <div className={styles.action} data-element="action" onClick={(e) => { e.stopPropagation(); onClickOpenInFinder() }}>
+            <div className={styles.action} data-tooltip="View in Finder" data-element="action" onClick={(e) => { e.stopPropagation(); onClickOpenInFinder() }}>
               <Folder size={25} />
             </div>
           </div>
-          <div className={styles.action} data-element="action" onClick={(e) => { e.stopPropagation(); onClickDelete() }}>
+          <div className={styles.action} data-tooltip="Delete" data-element="action" onClick={(e) => { e.stopPropagation(); onClickDelete() }}>
             <Trash2 size={25} />
           </div>
         </div>

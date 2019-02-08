@@ -25,7 +25,7 @@ const styles = {
         box-shadow: var(--box-shadow-hover);
       }
 
-      & [data-element="actions"] {
+      & [data-element="actions"], [data-element="label"] {
         opacity: 1;
       }
     }
@@ -50,6 +50,10 @@ const styles = {
   `,
   missing: css`
     background: linear-gradient(45deg, #E3001670, #6C000770);
+
+    & [data-element="label"] {
+      display: none;
+    }
   `,
   icon: css`
     flex: 1;
@@ -92,6 +96,17 @@ const styles = {
       transform: scale(1.1);
     }
   `,
+  label: css`
+    color: var(--white);
+    position: absolute;
+    bottom: calc(var(--margin) / 2);
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.9rem;
+    z-index: 99;
+    opacity: 0;
+    transition: opacity var(--transition-duration-short) ease-in-out;
+  `,
 };
 
 
@@ -108,16 +123,19 @@ const PDFCard: React.SFC<{
         <div className={styles.icon}>
           {pdf.notFound ? <AlertOctagon size={60} /> : <img src={pdfIcon} />}
         </div>
+        <div className={styles.label} data-element="label">
+          Click to view
+        </div>
         <div className={styles.actions} data-element="actions">
           {pdf.notFound ?
-            <div className={styles.action} onClick={onClickRelink}>
+            <div data-tooltip="Find again" className={styles.action} onClick={onClickRelink}>
               <Link size={30} />
             </div> :
-            <div className={styles.action} onClick={onClickFolder}>
+            <div data-tooltip="View in Finder" className={styles.action} onClick={onClickFolder}>
               <Folder size={30} />
             </div>
           }
-          <div className={styles.action} onClick={onClickDelete}>
+          <div data-tooltip="Delete" className={styles.action} onClick={onClickDelete}>
             <Trash2 size={30} />
           </div>
         </div>

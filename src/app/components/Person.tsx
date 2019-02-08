@@ -146,7 +146,7 @@ class Person extends React.Component<{
             <Input name="name" onChange={this._handleChangeField} placeholder="Name Surname" value={getValueForField('name', editing, person)} />
             <Input name="role" onChange={this._handleChangeField} placeholder="Role e.g. Sales Manager France" value={getValueForField('role', editing, person)} />
             <Input name="mobile" onChange={this._handleChangeField} placeholder="Mobile" label="M" value={getValueForField('mobile', editing, person)} />
-            <Input name="phone" onChange={this._handleChangeField} placeholder="Phone" label="T" value={getValueForField('phone', editing, person)} />
+            <Input name="phone" onChange={this._handleChangeField} placeholder="Phone (optional)" label="T" value={getValueForField('phone', editing, person)} />
             <Input name="email" onChange={this._handleChangeField} placeholder="Email" label="E" value={getValueForField('email', editing, person)} />
           </InputGroup>
           <div className={styles.label}>
