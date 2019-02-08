@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   comment: {
-    marginLeft: 5,
+    marginLeft: sv.baseMarginSmall,
     fontFamily: 'OpenSans-Italic',
   },
   footers: {
@@ -109,6 +109,12 @@ const styles = StyleSheet.create({
   topBorder: {
     borderTopColor: sv.grey300,
     borderTopWidth: 1,
+  },
+  service: {
+    display: 'flex',
+    alignItems: 'flex-start',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
   },
 });
 
@@ -182,9 +188,10 @@ const Services: React.SFC<{
     <View>
       {services.map((service, i) => (
         <Row key={i} topBorder={i !== 0}>
-          <Text>
-            {service.name} <Text style={styles.comment}>{service.comment}</Text>
-          </Text>
+          <View style={styles.service}>
+            <Text>{service.name}</Text>
+            <Text style={styles.comment}>{service.comment}</Text>
+          </View>
         </Row>
       ))}
     </View>
