@@ -37,6 +37,7 @@ const styles = {
     transition: all var(--transition-duration) ease-in-out,
       box-shadow var(--transition-duration-short) ease-in-out;
     outline: none;
+    resize: none;
 
     &:last-child {
       border-right: 0;
@@ -103,7 +104,7 @@ class Row extends React.Component <{
               placeholder="Select service" />
             )
         }
-        <input name="comment" onChange={this._handleChangeValue} className={styles.cell} value={row.comment} />
+        <textarea name="comment" onChange={this._handleChangeValue} className={styles.cell} value={row.comment} />
         <input name="price" onChange={this._handleChangeValue} className={styles.cell} value={row.price} />
       </div>
     );
@@ -120,7 +121,7 @@ class Row extends React.Component <{
   }
 
   @autobind
-  _handleChangeValue(e: React.ChangeEvent<HTMLInputElement>) {
+  _handleChangeValue(e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) {
     const { onChange, row } = this.props;
     const newRow = { ...row, [e.target.name]: e.target.value } as TableRowType;
     onChange ? onChange(newRow) : null;

@@ -59,9 +59,11 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    height: rowHeight,
+    minHeight: rowHeight,
     paddingLeft: 3,
     paddingRight: sv.basePaddingSmall,
+    paddingTop: 7,
+    paddingBottom: 7,
     color: sv.textPrimary,
   },
   rowWithTopBorder: {
