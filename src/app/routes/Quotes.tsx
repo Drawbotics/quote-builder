@@ -13,10 +13,12 @@ import MissingCard, { MissingQuoteType } from '../components/MissingCard';
 import { documentToPDF } from '../components/DocumentEditor';
 import { checkForUntitledFile, deleteUntitled, getIdFromUntitled, openInExplorer } from '../utils/storage';
 import { loadQuotes, deleteQuote, saveMapping, loadQuote, importQuote, saveQuote } from '../utils/storage/quotes';
-import { savePerson } from '../utils/storage/people';
+import { savePerson, loadPeople } from '../utils/storage/people';
 import { savePDF, loadPDFs } from '../utils/storage/pdfs';
 import { showMessage, showError } from '../utils/dialogs';
 import { getFilenameFromPath } from '../utils';
+
+import emptyState from '../images/empty-state.svg';
 
 
 const styles = {
@@ -144,6 +146,26 @@ const styles = {
     font-size: 0.9rem;
     transition: all var(--transition-duration) ease-in-out;
   `,
+  empty: css`
+    padding: calc(var(--margin) * 2) 0;
+    height: calc(100% - var(--margin));
+    min-height: 500px;
+    width: 100%;
+
+    > img {
+      height: 100%;
+      max-height: 500px;
+      width: 100%;
+      object-fit: contain;
+    }
+  `,
+  subtitle: css`
+    color: var(--grey);
+    margin-bottom: calc(var(--margin) * 2);
+    transition: all var(--transition-duration) ease-in-out;
+    text-align: center;
+    font-size: 1.1rem;
+  `,
 };
 
 
@@ -177,10 +199,13 @@ class Quotes extends React.Component<{
     newSelectionOpen: false,
     quotes: [] as QuoteCardType[],
     notFound: [] as MissingQuoteType[],
+    people: 0,
   }
 
   async componentWillMount() {
     this._handleLoadQuotes();
+    const people = await loadPeople();
+    this.setState({ people: people.length });
   }
 
   componentDidMount() {
@@ -198,7 +223,7 @@ class Quotes extends React.Component<{
 
   render() {
     const { history } = this.props;
-    const { newSelectionOpen, quotes, notFound } = this.state;
+    const { newSelectionOpen, quotes, notFound, people } = this.state;
     return (
       <div className={styles.quotes}>
         <div className={styles.header}>
@@ -216,33 +241,37 @@ class Quotes extends React.Component<{
                 <Selection label="From template" icon={<FileText />} onClick={() => history.push('/new?template=true')} />
                 <Selection label="Blank" icon={<File />} onClick={() => history.push('/new')} />
               </div>
-              <div ref={(button) => this.button = button}>
-                <Button onClick={() => this.setState({ newSelectionOpen: true })}>
+              <div data-tooltip={people === 0 ? 'Create profiles to make quotes' : null} ref={(button) => this.button = button}>
+                <Button
+                  disabled={people === 0}
+                  onClick={() => this.setState({ newSelectionOpen: true })}>
                   New quote
                 </Button>
               </div>
             </div>
           </div>
         </div>
-        <div className={styles.grid}>
-          <TransitionGroup component={null}>
-              {quotes.map((quote, i) => (
-                <CSSTransition
-                  classNames="cardsFade"
-                  key={quote.id}
-                  timeout={300}>
-                  <div className={styles.cell}>
-                    <QuoteCard
-                      quote={quote}
-                      onClick={() => history.push(`/${quote.id}/edit`)}
-                      onClickExport={() => this._handleExportPDF(quote.id)}
-                      onClickDelete={() => this._handleDeleteQuote(quote.id)}
-                      onClickOpenInFinder={() => openInExplorer(quote.localPath)} />
-                  </div>
-                </CSSTransition>
-            ))}
-          </TransitionGroup>
-        </div>
+        {quotes.length > 0 ?
+          <div className={styles.grid}>
+            <TransitionGroup component={null}>
+                {quotes.map((quote, i) => (
+                  <CSSTransition
+                    classNames="cardsFade"
+                    key={quote.id}
+                    timeout={300}>
+                    <div className={styles.cell}>
+                      <QuoteCard
+                        quote={quote}
+                        onClick={() => history.push(`/${quote.id}/edit`)}
+                        onClickExport={() => this._handleExportPDF(quote.id)}
+                        onClickDelete={() => this._handleDeleteQuote(quote.id)}
+                        onClickOpenInFinder={() => openInExplorer(quote.localPath)} />
+                    </div>
+                  </CSSTransition>
+              ))}
+            </TransitionGroup>
+          </div>
+        : null}
         {notFound.length > 0 ?
           <Fragment>
             <div className={styles.header}>
@@ -268,6 +297,14 @@ class Quotes extends React.Component<{
               </TransitionGroup>
             </div>
           </Fragment>
+        : null}
+        {quotes.length === 0 && notFound.length === 0 ?
+          <div className={styles.empty}>
+            <div className={styles.subtitle}>
+              You don't have any quotes. If you haven't, create a person profile to start making quotes!
+            </div>
+            <img src={emptyState} />
+          </div>
         : null}
       </div>
     );
