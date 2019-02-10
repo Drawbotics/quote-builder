@@ -1,6 +1,6 @@
 import React from 'react';
 import { css } from 'emotion';
-import { Settings } from 'react-feather';
+// import { Settings } from 'react-feather';
 
 
 const styles = {
@@ -48,9 +48,9 @@ const TitleBar: React.SFC<{
           {title}
         </div>
       : null}
-      <div className={styles.settings}>
+      {/* <div className={styles.settings}>
         <Settings size={20} />
-      </div>
+      </div> */}
     </div>
   );
 }

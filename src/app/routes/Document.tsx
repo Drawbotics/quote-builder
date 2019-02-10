@@ -31,7 +31,7 @@ const styles = {
   saveContainer: css`
     position: fixed;
     top: calc(var(--margin) + 3px);
-    right: calc(var(--margin) * 3.5);
+    right: calc(var(--margin));
     z-index: 99999;
     animation: ${showAnimation} 0s 0.3s forwards;
     opacity: 0;
