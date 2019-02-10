@@ -157,6 +157,9 @@ const styles = {
       max-height: 500px;
       width: 100%;
       object-fit: contain;
+      pointer-events: none;
+      filter: var(--image-filter);
+      transition: filter var(--transition-duration) ease-in-out;
     }
   `,
   subtitle: css`
