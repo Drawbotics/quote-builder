@@ -29,6 +29,7 @@ export const themes: any = {
     '--box-shadow': '0px 5px 25px rgba(0, 0, 0, 0.1)',
     '--box-shadow-hover': '0px 8px 30px rgba(0, 0, 0, 0.12)',
     '--box-shadow-active': '0px 5px 15px rgba(0, 0, 0, 0.1)',
+    '--image-filter': '',
   },
   dark: {
     '--primary-transparent': 'rgba(255, 255, 255, 0.05)',
@@ -43,6 +44,7 @@ export const themes: any = {
     '--box-shadow': '0px 5px 25px rgba(0, 0, 0, 0.3)',
     '--box-shadow-hover': '0px 7px 30px rgba(0, 0, 0, 0.25)',
     '--box-shadow-active': '0px 5px 25px rgba(0, 0, 0, 0.4)',
+    '--image-filter': 'grayscale(100%) brightness(0.4)',
   },
 };
 

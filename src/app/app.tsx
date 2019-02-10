@@ -58,6 +58,10 @@ function injectStyles() {
       -webkit-user-select: none;
     }
 
+    .busy-cursor {
+      cursor: progress;
+    }
+
     ${tooltipStyles}
 
     :root {

@@ -4,6 +4,7 @@ import { Download } from 'react-feather';
 import autobind from 'autobind-decorator';
 import { v4 } from 'uuid';
 import { remote } from 'electron';
+import isEmpty from 'lodash/isEmpty';
 
 import Title from '../components/Title';
 import Button from '../components/Button';
@@ -42,6 +43,13 @@ const styles = {
   row: css`
     margin-bottom: calc(var(--margin) * 4);
   `,
+  subtitle: css`
+    color: var(--grey);
+    margin-bottom: calc(var(--margin) * 2);
+    transition: all var(--transition-duration) ease-in-out;
+    text-align: center;
+    font-size: 1.1rem;
+  `,
 };
 
 
@@ -54,6 +62,7 @@ class People extends React.Component {
 
   async componentWillMount() {
     const people = await loadPeople();
+    // console.log(people);
     this.setState({ people });
   }
 
@@ -97,8 +106,11 @@ class People extends React.Component {
                   onClickSave={this._handleClickSave}
                   onClickDelete={() => this._handleClickDelete(person.id)} />
               </div>
-            ))
-          : null}
+            )) : null}
+          {! people && isEmpty(tempPerson) ?
+            <div className={styles.subtitle}>
+              You have no profiles yet, create some to start making quotes.
+            </div> : null }
         </div>
       </div>
     );

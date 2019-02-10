@@ -53,6 +53,13 @@ const styles = {
       transform-origin: center;
     }
   `,
+  subtitle: css`
+    color: var(--grey);
+    margin-bottom: calc(var(--margin) * 2);
+    transition: all var(--transition-duration) ease-in-out;
+    text-align: center;
+    font-size: 1.1rem;
+  `,
 };
 
 
@@ -75,24 +82,29 @@ class Exports extends React.Component {
             Exports
           </Title>
         </div>
-        <div className={styles.grid}>
-          <TransitionGroup component={null}>
-              {pdfs.map((pdf, i) => (
-                <CSSTransition
-                  classNames="cardsFade"
-                  key={i}
-                  timeout={300}>
-                  <div>
-                    <PDFCard
-                      pdf={pdf}
-                      onClick={() => openLocally(pdf.localPath)}
-                      onClickFolder={(e) => { e.stopPropagation(); openInExplorer(pdf.localPath) }}
-                      onClickDelete={(e) => { e.stopPropagation(); this._handleDeletePDF(pdf.id) }} />
-                  </div>
-                </CSSTransition>
-            ))}
-          </TransitionGroup>
-        </div>
+        {pdfs.length > 0 ?
+          <div className={styles.grid}>
+            <TransitionGroup component={null}>
+                {pdfs.map((pdf, i) => (
+                  <CSSTransition
+                    classNames="cardsFade"
+                    key={i}
+                    timeout={300}>
+                    <div>
+                      <PDFCard
+                        pdf={pdf}
+                        onClick={() => openLocally(pdf.localPath)}
+                        onClickFolder={(e) => { e.stopPropagation(); openInExplorer(pdf.localPath) }}
+                        onClickDelete={(e) => { e.stopPropagation(); this._handleDeletePDF(pdf.id) }} />
+                    </div>
+                  </CSSTransition>
+              ))}
+            </TransitionGroup>
+          </div> :
+          <div className={styles.subtitle}>
+            You have no exports. When you export a PDF it will appear here.
+          </div>
+        }
         {notFound.length > 0 ?
           <Fragment>
             <div className={styles.header}>
