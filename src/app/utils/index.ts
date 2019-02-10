@@ -44,6 +44,16 @@ export function toggleMenuItems(route: string) {
 }
 
 
+export function setLoadingCursor() {
+  document.body.classList.add('busy-cursor');
+}
+
+
+export function unsetLoadingCursor() {
+  document.body.classList.remove('busy-cursor');
+}
+
+
 export * from './image-ops';
 
 export * from './file-system';
