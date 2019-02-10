@@ -98,6 +98,24 @@ const styles = StyleSheet.create({
 });
 
 
+function getTranslatedLines(t: (k: string) => string) {
+  let lines = [];
+  let read = true;
+  let index = 1;
+  while(read) {
+    const line = t(`line${index}`);
+    if (! line) {
+      read = false;
+    }
+    else {
+      lines.push(line);
+    }
+    index = index + 1;
+  }
+  return lines;
+}
+
+
 const Line: React.SFC<{
   children: string,
 }> = ({ children }) => {
@@ -116,14 +134,16 @@ const PaymentMethods: React.SFC<{
 }> = ({ profile, onPageRender }) => {
   const locale = getCurrentLocale();
   const t = (k: string) => tt(locale, k);
+  const lines = getTranslatedLines(t);
   return (
     <PageWrapper noPadding noPageNum onPageRender={onPageRender}>
       <View style={styles.wrapper}>
         <View style={styles.content}>
           <Text style={styles.title}>{t('title')}</Text>
           <Text style={styles.paragraph}>{t('paragraph1')}</Text>
-          <Line>{t('line1')}</Line>
-          <Line>{t('line2')}</Line>
+          {lines.map((text, i) => (
+            <Line key={i}>{text}</Line>
+          ))}
           <Text style={styles.paragraph}>{t('paragraph2')}</Text>
           <Text style={styles.websiteLink}>www.drawbotics.com</Text>
         </View>
