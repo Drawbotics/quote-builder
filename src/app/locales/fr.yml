@@ -5,10 +5,131 @@ table:
   price: Prix
 services:
   interior3d:
-    name: Interieur 3D
+    name: Intérieur 3D
+    description: Les intérieurs 3D permettent à vos clients de se projeter dans le projet en créant une atmosphère nécessaire pour capter leur attention.
   exterior3d:
-    name: Exterieur 3D
+    name: Extérieur 3D
+    description: Les extérieurs 3D sont essentiels pour permettre à vos clients de visualiser leur prochain appartement mais également pour instaurer la confiance dans le projet et le promoteur.
+  shoebox:
+    name: Plan 3D
+    description: Les plans 3D ont l’avantage d’avoir une double fonctionnalité. Premièrement, ils servent à attirer l’attention du client via des campagnes de pubs ou presse. Deuxièmement, ils permettent à vos clients de se projeter dans leur futur habitation.
+  video-animation:
+    name: Animation Vidéo
+    description: Cruciale dans la phase d’attraction, elle permet de susciter l’envie, tout en donnant un aperçu global du programme sous tous les angles. La vidéo peut être utilisé dans la presse, sur les réseaux sociaux, site internet etc…
+  virtual-tour:
+    name: Visite Virtuelle
+    description: Elles permettent une immersion complète dans le projet. Ceci vous permet de contrôler l’environnement de visite (virtuelle) de l’appartement. De plus, ce service correspond bien à une audience plus jeune avide de technologie.
+  drone-shooting:
+    name: Shooting Drone
+    description: Dans le cadre d’un projet d'envergure, le shooting drone apporte une touche de de “réalisme” du projet extrêmement impressionnant lorsque les images sont intégrées dans une vidéo ou des rendus 3D.
+  photo-shooting:
+    name: Shooting Photo
+    description: Un shooting photo personnalisé est crucial pour la création d’une “brand”. Elle évite l’utilisation de photos “stock”, trop utilisés et sans âme. Ce shooting photo à également un rôle informatif important.
+  maquette:
+    name: Maquette 360
+    description: La maquette offre une vue à 360 degrés du projet dans son environnement. C'est un outil visuel très efficace pour montrer l'ampleur du projet.
+  commercial-floorplan:
+    name: Plan de Vente
+    description: Des plans de vente beaux, compréhensibles, et aux couleurs du promoteur sont essentiels dans toute stratégie car ce sont souvent les derniers documents que les potentiels acheteurs.
+  billboard:
+    name: Panneau publicitaire
+    description: Le panneau publicitaire offre une plus grande visibilité locale. Réalisé sur-mesure par notre designer, le but est d’attirer l’attention de clients potentiels aux abords du terrain, ou au futur emplacement du programme.
+  brand-id:
+    name: Identité Visuelle
+    description: Le but de l'identité visuelle est de mettre en place la "brand" et l'histoire du projet, permettant une identification immédiate du projet et un rattachement émotionnel.
+  brochure:
+    name: Brochure
+    description: La brochure est le support visuel “physique” par excellence. C'est un dossier stylisé vous permettant de communiquer toutes les informations dont vos clients ont besoin tout en créant atmosphère idéale pour les guider dans leur décision.
+  flyer:
+    name: Flyer
+    description: Cette simple et peu coûteuse publicité imprimée est prévue pour capter l'attention d'une audience locale.
+  landing-page:
+    name: Landing Page
+    description: La landing page est une page web unique donnant les premières informations sur le projet, permettant la récolte de contacts. La landing page est particulièrement efficace lorsqu'elle fonctionne de paire avec une newsletter de façon à conserver ce premier élan d’intérêt.
+  newsletter:
+    name: Newsletter
+    description: 'Intervenant entre la phase de teasing et de commercialisation. Son rôle est triple: ne pas perdre le premier élan né de la phase de teasing, stratégiquement divulguer les dernières informations du projet aux adresses e-mail que vous avez récoltés en phase de teasing,  annoncer quand le projet entre en phase de commercialisation et inviter les clients potentiels à se signaler..'
+  website:
+    name: Site Internet
+    description: Il s’agit d’une pièce cruciale du puzzle. Comme décrit précédemment, il a de nombreux rôles, et surtout un rôle cruciale dans le processus de conversion de vos prospects. Il s’agit de l’endroit où ils pourront trouver toutes les informations nécessaires, prendre contact avec vous et rester dans le “loop” commercial.
+  media-kit:
+    name: Media Kit
+    description: Communiquer sur le projet est la base d'une campagne marketing. Ce kit inclut une série de bannières web destinées à la publicité en ligne et imprimée.
+  social-media-kit:
+    name: Social Media Kit
+    description: Les réseaux sociaux sont beaucoup plus efficaces pour atteindre un public jeune. Ce kit inclut des visuels adaptés aux formats idéaux pour les différents réseaux sociaux.
+  floorplan:
+    name: Floorplan
+    description: From giving homebuyers important insights into the layout of their desired home, interactive floor plans give potential buyers much needed information and perspective.
+  photo-editing:
+    name: Retouche Photo
+    description: Des études récentes ont démontré que les photographes professionnels consacrent près d'un tiers de leurs temps à la retouche photo. Laissez-nous vous aider à devenir plus efficace et concentré sur la croissance de votre entreprise grâce à notre solution de retouche photo.
+  restyling:
+    name: Restyling
+    description: Tout le potentiel du bien proposé au premier coup d'oeil. Découvrez le Restyling, le home staging virtuel par Drawbotics.
+  exterior-restyling:
+    name: Exterior Restyling
+    description: Aidez vous prospects à voir leur futur logement sous son meilleur jour. Nouvelle peinture, nouveaux éléments de jardin, nouvelle façade, nous améliorons l'extérieur grâce à la 3D selon vos souhaits.
+  revo:
+    name: Revo
+    description: Revo a été créé pour aider les promoteurs à convertir leurs prospects en clients en leurs offrant une expérience unique ainsi que toutes les informations dont ils ont besoin et des rendus 3D incroyables.
+    description2: >
+      Il y a plusieurs phases dans le cycle de vente: du premier contact avec le prospect à sa visite sur votre site internet, et finalement jusqu’à sa décision de vous contacter et de vous rencontrer.
+
+      REVO vous donne tous les outils pour attirer son attention et lui offrir une expérience unique au moment de visiter votre site internet de façon à optimiser votre taux de conversion.'
+    description3: >
+      Vous recevez:
+        - Une expérience interactive
+        - Un outil de gestion des informations
+        - Un outil de conversion (call-to-action)
+        - Un hébergement et des outils analytiques
   custom:
     name: Produit Custom
 document:
-  price_offer: Offre de Prix
+  price_offer: Offre de prix
+  cover:
+    title: Cover
+  profile:
+    title: Profil
+  how_we_work:
+    title: Notre manière de travailler
+    kickoff_title: Kick-off call
+    kickoff_description: Avant chaque projet, nous organisons une réunion de lancement pour s'assurer que nous comprenions bien toutes les spécificités du projet.
+    followup_title: Follow-up de la production
+    followup_description: Via notre plateforme en ligne, vous pouvez suivre la production de vos services en temps réel.
+    correction_studio_title: Studio de correction
+    correction_studio_description: Vous aurez accès à un studio de correctioin vous permettant de faire des demandes de modifications en temps réel sur l'ensemble des visuels que nous réalisons pour vous.
+    launch_title: Lancement
+    launch_description: Nous restons à votre disposition même après le lancement de votre campagnee marketing pour répondre à tous vos besoins et questions.
+  what_we_do:
+    title: Ce que l'on fait
+    platform_title: Nous avons créé une plateforme incroyable
+    platform_description: Commandez tous les services marketing dont vous avez besoin pour promouvoir vos biens. Via notre plateforme, vous recevrez un devis en temps réel en fonction de vos options et préférences. En plus de cela, notre équipe est toujours disponible via notre système de chat pour vous assister et répondre à toutes vos questions.
+    management_title: Drawbotics est également une plateforme de gestion de projets
+    management_description: Avec un tableau personnalisé via lequel vous pouvez consulter le status de vos projets en temps réel ainsi qu'un studio de correction collaboratif qui vous permet de demander des modifications, la gestion de A à Z de vous projets marketing n'a jamais été si simple.
+  payment_methods:
+    title: Prix et modalités de paiement
+    paragraph1: Une des valeurs principale de Drawbotics se trouve dans la transparence. Nos clients peuvent à tout moment réaliser leurs devis directement en ligne à travers notre plateforme Drawbotics. Les prix indiqués dans ce devis comprennent les éléments discutés lors du briefing client.
+    line1: Les prix affichés ci-dessous sont des prix HTVA
+    line2: 'Modalités de paiement: 30 jours date de facturation'
+    line3: 'Un acompte de 30% sera dû à la confirmation de votre bon de commande'
+    line4: Le solde ainsi que les suppléments ajoutés au cours du projet seront facturés à la clôture du projet / livraison des fichiers définitifs
+    paragraph2: Pour nos clients au sein de l’UE avec un numéro de TVA valide, un taux de TVA de 0% sera facturé dans le cadre d’un mécanisme d’autoliquidation. Attention, vous pourriez être amené à justifier la TVA dans votre pays conformément à l’article 196,Directive 2006/112/CE du Conseil.
+  stats:
+    title: Statistiques
+    description: Drawbotics est la seule one-stop-shop marketplace vous permettant d’avoir accès à tous les services marketing et communicationnels dont vous avez besoin, Il n’est plus necessaire de chercher plusieurs prestataires. Vous pouvez également avoir accès à une plateforme de gestion de projet unique.
+    order_subtitle: Entreprises clientes
+    global_subtitle: Pays and 650 villes
+    projects_subtitle: Projets réalisés
+    artists_and_designers: 'Artistes 3D et designers in-house'
+  project:
+    title: Projet
+    introduction_title: Introduction
+    introduction_description: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    information_title: À propos du projet
+  story_telling:
+    title: Storytelling
+  tables:
+    title: Offre de prix
+  products:
+    title: Produits
