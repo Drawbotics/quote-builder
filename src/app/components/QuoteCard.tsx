@@ -1,7 +1,6 @@
 import React from 'react';
 import { css, cx } from 'emotion';
 import moment from 'moment';
-import ImagePalette from '@nicmosc/react-image-palette';
 import { Trash2, Share, Folder } from 'react-feather';
 
 
@@ -10,9 +9,9 @@ export interface QuoteCardType {
   title: string
   subtitle: string
   lastModified: string
-  coverImage: string
   draft: boolean
   localPath: string
+  coverGradient: string[]
 }
 
 
@@ -54,7 +53,6 @@ const styles = {
     height: 100%;
     background: var(--tertiary);
     transition: all var(--transition-duration) ease-in-out;
-    background: linear-gradient(to left top, var(--primary), var(--dark));
     border-top-left-radius: var(--border-radius);
     border-top-right-radius: var(--border-radius);
   `,
@@ -156,7 +154,8 @@ const QuoteCard: React.SFC<{
   onClickExport: () => void,
   onClickOpenInFinder: () => void,
 }> = ({ quote, onClick, onClickDelete, onClickExport, onClickOpenInFinder }) => {
-  const { draft, title, subtitle, lastModified, coverImage } = quote;
+
+  const { draft, title, subtitle, lastModified, coverGradient } = quote;
   const type = draft ? 'Draft' : 'Exported';
   return (
     <div className={styles.quoteCard} onClick={onClick}>
@@ -174,16 +173,7 @@ const QuoteCard: React.SFC<{
             <Trash2 size={25} />
           </div>
         </div>
-        {!! coverImage ?
-          <ImagePalette image={coverImage}>
-            {({ backgroundColor, alternativeColor }: { backgroundColor: string, alternativeColor: string }) => (
-              <div
-                className={styles.cover}
-                style={{ background: `linear-gradient(to left top, ${backgroundColor}, ${alternativeColor})` }} />
-            )}
-          </ImagePalette> :
-          <div className={styles.cover} />
-        }
+        <div className={styles.cover} style={{ background: `linear-gradient(to left top, ${coverGradient[0]}, ${coverGradient[1]})` }} />
       </div>
       <div className={styles.body}>
         <div className={styles.title}>

@@ -4,7 +4,7 @@ declare module '*.yml';
 declare module '*.jpg';
 declare module '*.png';
 declare module '*.ttf';
-declare module '@nicmosc/react-image-palette';
 declare module '@react-pdf/renderer';
 declare module 'react-pdf/dist/entry.webpack';
 declare module '@react-pdf/png-js/dist/png-js.browser.es.js';
+declare module 'randomcolor';

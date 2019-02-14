@@ -31,7 +31,6 @@ const styles = {
     flex: 1;
     background: var(--background-color);
     transition: background var(--transition-duration) ease-in-out;
-    overflow-y: scroll;
     overflow-x: hidden;
     display: flex;
   `,

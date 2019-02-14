@@ -258,20 +258,20 @@ class Quotes extends React.Component<{
         {quotes.length > 0 ?
           <div className={styles.grid}>
             <TransitionGroup component={null}>
-                {quotes.map((quote, i) => (
-                  <CSSTransition
-                    classNames="cardsFade"
-                    key={quote.id}
-                    timeout={300}>
-                    <div className={styles.cell}>
-                      <QuoteCard
-                        quote={quote}
-                        onClick={() => history.push(`/${quote.id}/edit`)}
-                        onClickExport={() => this._handleExportPDF(quote.id)}
-                        onClickDelete={() => this._handleDeleteQuote(quote.id)}
-                        onClickOpenInFinder={() => openInExplorer(quote.localPath)} />
-                    </div>
-                  </CSSTransition>
+              {quotes.map((quote, i) => (
+                <CSSTransition
+                  classNames="cardsFade"
+                  key={quote.id}
+                  timeout={300}>
+                  <div className={styles.cell}>
+                    <QuoteCard
+                      quote={quote}
+                      onClick={() => history.push(`/${quote.id}/edit`)}
+                      onClickExport={() => this._handleExportPDF(quote.id)}
+                      onClickDelete={() => this._handleDeleteQuote(quote.id)}
+                      onClickOpenInFinder={() => openInExplorer(quote.localPath)} />
+                  </div>
+                </CSSTransition>
               ))}
             </TransitionGroup>
           </div>
@@ -285,18 +285,18 @@ class Quotes extends React.Component<{
             </div>
             <div className={styles.grid}>
               <TransitionGroup component={null}>
-                  {notFound.map((file: MissingQuoteType, i) => (
-                    <CSSTransition
-                      classNames="cardsFade"
-                      key={i}
-                      timeout={300}>
-                      <div>
-                        <MissingCard
-                          file={file}
-                          onClickRelink={() => this._handleRelinkQuote(file.id)}
-                          onClickDelete={() => this._handleDeleteQuote(file.id)} />
-                      </div>
-                    </CSSTransition>
+                {notFound.map((file: MissingQuoteType, i) => (
+                  <CSSTransition
+                    classNames="cardsFade"
+                    key={i}
+                    timeout={300}>
+                    <div>
+                      <MissingCard
+                        file={file}
+                        onClickRelink={() => this._handleRelinkQuote(file.id)}
+                        onClickDelete={() => this._handleDeleteQuote(file.id)} />
+                    </div>
+                  </CSSTransition>
                 ))}
               </TransitionGroup>
             </div>
@@ -448,17 +448,17 @@ class Quotes extends React.Component<{
     const { files: pdfFiles={} } = pdfs;
     const cards = Object.values(files).map((quote: any) => ({
       id: quote.id,
-      title: quote.data.project.projectName,
-      subtitle: quote.data.project.companyName,
-      coverImage: quote.data.project.clientLogo,
+      title: quote.projectName,
+      subtitle: quote.company,
       draft: ! Object.keys(pdfFiles).find((k) => k.includes(quote.id)),
       lastModified: quote.lastModified,
       localPath: quote.localPath,
+      coverGradient: quote.coverGradient,
     }));
-    const notFoundCards = Object.keys(notFound).map((id: string) => ({
-      id,
-      name: getFilenameFromPath(notFound[id]) + '.qdp',
-      localPath: notFound[id],
+    const notFoundCards = Object.values(notFound).map((file: any) => ({
+      id: file.id,
+      name: getFilenameFromPath(file.localPath) + '.qdp',
+      localPath: file.localPath,
     }));
     this.setState({ quotes: cards, notFound: notFoundCards });
   }

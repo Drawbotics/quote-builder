@@ -13,7 +13,7 @@ const styles = {
     backdrop-filter: blur(3px);
     display: flex;
     flex-direction: column;
-    overflow: scroll;
+    overflow-x: hidden;
   `,
   header: css`
     display: flex;

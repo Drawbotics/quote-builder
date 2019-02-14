@@ -1,17 +1,37 @@
 import get from 'lodash/get';
+import randomColor from 'randomcolor';
+
 
 import { save, deleteUntitled, load, remove } from './index';
-import { readFile, writeFile, deleteFile, getFilenameFromPath, setCurrentLocale } from '../index';
+import { readFile, writeFile, deleteFile, getFilenameFromPath, setCurrentLocale, fileExists } from '../index';
 import { loadPerson } from './people';
 
 
-export async function saveMapping(id: string, path: string) {
-  return await save('quote-mappings', id, path);
+export async function saveMapping(id: string, path: string, document?: any) {
+  if (! document) {
+    const rawData = await readFile(path, { encoding: 'utf8' });
+    document = JSON.parse(rawData);
+  }
+  const coverGradient = randomColor({ count: 2, seed: document.id });
+  const basicQuoteData = {
+    localPath: path,
+    id: document.id,
+    projectName: document.data.project.projectName,
+    company: document.data.project.companyName,
+    lastModified: document.lastModified,
+    coverGradient,
+  };
+  return await save('quote-mappings', id, JSON.stringify(basicQuoteData));
 }
 
 
 export async function loadMappings() {
-  return await load('quote-mappings');
+  const rawMappings = await load('quote-mappings');
+  if (! rawMappings) return {};
+  return Object.keys(rawMappings).reduce((memo, key) => ({
+    ...memo,
+    [key]: JSON.parse(rawMappings[key]),
+  }), {});
 }
 
 
@@ -27,11 +47,12 @@ export async function loadQuotes() {
   let files = {};
   let notFound = {};
   for (const id of fileIds) {
-    const file = await readFile(mappings[id]).catch(() => {
-      notFound[id] = mappings[id];
+    const documentInfo = mappings[id];
+    const exists = await fileExists(documentInfo.localPath).catch(() => {
+      notFound[id] = documentInfo;
     });
-    if (file) {
-      files[id] = { ...JSON.parse(file), localPath: mappings[id] };
+    if (exists) {
+      files[id] = documentInfo;
     }
   }
   return { files, notFound };
@@ -40,7 +61,7 @@ export async function loadQuotes() {
 
 export async function getQuoteLocation(id: string) {
   const mappings = await loadMappings();
-  const location = mappings[id];
+  const location = get(mappings[id], 'localPath');
   return location;
 }
 
@@ -48,7 +69,7 @@ export async function getQuoteLocation(id: string) {
 export async function loadQuote(id: string) {
   const location = await getQuoteLocation(id);
   const file = await readFile(location, { encoding: 'utf8' });
-  const parsed = JSON.parse(file)
+  const parsed = JSON.parse(file);
   setCurrentLocale(parsed.data.language);
   return {
     file: parsed,
@@ -60,9 +81,10 @@ export async function loadQuote(id: string) {
 export async function saveQuote(id: string, path: string, value: any, options={} as any) {
   const { newFile=false, withMapping=true } = options;
   const lastModified = new Date();
-  await writeFile(path, JSON.stringify({ ...value, lastModified }));
+  const quoteData = { ...value, lastModified };
+  await writeFile(path, JSON.stringify(quoteData));
   if (withMapping) {
-    await saveMapping(id, path);
+    await saveMapping(id, path, quoteData);
   }
   if (newFile) {
     deleteUntitled(id);
