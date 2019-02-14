@@ -30,8 +30,8 @@ const showAnimation = keyframes`
 const styles = {
   saveContainer: css`
     position: fixed;
-    top: calc(var(--margin) + 3px);
-    right: calc(var(--margin));
+    top: 15px;
+    right: 15px;
     z-index: 99999;
     animation: ${showAnimation} 0s 0.3s forwards;
     opacity: 0;

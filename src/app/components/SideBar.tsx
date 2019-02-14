@@ -9,7 +9,7 @@ import logoAlt from '../images/qtp-logo-alt.svg';
 
 const styles = {
   sideBar: css`
-    width: 270px;
+    width: 300px;
     height: 100%;
     background: var(--tertiary);
     border-right: 1px solid var(--line-color);
@@ -56,13 +56,13 @@ const styles = {
     position: relative;
     border-bottom: 1px solid var(--line-color);
     transition: border-bottom var(--transition-duration) ease-in-out;
-    height: 70px;
+    height: 50px;
     pointer-events: none;
 
     > img {
       position: absolute;
       bottom: 10px;
-      left: 50%;
+      left: calc(50% + var(--margin));
       transform: translateX(-50%);
       height: 30px;
       transition: opacity var(--transition-duration) ease-in-out;
