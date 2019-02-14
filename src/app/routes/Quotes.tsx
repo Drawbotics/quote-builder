@@ -449,10 +449,11 @@ class Quotes extends React.Component<{
     const cards = Object.values(files).map((quote: any) => ({
       id: quote.id,
       title: quote.projectName,
-      subtitle: quote.companyName,
+      subtitle: quote.company,
       draft: ! Object.keys(pdfFiles).find((k) => k.includes(quote.id)),
       lastModified: quote.lastModified,
       localPath: quote.localPath,
+      coverGradient: quote.coverGradient,
     }));
     const notFoundCards = Object.values(notFound).map((file: any) => ({
       id: file.id,

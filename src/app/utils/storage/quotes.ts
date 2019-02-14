@@ -1,4 +1,6 @@
 import get from 'lodash/get';
+import randomColor from 'randomcolor';
+
 
 import { save, deleteUntitled, load, remove } from './index';
 import { readFile, writeFile, deleteFile, getFilenameFromPath, setCurrentLocale, fileExists } from '../index';
@@ -10,12 +12,14 @@ export async function saveMapping(id: string, path: string, document?: any) {
     const rawData = await readFile(path, { encoding: 'utf8' });
     document = JSON.parse(rawData);
   }
+  const coverGradient = randomColor({ count: 2, seed: document.id });
   const basicQuoteData = {
     localPath: path,
     id: document.id,
     projectName: document.data.project.projectName,
     company: document.data.project.companyName,
     lastModified: document.lastModified,
+    coverGradient,
   };
   return await save('quote-mappings', id, JSON.stringify(basicQuoteData));
 }
