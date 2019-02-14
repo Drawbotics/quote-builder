@@ -83,10 +83,10 @@ const MissingCard: React.SFC<{
           <AlertOctagon size={60} />
         </div>
         <div className={styles.actions} data-element="actions">
-          <div className={styles.action} onClick={onClickRelink}>
+          <div data-tooltip="Find again" className={styles.action} onClick={onClickRelink}>
             <Link size={30} />
           </div>
-          <div className={styles.action} onClick={onClickDelete}>
+          <div data-tooltip="Delete" className={styles.action} onClick={onClickDelete}>
             <Trash2 size={30} />
           </div>
         </div>

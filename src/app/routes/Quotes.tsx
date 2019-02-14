@@ -454,10 +454,10 @@ class Quotes extends React.Component<{
       lastModified: quote.lastModified,
       localPath: quote.localPath,
     }));
-    const notFoundCards = Object.keys(notFound).map((id: string) => ({
-      id,
-      name: getFilenameFromPath(notFound[id]) + '.qdp',
-      localPath: notFound[id],
+    const notFoundCards = Object.values(notFound).map((file: any) => ({
+      id: file.id,
+      name: getFilenameFromPath(file.localPath) + '.qdp',
+      localPath: file.localPath,
     }));
     this.setState({ quotes: cards, notFound: notFoundCards });
   }

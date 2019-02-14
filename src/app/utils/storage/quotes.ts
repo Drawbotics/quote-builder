@@ -90,7 +90,6 @@ export async function saveQuote(id: string, path: string, value: any, options={}
 
 export async function deleteQuote(id: string) {
   try {
-    console.log(id);
     const location = await getQuoteLocation(id);
     await deleteFile(location);
   }

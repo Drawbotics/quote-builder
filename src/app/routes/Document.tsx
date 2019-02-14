@@ -121,12 +121,12 @@ class Document extends React.Component<{
                 message={untitled ? "This file hasn't been saved yet. Are you sure you want to exit?" : undefined}
                 title={untitled ? "Are you sure you want to exit?" : "You have unsaved changes. Are you sure you want to exit?"}
                 onDiscard={() => untitled ? this._handleDeleteUntitled(onConfirm) : this.setState({ exiting: true }, onConfirm)}
-                onConfirm={async () => { await this._handleSaveDocument(); this.setState({ exiting: true }, onConfirm) }} />
+                onConfirm={() => this._handleSaveDocument(() => this.setState({ exiting: true }, onConfirm))} />
             )}
           </NavigationPrompt>
           <DocumentEditor document={file} onChange={this._setHasUnsavedChanges} location={location} history={history} />
           <div className={styles.saveContainer}>
-            <div className={cx(styles.save, { [styles.disabled]: ! hasUnsavedChanges })} onClick={this._handleSaveDocument}>
+            <div className={cx(styles.save, { [styles.disabled]: ! hasUnsavedChanges })} onClick={() => this._handleSaveDocument()}>
               <div className={styles.unsavedChanges} data-element="indicator" />
               <Save size={20} />
             </div>
@@ -165,7 +165,7 @@ class Document extends React.Component<{
   }
 
   @autobind
-  async _handleSaveDocument() {
+  async _handleSaveDocument(onSave?: () => void) {
     const { setDocumentTitle } = this.props;
     const { untitled, file } = this.state;
     if (untitled) {
@@ -178,8 +178,13 @@ class Document extends React.Component<{
       }, async (path) => {
         if (path) {
           await saveQuote(file.id, path, file, { newFile: true });
-          this.mounted && this.setState({ untitled: false });
-          setDocumentTitle(getFilenameFromPath(path));
+          if (onSave) {
+            onSave();
+          }
+          else {
+            this.mounted && this.setState({ untitled: false });
+            setDocumentTitle(getFilenameFromPath(path));
+          }
         }
       });
     }
@@ -187,6 +192,7 @@ class Document extends React.Component<{
       const location = await getQuoteLocation(file.id);
       await saveQuote(file.id, location, file);
       this.setState({ hasUnsavedChanges: false });
+      if (onSave) onSave();
     }
   }
 
