@@ -9,6 +9,7 @@ import history from './utils/history';
 import { setTheme, getTheme, themes } from './utils/themes';
 import Application from './routes/Application';
 import { styles as tooltipStyles } from './utils/tooltips';
+import { styles as scrollbarStyles } from './utils/scrollbars';
 
 import RalewayMedium from './fonts/Raleway-Medium.ttf';
 import RalewaySemiBold from './fonts/Raleway-SemiBold.ttf';
@@ -61,6 +62,8 @@ function injectStyles() {
     .busy-cursor {
       cursor: progress;
     }
+
+    ${scrollbarStyles}
 
     ${tooltipStyles}
 
