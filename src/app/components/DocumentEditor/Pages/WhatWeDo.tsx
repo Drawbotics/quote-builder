@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: sv.baseMargin * 3,
+    marginTop: sv.baseMargin * 2,
   },
   section: {
     position: 'relative',
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: sv.baseMargin * 2,
+    marginBottom: sv.baseMargin,
   },
   reverse: {
     flexDirection: 'row-reverse',

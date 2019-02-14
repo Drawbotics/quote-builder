@@ -48,10 +48,10 @@ services:
     description: La landing page est une page web unique donnant les premières informations sur le projet, permettant la récolte de contacts. La landing page est particulièrement efficace lorsqu'elle fonctionne de paire avec une newsletter de façon à conserver ce premier élan d’intérêt.
   newsletter:
     name: Newsletter
-    description: 'Intervenant entre la phase de teasing et de commercialisation. Son rôle est triple: ne pas perdre le premier élan né de la phase de teasing, stratégiquement divulguer les dernières informations du projet aux adresses e-mail que vous avez récoltés en phase de teasing,  annoncer quand le projet entre en phase de commercialisation et inviter les clients potentiels à se signaler..'
+    description: 'Intervenant entre la phase de teasing et de commercialisation. Son rôle est triple: ne pas perdre le premier élan né de la phase de teasing, stratégiquement divulguer les dernières informations du projet aux adresses e-mail que vous avez récoltés en phase de teasing, annoncer quand le projet entre en phase de commercialisation et inviter les clients potentiels à se signaler.'
   website:
     name: Site Internet
-    description: Il s’agit d’une pièce cruciale du puzzle. Comme décrit précédemment, il a de nombreux rôles, et surtout un rôle cruciale dans le processus de conversion de vos prospects. Il s’agit de l’endroit où ils pourront trouver toutes les informations nécessaires, prendre contact avec vous et rester dans le “loop” commercial.
+    description: Il a de nombreux rôles, et surtout un rôle cruciale dans le processus de conversion de vos prospects. Il s’agit de l’endroit où ils pourront trouver toutes les informations nécessaires, prendre contact avec vous et rester dans le “loop” commercial.
   media-kit:
     name: Media Kit
     description: Communiquer sur le projet est la base d'une campagne marketing. Ce kit inclut une série de bannières web destinées à la publicité en ligne et imprimée.
