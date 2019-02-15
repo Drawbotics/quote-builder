@@ -18,12 +18,7 @@ const IS_DEV = process.env.APP_ENV === 'development';
 let _window;
 
 
-if (! IS_DEV) {
-  autoUpdate();
-}
-
-
-module.exports = function startApp() {
+function startApp() {
   async function createWindow() {
 
     const port = IS_DEV ? process.env.WEBPACK_PORT : await startServer();
@@ -94,6 +89,15 @@ module.exports = function startApp() {
       }
       sendIpcAction('openFile', url);
     });
-  })
+  });
+}
 
+
+module.exports = function() {
+  if (! IS_DEV) {
+    autoUpdate(startApp);
+  }
+  else {
+    startApp();
+  }
 }
