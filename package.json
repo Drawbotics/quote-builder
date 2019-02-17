@@ -1,6 +1,6 @@
 {
   "name": "quote-builder",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Desktop app to build price offers at Drawbotics",
   "main": "src/index.js",
   "repository": {
@@ -12,9 +12,9 @@
     "clean:builds": "rimraf builds",
     "webpack-server": "npm run clean:builds && APP_ENV=development webpack-dev-server --config webpack.dev.config.js",
     "start": "ELECTRON_DISABLE_SECURITY_WARNINGS=true NODE_NO_WARNINGS=1 electron .",
-    "build": "npm run clean && APP_ENV=production webpack --config webpack.config.js",
+    "build": "npm run clean && npm run clean:builds && APP_ENV=production webpack --config webpack.config.js",
     "package:scripts": "node ./scripts/package.js",
-    "package": "npm run clean:builds && APP_ENV=production npm run build && npm run package:scripts"
+    "package": "npm run build && npm run package:scripts"
   },
   "author": "Nick <nick@drawbotics.com>",
   "license": "ISC",
@@ -58,7 +58,6 @@
     "@types/react-sortable-hoc": "^0.6.4",
     "@types/react-transition-group": "^2.0.14",
     "@types/uuid": "^3.4.4",
-    "chmodr": "^1.2.0",
     "dotenv": "^6.1.0",
     "electron-better-ipc": "^0.1.1",
     "electron-json-storage": "^4.1.4",

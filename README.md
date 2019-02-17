@@ -7,9 +7,8 @@ Also known as Quote De Porc, it's an `electron` app to build client price offers
 **NOTE** This process is also documented in more detail in the [Notion document](https://www.notion.so/drawbotics/Quote-de-Porc-de54dd0780f04f2db5c6762f3b8d787b) about Quote De Porc.
 1. Go to the "releases" page and download the `QuoteDP-mac.zip` file.
 2. Unzip the file and you should find the `QuoteDP` app in the folder; copy this app to your `Applications` directory.
-3. (Not blocking but crucial for auto-updates) Open the Terminal and run the following command `sudo chown root /Applications/QuoteDP.app`. This command sets the application permissions to the root user. If we don't do this, when the app will restart to install a new version, the old version will open by default (since it was not able to replace the previous one). Thus, the updating process will repeat indefinitely. See [this issue](https://github.com/electron-userland/electron-builder/issues/2317) for updates/solutions on this.
-4. Fire up the app
-5. (later) While using the app, you might get a notification that a new version is available. Before that happens, the system will ask you for your password since the update will replace the app file in the Application directory.
+3. Fire up the app
+4. (later) While using the app, you might get a notification that a new version is available. Before that happens, the system will ask you for your password since the update will replace the app file in the Application directory.
 
 ### To develop
 To get started with developing it's very straightforward. Before anything, clone the repo.

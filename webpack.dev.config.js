@@ -19,6 +19,7 @@ module.exports = Object.assign({}, webpackConfig, {
   output: Object.assign({}, webpackConfig.output, {
     publicPath: '/',
   }),
+  optimization: {},
   plugins: [
     ...webpackConfig.plugins,
     new webpack.HotModuleReplacementPlugin(),

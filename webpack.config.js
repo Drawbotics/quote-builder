@@ -1,7 +1,8 @@
 const path = require('path');
 const dotenv = require('dotenv');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 
 dotenv.config();
@@ -38,6 +39,13 @@ module.exports = {
     }),
     new CopyWebpackPlugin([{ from: 'src/app/fonts', to: 'fonts' }]),
   ],
+  optimization: {
+    minimizer: [
+      new UglifyJsPlugin({
+        cache: false,
+      }),
+    ],
+  },
   module: {
     rules: [
       {
