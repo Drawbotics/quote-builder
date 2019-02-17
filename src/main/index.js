@@ -98,15 +98,4 @@ function startApp() {
 }
 
 
-// module.exports = function() {
-//   if (! IS_DEV) {
-//     console.log('im production');
-//     autoUpdate(startApp);
-//   }
-//   else {
-//     console.log('im development');
-//     startApp();
-//   }
-// }
-
 module.exports = startApp;

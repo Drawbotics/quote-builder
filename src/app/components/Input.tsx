@@ -18,6 +18,15 @@ const styles = {
     &:focus {
       box-shadow: 0px 0px 0px 2px var(--primary);
     }
+
+    &::-webkit-scrollbar {
+      width: initial;
+      background-color: initial;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: initial;
+    }
   `,
   textarea: css`
     resize: none;
