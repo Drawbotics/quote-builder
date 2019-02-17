@@ -1,12 +1,128 @@
 table:
-  phase: Phase
-  service: Service
-  comment: Comment
-  price: Price
+  phase: Fase
+  service: Dienst
+  comment: Commentaar
+  price: Prijs
 services:
   interior3d:
-    name: 3D Interior
+    name: 3D Interieur
+    description: 3D interieurbeelden creëren de nodige sfeer om klanten aan te trekken en laten hen toe zich in de woning te projecteren.
   exterior3d:
-    name: 3D Exterior
+    name: 3D Exterieur
+    description: 3D exterieur beelden zijn onmisbaar bij de lancering van een nieuwbouwproject. Klanten kunnen hiermee hun toekomstig huis visualiseren en zijn zo de fundering voor hun vertrouwen.
+  shoebox:
+    name: 3D Shoebox
+    description: Shoeboxen hebben een dubbele rol. Enderzijds zijn het mooie visuals die de aandacht trekken op reclame- of mediacampagnes. Daarnaast tonen ze de oppervlakten en de verhoudingen van de verschillende ruimten waardoor jullie klanten zich gemakkelijk in hun toekomstige woningen kunnen projecteren.
+  video-animation:
+    name: Video Animatie
+    description: Als cruciaal onderdeel van de attractiefase is een video een krachtig hulpmiddel om interesse op te wekken tijdens meerdere momenten van de marketing campagne.
+  virtual-tour:
+    name: 3D/VR Visits
+    description: 3D-rondleidingen zorgen voor een volledig meeslepende ervaring waarmee potentiële klanten hun toekomstige huis kunnen bezoeken in virtual reality of direct via hun computer en mobiele telefoon.
+  drone-shooting:
+    name: Drone Shooting
+    description: De drone shooting biedt realistische beelden die echt indrukwekkend kunnen zijn wanneer ze worden geïntegreerd in video- of 3D-beelden.
+  photo-shooting:
+    name: Fotoshoot
+    description: Een gepersonaliseerde fotoshoot is essentieel voor het creëren van een merkidentiteit. Het is veel effectiever dan de veel gebruikte stockfoto's en geeft interessante informatie over het gebied van het gebouw.
+  maquette:
+    name: 360° Maquette
+    description: De maquette geeft een 360 graden kijk op het project dat in de omgeving is geïntegreerd. Het is een zeer effectief hulpmiddel om de grootte van het project te laten zien.
+  commercial-floorplan:
+    name: Verkoopsplannen
+    description: Verkoopsplannen zijn essentieel voor elk nieuwbouw project. Ze zijn het laatste element dat door uw klant wordt gebruikt om zijn beslissing te nemen.
+  billboard:
+    name: Billboard
+    description: Reclameborden bieden een geweldige lokale zichtbaarheid. Ontworpen om de aandacht van potentiële klanten te trekken en hun interesse te wekken. Dienst excl. printing en plaatsing.
+  brand-id:
+    name: Brand ID
+    description: Meer dan een logo of kleurencombinatie, een mooie branding bepaalt de toon voor uw nieuwbouw project.
+  brochure:
+    name: Brochure
+    description: De brochure is de belangrijkste fysieke ondersteuning voor beeldmateriaal. Een stijlvolle brochure die alle informatie communiceert die uw klanten nodig hebben, en de juiste sfeer koestert om hen te helpen bij hun beslissing.
+  flyer:
+    name: Flyer
+    description: Deze eenvoudige en goedkope advertentieprint is ontworpen om de aandacht van uw lokale publiek te trekken.
+  landing-page:
+    name: Landingspagina
+    description: De landingspagina is een webpagina die de essentiële informatie van het project in één oogopslag introduceert. Héél belangerijk voor het genereren van leads tijdens de teasingsfase van uw project.
+  newsletter:
+    name: Newsletter
+    description: De newsletter zorgt ervoor dat je de aangeworven leads op de hoogte kan houden van de evolutie van het project en de "cold leads" zo opnieuw warm te maken voor je project.
+  website:
+    name: Project Website
+    description: De project website is de sleutel tot het succes van uw marketingcampagne. Het speelt een cruciale rol in de conversie van uw leads.
+  media-kit:
+    name: Media Kit
+    description: Communicatie is het basisconcept van een marketingcampagne. Deze kit bevat verschillende webbanner- en printadvertenties.
+  social-media-kit:
+    name: Sociale Media Kit
+    description: Sociale netwerken hebben betere resultaten met jongeren dan traditionele media. Deze kit bevat advertenties die speciaal zijn ontworpen voor sociale media.
+  floorplan:
+    name: Interactief plan
+    description: Van het geven van broodnodige informatie aan potentiële klanten tot hen een fantastische interactieve tool te bieden dat hen helpt zich de perfecte layout of meubelcombinatie van hun droomhuis in te beelden.
+  photo-editing:
+    name: Fotobewerking
+    description: Op maat bewerkte foto's van de hoogste kwaliteit.
+  restyling:
+    name: Restyling
+    description: Het ware potentieel in een oogopslagde, de virtuele home staging door Drawbotics
+  exterior-restyling:
+    name: Exterior Restyling
+    description: HHelp uw prospecten hun toekomstige woning in een ander daglicht te zien. Geef uw pand een nieuwe virtuele look met een frisse laag verf of een nieuw dak.
+  revo:
+    name: Revo
+    description: Revo werd ontwikkeld om promotoren te helpen bij het converteren van hun leads dankzij een unieke gebruikservaring met kwalitatieve 3D beelden en alle nuttige informatie binnen handbereik.
+    description2: Er zijn verschillende fases in een verkoopcyclus. Van het eerste contact met een potentiële klant via een bezoek op jullie website tot de beslissing om jullie te contacteren en te ontmoeten.
+    description3: Met Revo heeft u alle de instrumenten in huis om de aandacht van uw klanten aan te trekken en vast te houden. De unieke ervaring die u aanbiedt op uw website zorgt voor een hogere conversie.
   custom:
-    name: Custom product
+    name: Gepersonaliseerd product
+document:
+  price_offer: Prijs Offerte
+  cover:
+    title: Cover
+  profile:
+    title: Profiel
+  how_we_work:
+    title: Hoe wij werken
+    kickoff_title: Kick-off meeting
+    kickoff_description: Voor elk project organiseren wij een kick-off meeting om een beter inzicht te krijgen in het project, doelpubliek, gewenste sfeer e.d.
+    followup_title: Productie follow-up
+    followup_description: U krijgt toegang tot een managementplatform waar u uw projecten gemakkelijk kunt opvolgen en kunt samenwerken met collega’s.
+    correction_studio_title: Correctie studio
+    correction_studio_description: Je hebt toegang tot een correctiestudio om in realtime wijzigingen aan te brengen op alle designs die we leveren.
+    launch_title: Lancering
+    launch_description: Wij blijven uiteraard beschikbaar na de lancering van het project voor eventuele aanpassingen of uitbreidingen
+  what_we_do:
+    title: Wat we doen
+    platform_title: We hebben een geweldig online platform gecreëerd
+    platform_description: 'Bestel alle marketingdiensten die u nodig heeft om uw vastgoed te promoten. Via ons platform ontvangt u in real-time een bestek op basis van uw opties en voorkeuren. Bovendien staat ons team steeds ter beschikking via chat, telefoon of email om u bij te staan en al uw vragen te beantwoorden!'
+    management_title: 'Drawbotics is ook een project-management platform'
+    management_description: Met een persoonlijk dashboard waar u de status van uw projecten kunt volgen en een ingebouwde correctiestudio die u toelaat samen met uw collega’s wijzigingen aan te vragen, is het beheer van uw marketingprojecten nog nooit zo eenvoudig geweest.
+  payment_methods:
+    title: Prijs en betalingsvoorwaarden
+    paragraph1: Een van de belangrijkste waarden van Drawbotics is transparantie. Onze klanten kunnen hun offertes op elk moment direct online maken via ons Drawbotics-platform. De prijzen in deze offerte zijn onder meer besproken tijdens de briefing van de klant.
+    line1: De onderstaande prijzen zijn exclusief btw.
+    line2: 'Betalingsvoorwaarden: 30 dagen factuurdatum'
+    line3: Een voorschot van 30% moet betaald worden bij de bevestiging van uw bestelling.
+    line4: Een tussentijdse betaling van 40% is verschuldigd als we meer dan de helft van het werk hebben voltooid.
+    line5: Het saldo en de extra's die tijdens het project zijn toegevoegd, worden gefactureerd bij het afsluiten van het project / de aflevering van de definitieve bestanden.
+    paragraph2: Voor onze klanten binnen de EU (excl. België) met een geldig btw-nummer, wordt een btw-tarief van 0% in rekening gebracht in het kader van een verleggingsregeling. Let op, misschien moet u de btw in uw land rechtvaardigen in overeenstemming met artikel 196, Richtlijn 2006/12 / EG van de EU Raad.
+  stats:
+    title: Kerncijfers
+    description: Drawbotics is de enige one-stop shop gespecialiseerd in vastgoedmarketing. Dankzij ons platform kunt u alle marketingdiensten en producten die u nodig heeft gemakkelijk op één plaats bestellen en beheren. Daarbovenop kunt u gratis marketingadvies krijgen van onze experten.
+    order_subtitle: Klanten
+    global_subtitle: Landen en 650 steden
+    projects_subtitle: Succesvolle projecten
+    artists_and_designers: 3D artiesten en in- house designers
+  project:
+    title: Project
+    introduction_title: Introductie
+    introduction_description: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    information_title: Belangrijke informatie
+  story_telling:
+    title: Storytelling
+  tables:
+    title: Prijs offerte
+  products:
+    title: Producten
