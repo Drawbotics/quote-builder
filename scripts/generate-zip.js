@@ -7,6 +7,7 @@ const options = {
 
 
 function generateZip(path) {
+  console.log('Generating zip');
   createZip({
     ...options,
     dir: path + '/QuoteDP.app',

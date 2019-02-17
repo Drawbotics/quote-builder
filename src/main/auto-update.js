@@ -1,5 +1,5 @@
 const update = require('update-electron-app');
-const findProcess = required('find-process');
+const findProcess = require('find-process');
 
 
 const BUNDLE_NAME = 'com.electron.quotedp';
@@ -36,5 +36,5 @@ async function makeSureAutoUpdateFinished(launchApp) {
 module.exports = function autoUpdate(launchApp) {
   console.log('gonna call autoupdate');
   update();
-  makeSureAutoUpdateFinished(launchApp);
+  // makeSureAutoUpdateFinished(launchApp);
 }

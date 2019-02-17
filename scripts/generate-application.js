@@ -26,6 +26,7 @@ async function copyFileIcon(path) {
 
 
 async function generateApplication() {
+  console.log('Generating application');
   const paths = await packager(options);
   if (paths.length > 0) {
     await copyFileIcon(paths[0]);

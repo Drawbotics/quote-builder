@@ -18,6 +18,11 @@ const IS_DEV = process.env.APP_ENV === 'development';
 let _window;
 
 
+if (! IS_DEV) {
+  autoUpdate();
+}
+
+
 function startApp() {
   async function createWindow() {
 
@@ -93,11 +98,15 @@ function startApp() {
 }
 
 
-module.exports = function() {
-  if (! IS_DEV) {
-    autoUpdate(startApp);
-  }
-  else {
-    startApp();
-  }
-}
+// module.exports = function() {
+//   if (! IS_DEV) {
+//     console.log('im production');
+//     autoUpdate(startApp);
+//   }
+//   else {
+//     console.log('im development');
+//     startApp();
+//   }
+// }
+
+module.exports = startApp;

@@ -38,6 +38,8 @@ npm run package
 ```
 **NOTE** Here you need to have the `CERTIFICATE_IDENTITY` env var set to sign the application. Signing is necessary to have the automatic updates. See [here](docs/signing-certificates.md) how to generate your own signing certificate on your computer. We can use the Mac Developer certificate (used to distribute development builds) as a signing certificate since we're not distributing our app through the App Store.
 
+**NOTE (bis)** The signing command sometimes fails when new files such as images etc are introduced, so it's a good idea to run `xattr -rc .` to remove all the unsupported file attributes in the project before running the package command.
+
 A free (i.e. not registered to the Apple Developer Program) certificate for Mac apps should have this format: `Mac Developer: [apple_id] ([certificate_id])` where `certificate_id` is a 10 character sequence of capital letters and numbers. This is the value you should assign to `CERTIFICATE_IDENTITY`.
 
 This step will generate the following things in the `builds`:
