@@ -42,7 +42,8 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   clientLogo: {
-    height: '100px',
+    maxHeight: '100px',
+    maxWidth: '150px',
     marginTop: sv.baseMarginSmall,
   },
   logo: {
