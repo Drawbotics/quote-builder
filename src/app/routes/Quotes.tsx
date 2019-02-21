@@ -10,6 +10,7 @@ import Title from '../components/Title';
 import Button from '../components/Button';
 import QuoteCard, { QuoteCardType } from '../components/QuoteCard';
 import MissingCard, { MissingQuoteType } from '../components/MissingCard';
+import Spinner from '../components/Spinner';
 import { documentToPDF } from '../components/DocumentEditor';
 import { checkForUntitledFile, deleteUntitled, getIdFromUntitled, openInExplorer } from '../utils/storage';
 import { loadQuotes, deleteQuote, saveMapping, loadQuote, importQuote, saveQuote } from '../utils/storage/quotes';
@@ -255,6 +256,7 @@ class Quotes extends React.Component<{
             </div>
           </div>
         </div>
+        {loading ? <div><Spinner label="Loading quotes..." /></div> : null}
         {quotes.length > 0 ?
           <div className={styles.grid}>
             <TransitionGroup component={null}>
