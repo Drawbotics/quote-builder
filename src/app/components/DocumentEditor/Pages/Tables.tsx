@@ -1,11 +1,13 @@
 import React from 'react';
 import { View, StyleSheet, Text } from '@react-pdf/renderer';
+import autobind from 'autobind-decorator';
 
 import sv from '../vars';
 import { getCurrentLocale } from '~/utils';
 import { createTranslate, translate as t, createTranslateAlt } from '~/utils/translation';
 import PageWrapper from './PageWrapper';
 import { TableType, TableRowType, FooterRowType } from '../../TableEditor/types';
+import { countLinesInString } from '../utils';
 
 
 const tt = createTranslate('document.tables');
@@ -58,12 +60,11 @@ const styles = StyleSheet.create({
   row: {
     display: 'flex',
     flexDirection: 'row',
-    alignItems: 'center',
-    minHeight: rowHeight,
+    alignItems: 'flex-start',
     paddingLeft: 3,
     paddingRight: sv.basePaddingSmall,
-    paddingTop: 7,
-    paddingBottom: 7,
+    paddingTop: 10,
+    paddingBottom: 10,
     color: sv.textPrimary,
   },
   rowWithTopBorder: {
@@ -150,11 +151,14 @@ const Row: React.SFC<{
   children: any,
   topBorder?: boolean,
   rightAlign?: boolean
-}> = ({ children, topBorder, rightAlign }) => {
+  height?: number,
+}> = ({ children, topBorder, rightAlign, height=0 }) => {
+  const heightStyle = height > 0 ? { height: height, paddingBottom: 0 } : null;
   return (
     <View style={[styles.row,
       topBorder ? styles.rowWithTopBorder : null,
       rightAlign ? styles.rightAlign : null,
+      heightStyle,
     ]} wrap={false}>
       {children}
     </View>
@@ -164,12 +168,13 @@ const Row: React.SFC<{
 
 const Phases: React.SFC<{
   rows: TableRowType[],
-}> = ({ rows }) => {
+  heights: { [key: number]: number },
+}> = ({ rows, heights }) => {
   const phases = rows.map((row) => row.phase);
   return (
     <View>
       {phases.map((label, i) => (
-        <Row key={i} topBorder={!! label && i !== 0}>
+        <Row key={i} topBorder={!! label && i !== 0} height={heights[i]}>
           <Text>{label}</Text>
         </Row>
       ))}
@@ -180,7 +185,8 @@ const Phases: React.SFC<{
 
 const Services: React.SFC<{
   rows: TableRowType[],
-}> = ({ rows }) => {
+  heights: { [key: number]: number },
+}> = ({ rows, heights }) => {
   const locale = getCurrentLocale();
   const services = rows.map((row) => ({
     name: row.service.name ? row.service.name : t(locale, `services.${row.service.id}.name`),
@@ -189,7 +195,7 @@ const Services: React.SFC<{
   return (
     <View>
       {services.map((service, i) => (
-        <Row key={i} topBorder={i !== 0}>
+        <Row key={i} topBorder={i !== 0} height={heights[i]}>
           <View style={styles.service}>
             <Text>{service.name}</Text>
             <Text style={styles.comment}>{service.comment}</Text>
@@ -203,12 +209,13 @@ const Services: React.SFC<{
 
 const Prices: React.SFC<{
   rows: TableRowType[],
-}> = ({ rows }) => {
+  heights: { [key: number]: number },
+}> = ({ rows, heights }) => {
   const prices = rows.map((row) => row.price);
   return (
     <View>
       {prices.map((price, i) => (
-        <Row key={i} topBorder={i !== 0} rightAlign>
+        <Row key={i} topBorder={i !== 0} rightAlign height={heights[i]}>
           <Text>{price}</Text>
         </Row>
       ))}
@@ -234,33 +241,62 @@ const Footer: React.SFC<{
 };
 
 
-const Table: React.SFC<{
+class Table extends React.Component<{
   table: TableType,
-}> = ({ table }) => {
-  const locale = getCurrentLocale();
-  const t = (k: string, alt?: string) => ta(locale, k, alt);
-  const { header, body: rawBody, footers } = table;
-  const body = rawBody.filter((row) => ! row.hidden);
-  return (
-    <View style={styles.table}>
-      <View style={styles.columns}>
-        <View style={styles.column}>
-          <Text style={styles.title}>{t('phase', header.phase)}</Text>
-          <Phases rows={body} />
+}> {
+  state = {
+    rowHeights: {},
+  }
+
+  componentWillMount() {
+    this._setRowHeight();
+  }
+
+  render() {
+    const { rowHeights } = this.state;
+    const { table } = this.props;
+    const locale = getCurrentLocale();
+    const t = (k: string, alt?: string) => ta(locale, k, alt);
+    const { header, body: rawBody, footers } = table;
+    const body = rawBody.filter((row) => ! row.hidden);
+    return (
+      <View style={styles.table}>
+        <View style={styles.columns}>
+          <View style={styles.column}>
+            <Text style={styles.title}>{t('phase', header.phase)}</Text>
+            <Phases rows={body} heights={rowHeights} />
+          </View>
+          <View style={[styles.column, { flex: 1 }]}>
+            <Text style={styles.title}>{t('service', header.service)}</Text>
+            <Services rows={body} heights={rowHeights} />
+          </View>
+          <View style={styles.column}>
+            <Text style={[styles.title, { paddingRight: 0 }]}>{t('price', header.price)}</Text>
+            <Prices rows={body} heights={rowHeights} />
+          </View>
         </View>
-        <View style={[styles.column, { flex: 1 }]}>
-          <Text style={styles.title}>{t('service', header.service)}</Text>
-          <Services rows={body} />
-        </View>
-        <View style={styles.column}>
-          <Text style={[styles.title, { paddingRight: 0 }]}>{t('price', header.price)}</Text>
-          <Prices rows={body} />
-        </View>
+        <Footer footers={footers} />
       </View>
-      <Footer footers={footers} />
-    </View>
-  );
-};
+    );
+  }
+
+  @autobind
+  _setRowHeight() {
+    const { table } = this.props;
+    const { body: rawBody } = table;
+    const body = rawBody.filter((row) => ! row.hidden);
+    const rowHeights = body.reduce((heights, row, index) => {
+      if (! row.hidden) {
+        const commentRows = countLinesInString(row.comment || '');
+        if (commentRows > 1) {
+          return { ...heights, [index]: (commentRows * 13) + 30 - (commentRows * 2) };
+        }
+      }
+      return heights;
+    }, {});
+    this.setState({ rowHeights });
+  }
+}
 
 
 const Tables: React.SFC<{

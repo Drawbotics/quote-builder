@@ -64,3 +64,8 @@ export async function documentToPDF(document: any) {
   const blob = await blobGenerator.toBlob();
   return await blobToBuffer(blob);
 }
+
+
+export function countLinesInString(src: string) {
+  return src.split(/\r\n|\r|\n/).length;
+}
