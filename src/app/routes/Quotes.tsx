@@ -209,7 +209,7 @@ class Quotes extends React.Component<{
 
   async componentWillMount() {
     await this._handleLoadQuotes();
-    const people = await loadPeople();
+    const people = await loadPeople() || [];
     this.setState({ people: people.length, loading: false });
   }
 
