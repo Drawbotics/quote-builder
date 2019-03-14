@@ -178,7 +178,7 @@ const Services: React.SFC<{
   const locale = getCurrentLocale();
   const allServices = tablesToServiceList(tables);
   const sections = generateServiceSections(allServices, contents.products, locale);
-  const servicePages = chunk(sections.filter((section: ServiceType | RevoType) => section.id !== 'revo'), 2);
+  const servicePages = chunk(sections.filter((section: ServiceType | RevoType) => section.id !== 'revo' && ! section.hidden), 2);
   const revo = sections.find((section) => section.id === 'revo') as RevoType;
   return (
     <Fragment>

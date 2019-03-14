@@ -33,6 +33,6 @@ export const services = [
 
 export function tablesToServiceList(tables: TableType[]) {
   const services = tables.reduce((memo: ServiceType[], table: TableType) =>
-    [ ...memo, ...table.body.map((row: TableRowType) => row.service) ], []);
+    [ ...table.body.map((row: TableRowType) => row.service), ...memo ], []);
   return uniqBy(services, (s) => s.id);
 }

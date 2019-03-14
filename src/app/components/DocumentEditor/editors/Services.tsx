@@ -36,7 +36,7 @@ const styles = {
       min-height: 120px !important;
     }
   `,
-  resetImage: css`
+  action: css`
     color: var(--primary);
     font-size: 0.8rem;
     text-decoration: underline;
@@ -105,7 +105,10 @@ class Services extends React.Component<{
               </InputGroup>
             </div>
             <ImagePicker image={service.image || ''} onFileSelect={(file: string) => this._handleChange(file, 'image', service.id)} />
-            <div className={styles.resetImage} onClick={() => this._handleChange('', 'image', service.id)}>Reset image</div>
+            <div className={styles.action} onClick={() => this._handleChange('', 'image', service.id)}>Reset image</div>
+            <div className={styles.action} onClick={() => this._handleChange(service.hidden ? false : true, 'hidden', service.id)}>
+              {service.hidden ? 'Show in list' : 'Hide from list'}
+            </div>
           </div>
         ))}
         <div className={styles.update}>
@@ -116,7 +119,7 @@ class Services extends React.Component<{
   }
 
   @autobind
-  _handleChange(value: string, key: string, id: string) {
+  _handleChange(value: string | boolean, key: string, id: string) {
     const { products } = this.state;
     const serviceContents = get(products, id, {});
     const newContents = value === '' ? omit(serviceContents, key) : { ...serviceContents, [key]: value };

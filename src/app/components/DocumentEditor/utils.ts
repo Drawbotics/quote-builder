@@ -14,6 +14,7 @@ export interface ServiceType {
   icon?: string
   image?: string
   description?: string
+  hidden?: boolean
 }
 
 
@@ -30,13 +31,14 @@ export function generateServiceSections(allServices: any[], products: any, local
     description: ta(locale, `services.${id}.description`, get(products, `${id}.description`, '')),
     image: get(products, `${id}.image`) || images[id],
     icon: icons[id] || icons['custom'],
+    hidden: get(products, `${id}.hidden`, false),
   }));
   const withRevo = services.map((service) => service.id === 'revo' ? ({
     ...service,
     description2: ta(locale, 'services.revo.description2', get(products, 'revo.description2', '')),
     description3: ta(locale, 'services.revo.description3', get(products, 'revo.description3', '')),
   }) : service);
-  return withRevo.sort((a) => a.id === 'revo' ? -1 : 1);
+  return withRevo.sort((a) => a.id === 'revo' ? 1 : -1);
 }
 
 
