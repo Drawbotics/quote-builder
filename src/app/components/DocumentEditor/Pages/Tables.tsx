@@ -175,7 +175,7 @@ const Phases: React.SFC<{
     <View>
       {phases.map((label, i) => (
         <Row key={i} topBorder={!! label && i !== 0} height={heights[i]}>
-          <Text>{label}</Text>
+          <Text style={{ fontFamily: 'OpenSans-SemiBold' }}>{label}</Text>
         </Row>
       ))}
     </View>
