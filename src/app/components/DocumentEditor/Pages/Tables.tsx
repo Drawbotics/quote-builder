@@ -65,6 +65,7 @@ const styles = StyleSheet.create({
     paddingRight: sv.basePaddingSmall,
     paddingTop: 10,
     paddingBottom: 10,
+    minHeight: 35,
     color: sv.textPrimary,
   },
   rowWithTopBorder: {
