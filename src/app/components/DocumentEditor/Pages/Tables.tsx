@@ -65,8 +65,8 @@ const styles = StyleSheet.create({
     paddingRight: sv.basePaddingSmall,
     paddingTop: 10,
     paddingBottom: 10,
-    minHeight: 35,
     color: sv.textPrimary,
+    // height: 35,
   },
   rowWithTopBorder: {
     borderTopColor: sv.grey300,
@@ -291,6 +291,9 @@ class Table extends React.Component<{
         const commentRows = countLinesInString(row.comment || '');
         if (commentRows > 1) {
           return { ...heights, [index]: (commentRows * 13) + 30 - (commentRows * 2) };
+        }
+        else {
+          return { ...heights, [index]: 35 };
         }
       }
       return heights;
