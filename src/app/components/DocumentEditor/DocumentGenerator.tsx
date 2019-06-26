@@ -44,9 +44,9 @@ Font.register(
   { family: 'OpenSans-Italic' },
 );
 
-Font.registerHyphenationCallback((words: string[]) => (
-  words.map((word: string) => [word])
-));
+// Font.registerHyphenationCallback((words: string[]) => (
+//   words.map((word: string) => [word])
+// ));
 
 
 interface SectionType {

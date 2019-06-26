@@ -132,6 +132,7 @@ class DocumentEditor extends React.Component<{
 }> {
   pages = {}
   viewer: any = undefined
+  groupedPages = {}
 
   state = {
     zoom: 1.0,
@@ -139,7 +140,6 @@ class DocumentEditor extends React.Component<{
     editingPage: undefined,
     navigationOpen: true,
     editingOpen: false,
-    groupedPages: {},
     activePage: 1,
     insertSectionAt: -1,
     reload: 0,
@@ -155,7 +155,8 @@ class DocumentEditor extends React.Component<{
   }
 
   render() {
-    const { zoom, pages, editingPage, navigationOpen, activePage, groupedPages, editingOpen, reload, insertSectionAt } = this.state;
+    const { zoom, pages, editingPage, navigationOpen, activePage, editingOpen, reload, insertSectionAt } = this.state;
+    const groupedPages = this.groupedPages;
     const { document } = this.props;
     if (isEmpty(document)) return <Spinner label="Loading PDF..." />;
     const renderedDocument = DocumentGenerator({ document, onPageRender: this._onDocumentPageRender });
@@ -266,13 +267,12 @@ class DocumentEditor extends React.Component<{
 
   @autobind
   _onDocumentPageRender(section: { type: string, id: string }, pageNumber: number) {
-    const { groupedPages } = this.state;
-    this.setState({ groupedPages: { ...groupedPages, [pageNumber]: section } });
+    this.groupedPages = { ...this.groupedPages, [pageNumber]: section };
   }
 
   @autobind
   _handleClickSectionNavigation(id: string) {
-    const { groupedPages } = this.state;
+    const groupedPages = this.groupedPages;
     const firstPage = Object.keys(groupedPages).find((pageNumber) => groupedPages[pageNumber].id === id);
     if (! firstPage) return;
     this._scrollToPage(firstPage);
@@ -321,7 +321,7 @@ class DocumentEditor extends React.Component<{
 
   @autobind
   _handleRemoveSection(index: number) {
-    const { groupedPages } = this.state;
+    const groupedPages = this.groupedPages;
     const { document, onChange, history } = this.props;
     const toRemove = groupedPages[index];
     const sections = document.sections.filter((s: any) => s.id !== toRemove.id);
@@ -334,7 +334,8 @@ class DocumentEditor extends React.Component<{
 
   @autobind
   _handleAddSection(section: string) {
-    const { insertSectionAt, groupedPages } = this.state;
+    const groupedPages = this.groupedPages;
+    const { insertSectionAt } = this.state;
     const { document, onChange, history } = this.props;
     const insertAfter = groupedPages[insertSectionAt === 0 ? 1 : insertSectionAt];
     const newSection = { type: section, id: v4() };

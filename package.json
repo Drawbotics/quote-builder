@@ -46,7 +46,7 @@
     "webpack-dev-server": "^3.1.14"
   },
   "dependencies": {
-    "@react-pdf/renderer": "^1.0.0-alpha.25",
+    "@react-pdf/renderer": "^1.4.0",
     "@types/electron-json-storage": "^4.0.0",
     "@types/electron-settings": "^3.1.1",
     "@types/feather-icons": "^4.7.0",

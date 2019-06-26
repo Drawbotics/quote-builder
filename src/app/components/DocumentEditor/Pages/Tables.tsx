@@ -61,12 +61,12 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'flex-start',
+    // height: 35,
     paddingLeft: 3,
     paddingRight: sv.basePaddingSmall,
     paddingTop: 10,
     paddingBottom: 10,
     color: sv.textPrimary,
-    // height: 35,
   },
   rowWithTopBorder: {
     borderTopColor: sv.grey300,
@@ -155,11 +155,12 @@ const Row: React.SFC<{
   height?: number,
 }> = ({ children, topBorder, rightAlign, height=0 }) => {
   const heightStyle = height > 0 ? { height: height, paddingBottom: 0 } : null;
+  console.log(heightStyle);
   return (
     <View style={[styles.row,
       topBorder ? styles.rowWithTopBorder : null,
       rightAlign ? styles.rightAlign : null,
-      heightStyle,
+      {/* heightStyle, */}
     ]} wrap={false}>
       {children}
     </View>
