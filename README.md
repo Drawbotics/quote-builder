@@ -49,6 +49,7 @@ This step will generate the following things in the `builds`:
 
 ### To publish
 To publish a new version of this app follow these steps:
+
 0. Before building the app as described above, you should have bumped the version in the `package.json`. This is important as it's through the package versions that we know if a new update is available
 1. Create a new tag with `git tag v[new-version]` which should follow the `version` value in the `package.json` e.g. `v1.2.3`.
 2. Push tags with `git push --tags`
