@@ -49,7 +49,8 @@ const styles = StyleSheet.create({
   column: {
   },
   title: {
-    fontFamily: 'OpenSans-Bold',
+    fontFamily: 'OpenSans',
+    fontWeight: 800,
     textTransform: 'uppercase',
     color: sv.textPrimary,
     fontSize: 8,
@@ -78,7 +79,8 @@ const styles = StyleSheet.create({
   },
   comment: {
     marginLeft: sv.baseMarginSmall,
-    fontFamily: 'OpenSans-Italic',
+    fontFamily: 'OpenSans',
+    fontStyle: 'italic',
   },
   footers: {
     borderTopColor: sv.grey600,
@@ -90,7 +92,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     fontSize: 12,
     color: sv.textPrimary,
-    fontFamily: 'OpenSans-Bold',
+    fontFamily: 'OpenSans',
+    fontWeight: 800,
     height: rowHeight,
   },
   footerTitle: {
@@ -177,7 +180,7 @@ const Phases: React.SFC<{
     <View>
       {phases.map((label, i) => (
         <Row key={i} topBorder={!! label && i !== 0} height={heights[i]}>
-          <Text style={{ fontFamily: 'OpenSans-SemiBold' }}>{label}</Text>
+          <Text style={{ fontFamily: 'OpenSans', fontWeight: 600 }}>{label}</Text>
         </Row>
       ))}
     </View>

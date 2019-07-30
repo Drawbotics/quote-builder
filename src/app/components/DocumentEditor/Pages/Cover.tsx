@@ -12,7 +12,8 @@ import drawboticsLogo from '../images/logo.png';
 
 const styles = StyleSheet.create({
   page: {
-    fontFamily: 'OpenSans-Light',
+    fontFamily: 'OpenSans',
+    fontWeight: 300,
     backgroundColor: 'white',
   },
   coverImage: {
@@ -63,7 +64,7 @@ const Cover: React.SFC<{
   return (
     <Page style={styles.page} wrap={false}>
       <View>
-        <View style={styles.content}>
+        <View style={styles.content} debug>
           <Text style={styles.title}>{t(getCurrentLocale(), 'document.price_offer')}</Text>
           <Text style={styles.subtitle}>{project.projectName}</Text>
           <Text style={styles.description}>{project.contactName}</Text>

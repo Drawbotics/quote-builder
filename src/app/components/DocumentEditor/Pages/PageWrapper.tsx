@@ -8,7 +8,8 @@ import drawboticsLogo from '../images/logo.png';
 
 const styles = StyleSheet.create({
   page: {
-    fontFamily: 'OpenSans-Light',
+    fontFamily: 'OpenSans',
+    fontWeight: 300,
     backgroundColor: 'white',
   },
   pageWithBackground: {
@@ -62,7 +63,8 @@ const styles = StyleSheet.create({
     backgroundColor: sv.textSecondary,
   },
   pageCount: {
-    fontFamily: 'OpenSans-Light',
+    fontFamily: 'OpenSans',
+    fontWeight: 300,
     position: 'absolute',
     top: sv.baseMargin + 5,
     right: sv.baseMargin + sv.baseMarginSmall,
@@ -70,7 +72,8 @@ const styles = StyleSheet.create({
     fontSize: 32,
   },
   title: {
-    fontFamily: 'OpenSans-Light',
+    fontFamily: 'OpenSans',
+    fontWeight: 300,
     position: 'absolute',
     top: 80,
     left: 0,
@@ -81,7 +84,8 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     position: 'absolute',
-    fontFamily: 'OpenSans-Bold',
+    fontFamily: 'OpenSans',
+    fontWeight: 800,
     top: 125,
     left: 0,
     paddingRight: 70,
@@ -91,7 +95,8 @@ const styles = StyleSheet.create({
     color: sv.textPrimary,
   },
   description: {
-    fontFamily: 'OpenSans-Light',
+    fontFamily: 'OpenSans',
+    fontWeight: 300,
     position: 'absolute',
     top: 170,
     left: 0,

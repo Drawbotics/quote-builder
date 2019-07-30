@@ -74,7 +74,8 @@ const styles = StyleSheet.create({
   },
   name: {
     fontSize: 9,
-    fontFamily: 'OpenSans-SemiBold',
+    fontFamily: 'OpenSans',
+    fontWeight: 600,
     color: sv.textPrimary,
     marginBottom: 3,
   },
@@ -92,7 +93,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   label: {
-    fontFamily: 'OpenSans-SemiBold',
+    fontFamily: 'OpenSans',
+    fontWeight: 600,
     width: 10,
   },
 });
