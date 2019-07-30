@@ -160,7 +160,7 @@ const Row: React.SFC<{
     <View style={[styles.row,
       topBorder ? styles.rowWithTopBorder : null,
       rightAlign ? styles.rightAlign : null,
-      {/* heightStyle, */}
+      heightStyle,
     ]} wrap={false}>
       {children}
     </View>
