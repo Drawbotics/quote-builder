@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { css, cx } from 'emotion';
-import { BlobProvider } from '@react-pdf/renderer';
+import { BlobProvider, pdf } from '@react-pdf/renderer';
 import { Document, Page } from 'react-pdf/dist/entry.webpack';
 import autobind from 'autobind-decorator';
 import isEmpty from 'lodash/isEmpty';
@@ -132,6 +132,7 @@ class DocumentEditor extends React.Component<{
 }> {
   pages = {}
   viewer: any = undefined
+  groupedPages = {}
 
   state = {
     zoom: 1.0,
@@ -139,10 +140,10 @@ class DocumentEditor extends React.Component<{
     editingPage: undefined,
     navigationOpen: true,
     editingOpen: false,
-    groupedPages: {},
     activePage: 1,
     insertSectionAt: -1,
     reload: 0,
+    blob: undefined,
   }
 
   componentDidMount() {
@@ -154,11 +155,24 @@ class DocumentEditor extends React.Component<{
     this.viewer.removeEventListener('scroll', this._handleScrollPage);
   }
 
-  render() {
-    const { zoom, pages, editingPage, navigationOpen, activePage, groupedPages, editingOpen, reload, insertSectionAt } = this.state;
+  async componentDidUpdate(prevProps: any, prevState: any) {
     const { document } = this.props;
-    if (isEmpty(document)) return <Spinner label="Loading PDF..." />;
-    const renderedDocument = DocumentGenerator({ document, onPageRender: this._onDocumentPageRender });
+    const { reload } = this.state;
+    if (isEmpty(prevProps.document) && ! isEmpty(document)) {
+      const blob = await this._documentToBlob(document);
+      this.setState({ blob });
+    }
+    else if (reload === 1 && prevState.reload === 0) {
+      const blob = await this._documentToBlob(document);
+      this.setState({ blob });
+    }
+  }
+
+  render() {
+    const { zoom, pages, editingPage, navigationOpen, activePage, editingOpen, reload, insertSectionAt, blob } = this.state;
+    const groupedPages = this.groupedPages;
+    const { document } = this.props;
+    if (isEmpty(document) || ! blob) return <Spinner label="Loading PDF..." />;
     return (
       <div className={styles.documentEditor}>
         <div className={cx(styles.navigationBar, { [styles.barOpen]: navigationOpen })}>
@@ -188,34 +202,39 @@ class DocumentEditor extends React.Component<{
           <ZoomControls zoom={zoom} onClickZoom={(v: number) => this.setState({ zoom: v })} />
         </div>
         <div className={styles.viewer} ref={(viewer: HTMLDivElement) => { this.viewer = viewer; this._addScrollListener(viewer) }}>
-          <BlobProvider key={reload} document={renderedDocument}>
-            {({ blob }: { blob: any }) => (
-              <div className={styles.document}>
-                {blob ? (() => {
-                  this.pages = {};
-                  return (
-                    <Document file={blob} onLoadSuccess={this._onDocumentLoadSuccess} loading={<Spinner label="Loading PDF..." />}>
-                      {Array(pages).fill(0).map((value, index) => (
-                        <Fragment key={index}>
-                          <Divisor onClickPlus={() => this._openAddSection(index)} />
-                          <div className={cx(styles.page, { [styles.selected]: editingPage === index })} ref={(page: HTMLDivElement) => page ? this.pages[`page${index+1}`] = page : null}>
-                            <Page pageNumber={index + 1} scale={zoom} onLoadSuccess={index + 1 === pages ? this._handleScrollToPage : null} />
-                            <div className={styles.deletePage} data-element="delete">
-                              <RoundButton onClick={() => this._handleRemoveSection(index + 1)} size={30}>-</RoundButton>
-                            </div>
-                          </div>
-                        </Fragment>
-                      ))}
-                      <Divisor onClickPlus={() => this._openAddSection(pages)} />
-                    </Document>
-                  );
-                })() : <Spinner label="Loading PDF..." />}
-              </div>
-            )}
-          </BlobProvider>
+          <div key={reload} className={styles.document}>
+            {blob ? (() => {
+              this.pages = {};
+              return (
+                <Document file={blob} onLoadSuccess={this._onDocumentLoadSuccess} loading={<Spinner label="Loading PDF..." />}>
+                  {Array(pages).fill(0).map((value, index) => (
+                    <Fragment key={index}>
+                      <Divisor onClickPlus={() => this._openAddSection(index)} />
+                      <div className={cx(styles.page, { [styles.selected]: editingPage === index })} ref={(page: HTMLDivElement) => page ? this.pages[`page${index+1}`] = page : null}>
+                        <Page pageNumber={index + 1} scale={zoom} onLoadSuccess={index + 1 === pages ? this._handleScrollToPage : null} />
+                        <div className={styles.deletePage} data-element="delete">
+                          <RoundButton onClick={() => this._handleRemoveSection(index + 1)} size={30}>-</RoundButton>
+                        </div>
+                      </div>
+                    </Fragment>
+                  ))}
+                  <Divisor onClickPlus={() => this._openAddSection(pages)} />
+                </Document>
+              );
+            })() : <Spinner label="Loading PDF..." />}
+          </div>
         </div>
       </div>
     );
+  }
+
+  @autobind
+  async _documentToBlob(document: any) {
+    const blobGenerator = pdf();
+    const generatedDocument = DocumentGenerator({ document, onPageRender: this._onDocumentPageRender });
+    blobGenerator.updateContainer(generatedDocument);
+    const blob = await blobGenerator.toBlob();
+    return blob;
   }
 
   @autobind
@@ -266,13 +285,12 @@ class DocumentEditor extends React.Component<{
 
   @autobind
   _onDocumentPageRender(section: { type: string, id: string }, pageNumber: number) {
-    const { groupedPages } = this.state;
-    this.setState({ groupedPages: { ...groupedPages, [pageNumber]: section } });
+    this.groupedPages = { ...this.groupedPages, [pageNumber]: section };
   }
 
   @autobind
   _handleClickSectionNavigation(id: string) {
-    const { groupedPages } = this.state;
+    const groupedPages = this.groupedPages;
     const firstPage = Object.keys(groupedPages).find((pageNumber) => groupedPages[pageNumber].id === id);
     if (! firstPage) return;
     this._scrollToPage(firstPage);
@@ -321,7 +339,7 @@ class DocumentEditor extends React.Component<{
 
   @autobind
   _handleRemoveSection(index: number) {
-    const { groupedPages } = this.state;
+    const groupedPages = this.groupedPages;
     const { document, onChange, history } = this.props;
     const toRemove = groupedPages[index];
     const sections = document.sections.filter((s: any) => s.id !== toRemove.id);
@@ -334,7 +352,8 @@ class DocumentEditor extends React.Component<{
 
   @autobind
   _handleAddSection(section: string) {
-    const { insertSectionAt, groupedPages } = this.state;
+    const groupedPages = this.groupedPages;
+    const { insertSectionAt } = this.state;
     const { document, onChange, history } = this.props;
     const insertAfter = groupedPages[insertSectionAt === 0 ? 1 : insertSectionAt];
     const newSection = { type: section, id: v4() };

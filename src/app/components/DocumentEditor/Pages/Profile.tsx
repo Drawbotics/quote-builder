@@ -21,13 +21,15 @@ const styles = StyleSheet.create({
     width: 300,
   },
   quote: {
-    fontFamily: 'OpenSans-Italic',
+    fontFamily: 'OpenSans',
+    fontStyle: 'italic',
     color: sv.textSecondary,
     fontSize: 23,
     textAlign: 'center',
   },
   name: {
-    fontFamily: 'OpenSans-SemiBold',
+    fontFamily: 'OpenSans',
+    fontWeight: 600,
     fontSize: 11,
     textTransform: 'uppercase',
     marginTop: sv.baseMarginSmall,
@@ -50,7 +52,8 @@ const styles = StyleSheet.create({
     width: 100,
   },
   fullName: {
-    fontFamily: 'OpenSans-SemiBold',
+    fontFamily: 'OpenSans',
+    fontWeight: 600,
     fontSize: 9,
     marginTop: sv.baseMarginSmall,
     color: sv.textPrimary,

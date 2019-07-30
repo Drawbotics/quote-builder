@@ -25,7 +25,8 @@ const styles = StyleSheet.create({
   paragraph: paragraph,
   subtitle: {
     fontSize: 10,
-    fontFamily: 'OpenSans-SemiBold',
+    fontFamily: 'OpenSans',
+    fontWeight: 600,
     color: sv.textPrimary,
     marginBottom: 5,
     marginTop: 10,

@@ -19,34 +19,18 @@ import { PersonType } from '../Person';
 import { ProjectType } from '../DocumentBoostrap';
 
 
-Font.register(
-  `http://localhost:${remote.getGlobal('_serverPort')}/fonts/OpenSans-Regular.ttf`,
-  { family: 'OpenSans' },
-);
+Font.register({ family: 'OpenSans', fonts: [
+ { src: `http://localhost:${remote.getGlobal('_serverPort')}/fonts/OpenSans-Regular.ttf` },
+ { src: `http://localhost:${remote.getGlobal('_serverPort')}/fonts/OpenSans-SemiBold.ttf`, fontWeight: 600 },
+ { src: `http://localhost:${remote.getGlobal('_serverPort')}/fonts/OpenSans-Bold.ttf`, fontWeight: 800 },
+ { src: `http://localhost:${remote.getGlobal('_serverPort')}/fonts/OpenSans-Light.ttf`, fontWeight: 300 },
+ { src: `http://localhost:${remote.getGlobal('_serverPort')}/fonts/OpenSans-LightItalic.ttf`, fontWeight: 300, fontStyle: 'italic' },
+]});
 
-Font.register(
-  `http://localhost:${remote.getGlobal('_serverPort')}/fonts/OpenSans-SemiBold.ttf`,
-  { family: 'OpenSans-SemiBold' },
-);
 
-Font.register(
-  `http://localhost:${remote.getGlobal('_serverPort')}/fonts/OpenSans-Bold.ttf`,
-  { family: 'OpenSans-Bold' },
-);
-
-Font.register(
-  `http://localhost:${remote.getGlobal('_serverPort')}/fonts/OpenSans-Light.ttf`,
-  { family: 'OpenSans-Light' },
-);
-
-Font.register(
-  `http://localhost:${remote.getGlobal('_serverPort')}/fonts/OpenSans-LightItalic.ttf`,
-  { family: 'OpenSans-Italic' },
-);
-
-Font.registerHyphenationCallback((words: string[]) => (
-  words.map((word: string) => [word])
-));
+// Font.registerHyphenationCallback((words: string[]) => (
+//   words.map((word: string) => [word])
+// ));
 
 
 interface SectionType {

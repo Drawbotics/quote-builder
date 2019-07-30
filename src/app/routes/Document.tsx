@@ -105,7 +105,6 @@ class Document extends React.Component<{
     const { untitled, hasUnsavedChanges, exiting, file } = this.state;
     const { match, location, history } = this.props;
     const { params } = match;
-
     if (! params.id) {
       return <DocumentBoostrap onFinish={this._onFinishBootstrap} fromTemplate={!! parse(location.search).template} />
     }

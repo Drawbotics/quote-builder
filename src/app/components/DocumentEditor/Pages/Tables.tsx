@@ -49,7 +49,8 @@ const styles = StyleSheet.create({
   column: {
   },
   title: {
-    fontFamily: 'OpenSans-Bold',
+    fontFamily: 'OpenSans',
+    fontWeight: 800,
     textTransform: 'uppercase',
     color: sv.textPrimary,
     fontSize: 8,
@@ -61,12 +62,12 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'flex-start',
+    // height: 35,
     paddingLeft: 3,
     paddingRight: sv.basePaddingSmall,
     paddingTop: 10,
     paddingBottom: 10,
     color: sv.textPrimary,
-    // height: 35,
   },
   rowWithTopBorder: {
     borderTopColor: sv.grey300,
@@ -78,7 +79,8 @@ const styles = StyleSheet.create({
   },
   comment: {
     marginLeft: sv.baseMarginSmall,
-    fontFamily: 'OpenSans-Italic',
+    fontFamily: 'OpenSans',
+    fontStyle: 'italic',
   },
   footers: {
     borderTopColor: sv.grey600,
@@ -90,7 +92,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     fontSize: 12,
     color: sv.textPrimary,
-    fontFamily: 'OpenSans-Bold',
+    fontFamily: 'OpenSans',
+    fontWeight: 800,
     height: rowHeight,
   },
   footerTitle: {
@@ -155,6 +158,7 @@ const Row: React.SFC<{
   height?: number,
 }> = ({ children, topBorder, rightAlign, height=0 }) => {
   const heightStyle = height > 0 ? { height: height, paddingBottom: 0 } : null;
+  // console.log(heightStyle);
   return (
     <View style={[styles.row,
       topBorder ? styles.rowWithTopBorder : null,
@@ -176,7 +180,7 @@ const Phases: React.SFC<{
     <View>
       {phases.map((label, i) => (
         <Row key={i} topBorder={!! label && i !== 0} height={heights[i]}>
-          <Text style={{ fontFamily: 'OpenSans-SemiBold' }}>{label}</Text>
+          <Text style={{ fontFamily: 'OpenSans', fontWeight: 600 }}>{label}</Text>
         </Row>
       ))}
     </View>

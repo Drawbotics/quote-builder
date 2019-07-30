@@ -59,7 +59,8 @@ const styles = StyleSheet.create({
   },
   title: {
     color: sv.primary,
-    fontFamily: 'OpenSans-SemiBold',
+    fontFamily: 'OpenSans',
+    fontWeight: 600,
     fontSize: 25,
   },
   subtitle: {
