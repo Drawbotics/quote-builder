@@ -158,7 +158,7 @@ const Row: React.SFC<{
   height?: number,
 }> = ({ children, topBorder, rightAlign, height=0 }) => {
   const heightStyle = height > 0 ? { height: height, paddingBottom: 0 } : null;
-  console.log(heightStyle);
+  // console.log(heightStyle);
   return (
     <View style={[styles.row,
       topBorder ? styles.rowWithTopBorder : null,

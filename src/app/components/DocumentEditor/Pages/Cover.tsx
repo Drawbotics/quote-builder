@@ -12,6 +12,7 @@ import drawboticsLogo from '../images/logo.png';
 
 const styles = StyleSheet.create({
   page: {
+    position: 'relative',
     fontFamily: 'OpenSans',
     fontWeight: 300,
     backgroundColor: 'white',
@@ -20,8 +21,13 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 'auto',
   },
+  wrapper: {
+    position: 'relative',
+    width: '100%',
+  },
   content: {
     position: 'absolute',
+    left: '0px',
     top: '100px',
     width: '100%',
     display: 'flex',
@@ -63,8 +69,9 @@ const Cover: React.SFC<{
 }> = ({ project, onPageRender }) => {
   return (
     <Page style={styles.page} wrap={false}>
-      <View>
-        <View style={styles.content} debug>
+      <View style={styles.wrapper}>
+        <Image style={styles.coverImage} src={coverImage} />
+        <View style={styles.content}>
           <Text style={styles.title}>{t(getCurrentLocale(), 'document.price_offer')}</Text>
           <Text style={styles.subtitle}>{project.projectName}</Text>
           <Text style={styles.description}>{project.contactName}</Text>
@@ -72,7 +79,6 @@ const Cover: React.SFC<{
             <Image style={styles.clientLogo} src={project.clientLogo} />
           : null}
         </View>
-        <Image style={styles.coverImage} src={coverImage} />
         <Image style={styles.logo} src={drawboticsLogo} />
       </View>
       <Text render={({ pageNumber }: { pageNumber: number }) => onPageRender(pageNumber)} />
