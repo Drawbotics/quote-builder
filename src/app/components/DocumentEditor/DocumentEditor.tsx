@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { css, cx } from 'emotion';
-import { BlobProvider } from '@react-pdf/renderer';
+import { BlobProvider, pdf } from '@react-pdf/renderer';
 import { Document, Page } from 'react-pdf/dist/entry.webpack';
 import autobind from 'autobind-decorator';
 import isEmpty from 'lodash/isEmpty';
@@ -143,6 +143,7 @@ class DocumentEditor extends React.Component<{
     activePage: 1,
     insertSectionAt: -1,
     reload: 0,
+    blob: undefined,
   }
 
   componentDidMount() {
@@ -154,12 +155,24 @@ class DocumentEditor extends React.Component<{
     this.viewer.removeEventListener('scroll', this._handleScrollPage);
   }
 
+  async componentDidUpdate(prevProps: any, prevState: any) {
+    const { document } = this.props;
+    const { reload } = this.state;
+    if (isEmpty(prevProps.document) && ! isEmpty(document)) {
+      const blob = await this._documentToBlob(document);
+      this.setState({ blob });
+    }
+    else if (reload === 1 && prevState.reload === 0) {
+      const blob = await this._documentToBlob(document);
+      this.setState({ blob });
+    }
+  }
+
   render() {
-    const { zoom, pages, editingPage, navigationOpen, activePage, editingOpen, reload, insertSectionAt } = this.state;
+    const { zoom, pages, editingPage, navigationOpen, activePage, editingOpen, reload, insertSectionAt, blob } = this.state;
     const groupedPages = this.groupedPages;
     const { document } = this.props;
-    if (isEmpty(document)) return <Spinner label="Loading PDF..." />;
-    const renderedDocument = DocumentGenerator({ document, onPageRender: this._onDocumentPageRender });
+    if (isEmpty(document) || ! blob) return <Spinner label="Loading PDF..." />;
     return (
       <div className={styles.documentEditor}>
         <div className={cx(styles.navigationBar, { [styles.barOpen]: navigationOpen })}>
@@ -189,34 +202,39 @@ class DocumentEditor extends React.Component<{
           <ZoomControls zoom={zoom} onClickZoom={(v: number) => this.setState({ zoom: v })} />
         </div>
         <div className={styles.viewer} ref={(viewer: HTMLDivElement) => { this.viewer = viewer; this._addScrollListener(viewer) }}>
-          <BlobProvider key={reload} document={renderedDocument}>
-            {({ blob }: { blob: any }) => (
-              <div className={styles.document}>
-                {blob ? (() => {
-                  this.pages = {};
-                  return (
-                    <Document file={blob} onLoadSuccess={this._onDocumentLoadSuccess} loading={<Spinner label="Loading PDF..." />}>
-                      {Array(pages).fill(0).map((value, index) => (
-                        <Fragment key={index}>
-                          <Divisor onClickPlus={() => this._openAddSection(index)} />
-                          <div className={cx(styles.page, { [styles.selected]: editingPage === index })} ref={(page: HTMLDivElement) => page ? this.pages[`page${index+1}`] = page : null}>
-                            <Page pageNumber={index + 1} scale={zoom} onLoadSuccess={index + 1 === pages ? this._handleScrollToPage : null} />
-                            <div className={styles.deletePage} data-element="delete">
-                              <RoundButton onClick={() => this._handleRemoveSection(index + 1)} size={30}>-</RoundButton>
-                            </div>
-                          </div>
-                        </Fragment>
-                      ))}
-                      <Divisor onClickPlus={() => this._openAddSection(pages)} />
-                    </Document>
-                  );
-                })() : <Spinner label="Loading PDF..." />}
-              </div>
-            )}
-          </BlobProvider>
+          <div key={reload} className={styles.document}>
+            {blob ? (() => {
+              this.pages = {};
+              return (
+                <Document file={blob} onLoadSuccess={this._onDocumentLoadSuccess} loading={<Spinner label="Loading PDF..." />}>
+                  {Array(pages).fill(0).map((value, index) => (
+                    <Fragment key={index}>
+                      <Divisor onClickPlus={() => this._openAddSection(index)} />
+                      <div className={cx(styles.page, { [styles.selected]: editingPage === index })} ref={(page: HTMLDivElement) => page ? this.pages[`page${index+1}`] = page : null}>
+                        <Page pageNumber={index + 1} scale={zoom} onLoadSuccess={index + 1 === pages ? this._handleScrollToPage : null} />
+                        <div className={styles.deletePage} data-element="delete">
+                          <RoundButton onClick={() => this._handleRemoveSection(index + 1)} size={30}>-</RoundButton>
+                        </div>
+                      </div>
+                    </Fragment>
+                  ))}
+                  <Divisor onClickPlus={() => this._openAddSection(pages)} />
+                </Document>
+              );
+            })() : <Spinner label="Loading PDF..." />}
+          </div>
         </div>
       </div>
     );
+  }
+
+  @autobind
+  async _documentToBlob(document: any) {
+    const blobGenerator = pdf();
+    const generatedDocument = DocumentGenerator({ document, onPageRender: this._onDocumentPageRender });
+    blobGenerator.updateContainer(generatedDocument);
+    const blob = await blobGenerator.toBlob();
+    return blob;
   }
 
   @autobind

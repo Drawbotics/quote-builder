@@ -180,7 +180,6 @@ const Services: React.SFC<{
   const sections = generateServiceSections(allServices, contents.products, locale);
   const servicePages = chunk(sections.filter((section: ServiceType | RevoType) => section.id !== 'revo' && ! section.hidden), 2);
   const revo = sections.find((section) => section.id === 'revo') as RevoType;
-  return null;
   return (
     <Fragment>
       {revo ?
