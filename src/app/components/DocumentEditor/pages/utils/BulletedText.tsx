@@ -22,12 +22,14 @@ const styles = StyleSheet.create({
     lineHeight: 1.5,
   },
   dot: {
-    fontSize: 30,
+    fontFamily: 'OpenSans',
+    fontWeight: 800,
     color: sv.primary,
+    background: sv.primary,
     height: 20,
     width: 20,
-    marginTop: -13,
-    marginLeft: 5,
+    marginLeft: 10,
+    marginRight: -7,
   },
 });
 

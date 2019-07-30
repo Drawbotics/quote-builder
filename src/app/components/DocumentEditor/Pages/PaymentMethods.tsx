@@ -46,11 +46,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   dot: {
-    fontSize: 30,
+    fontFamily: 'OpenSans',
+    fontWeight: 800,
     color: sv.primary,
+    background: sv.primary,
     height: 20,
     width: 20,
-    marginTop: -13,
+    marginLeft: 10,
+    marginRight: -7,
   },
   lineContent: {
   },
