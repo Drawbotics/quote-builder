@@ -301,8 +301,10 @@ class DocumentEditor extends React.Component<{
     const page = this.pages[`page${pageIndex}`];
     this.viewer.scrollTop = 0;
     const viewerTop = this.viewer.getBoundingClientRect().top + 20;
-    const scrollTop = page.getBoundingClientRect().top - viewerTop;
-    this.viewer.scrollTop = scrollTop;
+    if (page) {
+      const scrollTop = page.getBoundingClientRect().top - viewerTop;
+      this.viewer.scrollTop = scrollTop;
+    }
   }
 
   @autobind
