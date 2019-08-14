@@ -3,7 +3,7 @@ import autobind from 'autobind-decorator';
 import { css } from 'emotion';
 import omit from 'lodash/omit';
 
-import Input from '../../Input';
+import Input, { InputGroup } from '../../Input';
 import Button from '../../Button';
 import { getCurrentLocale } from '~/utils';
 import { createTranslateAlt } from '~/utils/translation';
@@ -37,24 +37,6 @@ const styles = {
 };
 
 
-function getTranslatedLines(t: (k: string, a: string) => string, contents: any) {
-  let lines = [];
-  let read = true;
-  let index = 1;
-  while(read) {
-    const line = t(`line${index}`, contents[`line${index}`]);
-    if (! line) {
-      read = false;
-    }
-    else {
-      lines.push(line);
-    }
-    index = index + 1;
-  }
-  return lines;
-}
-
-
 class PaymentMethods extends React.Component<{
   document: any,
   onClickUpdate: (document: any) => void,
@@ -74,27 +56,31 @@ class PaymentMethods extends React.Component<{
 
     const locale = getCurrentLocale();
     const t = (k: string, alt?: string) => ta(locale, k, alt);
-    const lines = getTranslatedLines(t, contents);
     return (
       <div>
-        {lines.map((text, i) => (
-          <div key={i} className={styles.line}>
-            <Input
-              label={`Line ${i + 1}`}
-              name={`line${i + 1}`}
-              value={text}
-              onChange={this._handleChange}
-              topLabel />
-            <div className={styles.actions}>
-              <div className={styles.action} onClick={() => this._handleChange(' ', `line${i + 1}`)}>
-                Hide from list
-              </div>
-              <div className={styles.action} onClick={() => this._handleChange('', `line${i + 1}`)}>
-                Reset to default
-              </div>
-            </div>
-          </div>
-        ))}
+        <InputGroup>
+          <Input
+            label="Paragraph 1"
+            name="paragraph1"
+            value={t('paragraph1', contents.paragraph1)}
+            onChange={this._handleChange}
+            topLabel
+            area />
+          <Input
+            label="Bullet points"
+            name="bulletPoints"
+            value={t('bullet_points', contents.bulletPoints)}
+            onChange={this._handleChange}
+            topLabel
+            area />
+          <Input
+            label="Paragraph 2"
+            name="paragraph2"
+            value={t('paragraph2', contents.paragraph2)}
+            onChange={this._handleChange}
+            topLabel
+            area />
+        </InputGroup>
         <div className={styles.update}>
           <Button onClick={this._handleClickUpdate}>Update</Button>
         </div>
@@ -104,7 +90,6 @@ class PaymentMethods extends React.Component<{
 
   @autobind
   _handleChange(value: string, key: string) {
-    console.log(value, key);
     const contents = value === '' ? omit(this.state.contents, key) : { ...this.state.contents, [key]: value };
     this.setState({ contents });
   }

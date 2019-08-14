@@ -7,6 +7,7 @@ import { getCurrentLocale } from '~/utils';
 import { createTranslateAlt } from '~/utils/translation';
 import PageWrapper from './PageWrapper';
 import { PersonType } from '~/components/Person';
+import BulletedText from './utils/BulletedText';
 
 
 const tt = createTranslateAlt('document.payment_methods');
@@ -103,24 +104,6 @@ const styles = StyleSheet.create({
 });
 
 
-function getTranslatedLines(t: (k: string, a: string) => string, contents: any) {
-  let lines = [];
-  let read = true;
-  let index = 1;
-  while(read) {
-    const line = t(`line${index}`, contents[`line${index}`]);
-    if (! line) {
-      read = false;
-    }
-    else {
-      line !== ' ' ? lines.push(line) : null;
-    }
-    index = index + 1;
-  }
-  return lines;
-}
-
-
 const Line: React.SFC<{
   children: string,
 }> = ({ children }) => {
@@ -140,17 +123,14 @@ const PaymentMethods: React.SFC<{
 }> = ({ profile, onPageRender, contents }) => {
   const locale = getCurrentLocale();
   const t = (k: string, alt?: string) => tt(locale, k, alt);
-  const lines = getTranslatedLines(t, contents);
   return (
     <PageWrapper noPadding noPageNum onPageRender={onPageRender}>
       <View style={styles.wrapper}>
         <View style={styles.content}>
           <Text style={styles.title}>{t('title')}</Text>
-          <Text style={styles.paragraph}>{t('paragraph1')}</Text>
-          {lines.map((text, i) => (
-            <Line key={i}>{text}</Line>
-          ))}
-          <Text style={styles.paragraph}>{t('paragraph2')}</Text>
+          <Text style={styles.paragraph}>{t('paragraph1', contents.paragraph1)}</Text>
+          <BulletedText>{t('bullet_points', contents.bulletPoints) || ''}</BulletedText>
+          <Text style={styles.paragraph}>{t('paragraph2', contents.paragraph1)}</Text>
           <Text style={styles.websiteLink}>www.drawbotics.com</Text>
         </View>
         <View style={styles.footer}>

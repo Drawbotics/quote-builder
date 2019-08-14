@@ -102,11 +102,12 @@ document:
   payment_methods:
     title: Prijs en betalingsvoorwaarden
     paragraph1: Een van de belangrijkste waarden van Drawbotics is transparantie. Onze klanten kunnen hun offertes op elk moment direct online maken via ons Drawbotics-platform. De prijzen in deze offerte zijn onder meer besproken tijdens de briefing van de klant.
-    line1: De onderstaande prijzen zijn exclusief btw.
-    line2: 'Betalingsvoorwaarden: 30 dagen factuurdatum'
-    line3: Een voorschot van 30% moet betaald worden bij de bevestiging van uw bestelling.
-    line4: Een tussentijdse betaling van 40% is verschuldigd als we meer dan de helft van het werk hebben voltooid.
-    line5: Het saldo en de extra's die tijdens het project zijn toegevoegd, worden gefactureerd bij het afsluiten van het project / de aflevering van de definitieve bestanden.
+    bullet_points: |
+      - De onderstaande prijzen zijn exclusief btw.
+      - Betalingsvoorwaarden: 30 dagen factuurdatum
+      - Een voorschot van 30% moet betaald worden bij de bevestiging van uw bestelling.
+      - Een tussentijdse betaling van 40% is verschuldigd als we meer dan de helft van het werk hebben voltooid.
+      - Het saldo en de extra's die tijdens het project zijn toegevoegd, worden gefactureerd bij het afsluiten van het project / de aflevering van de definitieve bestanden.
     paragraph2: Voor onze klanten binnen de EU (excl. België) met een geldig btw-nummer, wordt een btw-tarief van 0% in rekening gebracht in het kader van een verleggingsregeling. Let op, misschien moet u de btw in uw land rechtvaardigen in overeenstemming met artikel 196, Richtlijn 2006/12 / EG van de EU Raad.
   stats:
     title: Kerncijfers

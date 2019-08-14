@@ -77,7 +77,7 @@ services:
       Il y a plusieurs phases dans le cycle de vente: du premier contact avec le prospect à sa visite sur votre site internet, et finalement jusqu’à sa décision de vous contacter et de vous rencontrer.
 
       REVO vous donne tous les outils pour attirer son attention et lui offrir une expérience unique au moment de visiter votre site internet de façon à optimiser votre taux de conversion.'
-    description3: >
+    description3: |
       Vous recevez:
         - Une expérience interactive
         - Un outil de gestion des informations
@@ -110,10 +110,11 @@ document:
   payment_methods:
     title: Prix et modalités de paiement
     paragraph1: Une des valeurs principale de Drawbotics se trouve dans la transparence. Nos clients peuvent à tout moment réaliser leurs devis directement en ligne à travers notre plateforme Drawbotics. Les prix indiqués dans ce devis comprennent les éléments discutés lors du briefing client.
-    line1: Les prix affichés ci-dessous sont des prix HTVA
-    line2: 'Modalités de paiement: 30 jours date de facturation'
-    line3: 'Un acompte de 30% sera dû à la confirmation de votre bon de commande'
-    line4: Le solde ainsi que les suppléments ajoutés au cours du projet seront facturés à la clôture du projet / livraison des fichiers définitifs
+    bullet_points: |
+      - Les prix affichés ci-dessous sont des prix HTVA
+      - Modalités de paiement: 30 jours date de facturation
+      - Un acompte de 30% sera dû à la confirmation de votre bon de commande
+      - Le solde ainsi que les suppléments ajoutés au cours du projet seront facturés à la clôture du projet / livraison des fichiers définitifs
     paragraph2: Pour nos clients au sein de l’UE avec un numéro de TVA valide, un taux de TVA de 0% sera facturé dans le cadre d’un mécanisme d’autoliquidation. Attention, vous pourriez être amené à justifier la TVA dans votre pays conformément à l’article 196,Directive 2006/112/CE du Conseil.
   stats:
     title: Statistiques

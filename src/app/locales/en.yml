@@ -102,11 +102,12 @@ document:
   payment_methods:
     title: Price and payment methods
     paragraph1: One of the main values of Drawbotics is in transparency. Our customers can at any time make their quotes directly online through our Drawbotics platform. Prices quoted in this quote include items discussed during the customer briefing.
-    line1: The prices shown below are exclusive of VAT.
-    line2: 'Terms of payment: 30 days billing date'
-    line3: A deposit of 30% will be due on the confirmation of your purchase order.
-    line4: An interim payment of 40% will be due when we have completed more than half of the work
-    line5: The balance as well as the additions added during the project will be invoiced at the closing of the project / delivery of the final files.
+    bullet_points: |
+        - The prices shown below are exclusive of VAT.
+        - Terms of payment: 30 days billing date
+        - A deposit of 30% will be due on the confirmation of your purchase order.
+        - An interim payment of 40% will be due when we have completed more than half of the work
+        - The balance as well as the additions added during the project will be invoiced at the closing of the project / delivery of the final files.
     paragraph2: For our customers within the EU with a valid VAT number, a VAT rate of 0% will be charged in the framework of a reverse charge mechanism. Attention, you may have to justify the VAT in your country in accordance with Article 196, Council Directive 2006/112 / EC.
   stats:
     title: Key figures
