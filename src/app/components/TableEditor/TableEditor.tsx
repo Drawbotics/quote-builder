@@ -38,7 +38,7 @@ const initialTable: TableType = {
     {
       label: 'Total',
       comment: '',
-      value: '€1.500.000',
+      value: '',
     },
   ],
 }

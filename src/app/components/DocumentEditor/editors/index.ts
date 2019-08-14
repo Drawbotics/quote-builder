@@ -7,6 +7,7 @@ import Project from './Project';
 import StoryTelling from './StoryTelling';
 import Services from './Services';
 import Tables from './Tables';
+import PaymentMethods from './PaymentMethods';
 
 
 export default {
@@ -19,4 +20,5 @@ export default {
   storyTelling: StoryTelling,
   products: Services,
   tables: Tables,
+  paymentMethods: PaymentMethods,
 };

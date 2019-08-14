@@ -4,12 +4,12 @@ import { View, StyleSheet, Text, Image } from '@react-pdf/renderer';
 import sv from '../vars';
 import { title, paragraph } from './styles';
 import { getCurrentLocale } from '~/utils';
-import { createTranslate } from '~/utils/translation';
+import { createTranslateAlt } from '~/utils/translation';
 import PageWrapper from './PageWrapper';
 import { PersonType } from '~/components/Person';
 
 
-const tt = createTranslate('document.payment_methods');
+const tt = createTranslateAlt('document.payment_methods');
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -103,17 +103,17 @@ const styles = StyleSheet.create({
 });
 
 
-function getTranslatedLines(t: (k: string) => string) {
+function getTranslatedLines(t: (k: string, a: string) => string, contents: any) {
   let lines = [];
   let read = true;
   let index = 1;
   while(read) {
-    const line = t(`line${index}`);
+    const line = t(`line${index}`, contents[`line${index}`]);
     if (! line) {
       read = false;
     }
     else {
-      lines.push(line);
+      line !== ' ' ? lines.push(line) : null;
     }
     index = index + 1;
   }
@@ -135,11 +135,12 @@ const Line: React.SFC<{
 
 const PaymentMethods: React.SFC<{
   profile: PersonType,
+  contents: any,
   onPageRender: (p: number) => void,
-}> = ({ profile, onPageRender }) => {
+}> = ({ profile, onPageRender, contents }) => {
   const locale = getCurrentLocale();
-  const t = (k: string) => tt(locale, k);
-  const lines = getTranslatedLines(t);
+  const t = (k: string, alt?: string) => tt(locale, k, alt);
+  const lines = getTranslatedLines(t, contents);
   return (
     <PageWrapper noPadding noPageNum onPageRender={onPageRender}>
       <View style={styles.wrapper}>

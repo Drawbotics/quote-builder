@@ -81,7 +81,7 @@ function sectionsToComponents(sections: SectionType[], data: DataType, onPageRen
         return <Tables key={i} tables={data.tables} billingAddress={data.project.billingAddress} onPageRender={(page: number) => onPageRender({ type, id }, page)} />
       }
       case 'paymentMethods': {
-        return <PaymentMethods key={i} profile={data.person} onPageRender={(page: number) => onPageRender({ type, id }, page)} />
+        return <PaymentMethods key={i} contents={contents} profile={data.person} onPageRender={(page: number) => onPageRender({ type, id }, page)} />
       }
       default: {
         console.warn(`No equivalent component for section of type ${type}`);

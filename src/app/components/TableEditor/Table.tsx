@@ -64,6 +64,11 @@ const styles = {
 }
 
 
+function _getTotalFromBody(body: TableRowType[]) {
+  return body.reduce((total, item) => (item.hidden ? 0 : Number(item.price.replace(/\D/g,''))) + total, 0);
+}
+
+
 const DragHandle = SortableHandle(() => (
   <div className={styles.dragHandle} data-element="handle">
     <MoreVertical size={20} />
@@ -106,6 +111,7 @@ class Table extends React.Component<{
   render() {
     const { table } = this.props;
     const { header, body, footers } = table;
+    const totalAmount = _getTotalFromBody(body);
     return (
       <div className={styles.table}>
         <div className={styles.body}>
@@ -123,6 +129,7 @@ class Table extends React.Component<{
         <div className={styles.footers}>
           {footers.map((footer, i) => (
             <Footer
+              total={totalAmount}
               key={i}
               footer={footer}
               onClickRemove={() => this._handleModifyFooter('remove', i)}

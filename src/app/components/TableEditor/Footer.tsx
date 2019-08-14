@@ -4,6 +4,7 @@ import autobind from 'autobind-decorator';
 
 import { FooterRowType } from './types';
 import ActionButton from './ActionButton';
+import { totalmem } from 'os';
 
 
 const styles = {
@@ -71,9 +72,10 @@ class Footer extends React.Component<{
   onClickAdd?: () => void,
   onClickRemove?: () => void,
   onChange?: (v: FooterRowType) => void,
+  total?: number,
 }> {
   render() {
-    const { footer={} as FooterRowType, onClickAdd, onClickRemove } = this.props;
+    const { footer={} as FooterRowType, onClickAdd, onClickRemove, total } = this.props;
     return (
       <div className={cx(styles.row, { [styles.disabledRow]: !! onClickAdd })}>
         {onClickRemove ?
@@ -88,7 +90,7 @@ class Footer extends React.Component<{
           <input name="label" onChange={this._handleChangeValue} className={styles.cell} value={footer.label} />
         }
         <input name="comment" onChange={this._handleChangeValue} className={styles.cell} value={footer.comment} />
-        <input name="value" onChange={this._handleChangeValue} className={styles.cell} value={footer.value} />
+        <input name="value" onChange={this._handleChangeValue} className={styles.cell} value={footer.value} placeholder={total ? `${total} (sum)` : undefined} />
       </div>
     );
   }
