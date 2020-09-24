@@ -18,7 +18,6 @@ import EditingPanel from './EditingPanel';
 import RoundButton from '../RoundButton';
 import Spinner from '../Spinner';
 
-
 const styles = {
   documentEditor: css`
     position: relative;
@@ -99,7 +98,7 @@ const styles = {
     }
 
     &:hover {
-      & [data-element="delete"] {
+      & [data-element='delete'] {
         opacity: 1;
         pointer-events: auto;
       }
@@ -121,20 +120,29 @@ const styles = {
     pointer-events: none;
     transition: opacity var(--transition-duration-short) ease-in-out;
   `,
-}
-
+};
 
 class DocumentEditor extends React.Component<{
-  document: any,
-  onChange: () => void,
-  location: any,
-  history: any,
+  document: any;
+  onChange: () => void;
+  location: any;
+  history: any;
 }> {
-  pages = {}
-  viewer: any = undefined
-  groupedPages = {}
+  pages = {};
+  viewer: any = undefined;
+  groupedPages = {};
 
-  state = {
+  state: {
+    editingPage?: number;
+    zoom: number;
+    pages: number;
+    navigationOpen: boolean;
+    editingOpen: boolean;
+    activePage: number;
+    insertSectionAt: number;
+    reload: number;
+    blob: any;
+  } = {
     zoom: 1.0,
     pages: 0,
     editingPage: undefined,
@@ -144,7 +152,7 @@ class DocumentEditor extends React.Component<{
     insertSectionAt: -1,
     reload: 0,
     blob: undefined,
-  }
+  };
 
   componentDidMount() {
     document.addEventListener('click', this._handleClickPage);
@@ -158,21 +166,30 @@ class DocumentEditor extends React.Component<{
   async componentDidUpdate(prevProps: any, prevState: any) {
     const { document } = this.props;
     const { reload } = this.state;
-    if (isEmpty(prevProps.document) && ! isEmpty(document)) {
+    if (isEmpty(prevProps.document) && !isEmpty(document)) {
       const blob = await this._documentToBlob(document);
       this.setState({ blob });
-    }
-    else if (reload === 1 && prevState.reload === 0) {
+    } else if (reload === 1 && prevState.reload === 0) {
       const blob = await this._documentToBlob(document);
       this.setState({ blob });
     }
   }
 
   render() {
-    const { zoom, pages, editingPage, navigationOpen, activePage, editingOpen, reload, insertSectionAt, blob } = this.state;
+    const {
+      zoom,
+      pages,
+      editingPage,
+      navigationOpen,
+      activePage,
+      editingOpen,
+      reload,
+      insertSectionAt,
+      blob,
+    } = this.state;
     const groupedPages = this.groupedPages;
     const { document } = this.props;
-    if (isEmpty(document) || ! blob) return <Spinner label="Loading PDF..." />;
+    if (isEmpty(document) || !blob) return <Spinner label="Loading PDF..." />;
     return (
       <div className={styles.documentEditor}>
         <div className={cx(styles.navigationBar, { [styles.barOpen]: navigationOpen })}>
@@ -180,48 +197,79 @@ class DocumentEditor extends React.Component<{
             activeSection={groupedPages[activePage]}
             onClickSection={this._handleClickSectionNavigation}
             sections={document.sections}
-            onClickToggle={() => this.setState({ navigationOpen: ! navigationOpen })}
-            open={navigationOpen} />
+            onClickToggle={() => this.setState({ navigationOpen: !navigationOpen })}
+            open={navigationOpen}
+          />
         </div>
         <div className={cx(styles.editingBar, { [styles.barOpen]: editingOpen })}>
-          {insertSectionAt !== -1 &&
+          {insertSectionAt !== -1 && (
             <SectionsPanel
               onClickAddSection={this._handleAddSection}
               currentSections={document.sections.map((section: any) => section.type)}
-              onClickToggle={() => this.setState({ editingOpen: ! editingOpen })} />
-          }
-          {editingPage !== undefined &&
+              onClickToggle={() => this.setState({ editingOpen: !editingOpen })}
+            />
+          )}
+          {editingPage != null ? (
             <EditingPanel
               onChange={this._handleModifyDocument}
               document={document}
               editingSection={groupedPages[editingPage + 1]}
-              onClickToggle={() => this.setState({ editingOpen: ! editingOpen })} />
-          }
+              onClickToggle={() => this.setState({ editingOpen: !editingOpen })}
+            />
+          ) : null}
         </div>
         <div className={styles.controls}>
           <ZoomControls zoom={zoom} onClickZoom={(v: number) => this.setState({ zoom: v })} />
         </div>
-        <div className={styles.viewer} ref={(viewer: HTMLDivElement) => { this.viewer = viewer; this._addScrollListener(viewer) }}>
+        <div
+          className={styles.viewer}
+          ref={(viewer: HTMLDivElement) => {
+            this.viewer = viewer;
+            this._addScrollListener(viewer);
+          }}>
           <div key={reload} className={styles.document}>
-            {blob ? (() => {
-              this.pages = {};
-              return (
-                <Document file={blob} onLoadSuccess={this._onDocumentLoadSuccess} loading={<Spinner label="Loading PDF..." />}>
-                  {Array(pages).fill(0).map((value, index) => (
-                    <Fragment key={index}>
-                      <Divisor onClickPlus={() => this._openAddSection(index)} />
-                      <div className={cx(styles.page, { [styles.selected]: editingPage === index })} ref={(page: HTMLDivElement) => page ? this.pages[`page${index+1}`] = page : null}>
-                        <Page pageNumber={index + 1} scale={zoom} onLoadSuccess={index + 1 === pages ? this._handleScrollToPage : null} />
-                        <div className={styles.deletePage} data-element="delete">
-                          <RoundButton onClick={() => this._handleRemoveSection(index + 1)} size={30}>-</RoundButton>
-                        </div>
-                      </div>
-                    </Fragment>
-                  ))}
-                  <Divisor onClickPlus={() => this._openAddSection(pages)} />
-                </Document>
-              );
-            })() : <Spinner label="Loading PDF..." />}
+            {blob ? (
+              (() => {
+                this.pages = {};
+                return (
+                  <Document
+                    file={blob}
+                    onLoadSuccess={this._onDocumentLoadSuccess}
+                    loading={<Spinner label="Loading PDF..." />}>
+                    {Array(pages)
+                      .fill(0)
+                      .map((value, index) => (
+                        <Fragment key={index}>
+                          <Divisor onClickPlus={() => this._openAddSection(index)} />
+                          <div
+                            className={cx(styles.page, {
+                              [styles.selected]: editingPage === index,
+                            })}
+                            ref={(page: HTMLDivElement) =>
+                              page ? (this.pages[`page${index + 1}`] = page) : null
+                            }>
+                            <Page
+                              pageNumber={index + 1}
+                              scale={zoom}
+                              onLoadSuccess={index + 1 === pages ? this._handleScrollToPage : null}
+                            />
+                            <div className={styles.deletePage} data-element="delete">
+                              <RoundButton
+                                onClick={() => this._handleRemoveSection(index + 1)}
+                                size={30}>
+                                -
+                              </RoundButton>
+                            </div>
+                          </div>
+                        </Fragment>
+                      ))}
+                    <Divisor onClickPlus={() => this._openAddSection(pages)} />
+                  </Document>
+                );
+              })()
+            ) : (
+              <Spinner label="Loading PDF..." />
+            )}
           </div>
         </div>
       </div>
@@ -231,7 +279,10 @@ class DocumentEditor extends React.Component<{
   @autobind
   async _documentToBlob(document: any) {
     const blobGenerator = pdf();
-    const generatedDocument = DocumentGenerator({ document, onPageRender: this._onDocumentPageRender });
+    const generatedDocument = DocumentGenerator({
+      document,
+      onPageRender: this._onDocumentPageRender,
+    });
     blobGenerator.updateContainer(generatedDocument);
     const blob = await blobGenerator.toBlob();
     return blob;
@@ -240,13 +291,26 @@ class DocumentEditor extends React.Component<{
   @autobind
   _handleClickPage(e: any) {
     const { history } = this.props;
-    const clickedPanels = !! e.path.find((element: HTMLElement) => element.id === 'editing-panel' || element.id === 'navigation-panel' || element.id === 'title-bar');
+    const clickedPanels = !!e.path.find(
+      (element: HTMLElement) =>
+        element.id === 'editing-panel' ||
+        element.id === 'navigation-panel' ||
+        element.id === 'title-bar',
+    );
     if (get(e.target, 'nodeName') === 'CANVAS') {
-      const boundingBoxes = Object.values(this.pages).map((page: HTMLElement) => page.getBoundingClientRect());
+      const boundingBoxes = Object.values(this.pages).map((page: HTMLElement) =>
+        page.getBoundingClientRect(),
+      );
       if (boundingBoxes.length > 0) {
-        const xDelimiter = { left: boundingBoxes[0].left, right: boundingBoxes[0].left + boundingBoxes[0].width };
+        const xDelimiter = {
+          left: boundingBoxes[0].left,
+          right: boundingBoxes[0].left + boundingBoxes[0].width,
+        };
         if (e.clientX > xDelimiter.left && e.clientX < xDelimiter.right) {
-          const yDelimiters = boundingBoxes.map((box) => ({ top: box.top, bottom: box.top + box.height }));
+          const yDelimiters = boundingBoxes.map((box) => ({
+            top: box.top,
+            bottom: box.top + box.height,
+          }));
           let page = 0;
           for (let delimiter of yDelimiters) {
             if (e.clientY > delimiter.top && e.clientY < delimiter.bottom) {
@@ -257,14 +321,12 @@ class DocumentEditor extends React.Component<{
             }
             page++;
           }
-        }
-        else {
+        } else {
           history.replace({ search: '' });
           this.setState({ editingPage: undefined });
         }
       }
-    }
-    else if (! clickedPanels) {
+    } else if (!clickedPanels) {
       this.setState({ editingPage: undefined });
     }
   }
@@ -284,15 +346,17 @@ class DocumentEditor extends React.Component<{
   }
 
   @autobind
-  _onDocumentPageRender(section: { type: string, id: string }, pageNumber: number) {
+  _onDocumentPageRender(section: { type: string; id: string }, pageNumber: number) {
     this.groupedPages = { ...this.groupedPages, [pageNumber]: section };
   }
 
   @autobind
   _handleClickSectionNavigation(id: string) {
     const groupedPages = this.groupedPages;
-    const firstPage = Object.keys(groupedPages).find((pageNumber) => groupedPages[pageNumber].id === id);
-    if (! firstPage) return;
+    const firstPage = Object.keys(groupedPages).find(
+      (pageNumber) => groupedPages[pageNumber].id === id,
+    );
+    if (!firstPage) return;
     this._scrollToPage(firstPage);
   }
 
@@ -318,12 +382,14 @@ class DocumentEditor extends React.Component<{
   _handleScrollPage() {
     // TODO add some throttle if performance looks poor
     const { top } = this.viewer.getBoundingClientRect();
-    const activePageIndex = findLastIndex(Object.values(this.pages), (page: HTMLDivElement) => page.getBoundingClientRect().top <= top + 20);
+    const activePageIndex = findLastIndex(
+      Object.values(this.pages),
+      (page: HTMLDivElement) => page.getBoundingClientRect().top <= top + 20,
+    );
     let activePage;
-    if (this.viewer.scrollTop === (this.viewer.scrollHeight - this.viewer.offsetHeight)) {
+    if (this.viewer.scrollTop === this.viewer.scrollHeight - this.viewer.offsetHeight) {
       activePage = Object.keys(this.pages).length;
-    }
-    else {
+    } else {
       activePage = activePageIndex === -1 ? 1 : activePageIndex + 1;
     }
     this.setState({ activePage });
@@ -331,7 +397,7 @@ class DocumentEditor extends React.Component<{
 
   @autobind
   _openAddSection(index: number) {
-    const { history } = this.props
+    const { history } = this.props;
     this.setState({
       editingOpen: true,
       insertSectionAt: index,
@@ -359,8 +425,15 @@ class DocumentEditor extends React.Component<{
     const { document, onChange, history } = this.props;
     const insertAfter = groupedPages[insertSectionAt === 0 ? 1 : insertSectionAt];
     const newSection = { type: section, id: v4() };
-    const sections = document.sections.reduce((memo: any, section: any) =>
-      section.id === insertAfter.id ? (insertSectionAt === 0 ? [ newSection, section ] : [ ...memo, section, newSection ]) : [ ...memo, section ], []);
+    const sections = document.sections.reduce(
+      (memo: any, section: any) =>
+        section.id === insertAfter.id
+          ? insertSectionAt === 0
+            ? [newSection, section]
+            : [...memo, section, newSection]
+          : [...memo, section],
+      [],
+    );
     document.sections = sections;
     this.pages = {};
     onChange();
@@ -375,6 +448,5 @@ class DocumentEditor extends React.Component<{
     this.setState({ reload: 1 });
   }
 }
-
 
 export default DocumentEditor;

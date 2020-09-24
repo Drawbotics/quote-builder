@@ -13,7 +13,6 @@ import { savePerson, loadPeople, deletePerson } from '../utils/storage/people';
 import { showError, showMessage } from '../utils/dialogs';
 import { readFile, writeFile } from '../utils';
 
-
 const styles = {
   people: css`
     padding: calc(var(--padding) * 3);
@@ -52,13 +51,12 @@ const styles = {
   `,
 };
 
-
 class People extends React.Component {
-  state = {
+  state: { tempPerson: PersonType; editing: PersonType; people: any } = {
     tempPerson: {} as PersonType,
     people: null,
     editing: {} as PersonType,
-  }
+  };
 
   async componentWillMount() {
     const people = await loadPeople();
@@ -71,46 +69,55 @@ class People extends React.Component {
     return (
       <div className={styles.people}>
         <div className={styles.header}>
-          <Title>
-            People
-          </Title>
+          <Title>People</Title>
           <div className={styles.actions}>
             <div className={styles.action}>
-              <Button onClick={this._handleClickImport} icon={<Download size={15} />} reverse disabled={!! tempPerson.id}>
+              <Button
+                onClick={this._handleClickImport}
+                icon={<Download size={15} />}
+                reverse
+                disabled={!!tempPerson.id}>
                 Import
               </Button>
             </div>
             <div className={styles.action}>
-              <Button onClick={() => this.setState({ tempPerson: { id: v4() }})} disabled={!! tempPerson.id}>
+              <Button
+                onClick={() => this.setState({ tempPerson: { id: v4() } })}
+                disabled={!!tempPerson.id}>
                 New person
               </Button>
             </div>
           </div>
         </div>
         <div className={styles.list}>
-          {tempPerson.id ?
+          {tempPerson.id ? (
             <div key={tempPerson.id} className={styles.row}>
               <Person
                 person={tempPerson}
                 onClickDelete={() => this.setState({ tempPerson: {} })}
-                onClickSave={this._handleCreateNew} />
-            </div> : null}
-          {people ?
-            Object.values(people)
-              .sort((a: any, b: any) => b.createdAt.localeCompare(a.createdAt))
-              .map((person: PersonType) => (
-              <div key={person.id} className={styles.row}>
-                <Person
-                  person={person}
-                  onClickExport={() => this._handleClickExport(person)}
-                  onClickSave={this._handleClickSave}
-                  onClickDelete={() => this._handleClickDelete(person.id)} />
-              </div>
-            )) : null}
-          {! people && isEmpty(tempPerson) ?
+                onClickSave={this._handleCreateNew}
+              />
+            </div>
+          ) : null}
+          {people
+            ? Object.values(people)
+                .sort((a: any, b: any) => b.createdAt.localeCompare(a.createdAt))
+                .map((person: PersonType) => (
+                  <div key={person.id} className={styles.row}>
+                    <Person
+                      person={person}
+                      onClickExport={() => this._handleClickExport(person)}
+                      onClickSave={this._handleClickSave}
+                      onClickDelete={() => this._handleClickDelete(person.id)}
+                    />
+                  </div>
+                ))
+            : null}
+          {!people && isEmpty(tempPerson) ? (
             <div className={styles.subtitle}>
               You have no profiles yet, create some to start making quotes.
-            </div> : null }
+            </div>
+          ) : null}
         </div>
       </div>
     );
@@ -118,7 +125,7 @@ class People extends React.Component {
 
   @autobind
   async _handleCreateNew(newPerson: PersonType | null) {
-    if (! newPerson) return;
+    if (!newPerson) return;
     await savePerson(newPerson.id, { ...newPerson, createdAt: new Date().toString() });
     const newPeople = await loadPeople();
     this.setState({ people: newPeople, tempPerson: {} });
@@ -129,7 +136,8 @@ class People extends React.Component {
     showMessage({
       type: 'warning',
       title: 'Are you sure you want to delete this person?',
-      message: 'It will not be removed from existing quotes, but you will not be able to assign it unless you re-import it or re-create it.',
+      message:
+        'It will not be removed from existing quotes, but you will not be able to assign it unless you re-import it or re-create it.',
       onClickAction: async () => {
         await deletePerson(id);
         const newPeople = await loadPeople();
@@ -142,7 +150,7 @@ class People extends React.Component {
 
   @autobind
   async _handleClickSave(updatedPerson: PersonType | null) {
-    if (! updatedPerson) return;
+    if (!updatedPerson) return;
     await savePerson(updatedPerson.id, updatedPerson);
     const newPeople = await loadPeople();
     this.setState({ people: newPeople });
@@ -152,40 +160,46 @@ class People extends React.Component {
   _handleClickExport(person: PersonType) {
     const { name } = person;
     const { dialog } = remote;
-    dialog.showSaveDialog(remote.getCurrentWindow(), {
-      title: 'Export person',
-      buttonLabel: 'Export',
-      defaultPath: name,
-      filters: [{ name: 'People', extensions: ['json'] }],
-    }, async (file) => {
-      if (file) {
-        await writeFile(file, JSON.stringify(person));
-      }
-    });
+    dialog.showSaveDialog(
+      remote.getCurrentWindow(),
+      {
+        title: 'Export person',
+        buttonLabel: 'Export',
+        defaultPath: name,
+        filters: [{ name: 'People', extensions: ['json'] }],
+      },
+      async (file) => {
+        if (file) {
+          await writeFile(file, JSON.stringify(person));
+        }
+      },
+    );
   }
 
   @autobind
   async _handleClickImport() {
     const { dialog, getCurrentWindow } = remote;
-    dialog.showOpenDialog(getCurrentWindow(), {
-      properties: ['openFile'],
-      title: 'Import person',
-      buttonLabel: 'Import',
-      filters: [{ name: 'People', extensions: ['json'] }],
-    }, async (files) => {
-      if (files) {
-        try {
-          const rawPerson = await readFile(files[0]);
-          const person = JSON.parse(rawPerson);
-          await this._handleClickSave(person);
+    dialog.showOpenDialog(
+      getCurrentWindow(),
+      {
+        properties: ['openFile'],
+        title: 'Import person',
+        buttonLabel: 'Import',
+        filters: [{ name: 'People', extensions: ['json'] }],
+      },
+      async (files) => {
+        if (files) {
+          try {
+            const rawPerson = await readFile(files[0]);
+            const person = JSON.parse(rawPerson);
+            await this._handleClickSave(person);
+          } catch (error) {
+            showError({ title: 'An error ocurred reading the file', extra: error.toString() });
+          }
         }
-        catch (error) {
-          showError({ title: 'An error ocurred reading the file', extra: error.toString() });
-        }
-      }
-    });
+      },
+    );
   }
 }
-
 
 export default People;
