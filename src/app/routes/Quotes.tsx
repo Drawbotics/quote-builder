@@ -1,3 +1,4 @@
+import { v4 } from 'uuid';
 import React, { Fragment } from 'react';
 import { css, cx } from 'emotion';
 import autobind from 'autobind-decorator';
@@ -12,15 +13,26 @@ import QuoteCard, { QuoteCardType } from '../components/QuoteCard';
 import MissingCard, { MissingQuoteType } from '../components/MissingCard';
 import Spinner from '../components/Spinner';
 import { documentToPDF } from '../components/DocumentEditor';
-import { checkForUntitledFile, deleteUntitled, getIdFromUntitled, openInExplorer } from '../utils/storage';
-import { loadQuotes, deleteQuote, saveMapping, loadQuote, importQuote, saveQuote } from '../utils/storage/quotes';
+import {
+  checkForUntitledFile,
+  deleteUntitled,
+  getIdFromUntitled,
+  openInExplorer,
+} from '../utils/storage';
+import {
+  loadQuotes,
+  deleteQuote,
+  saveMapping,
+  loadQuote,
+  importQuote,
+  saveQuote,
+} from '../utils/storage/quotes';
 import { savePerson, loadPeople } from '../utils/storage/people';
 import { savePDF, loadPDFs } from '../utils/storage/pdfs';
 import { showMessage, showError } from '../utils/dialogs';
 import { getFilenameFromPath, setLoadingCursor, unsetLoadingCursor } from '../utils';
 
 import emptyState from '../images/empty-state.svg';
-
 
 const styles = {
   quotes: css`
@@ -55,7 +67,7 @@ const styles = {
     & .cardsFade-enter {
       opacity: 0;
       z-index: 1;
-      transform: rotate3d(1,1,0,20deg);
+      transform: rotate3d(1, 1, 0, 20deg);
       transform-origin: 0 100%;
       transition: all var(--transition-duration-short) var(--transition-duration-short) ease-out;
       transition-property: opacity, transform;
@@ -78,8 +90,7 @@ const styles = {
       transform-origin: center;
     }
   `,
-  cell: css`
-  `,
+  cell: css``,
   newSelection: css`
     position: absolute;
     right: 0;
@@ -96,7 +107,7 @@ const styles = {
       opacity var(--transition-duration-short) ease-in-out;
     opacity: 0;
     pointer-events: none;
-    transform: rotate3d(1,1,0,20deg);
+    transform: rotate3d(1, 1, 0, 20deg);
     transform-origin: 100% 0;
   `,
   open: css`
@@ -114,7 +125,7 @@ const styles = {
     &:hover {
       cursor: pointer;
 
-      & [data-element="icon"] {
+      & [data-element='icon'] {
         border-color: var(--primary);
         box-shadow: 0px 0px 0px 1px var(--primary) inset;
         color: var(--primary);
@@ -122,7 +133,7 @@ const styles = {
     }
 
     &:active {
-      & [data-element="icon"] {
+      & [data-element='icon'] {
         background: var(--primary-semi-transparent);
       }
     }
@@ -172,28 +183,24 @@ const styles = {
   `,
 };
 
-
 const Selection: React.SFC<{
-  icon: React.ReactElement<{}>,
-  label: string,
-  onClick?: () => void,
+  icon: React.ReactElement<{}>;
+  label: string;
+  onClick?: () => void;
 }> = ({ icon, label, onClick }) => {
   return (
     <div className={styles.selection} onClick={onClick}>
       <div className={styles.icon} data-element="icon">
         {icon}
       </div>
-      <div className={styles.label}>
-        {label}
-      </div>
+      <div className={styles.label}>{label}</div>
     </div>
   );
 };
 
-
 class Quotes extends React.Component<{
-  history: any,
-  firstLoad: boolean,
+  history: any;
+  firstLoad: boolean;
 }> {
   selections: unknown = null;
   button: unknown = null;
@@ -205,11 +212,11 @@ class Quotes extends React.Component<{
     notFound: [] as MissingQuoteType[],
     people: 0,
     loading: true,
-  }
+  };
 
   async componentWillMount() {
     await this._handleLoadQuotes();
-    const people = await loadPeople() || [];
+    const people = (await loadPeople()) || [];
     this.setState({ people: people.length, loading: false });
   }
 
@@ -232,9 +239,7 @@ class Quotes extends React.Component<{
     return (
       <div className={styles.quotes}>
         <div className={styles.header}>
-          <Title>
-            My quotes
-          </Title>
+          <Title>My quotes</Title>
           <div className={styles.actions}>
             <div className={styles.action}>
               <Button onClick={this._handleOpenImport} icon={<Download size={15} />} reverse>
@@ -242,11 +247,19 @@ class Quotes extends React.Component<{
               </Button>
             </div>
             <div className={styles.action}>
-              <div ref={(selections) => this.selections = selections} className={cx(styles.newSelection, { [styles.open]: newSelectionOpen })}>
-                <Selection label="From template" icon={<FileText />} onClick={() => history.push('/new?template=true')} />
+              <div
+                ref={(selections) => (this.selections = selections)}
+                className={cx(styles.newSelection, { [styles.open]: newSelectionOpen })}>
+                <Selection
+                  label="From template"
+                  icon={<FileText />}
+                  onClick={() => history.push('/new?template=true')}
+                />
                 <Selection label="Blank" icon={<File />} onClick={() => history.push('/new')} />
               </div>
-              <div data-tooltip={people === 0 ? 'Create profiles to make quotes' : null} ref={(button) => this.button = button}>
+              <div
+                data-tooltip={people === 0 ? 'Create profiles to make quotes' : null}
+                ref={(button) => (this.button = button)}>
                 <Button
                   disabled={people === 0}
                   onClick={() => this.setState({ newSelectionOpen: true })}>
@@ -256,62 +269,62 @@ class Quotes extends React.Component<{
             </div>
           </div>
         </div>
-        {loading ? <div><Spinner label="Loading quotes..." /></div> : null}
-        {quotes.length > 0 ?
+        {loading ? (
+          <div>
+            <Spinner label="Loading quotes..." />
+          </div>
+        ) : null}
+        {quotes.length > 0 ? (
           <div className={styles.grid}>
             <TransitionGroup component={null}>
               {quotes.map((quote, i) => (
-                <CSSTransition
-                  classNames="cardsFade"
-                  key={quote.id}
-                  timeout={300}>
+                <CSSTransition classNames="cardsFade" key={quote.id} timeout={300}>
                   <div className={styles.cell}>
                     <QuoteCard
                       quote={quote}
                       onClick={() => history.push(`/${quote.id}/edit`)}
                       onClickExport={() => this._handleExportPDF(quote.id)}
                       onClickDelete={() => this._handleDeleteQuote(quote.id)}
-                      onClickOpenInFinder={() => openInExplorer(quote.localPath)} />
+                      onClickDuplicate={() => this._handleDuplicateQuote(quote.id)}
+                      onClickOpenInFinder={() => openInExplorer(quote.localPath)}
+                    />
                   </div>
                 </CSSTransition>
               ))}
             </TransitionGroup>
           </div>
-        : null}
-        {notFound.length > 0 ?
+        ) : null}
+        {notFound.length > 0 ? (
           <Fragment>
             <div className={styles.header}>
-              <Title small>
-                Missing quote files
-              </Title>
+              <Title small>Missing quote files</Title>
             </div>
             <div className={styles.grid}>
               <TransitionGroup component={null}>
                 {notFound.map((file: MissingQuoteType, i) => (
-                  <CSSTransition
-                    classNames="cardsFade"
-                    key={i}
-                    timeout={300}>
+                  <CSSTransition classNames="cardsFade" key={i} timeout={300}>
                     <div>
                       <MissingCard
                         file={file}
                         onClickRelink={() => this._handleRelinkQuote(file.id)}
-                        onClickDelete={() => this._handleDeleteQuote(file.id)} />
+                        onClickDelete={() => this._handleDeleteQuote(file.id)}
+                      />
                     </div>
                   </CSSTransition>
                 ))}
               </TransitionGroup>
             </div>
           </Fragment>
-        : null}
-        {loading === false && quotes.length === 0 && notFound.length === 0 ?
+        ) : null}
+        {loading === false && quotes.length === 0 && notFound.length === 0 ? (
           <div className={styles.empty}>
             <div className={styles.subtitle}>
-              You don't have any quotes. If you haven't, create a person profile to start making quotes!
+              You don't have any quotes. If you haven't, create a person profile to start making
+              quotes!
             </div>
             <img src={emptyState} />
           </div>
-        : null}
+        ) : null}
       </div>
     );
   }
@@ -319,7 +332,7 @@ class Quotes extends React.Component<{
   @autobind
   _handleClickDocument(e: any) {
     const { newSelectionOpen } = this.state;
-    if (! e.path.includes(this.selections) && newSelectionOpen && ! e.path.includes(this.button)) {
+    if (!e.path.includes(this.selections) && newSelectionOpen && !e.path.includes(this.button)) {
       this.setState({ newSelectionOpen: false });
     }
   }
@@ -344,85 +357,122 @@ class Quotes extends React.Component<{
     const { file } = await loadQuote(quoteId);
     const pdf = await documentToPDF(file);
     const { dialog, getCurrentWindow } = remote;
-    dialog.showSaveDialog(getCurrentWindow(), {
-      title: 'Export quote',
-      buttonLabel: 'Export',
-      defaultPath: 'Untitled',
-      filters: [{ name: 'Quote exports', extensions: ['pdf'] }],
-    }, async (path) => {
-      if (path) {
-        setLoadingCursor();
-        await savePDF(`${file.id}-${getFilenameFromPath(path)}`, path, pdf);
-        unsetLoadingCursor();
-      }
-    });
+    dialog.showSaveDialog(
+      getCurrentWindow(),
+      {
+        title: 'Export quote',
+        buttonLabel: 'Export',
+        defaultPath: 'Untitled',
+        filters: [{ name: 'Quote exports', extensions: ['pdf'] }],
+      },
+      async (path) => {
+        if (path) {
+          setLoadingCursor();
+          await savePDF(`${file.id}-${getFilenameFromPath(path)}`, path, pdf);
+          unsetLoadingCursor();
+        }
+      },
+    );
+  }
+
+  @autobind
+  async _handleDuplicateQuote(quoteId: string) {
+    const { file, fileName } = await loadQuote(quoteId);
+    const { dialog, getCurrentWindow } = remote;
+    dialog.showSaveDialog(
+      getCurrentWindow(),
+      {
+        title: 'Duplicate quote',
+        buttonLabel: 'Save',
+        defaultPath: `${fileName}-copy`,
+        filters: [{ name: 'Quotes', extensions: ['qdp'] }],
+      },
+      async (path) => {
+        if (path) {
+          const newId = v4();
+          setLoadingCursor();
+          await saveQuote(newId, path, { ...file, id: newId });
+          unsetLoadingCursor();
+          this._handleLoadQuotes();
+        }
+      },
+    );
   }
 
   @autobind
   async _handleRelinkQuote(id: string) {
     const { dialog, getCurrentWindow } = remote;
-    dialog.showOpenDialog(getCurrentWindow(), {
-      properties: ['openFile'],
-      title: 'Find quote',
-      buttonLabel: 'Relink',
-      filters: [{ name: 'Quotes', extensions: ['qdp'] }],
-    }, async (files) => {
-      if (files) {
-        await saveMapping(id, files[0]);
-        this._handleLoadQuotes();
-      }
-    });
+    dialog.showOpenDialog(
+      getCurrentWindow(),
+      {
+        properties: ['openFile'],
+        title: 'Find quote',
+        buttonLabel: 'Relink',
+        filters: [{ name: 'Quotes', extensions: ['qdp'] }],
+      },
+      async (files) => {
+        if (files) {
+          await saveMapping(id, files[0]);
+          this._handleLoadQuotes();
+        }
+      },
+    );
   }
 
   @autobind
   async _handleOpenImport() {
     const { dialog, getCurrentWindow } = remote;
-    dialog.showOpenDialog(getCurrentWindow(), {
-      properties: ['openFile'],
-      title: 'Import quote',
-      buttonLabel: 'Import',
-      filters: [{ name: 'Quotes', extensions: ['qdp'] }],
-    }, async (files) => {
-      if (files) {
-        try {
-          const { existing, person, quote } = await importQuote(files[0]);
-          if (existing) {
-            dialog.showMessageBox(getCurrentWindow(), {
-              type: 'question',
-              message: 'Existing person found',
-              detail: `${existing.name} is already in your list of people. Would you like to update the document information or replace the person in your local list?`,
-              buttons: [ 'Cancel', 'Replace local', 'Update document' ],
-            }, async (buttonId) => {
-              if (buttonId === 1) {
-                await savePerson(person.id, person);
-                await saveMapping(quote.id, files[0]);
-                this._handleLoadQuotes();
-              }
-              else if (buttonId === 2) {
-                quote.data.person = existing;
-                await saveQuote(quote.id, files[0], quote);
-                this._handleLoadQuotes();
-              }
-            });
-          }
-          else {
-            showMessage({
-              title: 'New person found',
-              message: `${person.name} is not currently in your list of people. It will be added automatically after importing.`,
-              closeButtonLabel: 'Cancel',
-              onClickAction: async () => {
-                await savePerson(person.id, person);
-                await saveMapping(quote.id, files[0]);
-                this._handleLoadQuotes();
-              },
-            });
+    dialog.showOpenDialog(
+      getCurrentWindow(),
+      {
+        properties: ['openFile'],
+        title: 'Import quote',
+        buttonLabel: 'Import',
+        filters: [{ name: 'Quotes', extensions: ['qdp'] }],
+      },
+      async (files) => {
+        if (files) {
+          try {
+            const { existing, person, quote } = await importQuote(files[0]);
+            if (existing) {
+              dialog.showMessageBox(
+                getCurrentWindow(),
+                {
+                  type: 'question',
+                  message: 'Existing person found',
+                  detail: `${existing.name} is already in your list of people. Would you like to update the document information or replace the person in your local list?`,
+                  buttons: ['Cancel', 'Replace local', 'Update document'],
+                },
+                async (buttonId) => {
+                  if (buttonId === 1) {
+                    await savePerson(person.id, person);
+                    await saveMapping(quote.id, files[0]);
+                    this._handleLoadQuotes();
+                  } else if (buttonId === 2) {
+                    quote.data.person = existing;
+                    await saveQuote(quote.id, files[0], quote);
+                    this._handleLoadQuotes();
+                  }
+                },
+              );
+            } else {
+              showMessage({
+                title: 'New person found',
+                message: `${person.name} is not currently in your list of people. It will be added automatically after importing.`,
+                closeButtonLabel: 'Cancel',
+                onClickAction: async () => {
+                  await savePerson(person.id, person);
+                  await saveMapping(quote.id, files[0]);
+                  this._handleLoadQuotes();
+                },
+              });
+            }
+          } catch (error) {
+            showError({ title: 'An error ocurred reading the file', extra: error.toString() });
           }
         }
-        catch (error) {
-          showError({ title: 'An error ocurred reading the file', extra: error.toString() });
-        }
-      }
-    });
+      },
+    );
   }
 
   @autobind
@@ -433,7 +483,8 @@ class Quotes extends React.Component<{
       const id = getIdFromUntitled(untitledFile);
       showMessage({
         title: 'You have an unsaved file',
-        message: 'The application was exited while editing an unsaved file. Click continue to continue editing it, or cancel to discard it',
+        message:
+          'The application was exited while editing an unsaved file. Click continue to continue editing it, or cancel to discard it',
         onClickAction: () => history.push(`/${id}/edit`),
         onClickCancel: () => deleteUntitled(id),
         confirmButtonLabel: 'Continue',
@@ -446,13 +497,13 @@ class Quotes extends React.Component<{
   async _handleLoadQuotes() {
     const quotes = await loadQuotes();
     const pdfs = await loadPDFs();
-    const { files={}, notFound={} } = quotes;
-    const { files: pdfFiles={} } = pdfs;
+    const { files = {}, notFound = {} } = quotes;
+    const { files: pdfFiles = {} } = pdfs;
     const cards = Object.values(files).map((quote: any) => ({
       id: quote.id,
       title: quote.projectName,
       subtitle: quote.company,
-      draft: ! Object.keys(pdfFiles).find((k) => k.includes(quote.id)),
+      draft: !Object.keys(pdfFiles).find((k) => k.includes(quote.id)),
       lastModified: quote.lastModified,
       localPath: quote.localPath,
       coverGradient: quote.coverGradient,
@@ -465,6 +516,5 @@ class Quotes extends React.Component<{
     this.setState({ quotes: cards, notFound: notFoundCards });
   }
 }
-
 
 export default Quotes;

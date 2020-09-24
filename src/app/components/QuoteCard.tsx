@@ -1,19 +1,17 @@
 import React from 'react';
 import { css, cx } from 'emotion';
 import moment from 'moment';
-import { Trash2, Share, Folder } from 'react-feather';
-
+import { Trash2, Share, Folder, Copy } from 'react-feather';
 
 export interface QuoteCardType {
-  id: string
-  title: string
-  subtitle: string
-  lastModified: string
-  draft: boolean
-  localPath: string
-  coverGradient: string[]
+  id: string;
+  title: string;
+  subtitle: string;
+  lastModified: string;
+  draft: boolean;
+  localPath: string;
+  coverGradient: string[];
 }
-
 
 const styles = {
   quoteCard: css`
@@ -39,12 +37,12 @@ const styles = {
     position: relative;
 
     &:hover {
-      & [data-element="overlay"] {
+      & [data-element='overlay'] {
         opacity: 1;
         pointer-events: auto;
       }
 
-      & [data-element="action"] {
+      & [data-element='action'] {
         transform: scale(1);
       }
     }
@@ -86,7 +84,7 @@ const styles = {
     display: flex;
     align-items: center;
 
-    & > [data-element="action"] {
+    & > [data-element='action'] {
       margin-right: var(--margin);
     }
   `,
@@ -146,15 +144,14 @@ const styles = {
   `,
 };
 
-
 const QuoteCard: React.SFC<{
-  quote: QuoteCardType,
-  onClick: () => void,
-  onClickDelete: () => void,
-  onClickExport: () => void,
-  onClickOpenInFinder: () => void,
-}> = ({ quote, onClick, onClickDelete, onClickExport, onClickOpenInFinder }) => {
-
+  quote: QuoteCardType;
+  onClick: () => void;
+  onClickDelete: () => void;
+  onClickExport: () => void;
+  onClickOpenInFinder: () => void;
+  onClickDuplicate: () => void;
+}> = ({ quote, onClick, onClickDelete, onClickExport, onClickOpenInFinder, onClickDuplicate }) => {
   const { draft, title, subtitle, lastModified, coverGradient } = quote;
   const type = draft ? 'Draft' : 'Exported';
   return (
@@ -162,38 +159,65 @@ const QuoteCard: React.SFC<{
       <div className={styles.coverWrapper}>
         <div className={styles.overlay} data-element="overlay">
           <div className={styles.actionGroup}>
-            <div className={styles.action} data-tooltip="Export PDF" data-element="action" onClick={(e) => { e.stopPropagation(); onClickExport() }}>
+            <div
+              className={styles.action}
+              data-tooltip="Export PDF"
+              data-element="action"
+              onClick={(e) => {
+                e.stopPropagation();
+                onClickExport();
+              }}>
               <Share size={25} />
             </div>
-            <div className={styles.action} data-tooltip="View in Finder" data-element="action" onClick={(e) => { e.stopPropagation(); onClickOpenInFinder() }}>
+            <div
+              className={styles.action}
+              data-tooltip="View in Finder"
+              data-element="action"
+              onClick={(e) => {
+                e.stopPropagation();
+                onClickOpenInFinder();
+              }}>
               <Folder size={25} />
             </div>
+            <div
+              className={styles.action}
+              data-tooltip="Duplicate"
+              data-element="action"
+              onClick={(e) => {
+                e.stopPropagation();
+                onClickDuplicate();
+              }}>
+              <Copy size={25} />
+            </div>
           </div>
-          <div className={styles.action} data-tooltip="Delete" data-element="action" onClick={(e) => { e.stopPropagation(); onClickDelete() }}>
+          <div
+            className={styles.action}
+            data-tooltip="Delete"
+            data-element="action"
+            onClick={(e) => {
+              e.stopPropagation();
+              onClickDelete();
+            }}>
             <Trash2 size={25} />
           </div>
         </div>
-        <div className={styles.cover} style={{ background: `linear-gradient(to left top, ${coverGradient[0]}, ${coverGradient[1]})` }} />
+        <div
+          className={styles.cover}
+          style={{
+            background: `linear-gradient(to left top, ${coverGradient[0]}, ${coverGradient[1]})`,
+          }}
+        />
       </div>
       <div className={styles.body}>
-        <div className={styles.title}>
-          {title}
-        </div>
-        <div className={styles.subtitle}>
-          {subtitle}
-        </div>
+        <div className={styles.title}>{title}</div>
+        <div className={styles.subtitle}>{subtitle}</div>
         <div className={styles.footer}>
-          <div className={cx(styles.type, { [styles.draft]: draft })}>
-            {type}
-          </div>
-          <div className={styles.date}>
-            {moment(lastModified).format('Do MMM, YYYY')}
-          </div>
+          <div className={cx(styles.type, { [styles.draft]: draft })}>{type}</div>
+          <div className={styles.date}>{moment(lastModified).format('Do MMM, YYYY')}</div>
         </div>
       </div>
     </div>
   );
-}
-
+};
 
 export default QuoteCard;
