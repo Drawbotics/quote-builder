@@ -53,7 +53,7 @@ To publish a new version of this app follow these steps:
 0. Before building the app as described above, you should have bumped the version in the `package.json`. This is important as it's through the package versions that we know if a new update is available
 1. Create a new tag with `git tag v[new-version]` which should follow the `version` value in the `package.json` e.g. `v1.2.3`.
 2. Push tags with `git push --tags`
-3. Go on Github and in the "relases" page click on "Draft a new release"
+3. Go on Github and in the "releases" page click on "Draft a new release"
 4. For the tag version choose the tag you just pushed
 5. The release title should follow the tag version without the `v`, e.g. `1.2.3`. In the description put any new significant feature/bug fix that should be documented
 6. Upload the `QuoteDP-mac.zip` generated during the last build (this is downloaded when the app detects a new version)

@@ -205,6 +205,7 @@ class Quotes extends React.Component<{
   selections: unknown = null;
   button: unknown = null;
   page: unknown = null;
+  removeListener: () => void;
 
   state = {
     newSelectionOpen: false,
@@ -225,11 +226,12 @@ class Quotes extends React.Component<{
     if (firstLoad) {
       this._handleUntitledDoc();
     }
-    ipc.answerMain('importQuote', this._handleOpenImport);
+    this.removeListener = ipc.answerMain('importQuote', this._handleOpenImport);
     document.addEventListener('click', this._handleClickDocument);
   }
 
   componentWillUnmount() {
+    this.removeListener();
     document.removeEventListener('click', this._handleClickDocument);
   }
 
@@ -354,7 +356,7 @@ class Quotes extends React.Component<{
 
   @autobind
   async _handleExportPDF(quoteId: string) {
-    const { file } = await loadQuote(quoteId);
+    const { file, fileName } = await loadQuote(quoteId);
     const pdf = await documentToPDF(file);
     const { dialog, getCurrentWindow } = remote;
     dialog.showSaveDialog(
@@ -362,7 +364,7 @@ class Quotes extends React.Component<{
       {
         title: 'Export quote',
         buttonLabel: 'Export',
-        defaultPath: 'Untitled',
+        defaultPath: fileName != null ? fileName : 'Untitled',
         filters: [{ name: 'Quote exports', extensions: ['pdf'] }],
       },
       async (path) => {
