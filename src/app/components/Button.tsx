@@ -1,7 +1,6 @@
 import React from 'react';
 import { css, cx } from 'emotion';
 
-
 const styles = {
   button: css`
     appearance: none;
@@ -84,36 +83,47 @@ const styles = {
   rowReverse: css`
     flex-direction: row-reverse;
 
-    & [data-element="icon"] {
+    & [data-element='icon'] {
       margin-left: 0;
       margin-right: 10px;
     }
   `,
-}
-
+  small: css`
+    padding: calc(var(--padding) / 2) var(--padding);
+    font-size: 0.9em;
+  `,
+};
 
 const Button: React.SFC<{
-  children: string,
-  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void,
-  icon?: React.ReactElement<{}>,
-  reverse?: boolean,
-  fullWidth?: boolean,
-  disabled?: boolean,
-  flat?: boolean,
-  leftIcon?: boolean,
-}> = ({ children, onClick, icon, reverse, fullWidth, disabled, flat, leftIcon }) => {
+  children: string;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  icon?: React.ReactElement<{}>;
+  reverse?: boolean;
+  fullWidth?: boolean;
+  disabled?: boolean;
+  flat?: boolean;
+  leftIcon?: boolean;
+  small?: boolean;
+}> = ({ children, onClick, icon, reverse, fullWidth, disabled, flat, leftIcon, small }) => {
   return (
-    <button className={cx(styles.button, {
-      [styles.reverse]: reverse,
-      [styles.fullWidth]: fullWidth,
-      [styles.flat]: flat,
-      [styles.rowReverse]: leftIcon,
-    })} onClick={disabled ? undefined : onClick} disabled={disabled}>
+    <button
+      className={cx(styles.button, {
+        [styles.reverse]: reverse,
+        [styles.fullWidth]: fullWidth,
+        [styles.flat]: flat,
+        [styles.rowReverse]: leftIcon,
+        [styles.small]: small,
+      })}
+      onClick={disabled ? undefined : onClick}
+      disabled={disabled}>
       <span>{children}</span>
-      {icon ? <div className={styles.icon} data-element="icon">{icon}</div> : null}
+      {icon ? (
+        <div className={styles.icon} data-element="icon">
+          {icon}
+        </div>
+      ) : null}
     </button>
   );
-}
-
+};
 
 export default Button;

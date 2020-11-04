@@ -26,6 +26,7 @@ import {
   loadQuote,
   importQuote,
   saveQuote,
+  deleteQuotes,
 } from '../utils/storage/quotes';
 import { savePerson, loadPeople } from '../utils/storage/people';
 import { savePDF, loadPDFs } from '../utils/storage/pdfs';
@@ -298,8 +299,13 @@ class Quotes extends React.Component<{
         ) : null}
         {notFound.length > 0 ? (
           <Fragment>
-            <div className={styles.header}>
+            <div className={styles.header} style={{ justifyContent: 'start' }}>
               <Title small>Missing quote files</Title>
+              <div style={{ marginLeft: 'var(--margin)' }}>
+                <Button flat small onClick={this._handleClearMissing}>
+                  Clear missing
+                </Button>
+              </div>
             </div>
             <div className={styles.grid}>
               <TransitionGroup component={null}>
@@ -337,6 +343,24 @@ class Quotes extends React.Component<{
     if (!e.path.includes(this.selections) && newSelectionOpen && !e.path.includes(this.button)) {
       this.setState({ newSelectionOpen: false });
     }
+  }
+
+  @autobind
+  _handleClearMissing() {
+    const { notFound } = this.state;
+    showMessage({
+      type: 'warning',
+      title: 'Are you sure you want to delete all missing quotes?',
+      message: 'You can always re-import a quote later',
+      onClickAction: async () => {
+        setLoadingCursor();
+        await deleteQuotes(notFound.map((notFound) => notFound.id));
+        unsetLoadingCursor();
+        this._handleLoadQuotes();
+      },
+      confirmButtonLabel: 'Delete',
+      closeButtonLabel: 'Cancel',
+    });
   }
 
   @autobind

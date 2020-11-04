@@ -36,6 +36,10 @@ export async function deleteFile(path: string) {
   });
 }
 
+export async function deleteFiles(filePaths: Array<string>) {
+  return Promise.all(filePaths.map(deleteFile));
+}
+
 export async function fileExists(path: string) {
   return new Promise<any>((resolve, reject) => {
     fs.access(path, (error) => {
