@@ -7,6 +7,7 @@ async function signApp(path) {
     sign({
       app: path + '/QuoteDP.app',
       identity: process.env.CERTIFICATE_IDENTITY,
+      'gatekeeper-assess': false,
     }, function done (err) {
       if (err) {
         console.log(err);
