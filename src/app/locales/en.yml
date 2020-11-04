@@ -125,5 +125,6 @@ document:
     title: Storytelling
   tables:
     title: Price offer
+    valid_until: Valid until
   products:
     title: Products

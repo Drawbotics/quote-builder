@@ -50,6 +50,7 @@ Sections may have no `contents` key, and that means no content is editable and t
        billingAddress: String # can be empty
      }
      language: String
+     validUntil: String # can be empty
      tables: TableType type (defined in app/TableEditor/types)
    }
    sections: [

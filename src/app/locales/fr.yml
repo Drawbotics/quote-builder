@@ -132,5 +132,6 @@ document:
     title: Storytelling
   tables:
     title: Offre de prix
+    valid_until: Valable jusqu’au
   products:
     title: Produits

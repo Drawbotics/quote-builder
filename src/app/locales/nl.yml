@@ -125,5 +125,6 @@ document:
     title: Storytelling
   tables:
     title: Prijs offerte
+    valid_until: Geldig tot
   products:
     title: Producten

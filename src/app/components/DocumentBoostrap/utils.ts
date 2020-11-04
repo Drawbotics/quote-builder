@@ -6,19 +6,21 @@ import { loadPerson } from '~/utils/storage/people';
 import { tablesToServiceList } from '~/utils/services';
 import { ProductType } from '~/utils/types';
 
-
 export async function basicInfoToQuoteFile(info: any, fromTemplate: boolean) {
   const person = await loadPerson(info.sales.personId);
   const uniqueServices = tablesToServiceList(info.quote.tables);
   const customServices = uniqueServices.filter((service: ServiceType) => service.name);
-  const customProducts = customServices.reduce((memo: { [key: string]: ProductType }, service: ServiceType) => ({
-    ...memo,
-    [service.id as string]: {
-      title: service.name,
-      image: undefined,
-      description: undefined,
-    },
-  }), {} as { [key: string]: ProductType });
+  const customProducts = customServices.reduce(
+    (memo: { [key: string]: ProductType }, service: ServiceType) => ({
+      ...memo,
+      [service.id as string]: {
+        title: service.name,
+        image: undefined,
+        description: undefined,
+      },
+    }),
+    {} as { [key: string]: ProductType },
+  );
 
   const data = {
     person: person,
@@ -26,6 +28,7 @@ export async function basicInfoToQuoteFile(info: any, fromTemplate: boolean) {
       ...info.client,
       clientLogo: get(info, 'logo.logo'),
       billingAddress: null,
+      validUntil: undefined,
     },
     language: info.language.language,
     tables: info.quote.tables,
@@ -38,7 +41,8 @@ export async function basicInfoToQuoteFile(info: any, fromTemplate: boolean) {
     sections.push({ type: 'howWeWork' });
     sections.push({ type: 'whatWeDo' });
     sections.push({ type: 'stats' });
-    sections.push({ type: 'products',
+    sections.push({
+      type: 'products',
       contents: {
         products: customProducts,
       },
