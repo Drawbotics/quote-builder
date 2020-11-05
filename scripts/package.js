@@ -14,9 +14,9 @@ async function package() {
   const appPaths = await generateApplication();
   if (appPaths.length > 0) {
     removeCache(appPaths[0]);
-    // await signApp(appPaths[0]);
-    // generateDmg(appPaths[0]);
-    // generateZip(appPaths[0]);
+    await signApp(appPaths[0]);
+    generateDmg(appPaths[0]);
+    generateZip(appPaths[0]);
   }
 }
 
