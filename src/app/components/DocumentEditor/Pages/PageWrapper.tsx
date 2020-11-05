@@ -5,7 +5,6 @@ import sv from '../vars';
 
 import drawboticsLogo from '../images/logo.png';
 
-
 const styles = StyleSheet.create({
   page: {
     fontFamily: 'OpenSans',
@@ -108,18 +107,17 @@ const styles = StyleSheet.create({
   },
 });
 
-
 const PageWrapper: React.SFC<{
-  children: any,
-  onPageRender: (p: number) => void,
-  title?: string,
-  subtitle?: string,
-  description?: string,
-  noPadding?: boolean,
-  noPageNum?: boolean,
-  wrap?: boolean,
-  noLogo?: boolean,
-  extraComponent?: any,
+  children: any;
+  onPageRender: (p: number) => void;
+  title?: string;
+  subtitle?: string;
+  description?: string;
+  noPadding?: boolean;
+  noPageNum?: boolean;
+  wrap?: boolean;
+  noLogo?: boolean;
+  extraComponent?: any;
 }> = ({
   children,
   title,
@@ -127,36 +125,59 @@ const PageWrapper: React.SFC<{
   description,
   noPadding,
   noPageNum,
-  wrap=false,
+  wrap = false,
   noLogo,
   extraComponent,
   onPageRender,
 }) => {
   return (
-    <Page style={[styles.page,
-      wrap ? styles.wrapped : null,
-      title && wrap ? styles.pageWithBackground : null,
-    ]} wrap={wrap}>
+    <Page
+      style={[
+        styles.page,
+        wrap ? styles.wrapped : null,
+        title && wrap ? styles.pageWithBackground : null,
+      ]}
+      wrap={wrap}>
       {wrap && title ? <View style={styles.headerBackground} fixed /> : null}
-      {title ? <Text style={styles.title} fixed>{title}</Text> : null}
-      {subtitle ? <Text style={styles.subtitle} fixed>{subtitle}</Text> : null}
+      {title ? (
+        <Text style={styles.title} fixed>
+          {title}
+        </Text>
+      ) : null}
+      {subtitle ? (
+        <Text style={styles.subtitle} fixed>
+          {subtitle}
+        </Text>
+      ) : null}
       {description ? <Text style={styles.description}>{description}</Text> : null}
-      {!! extraComponent && extraComponent}
-      <View style={[styles.wrapper,
-        title ? styles.withBackground : null,
-        description ? styles.withDescription : null,
-        noPadding ? styles.withoutPadding : null,
-        wrap ? styles.wrappedWrapper: null,
-      ]}>
+      {!!extraComponent && extraComponent}
+      <View
+        style={[
+          styles.wrapper,
+          title ? styles.withBackground : null,
+          description ? styles.withDescription : null,
+          noPadding ? styles.withoutPadding : null,
+          wrap ? styles.wrappedWrapper : null,
+        ]}>
         {children}
       </View>
       {noPageNum ? null : <View style={styles.pageLine} fixed></View>}
-      {noPageNum ? null : <Text style={styles.pageCount} render={({ pageNumber }: { pageNumber: number }) => { onPageRender(pageNumber); return `${pageNumber}`; }} fixed />}
-      {noPageNum ? <Text render={({ pageNumber }: { pageNumber: number }) => onPageRender(pageNumber)} /> : null}
+      {noPageNum ? null : (
+        <Text
+          style={styles.pageCount}
+          render={({ pageNumber }: { pageNumber: number }) => {
+            onPageRender(pageNumber);
+            return `${pageNumber}`;
+          }}
+          fixed
+        />
+      )}
+      {noPageNum ? (
+        <Text render={({ pageNumber }: { pageNumber: number }) => onPageRender(pageNumber)} />
+      ) : null}
       {noLogo ? null : <Image style={styles.footerLogo} src={drawboticsLogo} fixed />}
     </Page>
   );
 };
-
 
 export default PageWrapper;

@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   validWrapper: {
-    marginTop: -60,
+    position: 'relative',
   },
   validUntil: {
     fontSize: 10,
@@ -248,6 +248,7 @@ const Footer: React.SFC<{
 
 class Table extends React.Component<{
   table: TableType;
+  noMargin: boolean;
 }> {
   state = {
     rowHeights: {},
@@ -259,13 +260,13 @@ class Table extends React.Component<{
 
   render() {
     const { rowHeights } = this.state;
-    const { table } = this.props;
+    const { table, noMargin } = this.props;
     const locale = getCurrentLocale();
     const t = (k: string, alt?: string) => ta(locale, k, alt);
     const { header, body: rawBody, footers } = table;
     const body = rawBody.filter((row) => !row.hidden);
     return (
-      <View style={styles.table}>
+      <View style={noMargin ? { ...styles.table, marginBottom: 0 } : styles.table}>
         <View style={styles.columns}>
           <View style={styles.column}>
             <Text style={styles.title}>{t('phase', header.phase)}</Text>
@@ -314,21 +315,22 @@ const Tables: React.SFC<{
   const locale = getCurrentLocale();
   return (
     <PageWrapper
+      wrap
       title={tt(locale, 'title')}
       extraComponent={<Addresses address={billingAddress} />}
       onPageRender={onPageRender}>
       <View style={styles.wrapper}>
         {tables.map((table, i) => (
-          <Table key={i} table={table} />
+          <Table key={i} noMargin={i === tables.length - 1} table={table} />
         ))}
+        {validUntil != null && validUntil !== '' ? (
+          <View style={styles.validWrapper}>
+            <Text style={styles.validUntil}>{`*${tt(locale, 'valid_until')}: ${validUntil}`}</Text>
+          </View>
+        ) : (
+          undefined
+        )}
       </View>
-      {validUntil != null && validUntil !== '' ? (
-        <View style={styles.validWrapper}>
-          <Text style={styles.validUntil}>{`*${tt(locale, 'valid_until')}: ${validUntil}`}</Text>
-        </View>
-      ) : (
-        undefined
-      )}
     </PageWrapper>
   );
 };
