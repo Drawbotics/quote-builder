@@ -1,4 +1,5 @@
 const createZip = require('electron-installer-zip');
+const { exec } = require('child_process');
 
 
 const options = {
