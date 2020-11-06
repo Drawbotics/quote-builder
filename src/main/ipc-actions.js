@@ -8,7 +8,6 @@ function getCurrentWindow() {
 
 
 function sendIpcAction(actionName, data) {
-  console.log('calling renderer with action ', action);
   ipc.callRenderer(getCurrentWindow(), actionName, data);
 }
 
