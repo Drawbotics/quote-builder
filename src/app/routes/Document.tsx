@@ -84,6 +84,9 @@ class Document extends React.Component<{
 
   componentWillMount() {
     this._loadDocument();
+    this.removeSaveQuote = () => {};
+    this.removeSaveQuoteAs = () => {};
+    this.removeExportToPDF = () => {};
   }
 
   componentDidMount() {
