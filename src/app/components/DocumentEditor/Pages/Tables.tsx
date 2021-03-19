@@ -134,8 +134,8 @@ const Address: React.SFC<{}> = () => {
   return (
     <View style={styles.address}>
       <Text style={styles.addressLabel}>DRAWBOTICS</Text>
-      <Text style={styles.addressLabel}>Place Communale d'Auderghem, 8</Text>
-      <Text style={styles.addressLabel}>1160 Brussels</Text>
+      <Text style={styles.addressLabel}>Boulevard Louis Schmidt 87</Text>
+      <Text style={styles.addressLabel}>1040 Etterbeek, Belgium</Text>
       <Text style={styles.addressLabel}>TVA BE0666514417</Text>
       <Text style={styles.addressLabel}>+32 2 380 69 33</Text>
     </View>
