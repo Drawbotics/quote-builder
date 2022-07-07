@@ -73,7 +73,7 @@
     "get-port": "^4.0.0",
     "json-loader": "^0.5.7",
     "lodash": "^4.17.20",
-    "moment": "^2.22.2",
+    "moment": "^2.29.4",
     "normalize.css": "^8.0.0",
     "query-string": "^6.2.0",
     "randomcolor": "^0.5.4",
