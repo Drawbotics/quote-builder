@@ -33,7 +33,7 @@
     "electron": "^3.0.4",
     "electron-installer-dmg": "^2.0.0",
     "electron-installer-zip": "^0.1.2",
-    "electron-packager": "^12.2.0",
+    "electron-packager": "^16.0.0",
     "electron-rebuild": "^2.0.3",
     "exports-loader": "^0.7.0",
     "file-loader": "^2.0.0",
