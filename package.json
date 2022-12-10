@@ -68,7 +68,7 @@
     "electron-osx-sign": "^0.4.11",
     "electron-window-state": "^5.0.2",
     "emotion": "^9.2.12",
-    "express": "^4.16.4",
+    "express": "^4.17.3",
     "fs": "0.0.1-security",
     "get-port": "^4.0.0",
     "json-loader": "^0.5.7",
